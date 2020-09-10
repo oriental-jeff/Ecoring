@@ -1,0 +1,155 @@
+section.box-detail {
+	padding: 0px 0px 35px 0px;
+    background: url(../../images/box-color01.png) no-repeat 95% 30px , calc(100% - 66px);
+    word-break: break-word;
+}
+	.box-detail .container {
+        background: url(../../images/box-color01.png) no-repeat 13px bottom;
+	    padding-bottom: 28px;
+	}
+	.box-detail .text-top {
+		padding: 15px 0px;
+	    padding-top: 85px;
+	}
+	.box-detail .text-top[data-pro]::after {
+		content: attr(data-pro);
+		position: absolute;
+		width: 50px;
+	    text-align: center;
+	    left: 15px;
+	    top: 0px;
+		background: #e96a6b;
+		color: #fff;
+		padding: 30px 7px 5px 7px;
+	    letter-spacing: 2px;
+	}
+	.box-detail .text-top[data-star="true"]::after {
+		background: #e96a6b url(../../images/I-star.png) no-repeat center 10px;
+	}
+	.box-detail .text-top[data-star="true"]:not([data-pro])::after {
+		content: "";
+	    width: 30px;
+	    height: 38px;
+	    position: absolute;
+	    right: 22px;
+	    top: 14px;
+	}
+	.box-detail .text-top[data-pro="Stu"]::after {
+		background-color: #38aabe;
+	}
+	.box-detail .text-top[data-pro="Pra"]::after {
+		background-color: #f7ab1c;
+	}
+	.box-detail .text-top[data-pro="Hon"]::after {
+		background-color: #7e84de;
+	}
+		.box-detail .text-top .b-profile {
+			display: inline-block;
+			width: 100%;
+		}
+			.box-detail .text-top img {
+				width: 94px;
+			    height: 94px;
+			    object-fit: cover;
+				border-radius: 50%;
+				float: left;
+				margin-right: 16px;
+			}
+			.box-detail .text-top .view {
+			    float: right;
+			    padding: 5px;
+			    padding-left: 23px;
+			    font-size: 13px;
+			    color: #a2a2a2;
+			    background: url(../../images/Icon1.png) no-repeat 0px 0px;
+			    background-size: 20px;
+			}
+	
+			.box-detail .text-top span {
+				color: #ffffff;
+				background: #626373;
+				padding: 3px 13px;
+				transition: background .5s;
+				border-radius: 15px;
+			    display: inline-block;
+			    max-width: calc(100% - 115px);
+			    white-space: nowrap;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    font-size: 13px;
+			}
+			.box-detail .text-top .b-profile .box-I {
+			    float: right;
+		        padding: 2px 0px;
+			}
+				.box-detail .text-top .b-profile i {
+					font-size: 13px;
+				    color: #a2a2a2;
+				    font-style: normal;
+				    text-decoration: underline;
+				    padding-left: 22px;
+				    background: url(../../images/Icon1.png) no-repeat 0px -60px;
+				    background-size: 20px;
+				}
+				.box-detail .text-top .b-profile i.I-vdo {
+					background-position-y: -31px;
+				}
+			
+	.box-detail a.btn2 {
+	    background: #03c8ce;
+	    border-radius: 25px;
+	    color: #fff !important;
+	    padding: 6px 20px;
+	    display: inline-block;
+	    margin-bottom: 20px;
+        margin-top: 10px;
+	}
+	.box-detail .img {
+	    margin: 25px 0px;
+	}
+	.box-detail .img[data-type="video"]::before {
+		content: "";
+	    width: 50px;
+	    height: 50px;
+	    background: url(../../images/play.svg) no-repeat center center;
+	    background-size: contain;
+	    position: absolute;
+	    left: 50%;
+	    top: 50%;
+	    transform: translate(-50%,-50%);
+	    z-index: 1;
+	}
+	.box-detail .img video {
+		width: 100%;
+	}
+
+    /* ---------------------------------------------------**** Mobile and Tablet ****--------------------------------------------------- */
+    @media only screen and (min-width: 320px) and (max-width: 1024px) {
+
+    }
+
+    /* ---------------------------------------------------**** Tablet ****--------------------------------------------------- */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+
+        /* แนวตั้ง */
+        @media only screen and (orientation:portrait){
+
+       }
+        /* แนวนอน */
+        @media only screen and (orientation:landscape){
+
+        }
+    }
+
+    /* ---------------------------------------------------**** Mobile ****--------------------------------------------------- */
+    @media only screen and (min-width: 320px) and (max-width: 767px) {
+
+       /* แนวตั้ง */
+        @media only screen and (orientation:portrait){
+
+        }
+        /* แนวนอน */
+        @media only screen and (orientation:landscape){
+
+        }
+    }

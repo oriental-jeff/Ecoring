@@ -1,0 +1,157 @@
+section.box-detail {
+    padding-top: 50px;
+    overflow: hidden;
+    word-break: break-word;
+    background: url(../../images/box-color01.png) no-repeat 91% 88%;
+}		
+	.box-detail .box-text {
+	    padding: 30px 25px;
+	}
+	.box-detail .box-text::after {
+	    content: "";
+	    border-left: 1px solid #d9d9d9;
+	    position: absolute;
+	    top: -20px;
+	    left: 0px;
+	    height: 54%;
+	}
+	.box-detail .box-text::before {
+	    content: "";
+	    border-top: 1px solid #d9d9d9;
+	    position: absolute;
+	    top: 0px;
+	    left: -20px;
+	    width: 30%;
+	}
+		.box-detail .box-text img.img-logo {
+		    max-width: 70%;
+		    width: 300px;
+		}
+		.box-detail .box-text p {
+			margin-top: 22px;
+		}
+
+	.box-detail .box-Rtext {
+		font-style: italic;
+		padding-top: 60px;
+	    background: url(../../images/box-color01.png) no-repeat 95% 10px;
+	    text-align: right;
+	    font-weight: bold;
+	}
+		.box-detail .box-Rtext i.Underline {
+		    display: block;
+		    text-decoration: underline !important;
+		    position: relative;
+		    font-weight: 100;
+		}
+		.box-detail .box-Rtext i.Underline::after {
+		    content: "";
+		    right: 1px;
+			height: 25px;
+		    bottom: 0px;
+		    position: absolute;
+		    border-right: 1px solid #000;
+		}
+
+	.box-detail  ul.box-support {
+		list-style-type: none;
+		padding: 0px;
+	}
+		.box-detail  .box-support li {
+		    width: calc(100%/4);
+	        text-align: center;
+            padding: 20px 10px;
+		}
+		.box-detail  .box-support li:nth-child(1) ,
+		.box-detail  .box-support li:nth-child(2) ,
+		.box-detail  .box-support li:nth-child(3) {
+			width: calc(100%/3);
+		}
+			.box-detail  .box-support img {
+				height: 53px;
+			}
+			
+	.box-detail .box-list {
+	    padding: 30px 25px;
+	    padding-top: 0;
+	}
+		.box-detail .List {
+		    padding: 8px 25px;
+		}
+			.box-detail .List .img {
+			    background: #35bdc4;
+			    box-shadow: 13px 13px 0 rgb(53 189 196 / 20%);
+			    margin-bottom: 26px;
+			}
+			.box-detail .List:nth-child(4n+2) .img {
+			    background: #444aa6;
+			    box-shadow: 13px 13px 0 rgb(68 74 166 / 20%);
+			}
+			.box-detail .List:nth-child(4n+3) .img {
+			    background: #f7ab1c;
+			    box-shadow: 13px 13px 0 rgb(247 171 28 / 20%);
+			}
+			.box-detail .List:nth-child(4n+4) .img {
+			    background: #e96a6b;
+			    box-shadow: 13px 13px 0 rgb(233 106 107 / 20%);
+			}
+				.box-detail .List img {
+				    width: 100%;
+				}
+			
+			.box-detail .box-list p {
+				font-size: 14px;
+			}
+			.box-detail .box-list p.co {
+				color: #35bdc4;
+			}
+				.box-detail .List:nth-child(4n+2) p.co {
+				    color: #444aa6;
+				}
+				.box-detail .List:nth-child(4n+3) p.co {
+				    color: #f7ab1c;
+				}
+				.box-detail .List:nth-child(4n+4) p.co {
+				    color: #e96a6b;
+				}
+			
+    /* ---------------------------------------------------**** Mobile and Tablet ****--------------------------------------------------- */
+    @media only screen and (min-width: 320px) and (max-width: 1024px) {
+		.box-detail .box-support img {
+	        height: 45px;
+		    width: 100%;
+		    object-fit: contain;
+		}
+    }
+
+    /* ---------------------------------------------------**** Tablet ****--------------------------------------------------- */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+
+        /* แนวตั้ง */
+        @media only screen and (orientation:portrait){
+			section.box-detail {
+			    background-position-y: calc(100% - 30px);
+			    padding-bottom: 15px;
+			}
+       }
+        /* แนวนอน */
+        @media only screen and (orientation:landscape){
+
+        }
+    }
+
+    /* ---------------------------------------------------**** Mobile ****--------------------------------------------------- */
+    @media only screen and (min-width: 320px) and (max-width: 767px) {
+		section.box-detail {
+		    background-position-y: calc(100% - 30px);
+		    padding-bottom: 15px;
+		}
+		/* แนวตั้ง */
+        @media only screen and (orientation:portrait){
+
+        }
+        /* แนวนอน */
+        @media only screen and (orientation:landscape){
+
+        }
+    }
