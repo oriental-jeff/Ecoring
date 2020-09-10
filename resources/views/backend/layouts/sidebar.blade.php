@@ -13,11 +13,11 @@
             <a href="javascript:;">
               <b class="caret"></b>
               <i class="fa fa-user"></i>
-              <span>My Personal</span>
+              <span>ข้อมูลบุคคล</span>
             </a>
             <ul class="sub-menu">
               <li class="{{ request()->routeIs('backend.profile*') ? 'active' : '' }}">
-                <a href="{{ route('backend.profile.index') }}" class="menu-link">Profile</a>
+                <a href="{{ route('backend.profile.index') }}" class="menu-link">โปรไฟล์</a>
               </li>
             </ul>
           </li>
@@ -27,18 +27,18 @@
 							<a href="javascript:;">
 					      <b class="caret"></b>
 						    <i class="fas fa-cogs"></i>
-						    <span>Settings</span>
+						    <span>ตั้งค่า</span>
 							</a>
 							<ul class="sub-menu">
                 @can('access role')
                   <li class="{{ request()->routeIs('backend.role*') ? 'active' : '' }}">
-                    <a href="{{ route('backend.role.index') }}" class="menu-link">Role</a>
+                    <a href="{{ route('backend.role.index') }}" class="menu-link">บทบาท</a>
                   </li>
                 @endcan
 
                 @can('access user')
                   <li class="{{ request()->routeIs('backend.user*') ? 'active' : '' }}">
-                    <a href="{{ route('backend.user.index') }}" class="menu-link">User</a>
+                    <a href="{{ route('backend.user.index') }}" class="menu-link">ผู้ใช้งาน</a>
                   </li>
                 @endcan
 							</ul>
@@ -50,36 +50,36 @@
               <a href="javascript:;">
                 <b class="caret"></b>
                 <i class="fas fa-home"></i>
-                <span>Main System</span>
+                <span>ระบบหลัก</span>
               </a>
               <ul class="sub-menu">
                 @can('access banner')
                   <li class="{{ request()->routeIs('backend.banner*') ? 'active' : '' }}">
-                    <a href="{{ route('backend.banner.index') }}" class="menu-link">Banner</a>
+                    <a href="{{ route('backend.banner.index') }}" class="menu-link">แบนเนอร์</a>
                   </li>
                 @endcan
 
                 @can('access webinfo')
                   <li class="{{ request()->routeIs('backend.webinfo*') ? 'active' : '' }}">
-                    <a href="{{ route('backend.webinfo.index') }}" class="menu-link">Web Info</a>
+                    <a href="{{ route('backend.webinfo.index') }}" class="menu-link">ข้อมูลเว็บ</a>
                   </li>
                 @endcan
 
                 @can('access websocial')
                   <li class="{{ request()->routeIs('backend.websocial*') ? 'active' : '' }}">
-                    <a href="{{ route('backend.websocial.index') }}" class="menu-link">Social</a>
+                    <a href="{{ route('backend.websocial.index') }}" class="menu-link">สื่อสังคมออนไลน์</a>
                   </li>
                 @endcan
 
                 @can('menu_front')
                   <li class="{{ request()->routeIs('backend.menu*') ? 'active' : '' }}">
-                    <a href="{{ route('backend.menu.index') }}" class="menu-link">Menu</a>
+                    <a href="{{ route('backend.menu.index') }}" class="menu-link">เมนู</a>
                   </li>
                 @endcan
 
                 @can('access page')
                   <li class="{{ request()->routeIs('backend.page*') ? 'active' : '' }}">
-                    <a href="{{ route('backend.page.index') }}" class="menu-link">Page (SEO)</a>
+                    <a href="{{ route('backend.page.index') }}" class="menu-link">หน้า (SEO)</a>
                   </li>
                 @endcan
               </ul>
@@ -88,13 +88,67 @@
 
           @can('access about')
             <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
-              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-info"></i> <span>About Us</span></a>
+              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-info"></i> <span>เกี่ยวกับเรา</span></a>
+            </li>
+          @endcan
+
+          @can('access about')
+            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
+              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-sitemap"></i> <span>หมวดหมู่</span></a>
+            </li>
+          @endcan
+
+          @can('access about')
+            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
+              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-award"></i> <span>เกรดสินค้า</span></a>
+            </li>
+          @endcan
+
+          @can('access about')
+            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
+              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-images"></i> <span>สินค้า</span></a>
+            </li>
+          @endcan
+
+          @can('access about')
+            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
+              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-cubes"></i> <span>คลังสินค้า</span></a>
+            </li>
+          @endcan
+
+          @can('access about')
+            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
+              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-truck"></i> <span>การขนส่ง</span></a>
+            </li>
+          @endcan
+
+          @can('access about')
+            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
+              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-coins"></i> <span>อัตราการขนส่ง</span></a>
+            </li>
+          @endcan
+
+          @can('access about')
+            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
+              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-university"></i> <span>บัญชีธนาคาร</span></a>
+            </li>
+          @endcan
+
+          @can('access about')
+            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
+              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-envelope"></i> <span>แจ้งชำระเงิน</span></a>
+            </li>
+          @endcan
+
+          @can('access about')
+            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
+              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-credit-card"></i> <span>ประวัติการชำระผ่านบัตร</span></a>
             </li>
           @endcan
 
           @can('access trash')
   				  <li class="{{ request()->routeIs('backend.trash*') ? 'active' : '' }}">
-              <a href="{{ route('backend.trash.index') }}" class="menu-link"><i class="fas fa-trash-alt"></i> <span>Trash</span></a>
+              <a href="{{ route('backend.trash.index') }}" class="menu-link"><i class="fas fa-trash-alt"></i> <span>ถังขยะ</span></a>
             </li>
           @endcan
 
