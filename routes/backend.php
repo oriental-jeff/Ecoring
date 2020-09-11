@@ -116,6 +116,13 @@ Route::name('backend.')
             });
         Route::resource('/grades', 'GradesController');
 
+        Route::name('products.')
+            ->prefix('/products')
+            ->group(function () {
+                Route::get('/search', 'ProductsController@search')->name('search');
+            });
+        Route::resource('/products', 'ProductsController');
+
         //ck editor
         Route::name('ckeditor.')
             ->prefix('/ckeditor')
