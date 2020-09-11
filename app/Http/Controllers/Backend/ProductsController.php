@@ -4,64 +4,68 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Model\Products;
 use App\Model\Categories;
+use App\Model\Grades;
 use Illuminate\Support\Facades\Auth;
 
-class CategoriesController extends Controller
+class ProductsController extends Controller
 {
-    const MODULE = 'categories';
+    const MODULE = 'products';
 
     public function index(Request $request)
     {
         $this->authorize(mapPermission(self::MODULE));
         if ($request->filled('keyword')) :
-            $categories = Categories::getDataByKeyword($request->keyword)->get();
+            $products = Products::getDataByKeyword($request->keyword)->get();
         else :
-            $categories = Categories::limit(50)->orderBy('updated_at', 'desc')->get();
+            $products = Products::limit(50)->orderBy('updated_at', 'desc')->get();
         endif;
 
-        return view('backend.categories.index', compact('categories'));
+        return view('backend.products.index', compact('products'));
     }
 
     public function create()
     {
         $this->authorize(mapPermission(self::MODULE));
-        $category = new Categories;
+        $product = new Products;
+        $categories = Categories::all();
+        $grades = Grades::all();
 
-        return view('backend.categories.create', compact('category'));
+        return view('backend.products.create', compact(['product', 'categories', 'grades']));
     }
 
     public function store(Request $request)
     {
         $this->authorize(mapPermission(self::MODULE));
-        $category = Categories::create($this->validateRequest());
-        $category->storeImage();
+        $product = Products::create($this->validateRequest());
+        $product->storeImage();
 
-        return redirect(route('backend.categories.index'));
+        return redirect(route('backend.products.index'));
     }
 
-    public function edit(Categories $category)
+    public function edit(Products $product)
     {
         $this->authorize(mapPermission(self::MODULE));
 
-        return view('backend.categories.update', compact('category'));
+        return view('backend.products.update', compact('product'));
     }
 
-    public function update(Request $request, Categories $category)
+    public function update(Request $request, Products $product)
     {
         $this->authorize(mapPermission(self::MODULE));
-        $category->update($this->validateRequest());
-        $category->storeImage();
+        $product->update($this->validateRequest());
+        $product->storeImage();
 
-        return redirect(route('backend.categories.index'));
+        return redirect(route('backend.products.index'));
     }
 
-    public function destroy(Categories $category)
+    public function destroy(Products $product)
     {
         $this->authorize(mapPermission(self::MODULE));
-        $category->delete();
+        $product->delete();
 
-        return redirect(route('backend.categories.index'));
+        return redirect(route('backend.products.index'));
     }
 
     private function validateRequest()

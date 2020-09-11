@@ -104,9 +104,9 @@
             </li>
           @endcan
 
-          @can('access about')
-            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
-              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-images"></i> <span>สินค้า</span></a>
+          @can('access products')
+            <li class="{{ request()->routeIs('backend.products*') ? 'active' : '' }}">
+              <a href="{{ route('backend.products.index') }}" class="menu-link"><i class="fas fa-images"></i> <span>สินค้า</span></a>
             </li>
           @endcan
 

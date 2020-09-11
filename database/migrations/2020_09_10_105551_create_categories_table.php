@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();
+            $table->softDeletes('deleted_at', 0);
         });
     }
 
