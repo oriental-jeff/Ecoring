@@ -23,7 +23,7 @@ class RoleSeeder extends Seeder
         // Permissions
         $existPermissions = Permission::all()->pluck('name')->toArray();
 
-        foreach($this->permissionLists() as $permission) {
+        foreach ($this->permissionLists() as $permission) {
             if (!in_array($permission, $existPermissions)) {
                 Permission::create(['name' => $permission])->assignRole('admin');
             }
@@ -34,55 +34,59 @@ class RoleSeeder extends Seeder
 
     public function permissionLists()
     {
-      return [
-        'access menu_front',
-        'manage menu_front',
-        'update menu_front',
+        return [
+            'access menu_front',
+            'manage menu_front',
+            'update menu_front',
 
-        'access role',
-        'manage role',
-        'add role',
-        'edit role',
-        'delete role',
+            'access role',
+            'manage role',
+            'add role',
+            'edit role',
+            'delete role',
 
-        'access user',
-        'manage user',
-        'add user',
-        'edit user',
-        'delete user',
+            'access user',
+            'manage user',
+            'add user',
+            'edit user',
+            'delete user',
 
-        'access banner',
-        'manage banner',
-        'add banner',
-        'edit banner',
-        'delete banner',
+            'access banner',
+            'manage banner',
+            'add banner',
+            'edit banner',
+            'delete banner',
 
-        'access webinfo',
-        'manage webinfo',
-        'edit webinfo',
-        
-        'access websocial',
-        'manage websocial',
-        'add websocial',
-        'edit websocial',
-        'delete websocial',
+            'access webinfo',
+            'manage webinfo',
+            'edit webinfo',
 
-        'access page',
-        'manage page',
-        'add page',
-        'edit page',
-        'delete page',
+            'access websocial',
+            'manage websocial',
+            'add websocial',
+            'edit websocial',
+            'delete websocial',
 
-        'access about',
-        'manage about',
-        'edit about',
-     
-        'access trash',
-        'manage trash',
-        'remove trash',
-        'restore trash',
-        'restore_all trash',
-        'remove_all trash',
-      ];
+            'access page',
+            'manage page',
+            'add page',
+            'edit page',
+            'delete page',
+
+            'access about',
+            'manage about',
+            'edit about',
+
+            'access categories',
+            'manage categories',
+            'edit categories',
+
+            'access trash',
+            'manage trash',
+            'remove trash',
+            'restore trash',
+            'restore_all trash',
+            'remove_all trash',
+        ];
     }
 }

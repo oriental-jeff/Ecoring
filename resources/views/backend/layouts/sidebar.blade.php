@@ -92,9 +92,9 @@
             </li>
           @endcan
 
-          @can('access about')
-            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
-              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-sitemap"></i> <span>หมวดหมู่</span></a>
+          @can('access categories')
+            <li class="{{ request()->routeIs('backend.categories*') ? 'active' : '' }}">
+              <a href="{{ route('backend.categories.index') }}" class="menu-link"><i class="fas fa-sitemap"></i> <span>หมวดหมู่</span></a>
             </li>
           @endcan
 

@@ -102,12 +102,12 @@ Route::name('backend.')
             });
         Route::resource('/menu', 'MenuController');
 
-        Route::name('application.')
-            ->prefix('/application')
+        Route::name('categories.')
+            ->prefix('/categories')
             ->group(function () {
-                Route::get('/search', 'ApplicationController@search')->name('search');
+                Route::get('/search', 'CategoriesController@search')->name('search');
             });
-        Route::resource('/application', 'ApplicationController');
+        Route::resource('/categories', 'CategoriesController');
 
         Route::name('review.')
             ->prefix('/review')
