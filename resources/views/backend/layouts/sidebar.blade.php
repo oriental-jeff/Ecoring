@@ -98,9 +98,9 @@
             </li>
           @endcan
 
-          @can('access about')
-            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
-              <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-award"></i> <span>เกรดสินค้า</span></a>
+          @can('access grades')
+            <li class="{{ request()->routeIs('backend.grades*') ? 'active' : '' }}">
+              <a href="{{ route('backend.grades.index') }}" class="menu-link"><i class="fas fa-award"></i> <span>เกรดสินค้า</span></a>
             </li>
           @endcan
 

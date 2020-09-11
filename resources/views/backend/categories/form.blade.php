@@ -77,12 +77,12 @@
     $('#form-validate').validate({
       rules: {
         image: {
-          ImageMaxWidth: 1920 //image max width 1920 px
+          ImageMaxWidth: 500 //image max width 500 px
         }
       },
       messages: {
         image: {
-          ImageMaxWidth: "ความกว้างของรูปไม่เกิน 1920 pixels"
+          ImageMaxWidth: "ความกว้างของรูปไม่เกิน 500 pixels"
         }
       },
       errorPlacement: function(error, element) {

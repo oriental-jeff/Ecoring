@@ -109,12 +109,12 @@ Route::name('backend.')
             });
         Route::resource('/categories', 'CategoriesController');
 
-        Route::name('review.')
-            ->prefix('/review')
+        Route::name('grades.')
+            ->prefix('/grades')
             ->group(function () {
-                Route::get('/search', 'ReviewController@search')->name('search');
+                Route::get('/search', 'GradesController@search')->name('search');
             });
-        Route::resource('/review', 'ReviewController');
+        Route::resource('/grades', 'GradesController');
 
         //ck editor
         Route::name('ckeditor.')
