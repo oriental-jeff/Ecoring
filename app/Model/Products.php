@@ -13,6 +13,10 @@ class Products extends Model implements HasMedia
     use LogsActivity, HasMediaTrait;
     protected $table = 'products';
     protected $guarded = [];
+    protected $attributes = [
+        'recommend' => 0,
+        'active' => 1,
+    ];
 
     protected static $logName = 'products';
     protected static $logAttributes = ['*'];
@@ -51,14 +55,56 @@ class Products extends Model implements HasMedia
         return asset('images/backend/flag_th.jpg');
     }
 
+    public function getRecommendAttribute($attributes)
+    {
+        return  [
+            1 => 'Recommend',
+            0 => 'Normal'
+        ][$attributes];
+    }
+
+    public function getActiveAttribute($attributes)
+    {
+        return  [
+            1 => 'Active',
+            0 => 'Inactive'
+        ][$attributes];
+    }
+
     public function update_name()
     {
         return $this->hasOne('App\User', 'id', 'updated_by');
     }
 
-    public function scopegetDataByKeyword($query, $keyword)
+    public function categories_name()
     {
-        return $query->where('name_th', 'like', "%$keyword%")
-            ->orWhere('name_en', 'like', "%$keyword%");
+        return $this->hasOne('App\Model\Categories', 'id', 'categories_id');
+    }
+
+    public function grades_name()
+    {
+        return $this->hasOne('App\Model\Grades', 'id', 'grades_id');
+    }
+
+    public function scopegetDataByKeyword($query, $request)
+    {
+        $keyword = $request->keyword;
+        $active = $request->active;
+        $recommend = $request->recommend;
+        if ($keyword) {
+            $query = $query->where('name_th', 'like', "%$keyword%")
+                ->orWhere('name_en', 'like', "%$keyword%")
+                ->orWhereHas('categories_name', function ($q1) use ($keyword) {
+                    $q1->where('name_th', 'like', "%$keyword%")
+                        ->orWhere('name_en', 'like', "%$keyword%");
+                });
+        }
+        if ($active === "0" or $active === "1") {
+            $query = $query->where('active', (int)$active);
+        }
+        if ($recommend === "1") {
+            $query = $query->where('recommend', (int)$recommend);
+        }
+        return $query;
     }
 }

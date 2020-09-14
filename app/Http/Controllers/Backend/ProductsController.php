@@ -16,8 +16,8 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         $this->authorize(mapPermission(self::MODULE));
-        if ($request->filled('keyword')) :
-            $products = Products::getDataByKeyword($request->keyword)->get();
+        if ($request->filled('keyword') or $request->filled('active') or $request->filled('recommend')) :
+            $products = Products::getDataByKeyword($request)->get();
         else :
             $products = Products::limit(50)->orderBy('updated_at', 'desc')->get();
         endif;
@@ -48,7 +48,10 @@ class ProductsController extends Controller
     {
         $this->authorize(mapPermission(self::MODULE));
 
-        return view('backend.products.update', compact('product'));
+        $categories = Categories::all();
+        $grades = Grades::all();
+
+        return view('backend.products.update', compact(['product', 'categories', 'grades']));
     }
 
     public function update(Request $request, Products $product)
@@ -71,8 +74,20 @@ class ProductsController extends Controller
     private function validateRequest()
     {
         $validatedData = request()->validate([
+            "categories_id" => "required",
+            "grades_id" => "required",
+            "sku" => "",
             "name_th" => "required",
             "name_en" => "required",
+            "description_th" => "",
+            "description_en" => "",
+            "info_th" => "",
+            "info_en" => "",
+            "full_price" => "required",
+            "price" => "required",
+            "weight" => "required",
+            "recommend" => "",
+            "active" => "required",
         ]);
 
         request()->validate([
@@ -86,6 +101,9 @@ class ProductsController extends Controller
             $validatedData['created_by'] = Auth::id();
 
         endif;
+
+        // Checkbox
+        $validatedData['recommend'] = request()->has('recommend') ? 1 : 0 ?? 0;
 
         return $validatedData;
     }

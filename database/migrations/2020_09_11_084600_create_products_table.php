@@ -20,8 +20,10 @@ class CreateProductsTable extends Migration
             $table->string('sku')->nullable();
             $table->string('name_th', 250);
             $table->string('name_en', 250);
-            $table->text('info_th');
-            $table->text('info_en');
+            $table->text('description_th')->nullable();
+            $table->text('description_en')->nullable();
+            $table->text('info_th')->nullable();
+            $table->text('info_en')->nullable();
             $table->decimal('full_price');
             $table->decimal('price');
             $table->float('weight')->comment('gsm');
