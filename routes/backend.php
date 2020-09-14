@@ -123,6 +123,20 @@ Route::name('backend.')
             });
         Route::resource('/products', 'ProductsController');
 
+        Route::name('stocks.')
+            ->prefix('/stocks')
+            ->group(function () {
+                Route::get('/search', 'StocksController@search')->name('search');
+            });
+        Route::resource('/stocks', 'StocksController');
+
+        Route::name('products.')
+            ->prefix('/products')
+            ->group(function () {
+                Route::get('/search', 'ProductsController@search')->name('search');
+            });
+        Route::resource('/products', 'ProductsController');
+
         //ck editor
         Route::name('ckeditor.')
             ->prefix('/ckeditor')
