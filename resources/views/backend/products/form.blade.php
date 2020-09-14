@@ -1,5 +1,24 @@
+@if (request()->route()->getActionMethod() == 'create')
 <div class="form-row">
-    <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+    <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
+        <h5>เลือกที่จัดเก็บ:</h5>
+        <select id="warehouses_id" name="warehouses_id" class="form-control">
+            @foreach ($warehouses as $warehouse)
+            <option value="{{ $warehouse->id }}" {{ $product->warehouses_id === $warehouse->id ? 'selected' : '' }}>
+                {{ $warehouse->name }}</option>
+            @endforeach
+            <option value="">ยังไม่เลือก</option>
+        </select>
+    </div>
+</div>
+@endif
+<div class="form-row">
+    <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
+        <label class="col-form-label" for="sku">SKU : </label>
+        <input type="text" class="form-control" id="sku" name="sku" value="{{ old('sku') ?? $product->sku }}" />
+        {{ $errors->first('sku') }}
+    </div>
+    <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
         <h5>เลือกหมวดหมู่:</h5>
         <select id="categories_id" name="categories_id" class="form-control">
             @foreach ($categories as $category)
@@ -8,23 +27,14 @@
             @endforeach
         </select>
     </div>
-    <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
-        <label class="col-form-label" style='width: 100%;'>เกรดสินค้า: </label>
-        @foreach ($grades as $k => $grade)
-        <div class="radio radio-css radio-inline">
-            <input class="form-check-input" type="radio" name="grades_id" id="grades_id{{ $grade->id }}"
-                value="{{ $grade->id }}"
-                {{ (request()->route()->getActionMethod() == 'create' && $k === 0) ? 'checked' : ($product->grades_id === $grade->id ? 'checked' : '') }}>
-            <label class="form-check-label ml-2" for="grades_id{{ $grade->id }}">{{ $grade->name_th }}</label>
-        </div>
-        @endforeach
-    </div>
-</div>
-<div class="form-row">
     <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
-        <label class="col-form-label" for="sku">SKU : </label>
-        <input type="text" class="form-control" id="sku" name="sku" value="{{ old('sku') ?? $product->sku }}" />
-        {{ $errors->first('sku') }}
+        <h5>เกรดสินค้า:</h5>
+        <select id="grades_id" name="grades_id" class="form-control">
+            @foreach ($grades as $grade)
+            <option value="{{ $grade->id }}" {{ $product->grades_id === $grade->id ? 'selected' : '' }}>
+                {{ $grade->name_th }}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 <div class="form-row">

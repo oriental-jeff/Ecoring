@@ -57,17 +57,17 @@ class Products extends Model implements HasMedia
 
     public function getRecommendAttribute($attributes)
     {
-        return  [
+        return [
             1 => 'Recommend',
-            0 => 'Normal'
+            0 => 'Normal',
         ][$attributes];
     }
 
     public function getActiveAttribute($attributes)
     {
-        return  [
+        return [
             1 => 'Active',
-            0 => 'Inactive'
+            0 => 'Inactive',
         ][$attributes];
     }
 
@@ -86,6 +86,11 @@ class Products extends Model implements HasMedia
         return $this->hasOne('App\Model\Grades', 'id', 'grades_id');
     }
 
+    public function scopeonlyActive($query)
+    {
+        return $query->where('active', 1);
+    }
+
     public function scopegetDataByKeyword($query, $request)
     {
         $keyword = $request->keyword;
@@ -100,10 +105,10 @@ class Products extends Model implements HasMedia
                 });
         }
         if ($active === "0" or $active === "1") {
-            $query = $query->where('active', (int)$active);
+            $query = $query->where('active', (int) $active);
         }
         if ($recommend === "1") {
-            $query = $query->where('recommend', (int)$recommend);
+            $query = $query->where('recommend', (int) $recommend);
         }
         return $query;
     }
