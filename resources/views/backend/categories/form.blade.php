@@ -28,7 +28,7 @@
              class="image" id="image" name="image" {{request()->route()->getActionMethod() == 'create' ? 'required' : ''}}>
             <label class="custom-file-label" for="image" >เลือกรูป</label>
           </div>
-          <label class='text-pic'>ขนาดภาพที่แนะนำ 500 x 350 (ขนาดไม่เกิน 180 KB)</label>
+          <label class='text-pic'>ขนาดภาพที่แนะนำ 500 x 350 (ขนาดไม่เกิน 200 KB)</label>
             {{ $errors->first('image') }}
         </div>
       </div>

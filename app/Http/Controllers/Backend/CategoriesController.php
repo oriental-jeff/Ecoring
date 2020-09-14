@@ -72,7 +72,7 @@ class CategoriesController extends Controller
         ]);
 
         request()->validate([
-            "image"  => ['sometimes', 'file', 'image', 'max:180'],
+            "image"  => ['sometimes', 'file', 'image', 'max:200'],
         ]);
 
         $validatedData['updated_by'] = Auth::id();
