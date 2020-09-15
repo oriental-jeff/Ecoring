@@ -19,22 +19,24 @@
         {{ $errors->first('sku') }}
     </div>
     <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
-        <h5>เลือกหมวดหมู่:</h5>
-        <select id="categories_id" name="categories_id" class="form-control">
+        <h5>เลือกหมวดหมู่ <span class="text-danger"> * </span>:</h5>
+        <select id="categories_id" name="categories_id" class="form-control" required>
             @foreach ($categories as $category)
             <option value="{{ $category->id }}" {{ $product->categories_id === $category->id ? 'selected' : '' }}>
                 {{ $category->name_th }}</option>
             @endforeach
         </select>
+        {{ $errors->first('name_th') }}
     </div>
     <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
-        <h5>เกรดสินค้า:</h5>
-        <select id="grades_id" name="grades_id" class="form-control">
+        <h5>เกรดสินค้า <span class="text-danger"> * </span>:</h5>
+        <select id="grades_id" name="grades_id" class="form-control" required>
             @foreach ($grades as $grade)
             <option value="{{ $grade->id }}" {{ $product->grades_id === $grade->id ? 'selected' : '' }}>
                 {{ $grade->name_th }}</option>
             @endforeach
         </select>
+        {{ $errors->first('name_th') }}
     </div>
 </div>
 <div class="form-row">
@@ -104,13 +106,13 @@
         <label class="col-form-label" for="full_price"
             style="-webkit-text-decoration-line: line-through; text-decoration-line: line-through;">ราคาเต็ม <span
                 class="text-danger"> * </span> : </label>
-        <input type="number" step="any" class="form-control" id="full_price" name="full_price"
+        <input type="number" min="0" step="any" class="form-control" id="full_price" name="full_price"
             value="{{ old('full_price') ?? $product->full_price }}" required="" />
         {{ $errors->first('full_price') }}
     </div>
     <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
         <label class="col-form-label" for="price">ราคา <span class="text-danger"> * </span> : </label>
-        <input type="number" step="any" class="form-control" id="price" name="price"
+        <input type="number" min="0" step="any" class="form-control" id="price" name="price"
             value="{{ old('price') ?? $product->price }}" required="" />
         {{ $errors->first('price') }}
     </div>
@@ -118,7 +120,7 @@
 <div class="form-row">
     <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
         <label class="col-form-label" for="weight">น้ำหนัก <span class="text-danger"> * </span> : </label>
-        <input type="number" step="any" class="form-control" id="weight" name="weight"
+        <input type="number" min="0" max="999" step="any" class="form-control" id="weight" name="weight"
             value="{{ old('weight') ?? $product->weight }}" required="" />
         {{ $errors->first('weight') }}
     </div>
@@ -185,26 +187,26 @@
     });
 
     $(function(){
-        $('#form-validate').validate({
-            rules: {
-                image: {
-                    ImageMaxWidth: 500 //image max width 500 px
-                }
-            },
-            messages: {
-                image: {
-                    ImageMaxWidth: "ความกว้างของรูปไม่เกิน 500 pixels"
-                }
-            },
-            errorPlacement: function(error, element) {
-                if($(element).attr('id') == 'image'){
-                    error.insertAfter($(element).parent());
-                    $(element).siblings('.custom-file-label').toggleClass('error-border');
-                } else {
-                    error.insertAfter(element);
-                }
-            }
-        });
+        // $('#form-validate').validate({
+        //     rules: {
+        //         image: {
+        //             ImageMaxWidth: 500 //image max width 500 px
+        //         }
+        //     },
+        //     messages: {
+        //         image: {
+        //             ImageMaxWidth: "ความกว้างของรูปไม่เกิน 500 pixels"
+        //         }
+        //     },
+        //     errorPlacement: function(error, element) {
+        //         if($(element).attr('id') == 'image'){
+        //             error.insertAfter($(element).parent());
+        //             $(element).siblings('.custom-file-label').toggleClass('error-border');
+        //         } else {
+        //             error.insertAfter(element);
+        //         }
+        //     }
+        // });
 
         $('#image').on('change', function(){
             readURL(this, "preview_image");

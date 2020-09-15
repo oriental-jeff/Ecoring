@@ -94,7 +94,7 @@
                                 </td>
                                 <td class="text-center">{{ date('d/m/Y H:i:s', strtotime($category->updated_at)) }}</td>
                                 <td class="text-center"><img src="{{ $category->image ?? '' }}" class="img-table"></td>
-                                <td class="text-center">{{ $category->name_th }}</td>
+                                <td class="text-left">{{ $category->name_th }}</td>
                                 <td class="text-left">{{ $category->name_en }}</td>
                                 <td class="text-center">{{ $category->update_name->first_name }}</td>
                             </tr>

@@ -122,17 +122,17 @@
             </li>
             @endcan
 
-            @can('access about')
-            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
-                <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-truck"></i>
-                    <span>การขนส่ง</span></a>
+            @can('access logistics')
+            <li class="{{ request()->routeIs('backend.logistics*') ? 'active' : '' }}">
+                <a href="{{ route('backend.logistics.index') }}" class="menu-link"><i class="fas fa-truck"></i>
+                    <span>บริษัทขนส่ง</span></a>
             </li>
             @endcan
 
-            @can('access about')
-            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
-                <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-coins"></i>
-                    <span>อัตราการขนส่ง</span></a>
+            @can('access logistic_rates')
+            <li class="{{ request()->routeIs('backend.logistic_rates*') ? 'active' : '' }}">
+                <a href="{{ route('backend.logistic_rates.index') }}" class="menu-link"><i class="fas fa-coins"></i>
+                    <span>ค่าบริการขนส่ง</span></a>
             </li>
             @endcan
 

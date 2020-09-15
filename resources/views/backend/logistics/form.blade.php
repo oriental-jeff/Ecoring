@@ -5,7 +5,7 @@
                 <label class="col-form-label" for="name_th">ชื่อเรียก (ไทย) <span class="text-danger"> * </span> :
                 </label>
                 <input type="text" class="form-control" id="name_th" name="name_th"
-                    value="{{ old('name_th') ?? $category->name_th }}" required="" />
+                    value="{{ old('name_th') ?? $logistic->name_th }}" required="" />
                 {{ $errors->first('name_th') }}
             </div>
 
@@ -13,7 +13,7 @@
                 <label class="col-form-label" for="name_en">ชื่อเรียก (อังกฤษ) <span class="text-danger"> * </span> :
                 </label>
                 <input type="text" class="form-control" id="name_en" name="name_en"
-                    value="{{ old('name_en') ?? $category->name_en }}" required="" />
+                    value="{{ old('name_en') ?? $logistic->name_en }}" required="" />
                 {{ $errors->first('name_en') }}
             </div>
         </div>
@@ -23,7 +23,7 @@
                 <label class="">รูป <span class="text-danger">*</span> :</label>
                 <div class="icon">
                     <div class="uploaded_image">
-                        <img id="preview_image" src="{{ $category->image ?? '' }}" class="img-icon"
+                        <img id="preview_image" src="{{ $logistic->image ?? '' }}" class="img-icon"
                             data-toggle="popover" data-html="true" />
                     </div>
                 </div>
@@ -35,6 +35,24 @@
                 </div>
                 <label class='text-pic'>ขนาดภาพที่แนะนำ 500 x 350 (ขนาดไม่เกิน 200 KB)</label>
                 {{ $errors->first('image') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="col-form-label" for="period">ระยะเวลาในการจัดส่ง (โดยประมาณ) <span class="text-danger"> *
+                    </span> :
+                </label>
+                <input type="text" class="form-control" id="period" name="period"
+                    value="{{ old('period') ?? $logistic->period }}" required="" />
+                {{ $errors->first('period') }}
+            </div>
+
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <label class="col-form-label" for="base_price">ราคาตั้งต้น <span class="text-danger"> * </span> :
+                </label>
+                <input type="number" min="0" step="any" class="form-control" id="base_price" name="base_price"
+                    value="{{ old('base_price') ?? $logistic->base_price }}" required="" />
+                {{ $errors->first('base_price') }}
             </div>
         </div>
 
