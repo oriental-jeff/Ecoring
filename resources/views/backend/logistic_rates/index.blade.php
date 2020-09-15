@@ -1,6 +1,6 @@
 @extends('backend.layouts.header')
 @section('title')
-เกรดสินค้า
+ค่าบริการขนส่ง
 @endsection
 @section('content')
 
@@ -8,7 +8,8 @@
     <div class="col-12 col-xl-12">
         <div class="panel panel-inverse gray">
             <div class="panel-body mgbt">
-                <form id="" action="{{ route('backend.grades.index') }}" method='post' data-parsley-validate="true">
+                <form id="" action="{{ route('backend.logistic_rates.index') }}" method='post'
+                    data-parsley-validate="true">
                     @method('get')
                     @csrf
                     <div class="form-row">
@@ -21,8 +22,9 @@
                             <div class='mt-4 '>
                                 <button type="submit" class="btn btn-white btn-search" id="search"><i
                                         class='fas fa-search text-info'></i> ค้นหา</button>
-                                @can('add grades')
-                                <a href="{{ route('backend.grades.create') }}" class="btn btn-white btn-search"><i
+                                @can('add logistic_rates')
+                                <a href="{{ route('backend.logistic_rates.create') }}"
+                                    class="btn btn-white btn-search"><i
                                         class="fa fa-plus-square fa-lg text-success"></i> เพิ่มข้อมูล</a>
                                 @endcan
                             </div>
@@ -59,8 +61,8 @@
                         </thead>
                         <tbody>
 
-                            @if(!empty($grades))
-                            @foreach($grades as $grade)
+                            @if(!empty($logistic_rates))
+                            @foreach($logistic_rates as $logistic_rate)
                             <tr class="del">
                                 <td class="text-center">
                                     <div class=" dropright">
@@ -71,9 +73,9 @@
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @can('delete grades')
+                                            @can('delete logistic_rates')
                                             <form
-                                                action="{{ route('backend.grades.destroy', ['grade' => $grade->id]) }}"
+                                                action="{{ route('backend.logistic_rates.destroy', ['logistic_rate' => $logistic_rate->id]) }}"
                                                 method="post">
                                                 {{ method_field('DELETE') }}
                                                 <button class="del-trans dropdown-item" data-id="" data-module="Del"
@@ -82,19 +84,20 @@
                                                 @csrf
                                             </form>
                                             @endcan
-                                            @can('edit grades')
+                                            @can('edit logistic_rates')
                                             <div class="dropdown-divider"></div>
-                                            <a href="{{ route('backend.grades.edit', ['grade' => $grade->id]) }}"
+                                            <a href="{{ route('backend.logistic_rates.edit', ['logistic_rate' => $logistic_rate->id]) }}"
                                                 class=" edit  dropdown-item" data-id=""><i
                                                     class="fa fa-pencil-alt text-warning"></i>&nbsp;&nbsp;แก้ไข</a>
                                             @endcan
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center">{{ date('d/m/Y H:i:s', strtotime($grade->updated_at)) }}</td>
-                                <td class="text-left">{{ $grade->name_th }}</td>
-                                <td class="text-left">{{ $grade->name_en }}</td>
-                                <td class="text-center">{{ $grade->update_name->first_name }}</td>
+                                <td class="text-center">{{ date('d/m/Y H:i:s', strtotime($logistic_rate->updated_at)) }}
+                                </td>
+                                <td class="text-left">{{ $logistic_rate->name_th }}</td>
+                                <td class="text-left">{{ $logistic_rate->name_en }}</td>
+                                <td class="text-center">{{ $logistic_rate->update_name->first_name }}</td>
                             </tr>
                             @endforeach
                             @endif

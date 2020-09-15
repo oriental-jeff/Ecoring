@@ -130,12 +130,19 @@ Route::name('backend.')
             });
         Route::resource('/stocks', 'StocksController');
 
-        Route::name('products.')
-            ->prefix('/products')
+        Route::name('logistics.')
+            ->prefix('/logistics')
             ->group(function () {
-                Route::get('/search', 'ProductsController@search')->name('search');
+                Route::get('/search', 'LogisticsController@search')->name('search');
             });
-        Route::resource('/products', 'ProductsController');
+        Route::resource('/logistics', 'LogisticsController');
+
+        Route::name('logistic_rates.')
+            ->prefix('/logistic_rates')
+            ->group(function () {
+                Route::get('/search', 'LogisticRatesController@search')->name('search');
+            });
+        Route::resource('/logistic_rates', 'LogisticRatesController');
 
         //ck editor
         Route::name('ckeditor.')

@@ -185,26 +185,26 @@
     });
 
     $(function(){
-        $('#form-validate').validate({
-            rules: {
-                image: {
-                    ImageMaxWidth: 500 //image max width 500 px
-                }
-            },
-            messages: {
-                image: {
-                    ImageMaxWidth: "ความกว้างของรูปไม่เกิน 500 pixels"
-                }
-            },
-            errorPlacement: function(error, element) {
-                if($(element).attr('id') == 'image'){
-                    error.insertAfter($(element).parent());
-                    $(element).siblings('.custom-file-label').toggleClass('error-border');
-                } else {
-                    error.insertAfter(element);
-                }
-            }
-        });
+        // $('#form-validate').validate({
+        //     rules: {
+        //         image: {
+        //             ImageMaxWidth: 500 //image max width 500 px
+        //         }
+        //     },
+        //     messages: {
+        //         image: {
+        //             ImageMaxWidth: "ความกว้างของรูปไม่เกิน 500 pixels"
+        //         }
+        //     },
+        //     errorPlacement: function(error, element) {
+        //         if($(element).attr('id') == 'image'){
+        //             error.insertAfter($(element).parent());
+        //             $(element).siblings('.custom-file-label').toggleClass('error-border');
+        //         } else {
+        //             error.insertAfter(element);
+        //         }
+        //     }
+        // });
 
         $('#image').on('change', function(){
             readURL(this, "preview_image");
