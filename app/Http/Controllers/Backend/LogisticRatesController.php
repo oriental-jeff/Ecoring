@@ -15,8 +15,8 @@ class LogisticRatesController extends Controller
     public function index(Request $request)
     {
         $this->authorize(mapPermission(self::MODULE));
-        if ($request->filled('keyword')) :
-            $logistic_rates = LogisticRates::getDataByKeyword($request->keyword)->get();
+        if ($request->filled('keyword') or $request->filled('date_start') or $request->filled('date_end')) :
+            $logistic_rates = LogisticRates::getDataByKeyword($request)->get();
         else :
             $logistic_rates = LogisticRates::limit(50)->orderBy('updated_at', 'desc')->get();
         endif;
@@ -44,8 +44,9 @@ class LogisticRatesController extends Controller
     public function edit(LogisticRates $logistic_rate)
     {
         $this->authorize(mapPermission(self::MODULE));
+        $logistics = Logistics::all();
 
-        return view('backend.logistic_rates.update', compact('logistic_rate'));
+        return view('backend.logistic_rates.update', compact(['logistic_rate', 'logistics']));
     }
 
     public function update(Request $request, LogisticRates $logistic_rate)
@@ -67,8 +68,12 @@ class LogisticRatesController extends Controller
     private function validateRequest()
     {
         $validatedData = request()->validate([
-            "name_th" => "required",
-            "name_en" => "required",
+            "logistics_id" => "required",
+            "weight_from" => "required",
+            "weight_to" => "required",
+            "price" => "required",
+            "start_at" => "required",
+            "end_at" => "",
         ]);
 
         $validatedData['updated_by'] = Auth::id();

@@ -56,9 +56,31 @@ class LogisticRates extends Model implements HasMedia
         return $this->hasOne('App\User', 'id', 'updated_by');
     }
 
-    public function scopegetDataByKeyword($query, $keyword)
+    public function logistic()
     {
-        return $query->where('name_th', 'like', "%$keyword%")
-            ->orWhere('name_en', 'like', "%$keyword%");
+        return $this->hasOne('App\Model\Logistics', 'id', 'logistics_id');
+    }
+
+    public function scopegetDataByKeyword($query, $request)
+    {
+        $keyword = $request->keyword;
+        $date_start = $request->date_start;
+        $date_end = $request->date_end;
+        if ($keyword) {
+            $query = $query->where('name_th', 'like', "%$keyword%")
+                ->orWhere('name_en', 'like', "%$keyword%")
+                ->orWhere('weight_from', 'like', "%$keyword%")
+                ->orWhere('weight_to', 'like', "%$keyword%")
+                ->orWhere('price', 'like', "%$keyword%");
+        }
+        // Check date
+        if ($date_start and $date_end) {
+            $query = $query->where('start_at', '>=', $date_start)->where('end_at', '<=', $date_end);
+        } else if ($date_start and !$date_end) {
+            $query = $query->where('start_at', '>=', $date_start);
+        } else if (!$date_start and $date_end) {
+            $query = $query->where('end_at', '<=', $date_end);
+        }
+        return $query;
     }
 }
