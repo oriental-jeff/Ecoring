@@ -1,0 +1,52 @@
+version: '2'
+services:
+
+  # The Application
+  app:
+    build:
+      context: ./docker/app/
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=db"
+
+  # The Web Server
+  web:
+    build:
+      context: ./docker/web/
+    working_dir: /var/www/html
+    volumes_from:
+      - app
+    ports:
+      - 8080:80
+
+  # The Database
+  db:
+    image: mariadb:10.4.14
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - "MYSQL_USER=root"
+      - "MYSQL_PASSWORD=root"
+      - "MYSQL_ROOT_PASSWORD=root"
+    ports:
+        - "33061:3306"
+
+  # Phpmyadmin
+  admin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db:mysql
+    ports:
+      - "8888:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+    restart: always
+    depends_on:
+      - db
+
+volumes:
+  dbdata:
