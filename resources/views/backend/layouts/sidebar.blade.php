@@ -136,16 +136,17 @@
             </li>
             @endcan
 
-            @can('access about')
-            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
-                <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-university"></i>
+            @can('access bankaccounts')
+            <li class="{{ request()->routeIs('backend.bankaccounts*') ? 'active' : '' }}">
+                <a href="{{ route('backend.bankaccounts.index') }}" class="menu-link"><i class="fas fa-university"></i>
                     <span>บัญชีธนาคาร</span></a>
             </li>
             @endcan
 
-            @can('access about')
-            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
-                <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-envelope"></i>
+            @can('access payment_notifications')
+            <li class="{{ request()->routeIs('backend.payment_notifications*') ? 'active' : '' }}">
+                <a href="{{ route('backend.payment_notifications.index') }}" class="menu-link"><i
+                        class="fas fa-envelope"></i>
                     <span>แจ้งชำระเงิน</span></a>
             </li>
             @endcan

@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="custom-file">
-                    <input type="file" class="image" id="image" name="image"
+                    <input type="file" class="image" id="image" name="image" maxSizeByte="204800" fileType="image"
                         {{request()->route()->getActionMethod() == 'create' ? 'required' : ''}}>
                     <label class="custom-file-label" for="image">เลือกรูป</label>
                 </div>
@@ -71,58 +71,10 @@
 
 @push('after-scripts')
 <script>
-    $('#image').change(function() {
-    $('#image').removeData('imageWidth');
-    $('#image').removeData('imageHeight');
-    var file = this.files[0];
-    var tmpImg = new Image();
-    tmpImg.src=window.URL.createObjectURL( file );
-    tmpImg.onload = function() {
-      width = tmpImg.naturalWidth,
-      height = tmpImg.naturalHeight;
-      $('#image').data('imageWidth', width);
-      $('#image').data('imageHeight', height);
-    }
-  });
-
-  $.validator.addMethod('ImageMaxWidth', function(value, element, maxWidth) {
-    if(element.files.length == 0){
-      return true; // check here if file not added than return true for not check file dimention
-    }
-    var width = $(element).data('imageWidth');
-    if(width <= maxWidth){
-      return true;
-    }else{
-      return false;
-    }
-  });
-
-  $(function(){
-    // $('#form-validate').validate({
-    //   rules: {
-    //     image: {
-    //       ImageMaxWidth: 500 //image max width 500 px
-    //     }
-    //   },
-    //   messages: {
-    //     image: {
-    //       ImageMaxWidth: "ความกว้างของรูปไม่เกิน 500 pixels"
-    //     }
-    //   },
-    //   errorPlacement: function(error, element) {
-    //     if($(element).attr('id') == 'image'){
-    //       error.insertAfter($(element).parent());
-    //       $(element).siblings('.custom-file-label').toggleClass('error-border');
-    //     } else {
-    //       error.insertAfter(element);
-    //     }
-
-    //   }
-    // });
-
-    $('#image').on('change', function(){
-      readURL(this, "preview_image");
+    $(function(){
+        $('#image').on('change', function(){
+            readURL(this, "preview_image");
+        });
     });
-  });
 </script>
 @endpush
