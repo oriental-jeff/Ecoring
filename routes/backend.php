@@ -144,6 +144,20 @@ Route::name('backend.')
             });
         Route::resource('/logistic_rates', 'LogisticRatesController');
 
+        Route::name('bankaccounts.')
+            ->prefix('/bankaccounts')
+            ->group(function () {
+                Route::get('/search', 'BankAccountsController@search')->name('search');
+            });
+        Route::resource('/bankaccounts', 'BankAccountsController');
+
+        Route::name('payment_notifications.')
+            ->prefix('/payment_notifications')
+            ->group(function () {
+                Route::get('/search', 'PaymentNotificationsController@search')->name('search');
+            });
+        Route::resource('/payment_notifications', 'PaymentNotificationsController');
+
         //ck editor
         Route::name('ckeditor.')
             ->prefix('/ckeditor')
