@@ -65,8 +65,7 @@ class PaymentNotificationsController extends Controller
     private function validateRequest()
     {
         $validatedData = request()->validate([
-            "name_th" => "required",
-            "name_en" => "required",
+            "status" => "",
         ]);
 
         $validatedData['updated_by'] = Auth::id();
