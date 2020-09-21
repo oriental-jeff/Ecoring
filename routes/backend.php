@@ -158,6 +158,13 @@ Route::name('backend.')
             });
         Route::resource('/payment_notifications', 'PaymentNotificationsController');
 
+        Route::name('transactions.')
+            ->prefix('/transactions')
+            ->group(function () {
+                Route::get('/search', 'TransactionsController@search')->name('search');
+            });
+        Route::resource('/transactions', 'TransactionsController');
+
         //ck editor
         Route::name('ckeditor.')
             ->prefix('/ckeditor')

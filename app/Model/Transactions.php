@@ -8,16 +8,16 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
 
-class PaymentNotifications extends Model implements HasMedia
+class Transactions extends Model implements HasMedia
 {
     use LogsActivity, HasMediaTrait;
-    protected $table = 'payment_notifications';
+    protected $table = 'transactions';
     protected $guarded = [];
     protected $attributes = [
         'status' => 0,
     ];
 
-    protected static $logName = 'payment_notifications';
+    protected static $logName = 'transactions';
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
 
@@ -55,18 +55,11 @@ class PaymentNotifications extends Model implements HasMedia
         return asset('images/backend/flag_th.jpg');
     }
 
-    public function bank_account_info()
-    {
-        return $this->hasOne('App\Model\BankAccounts', 'id', 'bank_accounts_id');
-    }
-
     public function getStatusAttribute($attributes)
     {
         return [
+            1 => 'Done',
             0 => 'New',
-            1 => 'In Progress',
-            2 => 'Failed',
-            3 => 'Success',
         ][$attributes];
     }
 
@@ -77,8 +70,7 @@ class PaymentNotifications extends Model implements HasMedia
 
     public function scopegetDataByKeyword($query, $keyword)
     {
-        return $query->where('transaction_code', 'like', "%$keyword%")
-            ->orWhere('orders_code', 'like', "%$keyword%")
-            ->orWhere('amount', 'like', "%$keyword%");
+        return $query->where('name_th', 'like', "%$keyword%")
+            ->orWhere('name_en', 'like', "%$keyword%");
     }
 }

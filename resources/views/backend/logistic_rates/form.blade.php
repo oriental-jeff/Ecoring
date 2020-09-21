@@ -85,16 +85,19 @@
             $('.weightRangeErr').html('');
             if ($(this).attr('name') === 'weight_from') {
                 if (parseInt($(this).val()) > parseInt($('#weight_to').val())) $('.weightRangeErr').html('\
-                    <div class="alert alert-primary" role="alert">\
+                    <div class="alert alert-warning" role="alert">\
                     * ค่าทางด้านซ้ายต้องน้อยกว่า หรือ เท่ากับ ค่าทางด้านขวา\
                     </div>');
             } else {
                 if (parseInt($(this).val()) < parseInt($('#weight_from').val())) $('.weightRangeErr').html('\
-                    <div class="alert alert-primary" role="alert">\
+                    <div class="alert alert-warning" role="alert">\
                     * ค่าทางด้านขวาต้องมากกว่า หรือ เท่ากับ ค่าทางด้านซ้าย\
                     </div>');
             }
         });
+        $('#form-validate').on('submit', function() {
+            if ($('.weightRangeErr').html() !== "") return false;
+        })
     });
 </script>
 @endpush

@@ -22,11 +22,6 @@
                             <div class='mt-4 '>
                                 <button type="submit" class="btn btn-white btn-search" id="search"><i
                                         class='fas fa-search text-info'></i> ค้นหา</button>
-                                @can('add payment_notifications')
-                                <a href="{{ route('backend.payment_notifications.create') }}"
-                                    class="btn btn-white btn-search"><i
-                                        class="fa fa-plus-square fa-lg text-success"></i> เพิ่มข้อมูล</a>
-                                @endcan
                             </div>
                         </div>
                     </div>
@@ -54,8 +49,10 @@
                                 <!-- <th width="1%">ลำดับ</th> -->
                                 <th class="text-center">จัดการ</th>
                                 <th class="text-center">วันที่อัพเดท</th>
-                                <th class="text-center">ชื่อเรียก (ไทย)</th>
-                                <th class="text-center">ชื่อเรียก (อังกฤษ)</th>
+                                <th class="text-center">หมายเลขสั่งซื้อ</th>
+                                <th class="text-center">ชื่อ-นามสกุล</th>
+                                <th class="text-center">เบอร์ติดต่อ</th>
+                                <th class="text-center">สถานะ</th>
                                 <th class="text-center">ผู้แก้ไขล่าสุด</th>
                             </tr>
                         </thead>
@@ -95,8 +92,10 @@
                                 </td>
                                 <td class="text-center">
                                     {{ date('d/m/Y H:i:s', strtotime($payment_notification->updated_at)) }}</td>
-                                <td class="text-left">{{ $payment_notification->name_th }}</td>
-                                <td class="text-left">{{ $payment_notification->name_en }}</td>
+                                <td class="text-center">{{ $payment_notification->orders_code }}</td>
+                                <td class="text-left">{{ $payment_notification->fullname }}</td>
+                                <td class="text-center">{{ $payment_notification->contact }}</td>
+                                <td class="text-center">{{ $payment_notification->status }}</td>
                                 <td class="text-center">{{ $payment_notification->update_name->first_name }}</td>
                             </tr>
                             @endforeach

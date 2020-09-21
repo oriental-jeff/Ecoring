@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBankaccountsTable extends Migration
+class CreatePaymentnotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,18 @@ class CreateBankaccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bankaccounts', function (Blueprint $table) {
+        Schema::create('payment_notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('acc_no')->unique();
-            $table->string('acc_name');
-            $table->string('bank_name_th');
-            $table->string('bank_name_en');
-            $table->string('linkurl')->nullable();
-            $table->tinyInteger('active')->default(1)->comment('0:Inactive|1:Active');
+            $table->string('orders_code');
+            $table->string('bank_accounts_id');
+            $table->string('fullname');
+            $table->string('contact');
+            $table->string('email');
+            $table->dateTime('payment_datetime');
+            $table->tinyInteger('status')->default(0)->comment('0:wait|1:done');
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();
-            $table->softDeletes('deleted_at', 0);
         });
     }
 
@@ -35,6 +35,6 @@ class CreateBankaccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bankaccounts');
+        Schema::dropIfExists('paymentnotifications');
     }
 }

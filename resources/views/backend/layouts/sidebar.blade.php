@@ -151,9 +151,9 @@
             </li>
             @endcan
 
-            @can('access about')
-            <li class="{{ request()->routeIs('backend.about*') ? 'active' : '' }}">
-                <a href="{{ route('backend.about.index') }}" class="menu-link"><i class="fas fa-credit-card"></i>
+            @can('access transactions')
+            <li class="{{ request()->routeIs('backend.transactions*') ? 'active' : '' }}">
+                <a href="{{ route('backend.transactions.index') }}" class="menu-link"><i class="fas fa-credit-card"></i>
                     <span>ประวัติการชำระผ่านบัตร</span></a>
             </li>
             @endcan

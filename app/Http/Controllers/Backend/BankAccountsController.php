@@ -34,10 +34,14 @@ class BankAccountsController extends Controller
     public function store(Request $request)
     {
         $this->authorize(mapPermission(self::MODULE));
-        $bankaccount = BankAccounts::create($this->validateRequest());
-        $bankaccount->storeImage();
+        try {
+            $bankaccount = BankAccounts::create($this->validateRequest());
+            $bankaccount->storeImage();
 
-        return redirect(route('backend.bankaccounts.index'));
+            return redirect(route('backend.bankaccounts.index'));
+        } catch (\Illuminate\Database\QueryException $ex) {
+            return redirect(route('backend.bankaccounts.create'))->withInput()->with('status', 'เลขที่บัญชีนี้แล้ว โปรดลองใหม่!');
+        }
     }
 
     public function edit(BankAccounts $bankaccount)

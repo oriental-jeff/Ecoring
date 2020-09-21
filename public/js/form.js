@@ -1024,51 +1024,74 @@ function checkform() {
 }
 
 function readURL(_this, _div = null) {
-    var error_file_size = 'ขนาดไฟล์ใหญ่เกินกำหนด';
-    var error_file_format = 'ประเภทไฟล์ไม่ถูกต้อง';
-    var chkNotErr = true;
     var sum = (_this.files[0].size / 1048576);
-    // var size = sum.toFixed(0);
-    var size = _this.files[0].size;
-    var maxSize = parseFloat($(_this).attr('maxSizeByte'));
-    // Check Max Size
-    if (chkNotErr) {
-        if (maxSize) {
-            if (size > maxSize) {
+    // Fixed Old version and New version
+    if (typeof $(_this).attr('maxSizeByte') == 'undefined') {
+        // For Old version
+        var size = sum.toFixed(0);
+        if (size > 5) {
+            $(_this).val('');
+            $('#' + _div).attr('src', 'http://ubooking.am2bmarketing.co.th/assets/noimage.jpg');
+            swal({
+                type: 'warning',
+                text: 'ขนาดไฟล์ใหญ่เกินกำหนด'
+            });
+        } else {
+            if (_this.files && _this.files[0]) {
+                var reader2 = new FileReader();
+                reader2.onload = function (e) {
+                    $('#' + _div).attr('src', e.target.result).attr('data-content', "<img src='" + e.target.result + "'  class='img-tootip' />");
+                }
+                reader2.readAsDataURL(_this.files[0]);
+            }
+        }
+    } else {
+        // For New version
+        var error_file_size = 'ขนาดไฟล์ใหญ่เกินกำหนด';
+        var error_file_format = 'ประเภทไฟล์ไม่ถูกต้อง';
+        var chkNotErr = true;
+        var size = _this.files[0].size;
+        var maxSize = parseFloat($(_this).attr('maxSizeByte'));
+        // Check Max Size
+        if (chkNotErr) {
+            if (maxSize) {
+                if (size > maxSize) {
+                    $(_this).val('');
+                    // $('#' + _div).attr('src', 'http://artexchange.am2bmarketing.co.th/assets/noimage.jpg');
+                    swal({
+                        type: 'warning',
+                        text: error_file_size
+                    });
+                    var target = $(_this).parent().parent().siblings(':first-child');
+                    if (target.find('div').hasClass('file-name')) target.find('div').remove();
+                    chkNotErr = false;
+                }
+            }
+        }
+        // Check File Type
+        if (chkNotErr) {
+            var rs = chkTypeValid(_this);
+            if (!rs) {
                 $(_this).val('');
-                // $('#' + _div).attr('src', 'http://artexchange.am2bmarketing.co.th/assets/noimage.jpg');
                 swal({
                     type: 'warning',
-                    text: error_file_size
+                    text: error_file_format
                 });
                 var target = $(_this).parent().parent().siblings(':first-child');
                 if (target.find('div').hasClass('file-name')) target.find('div').remove();
                 chkNotErr = false;
             }
         }
-    }
-    // Check File Type
-    if (chkNotErr) {
-        var rs = chkTypeValid(_this);
-        if (!rs) {
-            $(_this).val('');
-            swal({
-                type: 'warning',
-                text: error_file_format
-            });
-            var target = $(_this).parent().parent().siblings(':first-child');
-            if (target.find('div').hasClass('file-name')) target.find('div').remove();
-            chkNotErr = false;
+        // Preview and Display Name
+        if (chkNotErr) {
+            if (_div) {
+                imgPreview(_this, _div);
+            } else {
+                displayFileName(_this);
+            }
         }
     }
-    // Preview and Display Name
-    if (chkNotErr) {
-        if (_div) {
-            imgPreview(_this, _div);
-        } else {
-            displayFileName(_this);
-        }
-    }
+
 }
 
 function displayFileName(_this) {
