@@ -40,11 +40,17 @@
         </div>
         <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+                @if (session('status'))
+                <div class="alert alert-warning">
+                    {{ session('status') }}
+                </div>
+                @endif
                 <label class="col-form-label" for="acc_no">เลขที่บัญชี <span class="text-danger"> * </span> :
                 </label>
                 <input type="text" class="form-control" id="acc_no" name="acc_no"
                     value="{{ old('acc_no') ?? $bankaccount->acc_no }}" required="" />
                 {{ $errors->first('acc_no') }}
+
             </div>
         </div>
         <div class="row">

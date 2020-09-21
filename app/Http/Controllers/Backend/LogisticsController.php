@@ -71,6 +71,7 @@ class LogisticsController extends Controller
             "name_en" => "required",
             "period" => "required",
             "base_price" => "required",
+            "active" => "",
         ]);
 
         request()->validate([

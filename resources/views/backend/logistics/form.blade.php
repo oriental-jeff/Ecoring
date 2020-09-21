@@ -55,6 +55,21 @@
                 {{ $errors->first('base_price') }}
             </div>
         </div>
+        <div class="form-row">
+            <div class="form-group col-xl-6 col-md-12 col-lg-6 mt-2">
+                <label class="col-form-label" style='width: 100%;'>สถานะการใช้งาน:</label>
+                <div class="radio radio-css radio-inline">
+                    <input class="form-check-input" type="radio" name="active" id="active1" value="1"
+                        {{ (old('active') == 'Active' OR $logistic->active == 'Active') ? 'checked' : '' }}>
+                    <label class="form-check-label ml-2" for="active1">เปิดใช้งาน</label>
+                </div>
+                <div class="radio radio-css radio-inline">
+                    <input class="form-check-input" type="radio" name="active" id="active2" value="0"
+                        {{ (old('active') == 'Inactive' OR $logistic->active == 'Inactive') ? 'checked' : '' }}>
+                    <label class="form-check-label ml-2" for="active2">ปิดใช้งาน</label>
+                </div>
+            </div>
+        </div>
 
     </div> <!-- col6 -->
 </div> <!-- row -->
