@@ -6,35 +6,35 @@ use App\Http\Controllers\Controller;
 use Facades\App\Repository\Pages;
 use Facades\App\Repository\Banners;
 use App\Model\AboutUs;
-use App\Model\Application;
-use App\Model\Project;
+use App\Model\Products;
+use App\Model\Categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
-  const MODEL = 'Project';
-  public function index()
-  {
-    $pages = Pages::get(1);
-    $banners = Banners::get(1);
-    $aboutus = AboutUs::find(1);
-    // $applications = Application::onlyActive()->with(['project' => function ($query) {
-    //   $query->where('active', 1);
-    // }])->orderBy('updated_at', 'desc')->paginate(12);
-    $projects = Project::onlyActive()->inRandomOrder()->limit(12)->get();
-    $views = get_logs_action(self::MODEL, 'view');
+    const MODEL = 'product';
+    public function index()
+    {
+        $pages = Pages::get(1);
+        $banners = Banners::get(1);
+        $aboutus = AboutUs::find(1);
+        $new_products = Products::onlyActive()->withCount('favorites')->onlyAvailable(config('global.warehouse'))->orderBy('created_at', 'desc')->limit(12)->get();
+        $categories = Categories::get();
+        $recommended_products = Products::onlyActive()->withCount('favorites')->onlyAvailable(config('global.warehouse'))->inRandomOrder()->limit(48)->get();
+        // $applications = Application::onlyActive()->with(['project' => function ($query) {
+        //   $query->where('active', 1);
+        // }])->orderBy('updated_at', 'desc')->paginate(12);
+        $views = get_logs_action(self::MODEL, 'view');
 
-    return view('frontend.home.index', compact(['pages', 'banners', 'aboutus', 'projects', 'views']));
-  }
+        return view('frontend.home.index', compact(['pages', 'banners', 'aboutus', 'new_products', 'categories', 'recommended_products', 'views']));
+    }
 
-  public function searchPage(Request $request)
-  {
-    $pages = Pages::get(1);
-    $search = $request->q;
-    return view('frontend.home.search-page', compact(['pages', 'search']));
-  }
-
+    public function searchPage(Request $request)
+    {
+        $pages = Pages::get(1);
+        $search = $request->q;
+        return view('frontend.home.search-page', compact(['pages', 'search']));
+    }
 }
-

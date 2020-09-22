@@ -1,0 +1,149 @@
+.form-Search input.form-control {
+    width: calc(100% - 45px);
+    border: 0px;
+    background-color: #f3f3f3;
+}
+.form-Search input.form-control+button[type="submit"] {
+	width: 45px;
+    padding: 6px;
+	background: #f3f3f3;
+    border: 0px;
+}
+	.form-Search input.form-control+button[type="submit"] i {
+		color: #09a163;
+		vertical-align: baseline;
+	}
+	
+.box-history .List {
+    background-color: #fafafa;
+    border-left: 3px solid #00b16b;
+    padding: 5px 20px;
+    padding-right: 2px;
+    display: flex;
+    margin-bottom: 15px;
+}
+	.box-history .List .b-List {
+		width: calc(100% - 300px);
+		border-right: 1px solid #d7d7d7;
+	}
+		.box-history .List .bTop {
+			padding-bottom: 15px;
+			font-weight: 500;
+		    color: #00b16b;
+		}
+		.box-history .List .btext {
+			display: flex;
+		    font-weight: 400;
+		}
+			.box-history .List .btext > div {
+				width: calc(100%/2);
+			}
+			
+		.box-history .List .b-btn {
+			width: 300px;
+			display: flex;
+		    align-items: center;
+		}
+			.box-history .List .b-btn a {
+				font-size: 14px;
+				width: 50%;
+			}
+			.box-history .List .b-btn a.btn[disable] {
+			    pointer-events: none;
+			    cursor: default;
+			    filter: opacity(0.5) grayscale(1);
+			}
+				.box-history .List .b-btn a img {
+					width: 18px;
+				    vertical-align: sub;
+				}
+				
+		.box-history .List .Checkmark {
+		    color: #a1a1a1;
+	        padding-left: 23px;
+		    background: url(../images/I-wait.svg) no-repeat left center;
+	        background-size: 16px auto;
+		}
+		.box-history .List .Checkmark.status2 {
+			color: #e9d107;
+		    background-image: url(../images/I-wait2.svg);
+		}
+		.box-history .List .Checkmark.status3 {
+			color: #25ba4c;
+		    background-image: url(../images/I-Checkmark1.svg);
+		}
+		
+/* ---------------------------------------------------**** Mobile and Tablet ****--------------------------------------------------- */
+@media only screen and (min-width: 320px) and (max-width: 1024px) {
+	.box-history .List .Checkmark {
+	    color: #a1a1a1;
+	    padding-left: 23px;
+	    background: url(../images/I-wait.svg) no-repeat left center;
+	    background-size: 16px auto;
+	    display: inline-block;
+	}
+}
+
+/* ---------------------------------------------------**** Tablet ****--------------------------------------------------- */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	.box-history .List .btext {
+	    flex-flow: wrap;
+	}
+	.box-history .List .btext > div br {
+		display: none;
+	}
+	.box-history .List .b-btn {
+	    flex-direction: column;
+	    justify-content: center;
+		width: 200px;
+	}
+	.box-history .List .b-List {
+	    width: calc(100% - 200px);
+	}
+	.box-history .List .b-btn a {
+	    margin: 4px;
+        width: 88%;
+	}
+    /* แนวตั้ง */
+    @media only screen and (orientation:portrait){
+
+    }
+    /* แนวนอน */
+    @media only screen and (orientation:landscape){
+
+
+    }
+}
+
+/* ---------------------------------------------------**** Mobile ****--------------------------------------------------- */
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+	.box-history .List .btext {
+	    flex-flow: wrap;
+	}
+	.box-history .List .btext > div br {
+		display: none;
+	}
+	.box-history .List .b-List {
+	    width: 100%;
+	    border: 0px;
+	}
+	.box-history .List .b-btn {
+	    width: 100%;
+        margin-top: 10px;
+	}
+	.box-history .List {
+	    display: block;
+	    padding: 15px;
+	}
+    /* แนวตั้ง */
+    @media only screen and (orientation:portrait){
+		.box-history .List .btext > div {
+		    width: calc(100%/1);
+	        margin: 4px 0px;
+		}
+    }
+    /* แนวนอน */
+    @media only screen and (orientation:landscape){
+
+    }
+}
