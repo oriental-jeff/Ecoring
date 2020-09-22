@@ -20,6 +20,18 @@ class WebSocialTableSeeder extends Seeder
         'created_at' => NOW(),
         'updated_at' => NOW(),
       ),
+
+      1 => 
+      array (
+        'id' => 2,
+        'name' => 'line',
+        'url' => '#',
+        'active' => 1,
+        'created_by' => 1,
+        'updated_by' => 1,
+        'created_at' => NOW(),
+        'updated_at' => NOW(),
+      ),
     ));
   }
 }

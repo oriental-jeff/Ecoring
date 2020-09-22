@@ -10,13 +10,15 @@ if (! function_exists('get_custom_class')) {
 	}
 }
 
-if (! function_exists('get_menu')) {
+if (! function_exists('get_main')) {
   function get_main()
   {
     $menus = Menus::all('sort');
-    $main = ['menus' => $menus,
+    $main = [
+      'menus' => $menus,
       'web_info' => App\Model\WebInfo::find(1),
       'web_socials' => App\Model\WebSocial::onlyActive()->get(),
+      'categories' => App\Model\Categories::get(),
     ];
     
     return $main;

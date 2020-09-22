@@ -1,0 +1,173 @@
+section.box-history {
+    margin: 30px 0px;
+}					
+	.box-order {
+	    margin-bottom: 30px;
+	}
+		.box-order .order-head {
+		    padding: 11px 0px;
+		}
+		.box-order .order-body {
+		    background: #f7f7f7;
+		    padding: 15px 0px;
+		    align-items: center;
+	        margin-bottom: 5px;
+		}
+			.box-order .order-body .img {
+				width: 70px;
+			    float: left;
+			    margin-right: 10px;
+			}
+			.box-order .order-body b.line-through {
+				font-weight: 100;
+				color: #8d8d8d;
+				position: relative;
+			    line-height: 2;
+			    font-size: 13px;
+			}
+			.box-order .order-body b.line-through::after {
+			    content: "";
+			    border-top: 1px solid #f72503;
+			    position: absolute;
+			    left: -5px;
+			    top: 50%;
+			    width: calc(100% + 10px);
+			    transform: rotate(15deg);
+			}
+			.box-order .order-body a.btn {
+				
+			}
+			
+	.btn-group {
+	    width: 137px;
+		margin-left: 10px;
+	    position: relative;
+	    display: inline-block;
+	    vertical-align: middle;
+	}
+		.btn-group .btn {
+		    display: inline-block;
+		    padding: 6px 15px;
+		    margin-bottom: 0;
+		    font-size: 14px;
+		    font-weight: 400;
+		    line-height: 1.42857143;
+		    text-align: center;
+		    white-space: nowrap;
+		    vertical-align: middle;
+		    -ms-touch-action: manipulation;
+		    touch-action: manipulation;
+		    cursor: pointer;
+		    -webkit-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		    background-image: none;
+		    border: 1px solid transparent;
+		    border-radius: 25px;
+	        float: left;
+	        color: #333;
+		    background-color: #fff;
+		    border-color: #ccc;
+		}
+		.btn-group .btn.btn-plus {
+		    background-color: #00b06b;
+		    color: #FFF;
+		}
+		.btn-group .btn.btn-delete {
+		    background-color: #3a3536;
+		    color: #FFF;
+		}
+		.btn-group .btn.disabled {
+		    color: #bfbfbf;
+		}
+		.btn-group input.btn {
+			text-align: center;
+		}
+		.btn-group>.btn:first-child:not(:last-child) {
+		    border-top-right-radius: 0;
+		    border-bottom-right-radius: 0;
+		}
+		.btn-group>.btn:not(:first-child):not(:last-child) {
+		    border-radius: 0;
+		}
+		.btn-group>.btn:last-child:not(:first-child) {
+		    border-top-left-radius: 0;
+		    border-bottom-left-radius: 0;
+		}
+		.btn-group .btn+.btn {
+		    margin-left: -1px;
+		}
+		.btn-group  input.btn {
+		    width: 40px;
+		    padding: 6px 3px;
+		}
+						
+	/* ---------------------------------------------------**** Mobile and Tablet ****--------------------------------------------------- */
+	@media only screen and (min-width: 320px) and (max-width: 1024px) {
+	
+	}
+	
+	/* ---------------------------------------------------**** Tablet ****--------------------------------------------------- */
+	@media only screen and (min-width: 768px) and (max-width: 1024px) {
+		.box-order .order-body .img {
+			width: 130px;
+		}
+		.box-order .order-body a.btn {
+		    width: 43px !important;
+		    height: 43px;
+		    overflow: hidden;
+		}
+		.btn-group {
+		    width: 40px;
+	    }
+	    /* แนวตั้ง */
+	    @media only screen and (orientation:portrait){
+
+	    }
+	    /* แนวนอน */
+	    @media only screen and (orientation:landscape){
+	
+	    }
+	}
+	
+	/* ---------------------------------------------------**** Mobile ****--------------------------------------------------- */
+	@media only screen and (min-width: 320px) and (max-width: 767px) {
+		.box-order .order-body .d-flex {
+			display: block !important;
+			padding-bottom: 12px;
+		}
+		.box-order .order-body .Bnumber {
+			display: block;
+		    padding-top: 15px;
+		}
+		.box-order .order-body .Bnumber span {
+		    text-align: center;
+			float: right;
+			width: 50%;
+		}
+		.box-order .order-body {
+		    align-items: flex-end;
+		}
+		.box-order .order-body .img {
+			width: 100px;
+		}
+		.box-order .order-body > div.border-left {
+		    margin-top: 17px;
+			border-top: 1px solid #dee2e6!important;
+		}
+		.box-order .order-body a.btn {
+		    display: table;
+		    margin: 16px auto 3px auto;
+		    width: auto !important;
+		    padding: 6px 28px;
+		}	
+	    /* แนวตั้ง */
+	    @media only screen and (orientation:portrait){
+
+	    }
+	    /* แนวนอน */
+	    @media only screen and (orientation:landscape){
+
+	    }
+	}

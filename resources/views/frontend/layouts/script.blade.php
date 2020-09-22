@@ -24,6 +24,8 @@
 @endif
 
 <script src="{{ asset('js/frontend/script.js') }}"></script>
+<!-- owl.carousel -->
+<script type="text/javascript" src="{{ asset('plugins/owlcarousel/owl.carousel.js') }}"></script>
 <!-- fancybox3 -->
 <script src="{{ asset('plugins/fancyBox3/dist/jquery.fancybox.min.js') }}"></script>
 

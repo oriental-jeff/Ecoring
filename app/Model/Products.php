@@ -48,6 +48,11 @@ class Products extends Model implements HasMedia
     return $this->getFirstMediaUrl('image');
   }
 
+  public function getImageDetailAttribute()
+  {
+    return $this->getMedia('image_detail');
+  }
+
   public function getImageThumbAttribute()
   {
     if (!empty($this->getMedia('image')[0])) {
@@ -89,7 +94,7 @@ class Products extends Model implements HasMedia
 
   public function stocks()
   {
-    return $this->hasMany('App\Model\Stocks', 'products_id', 'id');
+    return $this->hasMany('App\Model\Stocks', 'products_id', 'id')->where('warehouses_id', config('global.warehouse'));
   }
 
   public function favorites()

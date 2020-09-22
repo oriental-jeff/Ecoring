@@ -1,309 +1,66 @@
-.box-banner {
-	background-color: #000;
-	color: #ffffff;
-    position: relative;
+section.box-Type {
+	padding: 40px 0px 20px 0px;
 }
-	.box-banner img {
-		margin: auto;
-	    display: block;
-	    max-width: 100%;
+	.row-Type.row-Type-mobile .container {
+	    display: flex;
+	    flex-flow: wrap;
 	}
-	.box-banner .b-ScrollDown {
-		color: #03c8ce;
-	    display: table;
-	    margin: auto;
-	    position: absolute;
-	    left: 50%;
-	    bottom: 19px;
-	    font-size: 13px;
-	    transform: translateX(-50%);
-	}
-		.box-banner .b-ScrollDown a {
-			color: #03c8ce;
+		.row-Type.row-Type-mobile .item {
+		    width: calc(100%/2);
+		    padding: 6px;
+		    position: relative;
 		}
-			.box-banner .b-ScrollDown img {
-			    animation: scrollDown 2s infinite;
-		        width: 30px;
-			}
-			@keyframes scrollDown {
-				0% {transform: translateY(0px);}
-				50% {transform: translateY(10px);}
-				100% {transform: translateY(0px);}
+			.row-Type.row-Type-mobile .item .text {
+				opacity: 1;
+			    padding: 6px;
 			}
 		
-section.box-content {
-    padding: 70px 0px 90px 0px;
-    overflow: hidden;
-    background: url(../../images/box-color02.png) no-repeat 11% calc(100% + 70px);
-}
-	.box-content .box-text {
-	    padding: 30px 25px;
+	.box-Type .row-Type {
+		position: relative;
+	    overflow: hidden;
 	}
-	.box-content .box-text::before {
-	    content: "";
-	    border-top: 1px solid #d9d9d9;
-	    position: absolute;
-	    top: 0px;
-	    left: -20px;
-	    width: 57%;
-	}
-	.box-content .box-text::after {
-	    content: "";
-	    border-left: 1px solid #d9d9d9;
-	    position: absolute;
-	    top: -20px;
-	    left: 0px;
-	    height: 54%;
-	}
-		.box-content .box-text img.img-logo {
-		    max-width: 70%;
-		    width: 300px;
+		.box-Type .owl-item .item {
+	        padding: 0px 10px;
+		    transition: .5s;
 		}
-		.box-content .box-text p {
-			margin-top: 22px;
+		.box-Type .owl-item:not(.active) .item {
+		    pointer-events: none;
+		    opacity: 0.5;
+            filter: contrast(0.5);
 		}
-		.box-content .box-text p::before {
-		    content: "";
-		    border-top: 1px solid #d9d9d9;
-		    position: absolute;
-		    bottom: 8px;
-		    right: -20px;
-		    width: 72%;
-		}
-		.box-content .box-text p::after {
-		    content: "";
-		    border-left: 1px solid #d9d9d9;
-		    position: absolute;
-		    bottom: -12px;
-		    right: 0px;
-		    height: 55%;
-		}
-
-	.box-content .box-Rtext {
-		font-style: italic;
-		padding-top: 60px;
-	    background: url(../../images/box-color01.png) no-repeat 95% 10px;
-	    text-align: right;
-	    font-weight: bold;
-	}
-		.box-content .box-Rtext i.Underline {
-		    display: block;
-		    text-decoration: underline !important;
-		    position: relative;
-		    font-weight: 100;
-		}
-		.box-content .box-Rtext i.Underline::after {
-		    content: "";
-		    right: 1px;
-			height: 25px;
-		    bottom: 0px;
-		    position: absolute;
-		    border-right: 1px solid #000;
-		}
-
-	.box-content  ul.box-support {
-		list-style-type: none;
-		padding: 0px;
-	}
-		.box-content  .box-support li {
-		    width: calc(100%/4);
-	        text-align: center;
-            padding: 20px 10px;
-		}
-		.box-content  .box-support li:nth-child(1) ,
-		.box-content  .box-support li:nth-child(2) ,
-		.box-content  .box-support li:nth-child(3) {
-			width: calc(100%/3);
-		}
-			.box-content  .box-support img {
-				height: 53px;
-			}
-	
-section.box-Register {
-    color: #e3e4f2;
-    background: #444aa6 url(../../images/box-color02.png) no-repeat 11% -70px;
-}
-	.box-Register .BG-Register {
-		padding: 30px 0px;
-	    background: url(../../images/BG-Register.png) no-repeat  center center fixed;
-	}
-	.box-Register .box-text {
-		padding-top: 45px;
-	}
-		.box-Register .box-text h3 {
-			color: #35bdc5;
-		    text-shadow: 6px 4px 1px #244580;
-		    position: relative;
-	        z-index: 1;
-	        font-size: 2.5em;
-		}
-			.box-Register .box-text h3::before {
-			    content: "";
-			    background-color: rgb(255 255 255 / 5%);
-			    padding: 18px;
-			    display: inline-block;
+			.box-Type .item .text {
+			    color: #fff;
 			    position: absolute;
-			    left: -18px;
-			    top: -18px;
-			    z-index: -1;
+			    left: 0px;
+			    top: 0px;
+			    width: 100%;
+			    height: 100%;
+			    z-index: 1;
+			    text-align: center;
+			    display: flex;
+			    align-items: center;
+			    justify-content: center;
+			    background: rgb(0 0 0 / 0.1);
+			    background-clip: content-box;
+			    padding: 0px 10px;
+			    opacity: 0;
+			    transition: .5s;
+			}
+			.box-Type .owl-item.active .item .text {
+				opacity: 1;
+			}
+			.box-Type .item:hover .text {
+			    background: rgb(0 0 0 / 60%);
+			    background-clip: content-box;
 			}
 			
-		.box-Register .box-text h1 {
-			color: #ffffff;
-		    text-shadow: 6px 4px 1px #244580;
-            margin-bottom: 4px;
-            font-size: 3.5em;
-            line-height: 1;
+		.box-Type .owl-carousel .owl-stage-outer {
+		    overflow: initial;
 		}
-		.box-Register .box-text i.head2 {
-			color: #444aa6;
-		    text-shadow: 1px 0px 0px #cfd1e5, 0px 1px 0px #cfd1e5, -1px 0px 0px #cfd1e5, 0px -1px 0px #cfd1e5;
-	        margin-left: 25px;
-            letter-spacing: 2px;
-            padding-right: 20px;
-		}
-		.box-Register .box-text i.head2::after {
-		    background-image: url(../../images/box-color4.jpg),url(../../images/box-color1.jpg),url(../../images/box-color2.jpg),url(../../images/box-color5.jpg);
-		}
-
-section.box-Projects {
-    padding: 35px 0px;
-    background-image: url(../../images/box-color01.png) ,url(../../images/box-color01.png) ;
-    background-repeat: no-repeat;
-    background-position-x: 95% , 5%;
-    background-position-y: 72px , calc(100% - 66px);
-}
-	.box-Projects h2 {
-	    text-align: center;
-	}
-	
-		.box-Projects .box-List {
-			padding: 14px 0px;
-		}
-		.box-Projects .box-List[data-pro]::after {
-			content: attr(data-pro);
-			position: absolute;
-			width: 50px;
-		    text-align: center;
-			right: 22px;
-		    top: 14px;
-			background: #e96a6b;
-			color: #fff;
-			padding: 30px 7px 5px 7px;
-		    letter-spacing: 2px;
-		}
-		.box-Projects .box-List[data-star="true"]::after {
-			background: #e96a6b url(../../images/I-star.png) no-repeat center 10px;
-		}
-		.box-Projects .box-List[data-star="true"]:not([data-pro])::after {
-			content: "";
-		    width: 30px;
-		    height: 38px;
-		    position: absolute;
-		    right: 22px;
-		    top: 14px;
-		}
-		.box-Projects .box-List[data-pro="Stu"]::after {
-			background-color: #38aabe;
-		}
-		.box-Projects .box-List[data-pro="Pra"]::after {
-			background-color: #f7ab1c;
-		}
-		.box-Projects .box-List[data-pro="Hon"]::after {
-			background-color: #7e84de;
-		}
-		.box-Projects .row a {
-			color: #000000 !important;
-		}
-			.box-Projects .box-List .img {
-				
-			}
-			.box-Projects .box-List .text {
-				padding: 15px;
-				background-color: #fafafa;
-			    padding-bottom: 10px;
-			}
-				.box-Projects .text .box-name {
-					
-				}
-					.box-Projects .text .view {
-					    float: right;
-					    padding-left: 23px;
-					    font-size: 13px;
-					    color: #a2a2a2;
-					    background: url(../../images/Icon1.png) no-repeat 0px -5px;
-					    background-size: 20px;
-					}
-					
-				.box-Projects .text .b-Tcolor {
-					padding: 8px 0px 4px 0px;
-				}
-					.box-Projects .text .b-Tcolor .box-I {
-					    float: right;
-				        padding: 2px 0px;
-					}
-						.box-Projects .text .b-Tcolor i {
-							font-size: 13px;
-						    color: #a2a2a2;
-						    font-style: normal;
-						    text-decoration: underline;
-						    padding-left: 22px;
-						    background: url(../../images/Icon1.png) no-repeat 0px -60px;
-						    background-size: 20px;
-						}
-						.box-Projects .text .b-Tcolor i.I-vdo {
-							background-position-y: -31px;
-						}
 		
-				.box-Projects .text span {
-					color: #ffffff;
-					background: #626373;
-					padding: 3px 13px;
-					transition: background .5s;
-					border-radius: 15px;
-				    display: inline-block;
-				    max-width: calc(100% - 115px);
-				    white-space: nowrap;
-				    overflow: hidden;
-				    font-size: 13px;
-				    text-overflow: ellipsis;
-				}
-				.box-Projects .text .b-profile {
-					display: inline-block;
-					width: 100%;
-				}
-					.box-Projects .text img {
-						width: 40px;
-					    height: 40px;
-					    object-fit: cover;
-						border-radius: 50%;
-						float: left;
-						margin-right: 5px;
-					}
-					.box-Projects .text .b-name {
-						padding: 7px;
-						margin: 0px;
-						white-space: nowrap;
-						overflow: hidden;
-						text-overflow: ellipsis;
-					}
-			
     /* ---------------------------------------------------**** Mobile and Tablet ****--------------------------------------------------- */
     @media only screen and (min-width: 320px) and (max-width: 1024px) {
-		section.box-Projects {
-		    background-position-y: 25px , calc(100% - 20px);
-		}
-		.box-Register .BG-Register {
-		    background-attachment: initial;
-		}
-		.box-banner .b-ScrollDown {
-		    display: none;
-		}
-		.box-content .box-support img {
-	        height: 45px;
-		    width: 100%;
-		    object-fit: contain;
-		}
+
     }
 
     /* ---------------------------------------------------**** Tablet ****--------------------------------------------------- */
@@ -311,9 +68,7 @@ section.box-Projects {
 
         /* แนวตั้ง */
         @media only screen and (orientation:portrait){
-			.box-Register .BG-Register a.btn1 {
-			    margin: 3px auto;
-			}
+
         }
         /* แนวนอน */
         @media only screen and (orientation:landscape){
@@ -323,24 +78,15 @@ section.box-Projects {
 
     /* ---------------------------------------------------**** Mobile ****--------------------------------------------------- */
     @media only screen and (min-width: 320px) and (max-width: 767px) {
-		.box-Register .BG-Register a.btn1 {
-		    margin: 3px auto;
-		}
-		.box-content .box-Rtext {
-		    margin-top: 40px;
-		}
+
         /* แนวตั้ง */
         @media only screen and (orientation:portrait){
-			section.box-content {
-			    padding: 23px 10px;
-			}
-			section.box-Register ,
-			section.box-content {
-			    background-position-x: 3%;
-			}
+
         }
         /* แนวนอน */
         @media only screen and (orientation:landscape){
-
+			.row-Type.row-Type-mobile .item {
+			    width: calc(100%/3);
+			}
         }
     }

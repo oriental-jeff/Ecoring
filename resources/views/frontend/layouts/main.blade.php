@@ -2,7 +2,7 @@
 <html lang="{{ strtoupper(get_lang()) }}">
 <head>
 	<meta charset="utf-8" />
-  <title>Art Exchange</title>
+  <title>{{ config('global.site_title') }} - Commerce</title>
   <meta name="description" content="{{ $pages->{get_lang('meta_description')} }}" />
   <meta name="keywords" content="{{ $pages->{get_lang('meta_keyword')} }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -20,11 +20,10 @@
   @else
     @include('frontend.layouts.css')
   @endif
+  @stack('after-css')
 
-  {{-- <script async src="https://cse.google.com/cse.js?cx=005916989745102938740:jz9t8xnwsxm"></script> --}}
   <script>
     var base_url = '{!! url("/") !!}';
-    var urlArrow = '{{ asset("images/icon-arrow.png") }}';
   </script>
 </head>
 <body>
@@ -37,10 +36,7 @@
   <!-- end #header -->
 
   <!-- begin #content -->
-  <div id="content" class="content">
-    <!-- end page-header -->
-    @yield('content')
-  </div>
+  @yield('content')
   <!-- end #content -->
 
   <!-- begin #footer -->
