@@ -34,9 +34,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::delete('shortlist/{postId}', 'UserController@unshortlist');
     });
 
-    /* posts */
-    Route::group(['prefix' => 'posts'], function () {
-        Route::get('/', 'PostController@index');
-        Route::post('/', 'PostController@create');
+    /* carts */
+    Route::group(['prefix' => 'carts'], function () {
+        // Route::get('/', 'API\CartController@index');
+        // Route::post('/', 'API\CartController@create');
+        Route::delete('/{cartId}', 'API\CartController@delete');
     });
 });

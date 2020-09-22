@@ -43,7 +43,13 @@
                 </div>
 
                 @foreach ($carts as $cart)
-                <div class="order-body row">
+                <div class="order-body row" style="position: relative">
+                    <div class="del-loading" style="position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background: #fff;
+                    opacity: 0.7;
+                    z-index: 1; display: none;"></div>
                     <div class="col-md-6 col-ms-5 d-flex align-items-center">
                         <div class="img">
                             <div class="src-img"
@@ -74,7 +80,8 @@
                         ฿<span>{{ number_format($cart->product->price * $cart->quantity) }}</span>
                     </div>
                     <div class="col-md-2 col-ms-2 text-center border-left">
-                        <a class="btn btn-secondary font-weight-light radius-25 w-100" href="#">
+                        <a class="btn btn-secondary font-weight-light radius-25 w-100" href="javascript:void(0);"
+                            onclick="delList(this, {{ $cart->id }})">
                             <img class="m-0 mr-2" style="width: 17px;" src="{{ url('images/icon-delete.svg') }}">
                             ลบรายการนี้
                         </a>
@@ -112,7 +119,22 @@
 <script>
     $(function() {
         sumTotal();
-    })
+    });
+    function delList(e, cartId) {
+        $(e).closest('.order-body').remove();
+        sumTotal();
+        // $(e).closest('.order-body').find('.del-loading').show();
+        $.ajax({
+            url: '/api/v1/carts/' + cartId,
+            type: 'DELETE',
+            success: function(result) {
+                console.log(result, ':result');
+                // $(e).removeClass('disabled');
+                // $(e).closest('.order-body').remove();
+                // sumTotal();
+            }
+        });
+    }
     function calAmount(e) {
         var price = e.closest('.order-body').find('.display-price span').text();
         var unit = e.parent().find('input').val();
