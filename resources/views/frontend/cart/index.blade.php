@@ -58,7 +58,7 @@
                             <span>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-delete disabled">-</button>
-                                    <input type="text" class="btn quantity" value="{{ $cart->stocks[0]->quantity }}"
+                                    <input type="text" class="btn quantity" value="{{ $cart->quantity }}"
                                         onchange="calAmount($(this));">
                                     <button type="button" class="btn btn-plus">+</button>
                                     {{-- {{ $cart->stocks[0]->quantity == '1' ? 'disabled' : '' }} --}}
@@ -116,7 +116,7 @@
     function calAmount(e) {
         var price = e.closest('.order-body').find('.display-price span').text();
         var unit = e.parent().find('input').val();
-        var amount = e.parent().parent().parent().parent().next().next().find('span');
+        var amount = e.closest('.order-body').find('.display-amount span');
         amount.html(numberWithCommas(parseFloat(unit.replace(',','')) * parseFloat(price.replace(',',''))));
         sumTotal();
     }
@@ -126,6 +126,9 @@
             total += parseFloat($(this).find('.display-amount>span').html().replace(',',''));
         });
         $('.display-total span').html(numberWithCommas(total));
+    }
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 </script>
 @endpush

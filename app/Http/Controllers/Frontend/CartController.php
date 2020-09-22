@@ -16,7 +16,7 @@ class CartController extends Controller
     public function index()
     {
         $pages = Pages::get(5);
-        $carts = Cart::where('users_id', Auth::id())->onlyAvailable(config('global.warehouse'))->get();
+        $carts = Cart::where('users_id', 1)->onlyAvailable(config('global.warehouse'))->get();
         return view('frontend.cart.index', compact(['carts', 'pages']));
     }
     public function add(Request $request)

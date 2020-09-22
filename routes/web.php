@@ -18,6 +18,19 @@ Route::get('/', function () {
     return redirect(route('frontend.home', ['locale' => app()->getLocale()]));
 });
 
+Route::name('frontend.auth.')
+    ->namespace('Frontend\Auth')
+    ->prefix('{locale}')
+    ->where(['locale' => '[a-zA-Z]{2}'])
+    ->middleware('setlocale')
+    ->group(function () {
+        Route::get('/login', 'LoginController@showLoginForm')->name('login.form');
+        Route::post('/login', 'LoginController@login')->name('login');
+        Route::post('/logout', 'LoginController@logout')->name('logout');
+        Route::get('/login/{provider}', 'LoginController@redirectToProvider');
+        Route::get('/login/{provier}/callback', 'LoginController@handleProviderCallback');
+    });
+
 Route::name('frontend.')
     ->namespace('Frontend')
     ->prefix('{locale}')
@@ -30,6 +43,9 @@ Route::name('frontend.')
         Route::get('/product/{product}', 'ProductController@detail')->name('product-detail');
         Route::get('/cart', 'CartController@index')->name('cart');
         Route::get('/payment', 'PaymentController@index')->name('payment');
+
+        Route::get('/register', 'UserController@create')->name('register');
+        Route::resource('/user', 'UserController');
 
         Route::get('/auction', function () {
             return redirect()->away('https://www.google.com');

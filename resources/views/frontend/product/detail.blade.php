@@ -27,55 +27,43 @@
 						<div class="row">
 							<div class="col-md-6 box-showImg">
 								<div class="img d-none d-md-block">
-									<div class="src-img" style="background-image: url('http://via.placeholder.com/500x350')"  id="showImg2">
+									<div class="src-img" style="background-image: url({{ $product->image ?? 'http://via.placeholder.com/500x350' }})"  id="showImg2">
                     <img src="{{ asset('images/size-img2.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
                   </div>
-									<a href="http://via.placeholder.com/500x350" data-fancybox="images" data-id="1" class="active"></a>
-									<a href="http://via.placeholder.com/500x350/000000" data-fancybox="images" data-id="2"></a>
-									<a href="http://via.placeholder.com/500x350/6f42c1" data-fancybox="images" data-id="3"></a>
-									<a href="http://via.placeholder.com/500x350/ffc107" data-fancybox="images" data-id="4"></a>
-									<a href="http://via.placeholder.com/500x350/007bff" data-fancybox="images" data-id="5"></a>
+                  @if(!empty($product->image_detail))
+                    @php
+                    $i = 0;
+                    @endphp
+                    @foreach($product->image_detail as $img)
+                      @php
+                      $i++;
+                      @endphp
+                      <a href="{{ $img->getUrl() ?? 'http://via.placeholder.com/500x350' }}" data-fancybox="images" data-id="{{ $i }}" class="{{ $i == 1 ? 'active' : '' }}"></a>
+                    @endforeach
+                  @endif
                 </div>
                 <div class="owl-carousel">
-                  <div class="item img">
-                    <a href="javascript:;" onclick="showImg(1,'http://via.placeholder.com/500x350');">
-                      <div class="src-img" style="background-image: url('http://via.placeholder.com/500x350')">
-                        <img src="{{ asset('images/size-img2.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
+                  @if(!empty($product->image_detail))
+                    @php
+                    $i = 0;
+                    @endphp
+                    @foreach($product->image_detail as $img)
+                      @php
+                      $i++;
+                      @endphp
+                      <div class="item img">
+                        <a href="javascript:;" onclick="showImg({{ $i }}, '{{ $img->getUrl() }}');">
+                          <div class="src-img" style="background-image: url({{ $img->getUrl() ?? 'http://via.placeholder.com/500x350' }})">
+                            <img src="{{ asset('images/size-img2.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
+                          </div>
+                        </a>
                       </div>
-                    </a>
-                  </div>
-                  <div class="item img">
-                    <a href="javascript:;" onclick="showImg(2,'http://via.placeholder.com/500x350/000000');">
-											<div class="src-img" style="background-image: url('http://via.placeholder.com/500x350/000000')">
-                        <img src="{{ asset('images/size-img2.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
-                      </div>
-                    </a>
-                  </div>
-                  <div class="item img">
-                    <a href="javascript:;" onclick="showImg(3,'http://via.placeholder.com/500x350/6f42c1');">
-                      <div class="src-img" style="background-image: url('http://via.placeholder.com/500x350/6f42c1')">
-                        <img src="{{ asset('images/size-img2.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
-                      </div>
-                    </a>
-                  </div>
-                  <div class="item img">
-                    <a href="javascript:;" onclick="showImg(4,'http://via.placeholder.com/500x350/ffc107');">
-                      <div class="src-img" style="background-image: url('http://via.placeholder.com/500x350/ffc107')">
-                        <img src="{{ asset('images/size-img2.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
-                      </div>
-                    </a>
-                  </div>
-                  <div class="item img">
-                    <a href="javascript:;" onclick="showImg(5,'http://via.placeholder.com/500x350/007bff');">
-                      <div class="src-img" style="background-image: url('http://via.placeholder.com/500x350/007bff')">
-                        <img src="{{ asset('images/size-img2.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
-                      </div>
-                    </a>
-                  </div>					                
+                    @endforeach
+                  @endif
                 </div>
 							</div>
 							<div class="col-md-6">
-								<h4>
+								<h4 class="text-head">
 									<!-- favorites mobile -->
 									<div class="icon-Favorites float-right ml-2 d-block d-lg-none {{ $product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');">{{ __('messages.favorite') }}</div>
 									<!-- favorites mobile -->
@@ -83,7 +71,9 @@
 								</h4>
 								<hr>
 								<div class="box-Toggle" id="b-Toggle">
+								  <div class="b-Toggle">
 									{!! $product->{ get_lang('description') } !!}
+								  </div>
 								</div>
 								<button type="button" id="button-Toggle1" class="p-2 mt-2 border-0 w-100" onclick="$('#b-Toggle').toggleClass('open');$(this).hide();$('#button-Toggle2').show();">
 									{{ __('messages.show_more') }} <img src="{{ asset('images/icon-select.png') }}">
@@ -153,7 +143,9 @@
 					</div>
 					<div class="col-lg-9">
 						<div class="box-Toggle" id="b-Toggle2">
+						  <div class="b-Toggle">
 							{!! $product->{ get_lang('info') } !!}
+						  </div>
 						</div>
 						<button type="button" id="button-Toggle3" class="p-2 mt-2 border-0 w-100" onclick="$('#b-Toggle2').toggleClass('open');$(this).hide();$('#button-Toggle4').show();">
 							{{ __('messages.show_more') }} <img src="{{ asset('images/icon-select.png') }}">
@@ -212,7 +204,7 @@
   							<div class="card-body">
   								<a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $new_product->id]) }}">
   									<div class="img">
-  										<div class="src-img" style="background-image: url('http://via.placeholder.com/500x350')">
+  										<div class="src-img" style="background-image: url({{ $new_product->image ?? 'http://via.placeholder.com/500x350' }})">
   											<img src="{{ asset('images/size-img.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
   										</div>
   									</div>

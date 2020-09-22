@@ -39,6 +39,17 @@ $(document).ready(function () {
                 $('#menuCategory').slideUp();
             }
         });
+        /*
+                if ($(window).scrollTop() > 100){
+                    $('body').addClass("down");
+                    $('#menuCategory').slideUp();
+                } else {
+                    $('body').removeClass("down");
+                    $('#menuCategory').slideDown();
+                }
+                console.log($("#a-lazyload").visible());
+        */
+
     });
 
     sliderCategory();
@@ -83,8 +94,8 @@ $(document).ready(function () {
 
         if (parseInt(n2) > 1) {
             $(this).closest(".btn-group").find("input").val(parseInt(n2) - 1);
+            calAmount($(this));
         }
-        calAmount($(this));
     });
 
     $('.box-products .box-List .btn').on('click', function () {
@@ -122,7 +133,7 @@ $(document).ready(function () {
                 cart.effect("shake", {
                     times: 2,
                     distance: 10
-                }, 30000);
+                }, 300);
             }, 1500);
 
             imgclone.animate({
@@ -135,6 +146,20 @@ $(document).ready(function () {
                 // สามารถนำไปประยุกต์ เพิ่มสินค้าในตะกร้าสินค้า ด้วย ajax
                 // alert('เพิ่มสินค้า');
             });
+        }
+    });
+
+    $(".box-products .box-List.lazyload .list").slice(12).hide();
+    var mincount = 12;
+    var maxcount = 24;
+    var l = $('.box-products .box-List.lazyload .list').length;
+    $('#a-lazyload').on('click', function () {
+        $(".box-products .box-List.lazyload .list").slice(mincount, maxcount).fadeIn(1200);
+        mincount = mincount + 12;
+        maxcount = maxcount + 12;
+
+        if (mincount > l) {
+            $('#a-lazyload').hide();
         }
     });
 
@@ -189,7 +214,7 @@ function sliderRelate() {
     $(".box-relate .owl-carousel").owlCarousel({
         margin: 20,
         nav: false,
-        loop: true,
+        loop: false,
         dots: false,
         lazyLoad: true,
         responsiveClass: true,
@@ -314,8 +339,4 @@ function sliderTRemaining_old() {
         }
 
     }, 1000);
-}
-
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

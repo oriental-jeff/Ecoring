@@ -13,6 +13,10 @@ body {
 .w-45 {
     width: 45%!important;
 }
+#boxOfProduct,
+#boxOfProductmobile {
+    height: 19px !important;
+}
 button:focus {
     outline: none !important;
 }
@@ -135,14 +139,6 @@ select {
     width: calc(50% - 0.50rem) !important;
 }
 .container {
-    width: 100%;
-    max-width: 1200px;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-    display: block;
-    box-sizing: border-box;
     position: relative;
 }
 body .btn {
@@ -153,15 +149,15 @@ body .btn {
     border: 0;
     font-weight: 100;
 }
-a.btn:hover {
+.btn:hover {
     background-color: #929292;
     color: #fff;
 }
-	a.btn i {
+	.btn i {
 	    vertical-align: revert;
 	}
 	
-a.btn2 {
+.btn2 {
 	background: #393536;
     color: #ffffff;
     padding: 4px 23px;
@@ -170,23 +166,25 @@ a.btn2 {
     font-size: 13px;
     display: flex;
 }
-a.btn2:hover {
+.btn2:hover {
     background-color: #929292;
     color: #fff;
 }
-	a.btn2 i {
+	.btn2 i {
 	    vertical-align: revert;
         margin-left: 3px;
 	}
 	
-a.btn3 {
+.btn3 {
     color: #231f20;
     background: #fff00d;
     padding: 6px 25px;
     border-radius: 25px;
+    border: 0px;
+    display: block;
     transition: .5s;
 }
-a.btn3:hover {
+.btn3:hover {
     background-color: #929292;
     color: #fff;
 }
@@ -494,6 +492,7 @@ header {
 				}
 				div#navbarNav input.form-control+button[type="submit"] {
 					width: 45px;
+					height: 38px;
 				    padding: 6px;
 					background: #00b16b;
 					border: 1px solid #959595;
@@ -794,7 +793,7 @@ section.box-products {
 			    content: "\f08a";
 			    font: normal normal normal 16px/1 FontAwesome;
 			    color: #fe212b;
-			    background: rgb(255 255 255 / 26%);
+			    background: rgb(255 255 255 / 55%);
 			    padding: 7px;
 			    transition: .5s;
 			}
@@ -1282,6 +1281,7 @@ footer {
 		header a.nav-link img.icon-menu {
 			display: inline-block;
 			vertical-align: initial !important;
+		    margin-right: 7px;
 	    }
 	    .navbar-nav .nav-link {
 		    font-size: 20px;
