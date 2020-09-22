@@ -15,7 +15,7 @@
         "hardevine/shoppingcart": "^2.8",
         "jorenvanhocht/laravel-share": "^3.2",
         "laravel/framework": "^7.0",
-        "laravel/passport": "^10.0",
+        "laravel/passport": "^9.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "orangehill/iseed": "^2.6",

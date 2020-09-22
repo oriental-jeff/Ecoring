@@ -14,9 +14,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', 'API\AuthController@login');
-Route::post('register', 'API\AuthController@register');
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+/* version 1 */
+
+Route::group(['prefix' => 'v1'], function () {
+    /* auth */
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('register', 'API\AuthController@register');
+        Route::post('login', 'API\AuthController@login');
+    });
+
+    /* users */
+    Route::group(['prefix' => 'users', 'middleware' => 'auth:api'], function () {
+        Route::get('shortlist', 'UserController@shortlistIndex');
+        Route::post('shortlist/{postId}', 'UserController@shortlist');
+        Route::delete('shortlist/{postId}', 'UserController@unshortlist');
+    });
+
+    /* posts */
+    Route::group(['prefix' => 'posts'], function () {
+        Route::get('/', 'PostController@index');
+        Route::post('/', 'PostController@create');
+    });
 });

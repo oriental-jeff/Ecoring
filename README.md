@@ -22,6 +22,7 @@
   ```
 1. ```php artisan key:generate```
 1. ```php artisan migrate:fresh --seed ```
+1. ```php artisan passport:install ```
 1. ```php artisan storage:link```
 1. install node js
 1. ```npm install```
