@@ -316,23 +316,9 @@ function sliderTRemaining_old() {
     }, 1000);
 }
 
-function delList(e, cartId) {
-    $(e).closest('.order-body').find('.del-loading').show();
-    $.ajax({
-        url: '/api/v1/carts/' + cartId,
-        type: 'DELETE',
-        success: function (result) {
-            $(e).closest('.order-body').fadeOut('slow', function () {
-                $(this).remove();
-                sumTotal();
-            });
-        }
-    });
-}
-
 function calAmount(e) {
     var price = e.closest('.order-body').find('.display-price span').text();
-    var unit = e.parent().find('input').val();
+    var unit = e.parent().find('.quantity').val();
     var amount = e.closest('.order-body').find('.display-amount span');
     amount.html(numberWithCommas(parseFloat(unit.replace(',', '')) * parseFloat(price.replace(',', ''))));
     sumTotal();
@@ -340,12 +326,28 @@ function calAmount(e) {
 
 function sumTotal() {
     var total = 0;
+    var hasCB = false;
+    $('.btn-next-process').addClass('disabled');
+    if ($('.order-head').find('input:checkbox').hasClass('selectAll')) hasCB = true;
     $('.box-history .order-body').each(function () {
-        total += parseFloat($(this).find('.display-amount>span').html().replace(',', ''));
+        if (hasCB) {
+            if ($(this).find('input:checkbox').prop('checked')) {
+                total += parseFloat($(this).find('.display-amount>span').html().replace(',', ''));
+            }
+        } else {
+            total += parseFloat($(this).find('.display-amount>span').html().replace(',', ''));
+        }
     });
-    $('.display-total span').html(numberWithCommas(total));
+    if (total > 0) $('.btn-next-process').removeClass('disabled');
+    $('.display-total span').html(numberWithCommas(total.toFixed(2)));
 }
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});

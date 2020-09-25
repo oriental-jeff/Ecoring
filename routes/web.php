@@ -18,8 +18,8 @@ Route::get('/', function () {
 
 Route::name('frontend.auth.')
   ->namespace('Frontend\Auth')
-  ->prefix('{locale}') 
-  ->where(['locale' => '[a-zA-Z]{2}']) 
+  ->prefix('{locale}')
+  ->where(['locale' => '[a-zA-Z]{2}'])
   ->middleware('setlocale')
   ->group(function () {
     Route::get('/login', 'LoginController@showLoginForm')->name('login.form');
@@ -31,15 +31,18 @@ Route::name('frontend.auth.')
 
 Route::name('frontend.')
   ->namespace('Frontend')
-  ->prefix('{locale}') 
-  ->where(['locale' => '[a-zA-Z]{2}']) 
+  ->prefix('{locale}')
+  ->where(['locale' => '[a-zA-Z]{2}'])
   ->middleware('setlocale')
   ->group(function(){
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/product', 'ProductController@index')->name('product');
     Route::get('/product/{product}', 'ProductController@detail')->name('product-detail');
-    Route::get('/payment', 'PaymentController@index')->name('payment');
+    Route::get('/cart', 'CartController@index')->name('cart');
+    Route::post('/cart/order', 'CartController@order')->name('cart-order');
+    Route::post('/pay', 'PayController@index')->name('pay');
+    Route::post('/payment', 'PaymentController@index')->name('payment');
 
     Route::get('/register', 'UserController@create')->name('register');
     Route::name('user.')
@@ -73,7 +76,7 @@ Route::name('frontend.')
   ->group(function(){
 
     set_time_limit(0);
-    
+
     Route::get('/clearCache', function () {
       Cache::flush();
       // $exitCode = Artisan::call('config:cache');

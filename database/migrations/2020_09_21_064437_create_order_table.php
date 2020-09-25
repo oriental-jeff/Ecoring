@@ -27,6 +27,11 @@ class CreateOrderTable extends Migration
             $table->float('total_weight');
             $table->decimal('discount');
             $table->integer('delivery_charge');
+            $table->text('address');
+            $table->integer('sub_district_id');
+            $table->integer('district_id');
+            $table->integer('province_id');
+            $table->integer('postcode', 5);
             $table->decimal('vat');
             $table->integer('status')->default(0)->comment('ordered|payment|preparing|delivered');
             $table->integer('created_by');

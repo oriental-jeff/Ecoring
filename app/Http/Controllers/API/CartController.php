@@ -24,4 +24,34 @@ class CartController extends BaseController
 
         return $this->sendResponse($success, 'Successfully deleted.');
     }
+
+    public function updateUnit(Request $request)
+    {
+        try {
+
+        } catch (\Throwable $th) {
+            return $this->sendError('Error.', $th);
+        }
+    }
+
+    public function checkStocks(Request $request)
+    {
+        // dd($request->orderList[1]['unit']);
+        $errCount = 0;
+        $cid = [];
+        foreach ($request->orderList as $k => $v) {
+            $c = Cart::find($v['id']);
+            $c->quantity = $v['qty'];
+            $c->update();
+
+            $cid[] = $v['id'];
+        }
+        $cart = Cart::whereIn('id', $cid)->stockCheckAvailable(config('global.warehouse'))->get();
+        try {
+            $success['result'] =  $cart;
+            return $this->sendResponse($success, 'Ok');
+        } catch (\Throwable $th) {
+            return $this->sendError('Error.', $th);
+        }
+    }
 }

@@ -37,7 +37,7 @@ Route::group(['prefix' => 'v1'], function () {
     /* carts */
     Route::group(['prefix' => 'carts'], function () {
         // Route::get('/', 'API\CartController@index');
-        // Route::post('/', 'API\CartController@create');
+        Route::post('/check-stocks', 'API\CartController@checkStocks');
         Route::delete('/{cartId}', 'API\CartController@delete');
     });
 });

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Facades\App\Repository\Pages;
 use Illuminate\Http\Request;
 use App\Model\Cart;
-use App\Model\Stocks;
+use App\Model\Logistics;
 use App\Model\Order;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,9 +16,31 @@ class CartController extends Controller
     public function index()
     {
         $pages = Pages::get(5);
-        $carts = Cart::where('users_id', 1)->onlyAvailable(config('global.warehouse'))->get();
+        $carts = Cart::where('users_id', 1)->get();
         return view('frontend.cart.index', compact(['carts', 'pages']));
     }
+
+    public function order(Request $request)
+    {
+        foreach ($request->cartID as $k => $v) {
+            $c = Cart::find($v);
+            $c->quantity = $request->quantity[$k];
+            $c->update();
+        }
+        $cart = Cart::whereIn('id', $request->cartID)->stockCheckAvailable(config('global.warehouse'))->get();
+        if (COUNT($cart) == 0) {
+            $pages = Pages::get(5);
+            $carts = Cart::whereIn('id', $request->cartID)->get();
+            $logistics = Logistics::onlyActive()->get();
+    
+            $delivery_addr = $logistics;
+    
+            return view('frontend.cart.order', compact(['carts', 'pages', 'logistics', 'delivery_addr']));
+        } else {
+            return back();
+        }
+    }
+
     public function add(Request $request)
     {
         if ($this->check_login()) :
@@ -33,12 +55,6 @@ class CartController extends Controller
             $res = ['result' => true, 'message' => 'success'];
             return collect($res)->toJson();
         endif;
-    }
-
-    public function cart()
-    {
-        $product = Cart::where('users_id', Auth::id())->get();
-        return view('frontend.cart', compact('product'));
     }
 
     public function check_login()

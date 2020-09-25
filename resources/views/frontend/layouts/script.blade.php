@@ -17,14 +17,15 @@
 
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 
-@if (!empty($script['google_map'])) 
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
-  <script src="{{ asset('js/demo/map-google.demo.min.js') }}"></script>
+@if (!empty($script['google_map']))
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+<script src="{{ asset('js/demo/map-google.demo.min.js') }}"></script>
 @endif
 
-@if (!empty($script['xxx'])) 
+@if (!empty($script['xxx']))
 @endif
 
+<script src="{{ asset('plugins/bootstrap-sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('js/frontend/script.js') }}"></script>
 <!-- owl.carousel -->
 <script type="text/javascript" src="{{ asset('plugins/owlcarousel/owl.carousel.js') }}"></script>
@@ -47,4 +48,4 @@
 <script>
 </script>
 
-  <!-- ================== END PAGE LEVEL JS ================== -->
+<!-- ================== END PAGE LEVEL JS ================== -->
