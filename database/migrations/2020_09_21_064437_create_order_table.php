@@ -31,7 +31,7 @@ class CreateOrderTable extends Migration
             $table->integer('sub_district_id');
             $table->integer('district_id');
             $table->integer('province_id');
-            $table->integer('postcode', 5);
+            $table->integer('postcode');
             $table->decimal('vat');
             $table->integer('status')->default(0)->comment('ordered|payment|preparing|delivered');
             $table->integer('created_by');
@@ -61,5 +61,6 @@ class CreateOrderTable extends Migration
     public function down()
     {
         Schema::dropIfExists('order');
+        Schema::dropIfExists('auto_format_number');
     }
 }

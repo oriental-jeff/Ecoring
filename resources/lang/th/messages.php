@@ -12,6 +12,10 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'login' => 'เข้าสู่ระบบ',
+    'logout' => 'ออกจากระบบ',
+    'edit_password' => 'เปลี่ยนรหัสผ่าน',
+
     'new_product' => 'สินค้าใหม่',
     'recommended_product' => 'สินค้าแนะนำ',
     'category' => 'ประเภทสินค้า',
@@ -38,10 +42,14 @@ return [
     'share' => 'แชร์',
     'tags' => 'คำที่เกี่ยวข้อง',
 
+    'profile' => 'โปรไฟล์',
     'username' => 'ชื่อบัญชี',
     'email' => 'อีเมล',
     'password' => 'รหัสผ่าน',
     'confirm_password' => 'ยืนยันรหัสผ่าน',
+    'old_password' => 'รหัสผ่านเก่า',
+    'new_password' => 'รหัสผ่านใหม่',
+    'confirm_new_password' => 'ยืนยันรหัสผ่านใหม่',
     'name' => 'ชื่อ',
     'surname' => 'นามสกุล',
     'sex' => 'เพศ',
@@ -69,9 +77,10 @@ return [
     'receive_yes' => 'ต้องการ',
     'receive_no' => 'ไม่ต้องการ',
     'privacy_confirm' => 'ฉันได้อ่านและยอมรับ เงื่อนไข-ข้อตกลง',
+    'bind_account_with' => 'ผูกบัญชีนี้กับ',
 
     'data_account' => 'ข้อมูลบัญชี',
-    'data_profile' => 'ข้อมูลส่วนบุคคล',
+    'data_profile' => 'ข้อมูลโปรไฟล์',
     'data_address' => 'ข้อมูลที่อยู่',
     'data_address_delivery' => 'ข้อมูลที่อยู่ในการจัดส่ง',
     'use_same_address' => 'ใช้ข้อมูลที่อยู่ปัจจุบัน',
@@ -91,5 +100,11 @@ return [
     'sort_by_grade_low' => 'เกรดสินค้า D > A',
     'sort_by_price_low' => 'ราคาน้อย > มาก',
     'sort_by_price_high' => 'ราคามาก > น้อย',
+
+    'create_success' => 'บันทึกข้อมูลเรียบร้อย',
+    'update_success' => 'แก้ไขข้อมูลเรียบร้อย',
+    'update_password_success' => 'แก้ไขรหัสผ่านเรียบร้อย',
+    'duplicate_password' => 'ห้ามใช้รหัสผ่านใหม่ซ้ำรหัสผ่านเดิม',
+    'old_password_not_matched' => 'รหัสผ่านเก่าไม่ถูกต้อง',
 
 ];

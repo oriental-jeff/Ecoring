@@ -12,6 +12,10 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'login' => 'Login',
+    'logout' => 'Logout',
+    'edit_password' => 'Edit Password',
+
     'new_product' => 'New Product',
     'recommended_product' => 'Recommended Product',
     'category' => 'Category',
@@ -38,10 +42,14 @@ return [
     'share' => 'Share',
     'tags' => 'Tags',
 
+    'profile' => 'Profile',
     'username' => 'Username',
     'email' => 'Email',
     'password' => 'Password',
     'confirm_password' => 'Confirm Password',
+    'old_password' => 'Old Password',
+    'new_password' => 'New Password',
+    'confirm_new_password' => 'Confirm New Password',
     'name' => 'Name',
     'surname' => 'Surname',
     'sex' => 'Sex',
@@ -60,8 +68,8 @@ return [
     'register' => 'Register',
     'register_noti1' => 'If you are not a member,please register',
     'register_noti2' => 'before making a purchase',
-    'username_placeholder' => 'fill in username',
-    'password_placeholder' => 'fill in password',
+    'username_placeholder' => 'username',
+    'password_placeholder' => 'password',
     'password_noti' => 'Please fill in more than 6 character',
     'confirm_password_noti' => 'Please confirm your password',
     'telephone_noti' => 'Please fill in your mobile phone for the convenience of product delivery',
@@ -69,6 +77,7 @@ return [
     'receive_yes' => 'Yes',
     'receive_no' => 'No',
     'privacy_confirm' => 'I have read and agree conditions - agreement',
+    'bind_account_with' => 'Bind account with',
 
     'data_account' => 'Account',
     'data_profile' => 'Profile',
@@ -91,5 +100,11 @@ return [
     'sort_by_grade_low' => 'From Low to High Grade',
     'sort_by_price_low' => 'From High to Low Price',
     'sort_by_price_high' => 'From Low to High Price',
+
+    'create_success' => 'Information has been saved',
+    'update_success' => 'Information has been updated successfully',
+    'update_password_success' => 'Password has been updated successfully',
+    'duplicate_password' => 'New password can not be the same as old password!',
+    'old_password_not_matched' => 'Old password does not matched',
 
 ];

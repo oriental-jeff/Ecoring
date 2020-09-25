@@ -103,11 +103,13 @@
                             @endif
                         </div>
                         <div class="col-md-2 col-ms-2 text-center border-left" style="z-index:1">
+                            @if ($cart->stocks[0]->quantity != 0)
                             <a class="btn btn-secondary font-weight-light radius-25 w-100" href="javascript:void(0);"
                                 onclick="delList(this, {{ $cart->id }})">
                                 <img class="m-0 mr-2" style="width: 17px;" src="{{ url('images/icon-delete.svg') }}">
                                 ลบรายการนี้
                             </a>
+                            @endif
                         </div>
                     </div>
                     @endforeach
