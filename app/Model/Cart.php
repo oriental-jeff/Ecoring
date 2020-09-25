@@ -26,7 +26,7 @@ class Cart extends Model implements HasMedia
 
     public function stocks()
     {
-        return $this->hasMany('App\Model\Stocks', 'products_id', 'id')->where('warehouses_id', config('global.warehouse'));
+        return $this->hasMany('App\Model\Stocks', 'products_id', 'products_id')->where('warehouses_id', config('global.warehouse'));
     }
 
     public function update_name()
@@ -37,6 +37,14 @@ class Cart extends Model implements HasMedia
     public function scopeonlyActive($query)
     {
         return $query->where('active', 1);
+    }
+
+    public function scopestockCheckAvailable($query, $warehouse = 1)
+    {
+        return $query->whereHas('stocks', function ($q) use ($warehouse) {
+            $q->where('warehouses_id', $warehouse)
+                ->whereRaw('quantity < cart.quantity');
+        });
     }
 
     public function scopeonlyAvailable($query, $warehouse = 1)
