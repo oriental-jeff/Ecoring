@@ -81,12 +81,27 @@
                 <div class="col-md-4 align-self-center bar-login">
                   <div class="row">
                     <div class="col-md-6 border-left">
-                      <a href="{{ route('frontend.auth.login.form', ['locale' => get_lang()]) }}">
-                        <img src="{{ asset('images/I-login.svg') }}" class="icon-login">Sign in
-                      </a>
+                      @guest
+                        <a href="{{ route('frontend.auth.login.form', ['locale' => get_lang()]) }}">
+                          <img src="{{ asset('images/I-login.svg') }}" class="icon-login">{{ __('messages.login') }}
+                        </a>
+                      @endguest
+                      @auth
+                        <a class="dropdown-toggle" href="javascript:;" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <img src="{{ asset('images/I-login.svg') }}" class="icon-login"> Hi {{ Auth::user()->first_name }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <a class="dropdown-item" href="{{ route('frontend.user.profile', ['locale' => get_lang()]) }}">{{ __('messages.data_profile') }}</a>
+                          <a class="dropdown-item" href="{{ route('frontend.user.edit-password', ['locale' => get_lang()]) }}">{{ __('messages.edit_password') }}</a>
+                          <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('messages.logout') }}</a>
+                          <form id="logout-form" action="{{ route('frontend.auth.logout', ['locale' => get_lang()]) }}" method="post" style="display: none;">
+                            @csrf
+                          </form>
+                        </div>
+                      @endauth
                     </div>
                     <div class="col-md-3 border-left">
-                      <a href="../favorite">
+                      <a href="{{ route('frontend.user.favorite', ['locale' => get_lang()]) }}">
                         <img src="{{ asset('images/I-favorite.svg') }}" class="icon-menu">
                       </a>
                     </div>
@@ -168,12 +183,12 @@
         </ul>
         <div class="row text-center border-top p-2 bar-login">
         <div class="col-6 border-left p-2">
-          <a href="../register/profile.php">
-              <img src="{{ asset('images/I-login.svg') }}" class="icon-login"> Hi สมหมาย
+          <a href="{{ route('frontend.user.profile', ['locale' => get_lang()]) }}">
+              <img src="{{ asset('images/I-login.svg') }}" class="icon-login"> Hi {{ Auth::user()->first_name }}
           </a>
         </div>
         <div class="col-6 border-left p-2">
-          <a href="../favorite">
+          <a href="{{ route('frontend.user.favorite', ['locale' => get_lang()]) }}">
             <img src="{{ asset('images/I-favorite.svg') }}" class="icon-menu mr-2">Favorites
           </a>
         </div>

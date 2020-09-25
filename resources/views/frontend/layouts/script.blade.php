@@ -3,7 +3,9 @@
 <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap/4.0.0/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('plugins/jquery-validation/dist/jquery.validate.js') }}"></script>
-<script src="{{ asset('plugins/jquery-validation/dist/localization/messages_th.js') }}"></script>
+@if (get_lang() == 'th')
+  <script src="{{ asset('plugins/jquery-validation/dist/localization/messages_th.js') }}"></script>
+@endif
 <!--[if lt IE 9]>
   <script src="../crossbrowserjs/html5shiv.js"></script>
   <script src="../crossbrowserjs/respond.min.js"></script>
@@ -28,6 +30,19 @@
 <script type="text/javascript" src="{{ asset('plugins/owlcarousel/owl.carousel.js') }}"></script>
 <!-- fancybox3 -->
 <script src="{{ asset('plugins/fancyBox3/dist/jquery.fancybox.min.js') }}"></script>
+<!-- datepicker -->
+<script type="text/javascript">
+    var datefield=document.createElement("input")
+    datefield.setAttribute("type", "date")
+    if (datefield.type!="date"){ //if browser doesn't support input type="date", load files for jQuery UI Date Picker
+        document.write('<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />\n')
+    }
+	if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
+	    jQuery(function($){ //on document.ready
+		    $('input[type="date"]').datepicker({ dateFormat: 'dd/mm/yy' });
+	    })
+	}
+</script>
 
 <script>
 </script>
