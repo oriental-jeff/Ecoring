@@ -115,6 +115,20 @@
             </li>
             @endcan
 
+            @can('access promotions')
+            <li class="{{ request()->routeIs('backend.promotions*') ? 'active' : '' }}">
+                <a href="{{ route('backend.promotions.index') }}" class="menu-link"><i class="fas fa-gem"></i>
+                    <span>โปรโมชั่น</span></a>
+            </li>
+            @endcan
+
+            @can('access promotion_details')
+            <li class="{{ request()->routeIs('backend.promotion_details*') ? 'active' : '' }}">
+                <a href="{{ route('backend.promotion_details.index') }}" class="menu-link"><i class="fas fa-award"></i>
+                    <span>รายละเอียดโปรโมชั่น</span></a>
+            </li>
+            @endcan
+
             @can('access stocks')
             <li class="{{ request()->routeIs('backend.stocks*') ? 'active' : '' }}">
                 <a href="{{ route('backend.stocks.index') }}" class="menu-link"><i class="fas fa-cubes"></i>
