@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\Model\Products;
 
 
 
@@ -23,25 +24,29 @@ class TrashController extends Controller
 
 
 
-  public function index() {
+    public function index()
+    {
 
-    $this->authorize('access trash');
+        $this->authorize('access trash');
 
-    //trash model tolower
+        //trash model tolower
 
-    $user = User::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
+        $user = User::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
 
-    $trash['user'] = $user;
+        $trash['user'] = $user;
+
+        $products = Products::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
+
+        $trash['products'] = $products;
 
 
 
 
 
-    //increase model in $trash['model name']
+        //increase model in $trash['model name']
 
-    return view('backend.trash.index', compact('trash'));
-
-  }
+        return view('backend.trash.index', compact('trash'));
+    }
 
 
 
@@ -49,16 +54,15 @@ class TrashController extends Controller
 
     {
 
-      $this->authorize('restore trash');
+        $this->authorize('restore trash');
 
 
 
-      $this->getModel($model)::withTrashed()->find($modelId)->restore();
+        $this->getModel($model)::withTrashed()->find($modelId)->restore();
 
 
 
-      return redirect('backend/trash');
-
+        return redirect('backend/trash');
     }
 
 
@@ -67,16 +71,15 @@ class TrashController extends Controller
 
     {
 
-      $this->authorize('restore_all trash');
+        $this->authorize('restore_all trash');
 
 
 
-      $this->getModel($model)::withTrashed()->restore();
+        $this->getModel($model)::withTrashed()->restore();
 
 
 
-      return redirect('backend/trash');
-
+        return redirect('backend/trash');
     }
 
 
@@ -85,16 +88,23 @@ class TrashController extends Controller
 
     {
 
-      $this->authorize('remove trash');
+        $this->authorize('remove trash');
 
 
+        // Products: Delete Stock and Product Tags
+        if ($model == 'products') {
+            $md = $this->getModel($model)::withTrashed()->find($modelId);
+            // Stocks
+            $md->stocks()->forceDelete();
+            // Product Tags
+            $md->producttags()->forceDelete();
 
-      $this->getModel($model)::withTrashed()->find($modelId)->forceDelete();
+            $md->forceDelete();
+        } else {
+            $this->getModel($model)::withTrashed()->find($modelId)->forceDelete();
+        }
 
-
-
-      return redirect('backend/trash');
-
+        return redirect('backend/trash');
     }
 
 
@@ -103,7 +113,7 @@ class TrashController extends Controller
 
     {
 
-      $this->authorize('remove_all trash');
+        $this->authorize('remove_all trash');
 
         /**
 
@@ -111,43 +121,41 @@ class TrashController extends Controller
 
          */
 
-      // $this->getModel($model)::onlyTrashed()->forceDelete();
+        // $this->getModel($model)::onlyTrashed()->forceDelete();
 
-        
+
 
         $modelItems = $this->getModel($model)::onlyTrashed()->get();
 
 
 
-        foreach($modelItems as $modelItem) {
+        foreach ($modelItems as $modelItem) {
+            // Stocks
+            $modelItem->stocks()->forceDelete();
+            // Product Tags
+            $modelItem->producttags()->forceDelete();
 
             $modelItem->forceDelete();
-
         }
 
 
 
-      return redirect('backend/trash');
-
+        return redirect('backend/trash');
     }
 
 
 
-     private function getModel($model)
+    private function getModel($model)
 
     {
 
-      $class = '\App\Model\\' . ucfirst($model);
+        $class = '\App\Model\\' . ucfirst($model);
 
         if ($model == 'user') {
 
             $class = '\App\\' . ucfirst($model);
-
         }
 
         return get_class(new $class);
-
     }
-
 }
-

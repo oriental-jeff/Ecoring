@@ -153,6 +153,16 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xl-6 col-md-12 col-sm-12 mt-2">
+                <label class='col-form-label' for="end_date">แท็ก (Tags): </label>
+                <select name="tags_id[]" id="tags_id" class='form-control select-2' multiple="multiple">
+                    @foreach($tags as $tag)
+                    <option value="{{ $tag->id }}">{{ $tag->name_th }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
     </div>
 </div>
 <hr>
@@ -164,10 +174,25 @@
                 class="fas fa-reply text-danger"></i> ย้อนกลับ</button>
     </div>
 </div>
-
+@if(!empty($product_tags))
+@php
+$tags = $product_tags->pluck('tags_id')->toJson();
+@endphp
+@else
+@php
+$tags = '';
+@endphp
+@endif
 @push('after-scripts')
 <script>
     $(function(){
+        var tags = '{!! $tags !!}';
+        console.log(tags);
+        $('#tags_id').select2();
+        if(tags != '') {
+            $('#tags_id').val($.parseJSON(tags)).trigger('change');
+        }
+
         $('#image').on('change', function(){
             readURL(this, "preview_image");
         });

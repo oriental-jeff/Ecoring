@@ -116,6 +116,13 @@ Route::name('backend.')
             });
         Route::resource('/grades', 'GradesController');
 
+        Route::name('tags.')
+            ->prefix('/tags')
+            ->group(function () {
+                Route::get('/search', 'TagsController@search')->name('search');
+            });
+        Route::resource('/tags', 'TagsController');
+
         Route::name('products.')
             ->prefix('/products')
             ->group(function () {
