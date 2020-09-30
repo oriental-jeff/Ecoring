@@ -108,6 +108,13 @@
             </li>
             @endcan
 
+            @can('access tags')
+            <li class="{{ request()->routeIs('backend.tags*') ? 'active' : '' }}">
+                <a href="{{ route('backend.tags.index') }}" class="menu-link"><i class="fas fa-tags"></i>
+                    <span>แท็ก (Tags)</span></a>
+            </li>
+            @endcan
+
             @can('access products')
             <li class="{{ request()->routeIs('backend.products*') ? 'active' : '' }}">
                 <a href="{{ route('backend.products.index') }}" class="menu-link"><i class="fas fa-images"></i>

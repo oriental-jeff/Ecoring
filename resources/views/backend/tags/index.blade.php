@@ -1,6 +1,6 @@
 @extends('backend.layouts.header')
 @section('title')
-สินค้า
+แท็ก (Tags)
 @endsection
 @section('content')
 
@@ -8,7 +8,7 @@
     <div class="col-12 col-xl-12">
         <div class="panel panel-inverse gray">
             <div class="panel-body mgbt">
-                <form id="" action="{{ route('backend.products.index') }}" method='post' data-parsley-validate="true">
+                <form id="" action="{{ route('backend.tags.index') }}" method='post' data-parsley-validate="true">
                     @method('get')
                     @csrf
                     <div class="form-row">
@@ -17,27 +17,12 @@
                             <input type="text" class="form-control" name="keyword"
                                 value="{{ request('keyword') ?? '' }}">
                         </div>
-                        <div class="form-group col-md-4 col-lg-2">
-                            <label for="active">Status</label>
-                            <select id="active" name="active" class="form-control">
-                                <option value="">All</option>
-                                <option value="1" {{ request('active') === "1" ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ request('active') === "0" ? 'selected' : '' }}>Inactive</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4 col-lg-2">
-                            <div class="form-check" style="margin-top: 25px;">
-                                <input type="checkbox" class="form-check-input" id="recommend" name="recommend"
-                                    value="1" {{ request('recommend') == '1' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="recommend">สินค้าแนะนำ </label>
-                            </div>
-                        </div>
                         <div class="form-group col-lg-6 col-md-12 col-sm-12">
                             <div class='mt-4 '>
                                 <button type="submit" class="btn btn-white btn-search" id="search"><i
                                         class='fas fa-search text-info'></i> ค้นหา</button>
-                                @can('add products')
-                                <a href="{{ route('backend.products.create') }}" class="btn btn-white btn-search"><i
+                                @can('add tags')
+                                <a href="{{ route('backend.tags.create') }}" class="btn btn-white btn-search"><i
                                         class="fa fa-plus-square fa-lg text-success"></i> เพิ่มข้อมูล</a>
                                 @endcan
                             </div>
@@ -67,25 +52,15 @@
                                 <!-- <th width="1%">ลำดับ</th> -->
                                 <th class="text-center">จัดการ</th>
                                 <th class="text-center">วันที่อัพเดท</th>
-                                <th class="text-center">รูป</th>
                                 <th class="text-center">ชื่อเรียก (ไทย)</th>
                                 <th class="text-center">ชื่อเรียก (อังกฤษ)</th>
-                                <th class="text-center">SKU</th>
-                                <th class="text-center">หมวดหมู่</th>
-                                {{-- <th class="text-center">เกรด</th> --}}
-                                {{-- <th class="text-center"
-                                    style="-webkit-text-decoration-line: line-through; text-decoration-line: line-through;">
-                                    ราคาเต็ม</th> --}}
-                                <th class="text-center">ราคา</th>
-                                <th class="text-center">แนะนำ</th>
-                                <th class="text-center">สถานะ</th>
                                 <th class="text-center">ผู้แก้ไขล่าสุด</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if(!empty($products))
-                            @foreach($products as $product)
+                            @if(!empty($tags))
+                            @foreach($tags as $tag)
                             <tr class="del">
                                 <td class="text-center">
                                     <div class=" dropright">
@@ -96,9 +71,8 @@
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @can('delete products')
-                                            <form
-                                                action="{{ route('backend.products.destroy', ['product' => $product->id]) }}"
+                                            @can('delete tags')
+                                            <form action="{{ route('backend.tags.destroy', ['tag' => $tag->id]) }}"
                                                 method="post">
                                                 {{ method_field('DELETE') }}
                                                 <button class="del-trans dropdown-item" data-id="" data-module="Del"
@@ -107,27 +81,19 @@
                                                 @csrf
                                             </form>
                                             @endcan
-                                            @can('edit products')
+                                            @can('edit tags')
                                             <div class="dropdown-divider"></div>
-                                            <a href="{{ route('backend.products.edit', ['product' => $product->id]) }}"
+                                            <a href="{{ route('backend.tags.edit', ['tag' => $tag->id]) }}"
                                                 class=" edit  dropdown-item" data-id=""><i
                                                     class="fa fa-pencil-alt text-warning"></i>&nbsp;&nbsp;แก้ไข</a>
                                             @endcan
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center">{{ date('d/m/Y H:i:s', strtotime($product->updated_at)) }}</td>
-                                <td class="text-center"><img src="{{ $product->image ?? '' }}" class="img-table"></td>
-                                <td class="text-left">{{ $product->name_th }}</td>
-                                <td class="text-left">{{ $product->name_en }}</td>
-                                <td class="text-left">{{ $product->sku }}</td>
-                                <td class="text-center">{{ $product->categories_name->name_th ?? '' }}</td>
-                                {{-- <td class="text-center">{{ $product->grades_name->name_th }}</td> --}}
-                                {{-- <td class="text-right">{{ $product->full_price }}</td> --}}
-                                <td class="text-right">{{ $product->price }}</td>
-                                <td class="text-center">{{ $product->recommend }}</td>
-                                <td class="text-center">{{ $product->active }}</td>
-                                <td class="text-center">{{ $product->update_name->first_name }}</td>
+                                <td class="text-center">{{ date('d/m/Y H:i:s', strtotime($tag->updated_at)) }}</td>
+                                <td class="text-left">{{ $tag->name_th }}</td>
+                                <td class="text-left">{{ $tag->name_en }}</td>
+                                <td class="text-center">{{ $tag->update_name->first_name }}</td>
                             </tr>
                             @endforeach
                             @endif

@@ -9,6 +9,8 @@ use App\Model\Stocks;
 use App\Model\Warehouses;
 use App\Model\Categories;
 use App\Model\Grades;
+use App\Model\Tags;
+use App\Model\ProductTags;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -35,8 +37,9 @@ class ProductsController extends Controller
         $warehouses = Warehouses::all();
         $categories = Categories::all();
         $grades = Grades::all();
+        $tags = Tags::all();
 
-        return view('backend.products.create', compact(['product', 'warehouses', 'categories', 'grades']));
+        return view('backend.products.create', compact(['product', 'warehouses', 'categories', 'grades', 'tags']));
     }
 
     public function store(Request $request)
@@ -47,7 +50,7 @@ class ProductsController extends Controller
             $product = Products::create($this->validateRequest());
             $product->storeImage();
 
-            // Create Stock
+            // Stock
             if ($product && $request->warehouses_id) {
                 $stockDataArray = [
                     'products_id' => $product->id,
@@ -55,6 +58,19 @@ class ProductsController extends Controller
                     'quantity' => 1
                 ];
                 Stocks::create($this->validateRequestStock($stockDataArray));
+            }
+
+            // Tags
+            if ($request->tags_id) {
+                foreach ($request->tags_id as $key => $tag) :
+                    $detail = [
+                        'products_id' => $product->id,
+                        'tags_id'  => $tag,
+                    ];
+                    $detail['updated_by'] = Auth::id();
+                    $detail['created_by'] = Auth::id();
+                    ProductTags::create($detail);
+                endforeach;
             }
         });
 
@@ -67,8 +83,11 @@ class ProductsController extends Controller
 
         $categories = Categories::all();
         $grades = Grades::all();
+        $tags = Tags::all();
+        $product_tags = ProductTags::where('products_id', $product->id)->get();
+        // dd($product_tags);
 
-        return view('backend.products.update', compact(['product', 'categories', 'grades']));
+        return view('backend.products.update', compact(['product', 'categories', 'grades', 'tags', 'product_tags']));
     }
 
     public function update(Request $request, Products $product)
@@ -76,6 +95,34 @@ class ProductsController extends Controller
         $this->authorize(mapPermission(self::MODULE));
         $product->update($this->validateRequest());
         $product->storeImage();
+
+        // Tag
+        $product_tags = ProductTags::selectRaw('tags_id')->where('products_id', $product->id)->pluck('tags_id')->toArray();
+        // Delete Case
+        if ($request->tags_id) { // if null delete all
+            foreach ($product_tags as $tag) :
+                if (!in_array($tag, $request->tags_id)) {
+                    ProductTags::where('products_id', $product->id)
+                        ->where('tags_id', $tag)
+                        ->delete();
+                }
+            endforeach;
+            // Create Case
+            foreach ($request->tags_id as $tag) :
+                if (!in_array($tag, $product_tags)) {
+                    $dt = [
+                        'products_id' => $product->id,
+                        'tags_id'  => $tag,
+                    ];
+                    $dt['updated_by'] = Auth::id();
+                    ProductTags::create($dt);
+                }
+            endforeach;
+        } else {
+            if ($product_tags)
+                ProductTags::where('products_id', $product->id)
+                    ->delete();
+        }
 
         return redirect(route('backend.products.index'));
     }
