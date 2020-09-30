@@ -18,7 +18,7 @@
             <!-- begin panel-body -->
             <div class="panel-body">
                 <form class="form-horizontal" id="form-validate" name="demo-form" enctype="multipart/form-data"
-                    action="{{ route('backend.promotion_details.update', ['promotion' => $promotion->id] ) }}"
+                    action="{{ route('backend.promotion_details.update', ['promotion_detail' => $promotion_detail->id] ) }}"
                     method='post'>
                     @method('PATCH')
                     @include('backend.promotion_details.form')

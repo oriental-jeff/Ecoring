@@ -103,10 +103,9 @@
                                 <td class="text-center">
                                     {{ date('d/m/Y', strtotime($promotion_detail->promotions->start_at)) }}</td>
                                 <td class="text-center">
-                                    {{ date('d/m/Y', strtotime($promotion_detail->promotions->end_at)) }}
+                                    {{ date('d/m/Y', strtotime($promotion_detail->promotions->end_at)) }}</td>
                                 <td class="text-left">{{ $promotion_detail->products->name_th }}</td>
-                                <td class="text-left">{{ $promotion_detail->price }}</td>
-                                </td>
+                                <td class="text-right">{{ $promotion_detail->price }}</td>
                                 <td class="text-center">{{ $promotion_detail->update_name->first_name }}</td>
                             </tr>
                             @endforeach

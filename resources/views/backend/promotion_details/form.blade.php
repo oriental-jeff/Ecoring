@@ -3,12 +3,19 @@
         <div class="form-row">
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
                 <h5>เลือกโปรโมชั่น <span class="text-danger"> * </span>:</h5>
-                <select id="promotions_id" name="promotions_id" class="form-control" required>
+                <select id="promotions_id" name="promotions_id" class="form-control"
+                    {{ (request()->route()->getActionMethod() == 'create') ? 'required' : 'disabled' }}>
                     @foreach ($promotions as $promotion)
+                    @if (request()->route()->getActionMethod() == 'create')
+                    <option value="{{ $promotion->id }}"
+                        start_end_at="{{ date_format(date_create($promotion->start_at), 'd/m/Y') . ' - ' . date_format(date_create($promotion->end_at), 'd/m/Y') }}">
+                        {{ $promotion->name_th }}</option>
+                    @else
                     <option value="{{ $promotion->id }}"
                         start_end_at="{{ date_format(date_create($promotion->start_at), 'd/m/Y') . ' - ' . date_format(date_create($promotion->end_at), 'd/m/Y') }}"
-                        {{ $promotion_details->promotion_id === $promotion->id ? 'selected' : '' }}>
+                        {{ $promotion_detail->promotion_id === $promotion->id ? 'selected' : '' }}>
                         {{ $promotion->name_th }}</option>
+                    @endif
                     @endforeach
                 </select>
                 {{ $errors->first('name_th') }}
@@ -34,9 +41,16 @@
                             <div class="col-xl-6 col-md-12 col-sm-12">
                                 <label class='col-form-label' for="products_id">เลือกสินค้า <span class='text-danger'> *
                                     </span> : </label>
-                                <select name="products_id[]" class='form-control' required>
+                                <select name="products_id[]" class='form-control'
+                                    {{ (request()->route()->getActionMethod() == 'create') ? 'required' : 'disabled' }}>
                                     @foreach ($products as $product)
+                                    @if (request()->route()->getActionMethod() == 'create')
                                     <option value="{{ $product->id }}">{{ $product->name_th }}</option>
+                                    @else
+                                    <option value="{{ $product->id }}"
+                                        {{ $promotion_detail->products_id === $product->id ? 'selected' : '' }}>
+                                        {{ $product->name_th }}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -44,17 +58,20 @@
                             <div class="col-xl-2 col-md-12 col-sm-12">
                                 <label class='col-form-label ' for="static_type">ราคา <span class='text-danger'>
                                         * </span> : </label>
-                                <input type="number" min="0" step="any" name='price[]' class='form-control mt-2'>
+                                <input type="number" min="0" step="any" name='price[]' class='form-control mt-2'
+                                    value="{{ $promotion_detail->price ?? '' }}">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="return-slide"></div>
             </div>
+            @if (request()->route()->getActionMethod() === 'create')
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <button class='btn btn-success add-slide'> <i class='fas fa-plus'></i>
                     เพิ่มสินค้า</button>
             </div>
+            @endif
         </div>
     </div>
 </div>

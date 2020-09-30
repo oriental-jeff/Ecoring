@@ -16,7 +16,7 @@ class CartController extends Controller
     public function index()
     {
         $pages = Pages::get(5);
-        $carts = Cart::where('users_id', 1)->get();
+        $carts = Cart::where('users_id', 1)->priceCondition()->get();
         return view('frontend.cart.index', compact(['carts', 'pages']));
     }
 
@@ -32,9 +32,9 @@ class CartController extends Controller
             $pages = Pages::get(5);
             $carts = Cart::whereIn('id', $request->cartID)->get();
             $logistics = Logistics::onlyActive()->get();
-    
+
             $delivery_addr = $logistics;
-    
+
             return view('frontend.cart.order', compact(['carts', 'pages', 'logistics', 'delivery_addr']));
         } else {
             return back();

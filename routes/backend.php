@@ -130,6 +130,13 @@ Route::name('backend.')
             });
         Route::resource('/products', 'ProductsController');
 
+        Route::name('product_prices.')
+            ->prefix('/product_prices')
+            ->group(function () {
+                Route::get('/search', 'ProductPricesController@search')->name('search');
+            });
+        Route::resource('/product_prices', 'ProductPricesController');
+
         Route::name('promotions.')
             ->prefix('/promotions')
             ->group(function () {

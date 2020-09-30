@@ -122,6 +122,14 @@
             </li>
             @endcan
 
+            @can('access product_prices')
+            <li class="{{ request()->routeIs('backend.product_prices*') ? 'active' : '' }}">
+                <a href="{{ route('backend.product_prices.index') }}" class="menu-link"><i
+                        class="fas fa-dollar-sign"></i>
+                    <span>ราคาสินค้า (ตามช่วงเวลา)</span></a>
+            </li>
+            @endcan
+
             @can('access promotions')
             <li class="{{ request()->routeIs('backend.promotions*') ? 'active' : '' }}">
                 <a href="{{ route('backend.promotions.index') }}" class="menu-link"><i class="fas fa-gem"></i>

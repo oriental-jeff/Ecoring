@@ -28,6 +28,13 @@ class PromotionDetails extends Model implements HasMedia
         return $this->belongsTo('App\Model\Products', 'products_id', 'id');
     }
 
+    public function promotionPrice()
+    {
+        return $this->hasOne('App\Model\Promotions', 'id', 'promotions_id')
+            ->where('start_at', '<=', date('Y-m-d'))
+            ->where('end_at', '>=', date('Y-m-d'));
+    }
+
     public function update_name()
     {
         return $this->hasOne('App\User', 'id', 'updated_by');

@@ -93,13 +93,15 @@ class TrashController extends Controller
 
         // Products: Delete Stock and Product Tags
         if ($model == 'products') {
-            $md = $this->getModel($model)::withTrashed()->find($modelId);
+            $modelItem = $this->getModel($model)::withTrashed()->find($modelId);
             // Stocks
-            $md->stocks()->forceDelete();
+            $modelItem->stocks()->forceDelete();
             // Product Tags
-            $md->producttags()->forceDelete();
+            $modelItem->producttags()->forceDelete();
+            // Promotion Details
+            $modelItem->promotion_details()->forceDelete();
 
-            $md->forceDelete();
+            $modelItem->forceDelete();
         } else {
             $this->getModel($model)::withTrashed()->find($modelId)->forceDelete();
         }
@@ -134,6 +136,8 @@ class TrashController extends Controller
             $modelItem->stocks()->forceDelete();
             // Product Tags
             $modelItem->producttags()->forceDelete();
+            // Promotion Details
+            $modelItem->promotion_details()->forceDelete();
 
             $modelItem->forceDelete();
         }

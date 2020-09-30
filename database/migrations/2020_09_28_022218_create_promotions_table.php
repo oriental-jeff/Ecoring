@@ -23,7 +23,6 @@ class CreatePromotionsTable extends Migration
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();
-            $table->softDeletes('deleted_at', 0);
         });
 
         Schema::create('promotion_details', function (Blueprint $table) {
@@ -34,7 +33,17 @@ class CreatePromotionsTable extends Migration
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();
-            $table->softDeletes('deleted_at', 0);
+        });
+
+        Schema::create('product_prices', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('products_id');
+            $table->date('start_at');
+            $table->decimal('price')->default(0);
+            $table->integer('active')->default(0)->comment('0:Inactive|1:Active');
+            $table->integer('created_by');
+            $table->integer('updated_by');
+            $table->timestamps();
         });
     }
 
@@ -47,5 +56,6 @@ class CreatePromotionsTable extends Migration
     {
         Schema::dropIfExists('promotions');
         Schema::dropIfExists('promotion_details');
+        Schema::dropIfExists('product_price');
     }
 }
