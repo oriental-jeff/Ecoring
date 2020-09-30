@@ -1,6 +1,6 @@
 @extends('backend.layouts.header')
 @section('title')
-รายละเอียดโปรโมชั่น
+ราคาสินค้า (ตามช่วงเวลา)
 @endsection
 @section('content')
 
@@ -8,7 +8,7 @@
     <div class="col-12 col-xl-12">
         <div class="panel panel-inverse gray">
             <div class="panel-body mgbt">
-                <form id="" action="{{ route('backend.promotion_details.index') }}" method='post'
+                <form id="" action="{{ route('backend.product_prices.index') }}" method='post'
                     data-parsley-validate="true">
                     @method('get')
                     @csrf
@@ -22,8 +22,8 @@
                             <div class='mt-4 '>
                                 <button type="submit" class="btn btn-white btn-search" id="search"><i
                                         class='fas fa-search text-info'></i> ค้นหา</button>
-                                @can('add promotion_details')
-                                <a href="{{ route('backend.promotion_details.create') }}"
+                                @can('add product_prices')
+                                <a href="{{ route('backend.product_prices.create') }}"
                                     class="btn btn-white btn-search"><i
                                         class="fa fa-plus-square fa-lg text-success"></i> เพิ่มข้อมูล</a>
                                 @endcan
@@ -54,18 +54,16 @@
                                 <!-- <th width="1%">ลำดับ</th> -->
                                 <th class="text-center">จัดการ</th>
                                 <th class="text-center">วันที่อัพเดท</th>
-                                <th class="text-center">โปรโมชั่น</th>
-                                <th class="text-center">วันที่เริ่ม</th>
-                                <th class="text-center">วันที่สิ้นสุด</th>
-                                <th class="text-center">สินค้า</th>
+                                <th class="text-left">สินค้า</th>
                                 <th class="text-center">ราคา</th>
+                                <th class="text-center">วันที่เริ่ม</th>
                                 <th class="text-center">ผู้แก้ไขล่าสุด</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if(!empty($promotion_details))
-                            @foreach($promotion_details as $promotion_detail)
+                            @if(!empty($product_prices))
+                            @foreach($product_prices as $product_price)
                             <tr class="del">
                                 <td class="text-center">
                                     <div class=" dropright">
@@ -76,9 +74,9 @@
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @can('delete promotion_details')
+                                            @can('delete product_prices')
                                             <form
-                                                action="{{ route('backend.promotion_details.destroy', ['promotion_detail' => $promotion_detail->id]) }}"
+                                                action="{{ route('backend.product_prices.destroy', ['product_price' => $product_price->id]) }}"
                                                 method="post">
                                                 {{ method_field('DELETE') }}
                                                 <button class="del-trans dropdown-item" data-id="" data-module="Del"
@@ -87,9 +85,9 @@
                                                 @csrf
                                             </form>
                                             @endcan
-                                            @can('edit promotion_details')
+                                            @can('edit product_prices')
                                             <div class="dropdown-divider"></div>
-                                            <a href="{{ route('backend.promotion_details.edit', ['promotion_detail' => $promotion_detail->id]) }}"
+                                            <a href="{{ route('backend.product_prices.edit', ['product_price' => $product_price->id]) }}"
                                                 class=" edit  dropdown-item" data-id=""><i
                                                     class="fa fa-pencil-alt text-warning"></i>&nbsp;&nbsp;แก้ไข</a>
                                             @endcan
@@ -97,16 +95,13 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    {{ date('d/m/Y H:i:s', strtotime($promotion_detail->updated_at)) }}
+                                    {{ date('d/m/Y H:i:s', strtotime($product_price->updated_at)) }}
                                 </td>
-                                <td class="text-left">{{ $promotion_detail->promotions->name_th }}</td>
+                                <td class="text-left">{{ $product_price->products->name_th }}</td>
+                                <td class="text-right">{{ number_format($product_price->price, 2) }}</td>
                                 <td class="text-center">
-                                    {{ date('d/m/Y', strtotime($promotion_detail->promotions->start_at)) }}</td>
-                                <td class="text-center">
-                                    {{ date('d/m/Y', strtotime($promotion_detail->promotions->end_at)) }}</td>
-                                <td class="text-left">{{ $promotion_detail->products->name_th }}</td>
-                                <td class="text-right">{{ $promotion_detail->price }}</td>
-                                <td class="text-center">{{ $promotion_detail->update_name->first_name }}</td>
+                                    {{ date('d/m/Y', strtotime($product_price->start_at)) }}</td>
+                                <td class="text-center">{{ $product_price->update_name->first_name }}</td>
                             </tr>
                             @endforeach
                             @endif

@@ -88,6 +88,11 @@ class Products extends Model implements HasMedia
         return $this->hasOne('App\Model\Categories', 'id', 'categories_id');
     }
 
+    public function promotion_details()
+    {
+        return $this->hasMany('App\Model\PromotionDetails');
+    }
+
     public function producttags()
     {
         return $this->hasMany('App\Model\ProductTags');

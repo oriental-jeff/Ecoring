@@ -1,6 +1,6 @@
 @extends('backend.layouts.header')
 @section('title')
-แก้ไขรายละเอียดโปรโมชั่น
+เพิ่มราคาสินค้า (ตามช่วงเวลา)
 @endsection
 @section('content')
 
@@ -12,16 +12,15 @@
         <div class="panel " data-sortable-id="form-validation-1">
             <!-- begin panel-heading -->
             <div class="panel-heading panel-black">
-                <h5 class="text-white">แบบฟอร์มข้อมูลรายละเอียดโปรโมชั่น</h5>
+                <h5 class="text-white">แบบฟอร์มข้อมูลราคาสินค้า (ตามช่วงเวลา)</h5>
             </div>
             <!-- end panel-heading -->
             <!-- begin panel-body -->
             <div class="panel-body">
-                <form class="form-horizontal" id="form-validate" name="demo-form" enctype="multipart/form-data"
-                    action="{{ route('backend.promotion_details.update', ['promotion_detail' => $promotion_detail->id] ) }}"
-                    method='post'>
-                    @method('PATCH')
-                    @include('backend.promotion_details.form')
+                <form class="form-horizontal" method="post" id="form-validate" name="demo-form"
+                    enctype="multipart/form-data" action="{{ route('backend.product_prices.store') }}">
+                    @method('post')
+                    @include('backend.product_prices.form')
                     @csrf
                 </form>
             </div>

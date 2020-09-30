@@ -10,6 +10,16 @@ use Validator;
 
 class CartController extends BaseController
 {
+    public function count(Request $request)
+    {
+        $carts = Cart::where('users_id', 1)->whereNull('orders_id')->onlyAvailable(config('global.warehouse'))->count();
+        try {
+            $success['result'] =  $carts;
+            return $this->sendResponse($success, 'Count total quantity in Cart');
+        } catch (\Throwable $th) {
+            return $this->sendError('Error.', $th);
+        }
+    }
 
     public function delete(int $cartId)
     {
@@ -28,7 +38,6 @@ class CartController extends BaseController
     public function updateUnit(Request $request)
     {
         try {
-
         } catch (\Throwable $th) {
             return $this->sendError('Error.', $th);
         }

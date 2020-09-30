@@ -21,8 +21,8 @@
         </div>
     </section>
     <section class="box-history">
-        <form class="form-horizontal" method="post" id="order-form-validate" name="demo-form" enctype="multipart/form-data"
-            action="{{ route('frontend.cart-order', ['locale' => get_lang()]) }}">
+        <form class="form-horizontal" method="post" id="order-form-validate" name="demo-form"
+            enctype="multipart/form-data" action="{{ route('frontend.cart-order', ['locale' => get_lang()]) }}">
             @method('post')
             <div class="container">
                 <h4>{{ $pages->{get_lang('title')} }}</h4>
@@ -48,19 +48,14 @@
                     </div>
 
                     @foreach ($carts as $cart)
+                    {{ dd($cart->promotion_details) }}
                     <div class="order-body row position-relative">
                         @if ($cart->stocks[0]->quantity === 0)
                         <div class="order-disabled"></div>
                         @endif
-                        {{-- style="position: relative" --}}
-                        {{-- <div class="del-loading" style="position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    background: #fff;
-                    opacity: 0.7;
-                    z-index: 1; display: none;"></div> --}}
                         <div class="col-md-6 col-ms-5 d-flex align-items-center">
-                            <input type="checkbox" name="cartID[]" value="{{ $cart->id }}" {{ ($cart->stocks[0]->quantity === 0) ? 'disabled' : '' }}>
+                            <input type="checkbox" name="cartID[]" value="{{ $cart->id }}"
+                                {{ ($cart->stocks[0]->quantity === 0) ? 'disabled' : '' }}>
                             <div class="img">
                                 <div class="src-img"
                                     style="background-image: url('{{ $cart->product->image ?? 'http://via.placeholder.com/500x350' }}')">
@@ -74,10 +69,10 @@
                                 <span>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-delete disabled">-</button>
-                                        <input type="text" name="quantity[]" class="btn quantity" value="{{ $cart->quantity }}"
-                                            onchange="calAmount($(this));" {{ ($cart->stocks[0]->quantity === 0) ? 'disabled' : '' }}>
+                                        <input type="text" name="quantity[]" class="btn quantity"
+                                            value="{{ $cart->quantity }}" onchange="calAmount($(this));"
+                                            {{ ($cart->stocks[0]->quantity === 0) ? 'disabled' : '' }}>
                                         <button type="button" class="btn btn-plus">+</button>
-                                        {{-- {{ $cart->stocks[0]->quantity == '1' ? 'disabled' : '' }} --}}
                                     </div>
                                     <div class="text-center">
                                         @if ($cart->stocks[0]->quantity == 0)
@@ -93,13 +88,13 @@
                         </div>
                         <div class="col-md-2 col-ms-2 col-6 text-center display-price disabled" style="color: #ddd">
                             <b class="line-through">฿{{ number_format($cart->product->full_price) }}</b><br>
-                            ฿<span>{{ number_format($cart->product->price) }}</span>
+                            ฿<span>{{ $price = number_format($cart->promotion_details[0]->price) ?? number_format($cart->product->price) }}</span>
                         </div>
                         <div class="col-md-2 col-ms-2 col-6 text-center display-amount">
                             @if ($cart->stocks[0]->quantity === 0)
-                            ฿<span>{{ number_format($cart->product->price * 0) }}</span>
+                            ฿<span>{{ number_format($price * 0) }}</span>
                             @else
-                            ฿<span>{{ number_format($cart->product->price * $cart->quantity) }}</span>
+                            ฿<span>{{ number_format($price * $cart->quantity) }}</span>
                             @endif
                         </div>
                         <div class="col-md-2 col-ms-2 text-center border-left" style="z-index:1">
@@ -131,8 +126,8 @@
                             class="btn btn-secondary border-0 w-100">ซื้อสินค้าเพิ่ม</a>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6 px-1"><a href="javascript:void(0);"
-                            onclick="$('#order-form-validate').submit();"
-                            class="btn border-0 w-100 btn-next-process" disabled>ดำเนินการต่อ</a>
+                            onclick="$('#order-form-validate').submit();" class="btn border-0 w-100 btn-next-process"
+                            disabled>ดำเนินการต่อ</a>
                     </div>
                 </div>
             </div>
