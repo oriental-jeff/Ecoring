@@ -41,6 +41,11 @@ Route::group(['prefix' => 'v1'], function () {
         Route::delete('/{cartId}', 'API\CartController@delete');
     });
 
+    /* payments */
+    Route::group(['prefix' => 'payments'], function () {
+        Route::get('/checkorder/{ordercode}', 'API\OrderController@checkorder');
+    });
+
     // forgot password
     Route::group(['prefix' => 'password'], function () {
         Route::post('forgot', 'Frontend\ForgotPasswordController@forgot');

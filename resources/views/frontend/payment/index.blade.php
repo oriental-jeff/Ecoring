@@ -20,43 +20,62 @@
     <section class="mt-2 mb-5">
         <div class="container">
             <h4>แจ้งชำระเงิน</h4>
-            <form action="success.php" method="post" accept-charset="utf-8">
+            <form class="form-horizontal" method="post" id="form-validate" name="demo-form"
+                enctype="multipart/form-data"
+                action="{{ route('frontend.payment-success', ['locale' => get_lang()]) }}">
+                @method('post')
                 <div class="form-row">
                     <div class="col-lg-4 col-md-6 mb-3">
-                        <label for="validationDefault01">หมายเลขสั่งซื้อ :</label>
-                        <input type="text" class="form-control" id="validationDefault01" placeholder="First name"
-                            value="UCM789456123" readonly>
+                        <label for="orders_code">หมายเลขสั่งซื้อ<span class="text-danger"> * </span> :</label>
+                        <input type="text" class="form-control" id="orders_code" name="orders_code"
+                            placeholder="หมายเลขสั่งซื้อ" value="{{ old('orders_code') ?? '' }}">
+                        {{ $errors->first('orders_code') }}
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div id="rs_order" class="alert alert-danger" role="alert"
+                            style="position: relative; top: 33px; height: 35px;">
+                            <div style="margin-top: -6px;">ไม่พบข้อมูล !!</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-lg-4 col-md-6 mb-3">
-                        <label for="validationDefault02">ชื่อ-นามสกุล :</label>
-                        <input type="text" class="form-control" id="validationDefault02" required>
+                        <label for="fullname">ชื่อ-นามสกุล<span class="text-danger"> * </span> :</label>
+                        <input type="text" class="form-control" id="fullname" name="fullname"
+                            value="{{ Auth::user()->first_name. ' ' . Auth::user()->last_name ?? '' }}"
+                            {{ Auth::user()->first_name ? 'disabled' : 'required' }}>
+                        {{ $errors->first('first_name'). ' ' . $errors->first('last_name') }}
                     </div>
                     <div class="col-lg-4 col-md-6 mb-3">
-                        <label for="validationDefault03">เบอร์ติดต่อ :</label>
-                        <input type="tel" class="form-control" id="validationDefault03" required>
+                        <label for="contact">เบอร์ติดต่อ<span class="text-danger"> * </span> :</label>
+                        <input type="tel" class="form-control" id="contact" name="contact" value="" required>
+                        {{ $errors->first('contact') }}
                     </div>
                     <div class="col-lg-4 col-md-6 mb-3">
-                        <label for="validationDefault04">อีเมล :</label>
-                        <input type="email" class="form-control" id="validationDefault04" required>
+                        <label for="email">อีเมล<span class="text-danger"> * </span> :</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                            value="{{ Auth::user()->email ?? '' }}"
+                            {{ Auth::user()->first_name ? 'disabled' : 'required' }}>
+                        {{ $errors->first('email') }}
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-lg-2 col-md-6 mb-3">
-                        <label for="validationDefault05">วันที่ :</label>
-                        <input type="date" class="form-control" id="validationDefault05" required>
+                        <label for="payment_date">วันที่<span class="text-danger"> * </span> :</label>
+                        <input type="date" class="form-control" id="payment_date" name="payment_date"
+                            value="{{ date("Y-m-d") }}" required>
                     </div>
                     <div class="col-lg-2 col-md-6 mb-3">
-                        <label for="validationDefault06">เวลา :</label>
-                        <input type="time" class="form-control" id="validationDefault06" required>
+                        <label for="payment_time">เวลา<span class="text-danger"> * </span> :</label>
+                        <input type="time" class="form-control" id="payment_time" name="payment_time"
+                            value="{{ date("H:i:s") }}" required>
                     </div>
                 </div>
                 <div class="form-group box2">
                     <h4>โอนเข้าบัญชี</h4>
                     <div class="form-row">
                         <div class="col-lg-4 col-md-6 mb-3">
-                            <label for="bank_accounts_id">ธนาคาร :</label>
+                            <label for="bank_accounts_id">ธนาคาร<span class="text-danger"> * </span> :</label>
                             <select class="form-control" id="bank_accounts_id" name="bank_accounts_id">
                                 @foreach ($bank_accounts as $bank_account)
                                 <option value="{{ $bank_account->id }}">{{ $bank_account->{ get_lang('bank_name')} }}
@@ -66,13 +85,15 @@
                         </div>
                         <div class="col-xl-4 col-lg-6 col-md-6 mb-3 align-self-end">
                             <div class="input-group">
-                                <div class="input-group-prepend pr-3 align-self-center">หลักฐานการโอนเงิน : </div>
+                                <div class="input-group-prepend pr-3 align-self-center">หลักฐานการโอนเงิน<span
+                                        class="text-danger"> * </span> : </div>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input d-none" id="exampleFormControlFile1">
-                                    <label class="btn border-0 w-100 btn-FormControlFile"
-                                        for="exampleFormControlFile1">อัพโหลดสลิป <i
+                                    <input type="file" class="custom-file-input" id="image" name="image"
+                                        maxSizeByte="204800" fileType="image" required style="position: absolute">
+                                    <label class="btn border-0 w-100 btn-FormControlFile" for="image">อัพโหลดสลิป <i
                                             class="ml-2 fa fa-upload"></i></label>
                                 </div>
+                                {{ $errors->first('orders_code') }}
                             </div>
                         </div>
                     </div>
@@ -83,9 +104,10 @@
                             onclick="window.history.back()">ย้อนกลับ</button>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6 px-1">
-                        <button type="submit" class="btn border-0 w-100">แจ้งการชำระเงิน</button>
+                        <button type="submit" class="btn-submit btn border-0 w-100" disabled>แจ้งการชำระเงิน</button>
                     </div>
                 </div>
+                @csrf
             </form>
         </div>
     </section>
@@ -96,6 +118,30 @@
 @push('after-scripts')
 <script>
     $(function() {
+        $('#image').on('change', function(){
+            readURL(this);
+        });
+        $('#rs_order').hide();
+        $('#orders_code').on('change', function() {
+            $('.btn-submit').attr('disabled', true);
+            $('#rs_order').hide();
+            if ($(this).val()) {
+                $.ajax({
+                    url: '/api/v1/payments/checkorder/' + $(this).val(),
+                    type: 'GET',
+                    success: function (result) {
+                        if (result == 0) {
+                            $('#rs_order').show();
+                        } else {
+                            $('.btn-submit').attr('disabled', false);
+                        }
+                    },
+                    error: function(data) {
+                        $('#rs_order').show();
+                    }
+                });
+            }
+        });
     });
 </script>
 @endpush

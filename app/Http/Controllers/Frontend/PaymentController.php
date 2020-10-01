@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Facades\App\Repository\Pages;
 use App\Model\BankAccounts;
 use Illuminate\Http\Request;
+use App\Model\Orders;
 use App\Model\PaymentNotifications;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,45 +23,75 @@ class PaymentController extends Controller
 
     public function store(Request $request)
     {
-        $product = PaymentNotifications::create($this->validateRequest());
-        $product->storeImage();
+        $pages = Pages::get(3);
+        // Check order
+        // $order = Orders::where('code', $request->orders_code);
+        $order = 'TEST-20201001';
+        // dd($request);
+        if ($order and $this->validateRequest()) {
+            if (Auth::user()) {
+                $fullname = Auth::user()->first_name . ' ' . Auth::user()->last_name;
+                $contact = '';
+                $email = Auth::user()->email;
+            } else {
+                $fullname = $request->fullname;
+                $contact = $request->contact;
+                $email = $request->email;
+            }
+            $detail = [
+                'orders_code' => $request->orders_code,
+                'bank_accounts_id' => $request->bank_accounts_id,
+                'fullname'  => $fullname,
+                'contact'  => $contact,
+                'email'  => $email,
+                'payment_datetime'  => $request->payment_date . ' ' . $request->payment_time,
+            ];
+            $detail['updated_by'] = Auth::id() ?? 1;
+            $detail['created_by'] = Auth::id() ?? 1;
+            $payment = PaymentNotifications::create($detail);
+            $payment->storeImage();
 
-        return redirect(route('frontend.payment.index'));
+            return view('frontend.payment.success', compact(['order', 'pages']));
+        } else {
+            return redirect(route('frontend.payment.index'));
+        }
+    }
+
+    public function success(Request $request)
+    {
+        $pages = Pages::get(3);
+        $order = 'TEST-20201001';
+        $order = '';
+        return view('frontend.payment.success', compact(['order', 'pages']));
     }
 
     private function validateRequest()
     {
-        $validatedData = request()->validate([
-            "categories_id" => "required",
-            "grades_id" => "required",
-            "sku" => "",
-            "name_th" => "required",
-            "name_en" => "required",
-            "description_th" => "",
-            "description_en" => "",
-            "info_th" => "",
-            "info_en" => "",
-            "full_price" => "required",
-            "price" => "required",
-            "weight" => "required",
-            "recommend" => "",
-            "active" => "required",
-        ]);
+        if (Auth::user()) {
+            $validatedData = request()->validate([
+                "orders_code" => "required",
+                "fullname" => "",
+                "contact" => "",
+                "email" => "",
+                "payment_date" => "required",
+                "payment_time" => "required",
+                "bank_accounts_id" => "required",
+            ]);
+        } else {
+            $validatedData = request()->validate([
+                "orders_code" => "required",
+                "fullname" => "required",
+                "contact" => "required",
+                "email" => "required",
+                "payment_date" => "required",
+                "payment_time" => "required",
+                "bank_accounts_id" => "required",
+            ]);
+        }
 
         request()->validate([
-            "image"  => ['sometimes', 'file', 'image', 'max:200'],
+            "image"  => ['required', 'file', 'image', 'max:204800'],
         ]);
-
-        $validatedData['updated_by'] = Auth::id() ?? 1;
-
-        if (request()->route()->getActionMethod() == 'store') :
-
-            $validatedData['created_by'] = Auth::id() ?? 1;
-
-        endif;
-
-        // Checkbox
-        $validatedData['recommend'] = request()->has('recommend') ? 1 : 0 ?? 0;
 
         return $validatedData;
     }
