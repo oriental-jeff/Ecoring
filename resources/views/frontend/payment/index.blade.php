@@ -9,8 +9,9 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="../home">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Payment</li>
+                    <li class="breadcrumb-item"><a
+                            href="{{ route('frontend.home', ['locale' => get_lang()]) }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $pages->{get_lang('title')} }}</li>
                 </ol>
             </nav>
         </div>
@@ -55,13 +56,12 @@
                     <h4>โอนเข้าบัญชี</h4>
                     <div class="form-row">
                         <div class="col-lg-4 col-md-6 mb-3">
-                            <label for="validationDefault07">ธนาคาร :</label>
-                            <select class="form-control" id="validationDefault07">
-                                <option>ธนาคารไทยพาณิชย์ - SCB</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                            <label for="bank_accounts_id">ธนาคาร :</label>
+                            <select class="form-control" id="bank_accounts_id" name="bank_accounts_id">
+                                @foreach ($bank_accounts as $bank_account)
+                                <option value="{{ $bank_account->id }}">{{ $bank_account->{ get_lang('bank_name')} }}
+                                </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-xl-4 col-lg-6 col-md-6 mb-3 align-self-end">

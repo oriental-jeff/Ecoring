@@ -7,17 +7,18 @@ use Facades\App\Repository\Pages;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-  // use AuthenticatesUsers;
+  use AuthenticatesUsers;
 
   protected $redirectTo = RouteServiceProvider::HOME;
 
-  // public function __construct()
-  // {
-  //   $this->middleware('guest')->except('logout');
-  // }
+  public function __construct()
+  {
+    // $this->middleware('guest')->except('logout');
+  }
 
   public function showLoginForm()
   {
@@ -25,9 +26,15 @@ class LoginController extends Controller
     return view('frontend.auth.login', compact(['pages']));
   }
 
+  public function logout(Request $request)
+  {
+    Auth::guard('web')->logout();
+    return redirect('/');
+  }
+
   public function loggedOut()
   {
-    return redirect()->route('frontend.home');
+    return redirect()->route('/');
   }
 
   public function credentials()
