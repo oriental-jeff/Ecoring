@@ -6,12 +6,15 @@ use Facades\App\Repository\Pages;
 use App\User;
 use App\Model\UserProfile;
 use App\Model\UserAddressDelivery;
+use App\Model\UserVerify;
 use App\Model\Province;
 use App\Model\District;
 use App\Model\SubDistrict;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterMail;
 
 class UserController extends Controller
 {
@@ -43,7 +46,7 @@ class UserController extends Controller
       'first_name' => ['required', 'string', 'max:255'],
       'last_name' => '',
       'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-      'password' => ['required', 'string', 'min:6', 'confirmed'],
+      'password' => ['required', 'string', 'min:8', 'confirmed'],
       'sex' => ['required'],
       'birthday' => ['required'],
       'telephone' => ['required'],
@@ -64,11 +67,12 @@ class UserController extends Controller
     ]);
 
     $user_data = [
+      'guest' => 1,
       'first_name' => $data['first_name'],
       'last_name' => $data['last_name'],
       'email' => $data['email'],
       'password' => Hash::make($data['password']),
-      'active' => 0,
+      'active' => 1,
       'created_by' => 1,
       'updated_by' => 1,
     ];
@@ -105,11 +109,34 @@ class UserController extends Controller
     $user_address_delivery['user_id'] = $user->id;
     UserAddressDelivery::create($user_address_delivery);
 
+    $user->sendEmailVerificationNotification();
+    
+    $verify_code = '';
+    $email_data = [
+      'email' => $data['email'],
+      'name' => $data['first_name'] . ' ' . $data['last_name'],
+      'verify_code' => $verify_code,
+    ];
+    // $this->send_email($email_data);
+
     $message = __('messages.create_success');
     $request->session()->flash('message', $message);
     $request->session()->flash('alert-class', 'alert-success');
 
     return redirect(route('frontend.auth.login.form', ['locale' => get_lang()]));
+  }
+
+  public function verify_register()
+  {
+    $verify_code = '';
+    $verify = UserVerify::where('verify_code', $verify_code)->whereRaw('now() >= end_date_time')->first();
+    if ($verify):
+      $user_id = $verify->user_id;
+      $user_data = [
+        'active' => 1,
+      ];
+      User::where('user_id', $user->id)->update($user_data);
+    endif;
   }
 
   public function edit()
@@ -134,7 +161,7 @@ class UserController extends Controller
     if($request->filled('password')):
       $data = request()->validate([
         'old_password' => ['required', 'string', 'min:6'],
-        'password' => ['required', 'string', 'min:6', 'confirmed'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
       ]);
       $hashedPassword = Auth::user()->password;
       if (Hash::check($request->old_password , $hashedPassword)): // check old password
@@ -142,7 +169,7 @@ class UserController extends Controller
           $user_data['password'] = Hash::make($data['password']);
           $user->update($user_data);
 
-          $message = __('messages.update_success');
+          $message = __('messages.update_password_success');
           $alert_class= 'alert-success';
         else:
           $message = __('messages.duplicate_password');
@@ -152,6 +179,11 @@ class UserController extends Controller
         $message = __('messages.old_password_not_matched');
         $alert_class= 'alert-warning';
       endif;
+
+      $request->session()->flash('message', $message);
+      $request->session()->flash('alert-class', $alert_class);
+
+      return redirect()->back();
     else :
       $data = request()->validate([
         'first_name' => ['required', 'string', 'max:255'],
@@ -210,12 +242,12 @@ class UserController extends Controller
 
       $message = __('messages.update_success');
       $alert_class= 'alert-success';
-    endif;
-   
-    $request->session()->flash('message', $message);
-    $request->session()->flash('alert-class', $alert_class);
 
-    return redirect(route('frontend.user.profile', ['locale' => get_lang()]));
+      $request->session()->flash('message', $message);
+      $request->session()->flash('alert-class', $alert_class);
+
+      return redirect(route('frontend.user.profile', ['locale' => get_lang()]));
+    endif;
   }
 
   public function edit_password()
@@ -224,5 +256,29 @@ class UserController extends Controller
     $user = User::where('id', Auth::id())->first();
 
     return view('frontend.user.changepass', compact(['user', 'pages']));
+  }
+
+
+
+
+
+
+  public function send_email($data)
+  {
+    $to_email = $data['email'];
+    // $to_email = 'dragoon.jr@gmail.com';
+    $to_name = $data['name'];
+    $send_to = [['email' => $to_email, 'name' => $to_name]];
+    $data['from_name'] = 'Ecoring Thailand';
+    $data['subject'] = '[Ecoring] Please verify your email address';
+    $data['footer'] = 'Ecoring Thailand team';
+
+    Mail::to($send_to)
+    ->send(new RegisterMail($data));
+
+    // foreach (['taylor@example.com', 'dries@example.com'] as $recipient) {
+    //   Mail::to($recipient)->send(new ApplyMail($data));
+    // }
+    
   }
 }

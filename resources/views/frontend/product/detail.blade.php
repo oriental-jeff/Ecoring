@@ -106,12 +106,12 @@
 							<br>
 							<div class="mt-3" style="color: #00b16b;">{{ __('messages.product_total_quantity') }} : {{ $product->stocks[0]->quantity }} {{ __('messages.unit') }}</div>
 							<br>
-							<button type="button" class="btn border-0 w-100">{{ __('messages.add_basket') }}</button>
+							<button type="button" class="btn border-0 w-100" {{ empty(Auth::user()) ? 'disabled' : '' }}>{{ __('messages.add_basket') }}</button>
 							<br>
-							<div class="mt-3" style="color: #00b16b;">ราคานี้ตั้งแต่ 16/03/2020 ถึง 16/03/2020 ราคานี้ใช้สำหรับการสั่งซื้อทางออนไลน์เท่านั้น</div>
-							<br>
+							{{-- <div class="mt-3" style="color: #00b16b;">ราคานี้ตั้งแต่ 16/03/2020 ถึง 16/03/2020 ราคานี้ใช้สำหรับการสั่งซื้อทางออนไลน์เท่านั้น</div>
+							<br> --}}
 							
-							<div class="box-icon-list">
+							{{-- <div class="box-icon-list">
 								<div class="footer-box">
 									<img src="../../images/icon-footer/box1.svg">
 								</div>
@@ -128,7 +128,7 @@
 									<img src="../../images/icon-footer/box3.svg">
 								</div>
 								<b>รับประกันการติดตั้ง เป็นระยะเวลา 180 วัน</b>
-							</div>
+							</div> --}}
 							
 							<hr>
 							<!-- social PC -->
@@ -156,25 +156,16 @@
 						<hr class="mt-4">
 						<div class="tag">
 							<h5>{{ __('messages.tags') }} :</h5>
-							<a href="#">กระเป๋า</a>
-							<a href="#">สีน้ำตาล</a>
+              @foreach ($product->producttags as $product_tag)
+                <a href="#">{{ $product_tag->tags->{ get_lang('name') } }}</a>
+              @endforeach
 						</div>
 						
 						<!-- social mobile -->
-						<div class="d-block d-xl-none" style="color: #00b16b;">มีแชร์ :
+						<div class="d-block d-xl-none" style="color: #00b16b;">{{ __('messages.share') }} :
 							<div class="box-social d-inline-block">
-				        <a target="_blank" href="#">
-				            <img src="../../images/icon-social-fb.png">
-				        </a>
-				        <a target="_blank" href="#">
-				            <img src="../../images/icon-social-tw.png">
-				        </a>
-				        <a target="_blank" href="#">
-				            <img src="../../images/icon-social-ig.png">
-				        </a>
-				        <a target="_blank" href="#">
-				            <img src="../../images/icon-social-li.png">
-				        </a>
+				        <a class="I-fb" href="{{ get_link_share_facebook() }}" target="_blank" rel="noopener" aria-label="facebook"><img src="{{ asset('images/icon-social-fb.png') }}"></a>
+                <a class="I-tw" href="{{ get_link_share_twitter( $product->{ get_lang('title') } ) }}" target="_blank" rel="noopener" aria-label="twitter"><img src="{{ asset('images/icon-social-tw.png') }}"></a>
 					    </div>
 						</div>
 						<!-- social mobile -->
@@ -198,28 +189,26 @@
 
         <div class="owl-carousel box-List">
           @foreach ($new_products as $new_product)
-  					<div class="item col-12 list">
-  						<div class="btn-heart {{ $new_product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');"></div>
-  						<div class="card">
-  							<div class="card-body">
-  								<a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $new_product->id]) }}">
-  									<div class="img">
-  										<div class="src-img" style="background-image: url({{ $new_product->image ?? 'http://via.placeholder.com/500x350' }})">
-  											<img src="{{ asset('images/size-img.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
-  										</div>
-  									</div>
-  									<div class="box-text">
-  										<h6>{{ $new_product->{ get_lang('name') } }}</h6>
-  										<span>{{ __('messages.grade') }} - {{ $new_product->grades_name->{ get_lang('name') } }}</span>
-  									</div>
-  								</a>
-  							</div>
-  							<div class="card-footer">
-  								<span class="price">{{ __('messages.price') }} : ฿{{ number_format($new_product->price) }}<b>฿{{ number_format($new_product->full_price) }}</b></span>
-  								<button type="button" class="btn w-100">{{ __('messages.add_basket') }}</button>
-  							</div>
-  						</div>
-  					</div>
+			<div class="card item col-12 list">
+				<div class="btn-heart {{ $new_product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');"></div>
+				<div class="card-body">
+					<a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $new_product->id]) }}">
+						<div class="img">
+							<div class="src-img" style="background-image: url({{ $new_product->image ?? 'http://via.placeholder.com/500x350' }})">
+								<img src="{{ asset('images/size-img.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
+							</div>
+						</div>
+						<div class="box-text">
+							<h6>{{ $new_product->{ get_lang('name') } }}</h6>
+							<span>{{ __('messages.grade') }} - {{ $new_product->grades_name->{ get_lang('name') } }}</span>
+						</div>
+					</a>
+				</div>
+				<div class="card-footer">
+					<span class="price">{{ __('messages.price') }} : ฿{{ number_format($new_product->price) }}<b>฿{{ number_format($new_product->full_price) }}</b></span>
+					<button type="button" class="btn w-100" {{ empty(Auth::user()) ? 'disabled' : '' }}>{{ __('messages.add_basket') }}</button>
+				</div>
+			</div>
           @endforeach
         </div>
 			</div>

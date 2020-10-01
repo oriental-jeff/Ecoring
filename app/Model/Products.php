@@ -113,6 +113,32 @@ class Products extends Model implements HasMedia
         return $this->hasMany('App\Model\Favorites', 'products_id', 'id')->where('user_id', Auth::id());
     }
 
+    public function prices()
+    {
+        return $this->hasOne('App\Model\ProductPrices', 'products_id', 'id')->where('active', 1)->whereRaw('curdate() between start_at and end_at');
+    }
+
+    public function getProductPriceAttribute()
+    {
+        $promotion = $this->hasOne('App\Model\PromotionDetails', 'products_id', 'id')
+            ->whereHas('promotions', function ($q) {
+                $q->whereRaw('curdate() between start_at and end_at');
+            })->first();
+
+        if (!empty($promotion)) :
+            $price = $promotion->price;
+        else :
+            $price_length = $this->hasOne('App\Model\ProductPrices', 'products_id', 'id')->where('active', 1)->whereRaw('curdate() >= start_at')->first();
+            if (!empty($price_length)) :
+                $price = $price_length->price;
+            else :
+                $price = $this->price;
+            endif;
+        endif;
+
+        return $price;
+    }
+
     public function getNameAttribute()
     {
         return "{$this->name_th} ( {$this->name_en} )";
@@ -141,6 +167,10 @@ class Products extends Model implements HasMedia
                 ->orWhere('name_en', 'like', "%$keyword%")
                 ->orWhereHas('categories_name', function ($q1) use ($keyword) {
                     $q1->where('name_th', 'like', "%$keyword%")
+                        ->orWhere('name_en', 'like', "%$keyword%");
+                })
+                ->orWhereHas('producttags.tags', function ($q2) use ($keyword) {
+                    $q2->where('name_th', 'like', "%$keyword%")
                         ->orWhere('name_en', 'like', "%$keyword%");
                 });
         }
