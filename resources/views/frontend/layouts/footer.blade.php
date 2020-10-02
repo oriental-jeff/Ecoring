@@ -148,42 +148,49 @@
   <div class="container">
     <p>{{ $main['web_info']->{ get_lang('copyright') } }}</p>
     <div class="Fright d-none d-sm-block">
-	  <a href="#" data-toggle="modal" data-target="#staticBackdrop">Privacy Policy</a>
+      <a href="#" data-toggle="modal" data-target="#staticBackdrop">{{ __('messages.privacy_policy') }}</a>
     </div>
   </div>
 </div>
 
-<div id="button-hourglass"><img src="../../images/I-hourglass.svg"></div>
-<div class="box-hourglass">
-  <button type="button" id="btn-close"></button>
-  <p class="mb-2">คุณมีรายการสินค้า</p>
-  <p>รอชำระเงิน <b>3</b> รายการ<br>
-  เหลือเวลาอีก <b><span id="TRemaining" data-time="2020-09-16 18:00:00"></span></b></p>
-</div>
+@if (!empty($main['order_not_pay'][0]))
+  @php
+    $time = $main['order_not_pay'][0]->created_at;
+    $end_time = $time->addDays(1);
+  @endphp
+  <div id="button-hourglass"><img src="{{ asset('images/I-hourglass.svg') }}"></div>
+  <div class="box-hourglass">
+    <button type="button" id="btn-close"></button>
+    <p class="mb-2">{{ __('messages.you_have_product') }}</p>
+    <p>{{ __('messages.wait_for_payment') }} <b>{{ $main['order_not_pay']->count() }}</b> {{ __('messages.list') }}<br>
+    {{ __('messages.time_left') }} <b><span id="TRemaining" data-time="{{ $end_time }}"></span></b></p>
+  </div>
+@endif
+
 <div class="box-menu-fixed d-xl-none">
   <ul class="navbar-nav row">
     <li class="nav-item active col">
-      <a class="nav-link" href="../home">
-        <img src="../../images/I-home.svg" class="icon-menu">
+      <a class="nav-link" href="{{ route('frontend.home', ['locale' => get_lang()]) }}">
+        <img src="{{ asset('images/I-home.svg') }}" class="icon-menu">
         Home
       </a>
     </li>
     <li class="nav-item col">
-      <a class="nav-link" href="../product">
-        <img src="../../images/I-shop.svg" class="icon-menu">
-        Products
+      <a class="nav-link" href="{{ route('frontend.product', ['locale' => get_lang()]) }}">
+        <img src="{{ asset('images/I-shop.svg') }}" class="icon-menu">
+        Product
       </a>
     </li>
     <li class="nav-item col">
-      <a class="nav-link" href="../payment">
-        <img src="../../images/I-shield.svg" class="icon-menu">
+      <a class="nav-link" href="{{ route('frontend.payment', ['locale' => get_lang()]) }}">
+        <img src="{{ asset('images/I-shield.svg') }}" class="icon-menu">
         Payment
       </a>
     </li>
     <li class="nav-item col">
-      <a class="nav-link" href="../register/login.php">
-        <img src="../../images/I-login.svg" class="icon-menu">
-        Sign in
+      <a class="nav-link" href="{{ route('frontend.auth.login.form', ['locale' => get_lang()]) }}">
+        <img src="{{ asset('images/I-login.svg') }}" class="icon-menu">
+        {{ __('messages.login') }}
       </a>
     </li>
   </ul>
@@ -199,7 +206,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	  <div class="modal-body">
+      <div class="modal-body">
         <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
         <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>

@@ -34,7 +34,7 @@
       <!-- begin navbar-header -->
       <div class="navbar-header">
         <div style="padding: 10px; width: 60%;">
-          <img src="{{ asset('images/favicon.png') }}" alt="" class="img-fluid" style="max-height: 60px; width: auto;">
+          <img src="{{ asset('images/logo.png') }}" alt="" class="img-fluid" style="max-height: 60px; width: auto;">
         </div>
         <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
           <span class="icon-bar"></span>

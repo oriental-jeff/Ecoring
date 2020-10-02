@@ -42,8 +42,8 @@
                     <div class="col-lg-4 col-md-6 mb-3">
                         <label for="fullname">ชื่อ-นามสกุล<span class="text-danger"> * </span> :</label>
                         <input type="text" class="form-control" id="fullname" name="fullname"
-                            value="{{ (Auth::check()) ? Auth::user()->first_name. ' ' . Auth::user()->last_name ?? '' : '' }}"
-                            {{ Auth::check() ? 'disabled' : 'required' }}>
+                            value="{{ Auth::user()->first_name. ' ' . Auth::user()->last_name ?? '' }}"
+                            {{ Auth::user()->first_name ? 'disabled' : 'required' }}>
                         {{ $errors->first('first_name'). ' ' . $errors->first('last_name') }}
                     </div>
                     <div class="col-lg-4 col-md-6 mb-3">
@@ -54,8 +54,8 @@
                     <div class="col-lg-4 col-md-6 mb-3">
                         <label for="email">อีเมล<span class="text-danger"> * </span> :</label>
                         <input type="email" class="form-control" id="email" name="email"
-                            value="{{ Auth::check() ? Auth::user()->email ?? '' : '' }}"
-                            {{ Auth::check() ? 'disabled' : 'required' }}>
+                            value="{{ Auth::user()->email ?? '' }}"
+                            {{ Auth::user()->first_name ? 'disabled' : 'required' }}>
                         {{ $errors->first('email') }}
                     </div>
                 </div>

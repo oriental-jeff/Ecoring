@@ -41,26 +41,24 @@
         </div>
         <div class="row box-List py-3">
           @foreach ($new_products as $new_product)
-            <div class="col-xl-2 col-lg-3 col-sm-4 col-6 list">
+            <div class="card col-xl-2 col-lg-3 col-sm-4 col-6 list">
               <div class="btn-heart {{ $new_product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');"></div>
-              <div class="card h-100">
-                <div class="card-body">
-                  <a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $new_product->id]) }}">
-                    <div class="img">
-                      <div class="src-img" style="background-image: url({{ $new_product->image ?? 'http://via.placeholder.com/500x350' }})">
-                        <img src="{{ asset('images/size-img.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
-                      </div>
-                    </div>
-                    <div class="box-text">
-                      <h6>{{ $new_product->{ get_lang('name') } }}</h6>
-                      <span>{{ __('messages.grade') }} - {{ $new_product->grades_name->{ get_lang('name') } }}</span>
-                    </div>
-                  </a>
-                </div>
-                <div class="card-footer">
-                  <span class="price">{{ __('messages.price') }} : ฿{{ number_format($new_product->price) }}<b>฿{{ number_format($new_product->full_price) }}</b></span>
-                  <button type="button" class="btn w-100">{{ __('messages.add_basket') }}</button>
-                </div>
+              <div class="card-body">
+              	<a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $new_product->id]) }}">
+                  <div class="img">
+                  	<div class="src-img" style="background-image: url({{ $new_product->image ?? 'http://via.placeholder.com/500x350' }})">
+                      <img src="{{ asset('images/size-img.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
+                  	</div>
+                  </div>
+                  <div class="box-text">
+                  	<h6>{{ $new_product->{ get_lang('name') } }}</h6>
+				  	<span>{{ __('messages.grade') }} - {{ $new_product->grades_name->{ get_lang('name') } }}</span>
+                  </div>
+            	</a>
+              </div>
+              <div class="card-footer">
+			  	<span class="price">{{ __('messages.price') }} : ฿{{ number_format($new_product->price) }}<b>฿{{ number_format($new_product->full_price) }}</b></span>
+			  	<button type="button" class="btn w-100" {{ empty(Auth::user()) ? 'disabled' : '' }}>{{ __('messages.add_basket') }}</button>
               </div>
             </div>
           @endforeach
@@ -142,34 +140,30 @@
         </div>
         <div class="row box-List lazyload">
           @foreach ($recommended_products as $recommended_product)
-            @for($i = 1; $i <= 96; $i++)
-              <div class="col-xl-2 col-lg-3 col-sm-4 col-6 list">
-                <div class="btn-heart {{ $recommended_product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');"></div>
-                <div class="card h-100">
-                  <div class="card-body">
-                    <a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $recommended_product->id]) }}">
-                      <div class="img">
-                        <div class="src-img" style="background-image: url({{ $recommended_product->image ?? 'http://via.placeholder.com/500x350' }})">
-                          <img src="{{ asset('images/size-img.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
-                        </div>
-                      </div>
-                      <div class="box-text">
-                        <h6>{{ $recommended_product->{ get_lang('name') } }}</h6>
-                        <span>{{ __('messages.grade') }} - {{ $recommended_product->grades_name->{ get_lang('name') } }}</span>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="card-footer">
-                    <span class="price">{{ __('messages.price') }} : ฿{{ number_format($recommended_product->price) }}<b>฿{{ number_format($recommended_product->full_price) }}</b></span>
-                    <button type="button" class="btn w-100">{{ __('messages.add_basket') }}</button>
+          <div class="card col-xl-2 col-lg-3 col-sm-4 col-6 list">
+            <div class="btn-heart {{ $recommended_product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');"></div>
+            <div class="card-body">
+              <a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $recommended_product->id]) }}">
+                <div class="img">
+                  <div class="src-img" style="background-image: url({{ $recommended_product->image ?? 'http://via.placeholder.com/500x350' }})">
+                    <img src="{{ asset('images/size-img.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
                   </div>
                 </div>
-              </div>
-            @endfor
+                <div class="box-text">
+                  <h6>{{ $recommended_product->{ get_lang('name') } }}</h6>
+                  <span>{{ __('messages.grade') }} - {{ $recommended_product->grades_name->{ get_lang('name') } }}</span>
+                </div>
+              </a>
+            </div>
+            <div class="card-footer">
+              <span class="price">{{ __('messages.price') }} : ฿{{ number_format($recommended_product->price) }}<b>฿{{ number_format($recommended_product->full_price) }}</b></span>
+              <button type="button" class="btn w-100" {{ empty(Auth::user()) ? 'disabled' : '' }}>{{ __('messages.add_basket') }}</button>
+            </div>
+          </div>
           @endforeach
         </div>
       </div>
-	  <button type="button" class="btn3 mx-auto mt-3" id="a-lazyload">Load More <i class="fa fa-angle-down"></i></button>
+	  <a href="#" class="btn3" id="a-lazyload">Load More <i class="fa fa-angle-down"></i></a>
     </section>
   </div>
   <!-- end #content -->

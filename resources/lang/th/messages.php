@@ -15,6 +15,8 @@ return [
     'login' => 'เข้าสู่ระบบ',
     'logout' => 'ออกจากระบบ',
     'edit_password' => 'เปลี่ยนรหัสผ่าน',
+    'hi' => 'สวัสดี',
+    'privacy_policy' => 'นโยบายความเป็นส่วนตัว',
 
     'new_product' => 'สินค้าใหม่',
     'recommended_product' => 'สินค้าแนะนำ',
@@ -30,6 +32,9 @@ return [
     'product_total_quantity' => 'มีสินค้าทั้งหมด',
     'unit' => 'ชิ้น',
     'close' => 'ปิด',
+    'you_have_product' => 'คุณมีรายการสินค้า',
+    'wait_for_payment' => 'รอชำระเงิน',
+    'time_left' => 'เหลือเวลาอีก',
 
     'aboutus' => 'เกี่ยวกับเรา',
     'contactus' => 'ติดต่อเรา',
@@ -70,7 +75,7 @@ return [
     'register_noti2' => 'ก่อนทำการซื้อสินค้า',
     'username_placeholder' => 'กรอกชื่อบัญชี',
     'password_placeholder' => 'กรอกรหัสผ่าน',
-    'password_noti' => 'กรุณาใส่ 6 ตัวอักษรขึ้นไป',
+    'password_noti' => 'กรุณาใส่ 8 ตัวอักษรขึ้นไป',
     'confirm_password_noti' => 'กรุณากรอกรหัสผ่านให้ตรงกัน',
     'telephone_noti' => 'กรุณากรอกเบอร์มือถือของท่าน เพื่อความสะดวกในการจัดส่งสินค้า',
     'receive_infomation' => 'ต้องการรับข่าวสารจากทางร้าน',
@@ -106,5 +111,6 @@ return [
     'update_password_success' => 'แก้ไขรหัสผ่านเรียบร้อย',
     'duplicate_password' => 'ห้ามใช้รหัสผ่านใหม่ซ้ำรหัสผ่านเดิม',
     'old_password_not_matched' => 'รหัสผ่านเก่าไม่ถูกต้อง',
+    'send_forgot_email_success' => 'ส่งอีเมลร้องขอลืมรหัสผ่านเรียบร้อย',
 
 ];

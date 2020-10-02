@@ -23,20 +23,20 @@
         <div class="row">
           <div class="col-lg-6 p-0">
             <div class="box-paper border-top">
-              <form action="#" class="px-5 pt-5 pb-3 m-auto" style="max-width: 500px;">
+              <form method="post" id="form-validate" action="{{ route('frontend.auth.login', ['locale' => get_lang()]) }}" class="px-5 pt-5 pb-3 m-auto" style="max-width: 500px;">
+                @csrf
                 <div class="form-group icon-User">
-                    <label for="exampleInputEmail1">{{ __('messages.username') }} ({{ __('messages.email') }})</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="{{ __('messages.username_placeholder') }}">
+                  <label for="email">{{ __('messages.username') }} ({{ __('messages.email') }})</label>
+                  <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="{{ __('messages.username_placeholder') }}" @error('email') is-invalid @enderror value="{{ old('email') }}" required="">
                 </div>
                 <div class="form-group icon-Password">
-                    <label for="exampleInputPassword1">{{ __('messages.password') }}</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="{{ __('messages.password_placeholder') }}">
+                  <label for="password">{{ __('messages.password') }}</label>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('messages.password_placeholder') }}" @error('password') is-invalid @enderror required="">
                 </div>
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">{{ __('messages.remember_me') }}</label>
-                    
-                    <a href="forgetpass.php" class="float-right"><u>{{ __('messages.forget_password') }} ?</u></a>
+                  <input type="checkbox" class="form-check-input" id="remember_checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                  <label class="form-check-label" for="remember_checkbox">{{ __('messages.remember_me') }}</label>
+                  <a href="{{ route('frontend.password.reset', ['locale' => get_lang()]) }}" class="float-right"><u>{{ __('messages.forget_password') }} ?</u></a>
                 </div>
                 <br>
                 <button type="submit" class="btn btn-secondary border-0 d-block m-auto px-4">{{ __('messages.login') }}</button>

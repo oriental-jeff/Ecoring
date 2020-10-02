@@ -1,31 +1,31 @@
-.subs-email-noti {
-    position:relative;
-}
-
-.subs-email-noti__mesg {
-    position:absolute;
-    top:0;
-    left:1px;
-}
-
-.contact-page {
-    display: flex;
-}
-
-.contact-page .container {
-    padding: 20px 0;
-}
-.contact-form {
-    justify-content: center;
-}
-
-#contactForm {
-    width: 300px;
-}
-
-
-@media screen and (max-width: 425px) {
-    .subs-email-noti {
-        height: 30px;
-    }
+.subs-email-noti {
+    position:relative;
+}
+
+.subs-email-noti__mesg {
+    position:absolute;
+    top:0;
+    left:1px;
+}
+
+.contact-page {
+    display: flex;
+}
+
+.contact-page .container {
+    padding: 20px 0;
+}
+.contact-form {
+    justify-content: center;
+}
+
+#contactForm {
+    width: 300px;
+}
+
+
+@media screen and (max-width: 425px) {
+    .subs-email-noti {
+        height: 30px;
+    }
 }

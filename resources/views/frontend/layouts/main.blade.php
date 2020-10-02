@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8" />
   <title>{{ config('global.site_title') }} - Commerce</title>
-  <meta name="description" content="{{ $pages->{get_lang('meta_description')} }}" />
-  <meta name="keywords" content="{{ $pages->{get_lang('meta_keyword')} }}" />
+  <meta name="description" content="{{ $pages->{get_lang('meta_description')} ?? '' }}" />
+  <meta name="keywords" content="{{ $pages->{get_lang('meta_keyword')} ?? '' }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="author" content="" />
   <meta name="copyright" content="" >

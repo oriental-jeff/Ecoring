@@ -19,7 +19,6 @@ class CreateCartTable extends Migration
             $table->integer('products_id');
             $table->integer('users_id');
             $table->integer('quantity')->default(0);
-            $table->decimal('price')->default(0);
             $table->decimal('amount')->default(0);
             $table->integer('created_by');
             $table->integer('updated_by');

@@ -25,6 +25,11 @@ class Favorites extends Model
     ][$attributes];
   }
 
+  public function products()
+  {
+    return $this->belongsTo('App\Model\Products', 'products_id', 'id');
+  }
+
   public function update_name() {
     return $this->hasOne('App\User', 'id', 'updated_by');
   }

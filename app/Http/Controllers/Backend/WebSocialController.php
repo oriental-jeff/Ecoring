@@ -23,18 +23,6 @@ class WebSocialController extends Controller
     return view('backend.websocial.index', compact('websocials'));
   }
 
-  public function search(Request $request)
-  {
-    $this->authorize(mapPermission(self::MODULE));
-    if ($request->filled('keyword')) :
-      $websocials = WebSocial::getDataByKeyword($request->keyword)->get();
-    else:
-      $websocials = WebSocial::all();
-    endif;
-
-    return view('backend.websocial.show', compact('websocials'));
-  }
-
   public function create() {
     $this->authorize(mapPermission(self::MODULE));
     $websocial = new WebSocial;

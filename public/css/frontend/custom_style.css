@@ -59,14 +59,9 @@ input[type=radio] {
 .form-control {
     min-height: 38px;
 }
-select[readonly]:-moz-read-only {
-    /* For Firefox */
+select[readonly] {
     pointer-events: none;
-  }
-  
-  select[readonly]:read-only {
-    pointer-events: none;
-  }
+}
 .dropdown-menu {
     width: 100%;
 }
