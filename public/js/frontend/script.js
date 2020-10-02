@@ -351,3 +351,141 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+
+function readURL(_this, _div = null) {
+    var sum = (_this.files[0].size / 1048576);
+    // Fixed Old version and New version
+    if (typeof $(_this).attr('maxSizeByte') == 'undefined') {
+        // For Old version
+        var size = sum.toFixed(0);
+        if (size > 5) {
+            $(_this).val('');
+            $('#' + _div).attr('src', 'http://ubooking.am2bmarketing.co.th/assets/noimage.jpg');
+            swal({
+                type: 'warning',
+                text: 'ขนาดไฟล์ใหญ่เกินกำหนด'
+            });
+        } else {
+            if (_this.files && _this.files[0]) {
+                var reader2 = new FileReader();
+                reader2.onload = function (e) {
+                    $('#' + _div).attr('src', e.target.result).attr('data-content', "<img src='" + e.target.result + "'  class='img-tootip' />");
+                }
+                reader2.readAsDataURL(_this.files[0]);
+            }
+        }
+    } else {
+        // For New version
+        var error_file_size = 'ขนาดไฟล์ใหญ่เกินกำหนด';
+        var error_file_format = 'ประเภทไฟล์ไม่ถูกต้อง';
+        var chkNotErr = true;
+        var size = _this.files[0].size;
+        var maxSize = parseFloat($(_this).attr('maxSizeByte'));
+        // Check Max Size
+        if (chkNotErr) {
+            if (maxSize) {
+                if (size > maxSize) {
+                    $(_this).val('');
+                    // $('#' + _div).attr('src', 'http://artexchange.am2bmarketing.co.th/assets/noimage.jpg');
+                    swal({
+                        type: 'warning',
+                        text: error_file_size
+                    });
+                    var target = $(_this).parent().parent().siblings(':first-child');
+                    if (target.find('div').hasClass('file-name')) target.find('div').remove();
+                    chkNotErr = false;
+                }
+            }
+        }
+        // Check File Type
+        if (chkNotErr) {
+            var rs = chkTypeValid(_this);
+            if (!rs) {
+                $(_this).val('');
+                swal({
+                    type: 'warning',
+                    text: error_file_format
+                });
+                var target = $(_this).parent().parent().siblings(':first-child');
+                if (target.find('div').hasClass('file-name')) target.find('div').remove();
+                chkNotErr = false;
+            }
+        }
+        // Preview and Display Name
+        if (chkNotErr) {
+            if (_div) {
+                imgPreview(_this, _div);
+            } else {
+                displayFileName(_this);
+            }
+        }
+    }
+
+}
+
+function displayFileName(_this) {
+    var target = $(_this).parent().parent().siblings(':first-child');
+    var fileName = (_this.files[0].name.length > 30) ? _this.files[0].name.substr(0, 30) + '...' : _this.files[0].name;
+    if (target.find('div').hasClass('file-name')) target.find('div').remove();
+    target.append('<div class="file-name" style="color: #35bdc4; background: #f8f8f8; border-radius: 8px; padding: 2px 4px;">' + fileName + '</div>');
+}
+
+function imgPreview(_this, _div) {
+    if (_this.files && _this.files[0]) {
+        var reader2 = new FileReader();
+        reader2.onload = function (e) {
+            $('#' + _div).attr('src', e.target.result).attr('data-content', "<img src='" + e.target.result + "'  class='img-tootip' />");
+        }
+        reader2.readAsDataURL(_this.files[0]);
+    }
+}
+
+function chkTypeValid(_this) {
+    switch ($(_this).attr('fileType')) {
+        case 'image':
+            return isImage(_this.files[0].name);
+        case 'file':
+            return isFile(_this.files[0].name);
+        case 'video':
+            return isVideo(_this.files[0].name);
+    }
+    return false;
+}
+
+function getExtension(filename) {
+    var parts = filename.split('.');
+    return parts[parts.length - 1];
+}
+
+function isImage(filename) {
+    var ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+        case 'jpg':
+        case 'gif':
+        case 'bmp':
+        case 'png':
+            //etc
+            return true;
+    }
+    return false;
+}
+
+function isFile(filename) {
+    var ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+        case 'pdf':
+            //etc
+            return true;
+    }
+    return false;
+}
+
+function isVideo(filename) {
+    var ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+        case 'mp4':
+            // etc
+            return true;
+    }
+    return false;
+}
