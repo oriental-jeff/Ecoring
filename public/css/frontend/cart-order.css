@@ -65,7 +65,7 @@ section.box-history {
 		    transition: .5s;
 		}
 		.box-Shipment .box-check:checked+.box-check-label {
-		    background: rgb(247 247 247 / 84%);			
+		    background: rgba(247, 247, 247, 0.84);
 		}
 		.box-Shipment img.img-Shipment {
 		    width: 170px;

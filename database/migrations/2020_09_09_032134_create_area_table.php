@@ -24,9 +24,11 @@ class CreateAreaTable extends Migration
       $table->string('name_en');
       $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
       $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+
+      $table->index('geography_id');
     });
 
-    Schema::create('amphures', function (Blueprint $table) {
+    Schema::create('districts', function (Blueprint $table) {
       $table->id();
       $table->integer('province_id');
       $table->string('code', 10);
@@ -34,16 +36,20 @@ class CreateAreaTable extends Migration
       $table->string('name_en');
       $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
       $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+
+      $table->index('province_id');
     });
 
-    Schema::create('districts', function (Blueprint $table) {
+    Schema::create('sub_districts', function (Blueprint $table) {
       $table->id();
-      $table->integer('amphure_id');
+      $table->integer('district_id');
       $table->string('zip_code', 10);
       $table->string('name_th');
       $table->string('name_en');
       $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
       $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+
+      $table->index('district_id');
     });
   }
 
@@ -51,7 +57,7 @@ class CreateAreaTable extends Migration
   {
     Schema::dropIfExists('geographies');
     Schema::dropIfExists('provinces');
-    Schema::dropIfExists('amphures');
-    Schema::dropIfExists('provinces');
+    Schema::dropIfExists('districts');
+    Schema::dropIfExists('sub_districts');
   }
 }

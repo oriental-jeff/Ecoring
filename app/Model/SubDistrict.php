@@ -5,16 +5,16 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class District extends Model
+class SubDistrict extends Model
 {
   use LogsActivity;
-  protected $table = 'districts';
+  protected $table = 'sub_districts';
   protected $guarded = [];
   protected $attributes = [
     'active' => 1,
   ];
 
-  protected static $logName = 'amphure';
+  protected static $logName = 'district';
   protected static $logAttributes = ['*'];
   protected static $logOnlyDirty = true;
 
@@ -29,8 +29,8 @@ class District extends Model
     return $this->hasOne('App\User', 'id', 'updated_by');
   }
 
-  public function province() {
-    return $this->hasOne('App\Model\Province', 'id', 'province_id');
+  public function district() {
+    return $this->hasOne('App\Model\District', 'id', 'district_id');
   }
 
   public function scopeonlyActive($query) {

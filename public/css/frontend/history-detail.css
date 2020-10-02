@@ -126,14 +126,14 @@ section.box-history {
 					    font: normal normal normal 10px/1 FontAwesome;
 					    content: "\f00c";
 						background-color: #1ccc6b;
-					    box-shadow: 0 0 0 8px #1ccc6b, 0 0 0 11px rgb(28 204 107 / 15%);
+					    box-shadow: 0 0 0 8px #1ccc6b, 0 0 0 11px rgba(28, 204, 107, 0.15);;
 					}
 					.box-status .status[data-status="1"] li:nth-child(1)::after ,
 					.box-status .status[data-status="2"] li:nth-child(2)::after ,
 					.box-status .status[data-status="3"] li:nth-child(3)::after ,
 					.box-status .status[data-status="4"] li:nth-child(4)::after {
 						background-color: #ffd200;
-					    box-shadow: 0 0 0 8px #ffd200, 0 0 0 11px rgb(219 216 216 / 0.65);
+					    box-shadow: 0 0 0 8px #ffd200, 0 0 0 11px rgba(219, 216, 216, 0.65);;
 					}
 	.box-detail {
 	    margin: 30px 0px;
@@ -225,7 +225,7 @@ section.box-history {
 	    @media only screen and (orientation:portrait){
 			.box-total .col-lg-5.col-sm-12.border-left {
 			    border: 0px !important;
-		        border-top: 1px solid rgb(0 0 0 / 0.1) !important;
+		        border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
 			    margin-top: 25px;
 			}
 	    }
@@ -259,7 +259,7 @@ section.box-history {
 	    @media only screen and (orientation:portrait){
 			.box-total .border-left {
 			    border: 0px !important;
-		        border-top: 1px solid rgb(0 0 0 / 0.1) !important;
+		        border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
 			    margin-top: 25px;
 			}
 	    }
@@ -267,7 +267,7 @@ section.box-history {
 	    @media only screen and (orientation:landscape){
 			.box-total .col-lg-5.col-sm-12.border-left {
 			    border: 0px !important;
-		        border-top: 1px solid rgb(0 0 0 / 0.1) !important;
+		        border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
 			    margin-top: 25px;
 			}
 	    }

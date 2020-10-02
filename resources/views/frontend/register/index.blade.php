@@ -1,5 +1,7 @@
 @extends('frontend.layouts.main')
 @push('after-css')
+  {{-- <link href="{{ asset('plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" /> --}}
+  {{-- <link href="{{ asset('plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet" /> --}}
 @endpush
 @section('title')
 @endsection
@@ -29,8 +31,8 @@
 							<h5 style="color: #00b16b;"><i class="iClause">1</i> {{ __('messages.data_account') }}</h5>
 							<div class="form-row">
 								<div class="col-lg-5 col-md-6 mb-3">
-									<label for="username" style="color: #212529;">{{ __('messages.username') }} <span class="text-danger">*</span></label>
-									<input type="text" class="form-control" id="username" name="username" placeholder="{{ __('messages.username_placeholder') }}" required="">
+									<label for="email" style="color: #212529;">{{ __('messages.username') }} <span class="text-danger">*</span></label>
+									<input type="text" class="form-control" id="email" name="email" placeholder="{{ __('messages.username_placeholder') }}" required="">
 								</div>
 							</div>
 							<div class="form-row">
@@ -41,7 +43,7 @@
 								</div>
 								<div class="col-lg-5 col-md-6 mb-3">
 									<label for="confirm_password" style="color: #212529;">{{ __('messages.confirm_password') }} <span class="text-danger">*</span></label>
-									<input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="{{ __('messages.password_placeholder') }}" required="">
+									<input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="{{ __('messages.password_placeholder') }}" required="">
 									<small class="form-text text-muted text-color">{{ __('messages.confirm_password_noti') }}</small>
 								</div>
 							</div>
@@ -82,7 +84,7 @@
 								</div>
 								<div class="col-lg-5 col-md-6 mb-3">
 									<label for="email">{{ __('messages.email') }} <span class="text-danger">*</span></label>
-									<input type="email" class="form-control" id="email" name="email" required="">
+									<input type="email" class="form-control" id="email2" readonly>
 								</div>
 							</div>
 							<hr>
@@ -91,21 +93,20 @@
 							<div class="form-row">
 								<div class="col-lg-6 col-md-6 mb-3">
 									<label for="address">{{ __('messages.address') }} <span class="text-danger">*</span></label>
-									<textarea class="form-control" id="address" name="address" required=""></textarea>
+									<input type="text" class="form-control" id="address" name="address" required="">
 								</div>
-								<div class="col-lg-3 col-md-6 mb-3">
-									<label for="sub_district">{{ __('messages.sub_district') }} <span class="text-danger">*</span></label>
-									<select class="form-control" id="sub_district" name="sub_district" required="">
-										<option value="">{{ __('messages.please_select') }}</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-									</select>
-								</div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                  <label for="province">{{ __('messages.province') }} <span class="text-danger">*</span></label>
+                  <select class="form-control area-select" id="province" name="province" data-size="10" data-live-search="true" required="">
+                    <option value="">{{ __('messages.please_select') }}</option>
+                    @foreach($provinces as $province)
+                      <option value="{{ $province->id }}">{{ $province->{ get_lang('name') } }}</option>
+                    @endforeach
+                  </select>
+                </div>
 								<div class="col-lg-3 col-md-6 mb-3">
 									<label for="district">{{ __('messages.district') }} <span class="text-danger">*</span></label>
-									<select class="form-control" id="district" name="district" required="">
+									<select class="form-control" id="district" name="district" required="" readonly>
 										<option value="">{{ __('messages.please_select') }}</option>
 										<option>2</option>
 										<option>3</option>
@@ -113,16 +114,16 @@
 										<option>5</option>
 									</select>
 								</div>
-								<div class="col-lg-4 col-md-6 mb-3">
-									<label for="province">{{ __('messages.province') }} <span class="text-danger">*</span></label>
-									<select class="form-control" id="province" name="province" required="">
-										<option value="">{{ __('messages.please_select') }}</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-									</select>
-								</div>
+                <div class="col-lg-4 col-md-6 mb-3">
+                  <label for="sub_district">{{ __('messages.sub_district') }} <span class="text-danger">*</span></label>
+                  <select class="form-control" id="sub_district" name="sub_district" required="" readonly>
+                    <option value="">{{ __('messages.please_select') }}</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
 								<div class="col-lg-4 col-md-6 mb-3">
 									<label for="postcode">{{ __('messages.postcode') }} <span class="text-danger">*</span></label>
 									<input type="tel" class="form-control" id="postcode" name="postcode" required="">
@@ -139,12 +140,21 @@
 									</div>
 								</div>
 								<div class="col-lg-6 col-md-6 mb-3">
-									<label for="logistic_address">{{ __('messages.address') }} <span class="text-danger">*</span></label>
-									<textarea class="form-control readonly" id="logistic_address" name="logistic_address" required="" readonly></textarea>
+									<label for="delivery_address">{{ __('messages.address') }} <span class="text-danger">*</span></label>
+									<input type="text" class="form-control readonly" id="delivery_address" name="delivery_address" required="" readonly>
 								</div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                  <label for="delivery_province">{{ __('messages.province') }} <span class="text-danger">*</span></label>
+                  <select class="form-control readonly" id="delivery_province" name="delivery_province" readonly>
+                    <option value="">{{ __('messages.please_select') }}</option>
+                    @foreach($provinces as $province)
+                      <option value="{{ $province->id }}">{{ $province->{ get_lang('name') } }}</option>
+                    @endforeach
+                  </select>
+                </div>
 								<div class="col-lg-3 col-md-6 mb-3">
-									<label for="logistic_sub_district">{{ __('messages.sub_district') }} <span class="text-danger">*</span></label>
-									<select class="form-control readonly" id="logistic_sub_district" name="logistic_sub_district" readonly>
+									<label for="delivery_district">{{ __('messages.district') }} <span class="text-danger">*</span></label>
+									<select class="form-control readonly readonlyNone" id="delivery_district" name="delivery_district" readonly>
 										<option>{{ __('messages.please_select') }}</option>
 										<option>2</option>
 										<option>3</option>
@@ -152,33 +162,23 @@
 										<option>5</option>
 									</select>
 								</div>
-								<div class="col-lg-3 col-md-6 mb-3">
-									<label for="logistic_district">{{ __('messages.district') }} <span class="text-danger">*</span></label>
-									<select class="form-control readonly" id="logistic_district" name="logistic_district" readonly>
-										<option>{{ __('messages.please_select') }}</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-									</select>
+                <div class="col-lg-4 col-md-6 mb-3">
+                  <label for="delivery_sub_district">{{ __('messages.sub_district') }} <span class="text-danger">*</span></label>
+                  <select class="form-control readonly readonlyNone" id="delivery_sub_district" name="delivery_sub_district" readonly>
+                    <option>{{ __('messages.please_select') }}</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+								<div class="col-lg-4 col-md-6 mb-3">
+									<label for="delivery_postcode">{{ __('messages.postcode') }} <span class="text-danger">*</span></label>
+									<input type="tel" class="form-control readonly" id="delivery_postcode" name="delivery_postcode" required="" readonly>
 								</div>
 								<div class="col-lg-4 col-md-6 mb-3">
-									<label for="logistic_province">{{ __('messages.province') }} <span class="text-danger">*</span></label>
-									<select class="form-control readonly" id="logistic_province" name="logistic_province" readonly>
-										<option>{{ __('messages.please_select') }}</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-									</select>
-								</div>
-								<div class="col-lg-4 col-md-6 mb-3">
-									<label for="logistic_postcode">{{ __('messages.postcode') }} <span class="text-danger">*</span></label>
-									<input type="tel" class="form-control readonly" id="logistic_postcode" name="logistic_postcode" required="" readonly>
-								</div>
-								<div class="col-lg-4 col-md-6 mb-3">
-									<label for="logistic_telephone">{{ __('messages.telephone') }} <span class="text-danger">*</span></label>
-									<input type="tel" class="form-control" id="logistic_telephone" name="logistic_telephone" required="">
+									<label for="delivery_telephone">{{ __('messages.telephone') }} <span class="text-danger">*</span></label>
+									<input type="tel" class="form-control" id="delivery_telephone" name="delivery_telephone" required="">
 									<small class="form-text text-muted text-color">{{ __('messages.telephone_noti') }}</small>
 								</div>
 							</div>
@@ -225,48 +225,217 @@
 
 @push('after-scripts')
   <script src='https://www.google.com/recaptcha/api.js'></script>
+  {{-- <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script> --}}
+  {{-- <script src="{{ asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script> --}}
   <script>
   $(document).ready(function() {
+    // $('.area-select').select2();
+    // $('.area-select').selectpicker('render');
     
+    $("#email").on("input", function() {
+      $("#email2").val(this.value);
+    });
+
     $("#check_current_address").click(function() {
-        if($('#check_current_address').is(':checked')) {
-        $("#logistic_address").val($("#address").val());
-        $("#logistic_sub_district").val($("#sub_district").val());
-        $("#logistic_district").val($("#district").val());
-        $("#logistic_province").val($("#province").val());
-        $("#logistic_postcode").val($("#postcode").val());
-          $('#boxAddress2 .readonly').attr('readonly', true);
-        } else {
-          $('#boxAddress2 .readonly').attr('readonly', false);
-        }
+      if($('#check_current_address').is(':checked')) {
+        $("#delivery_address").val($("#address").val());
+        $("#delivery_sub_district").html($('#sub_district').html()).val($("#sub_district").val());
+        $("#delivery_district").html($('#district').html()).val($("#district").val());
+        $("#delivery_province").val($("#province").val());
+        $("#delivery_postcode").val($("#postcode").val());
+        $('#boxAddress2 .readonly').attr('readonly', true);
+      } else {
+        $('#boxAddress2 .readonly:not(.readonlyNone)').attr('readonly', false);
+      }
     });
     
-      $("#address").on("input", function() {
-        if($('#check_current_address').is(':checked')) {
-          $("#logistic_address").val(this.value);
-        }
+    $("#address").on("input", function() {
+      if($('#check_current_address').is(':checked')) {
+        $("#delivery_address").val(this.value);
+      }
     });
-      $("#sub_district").on("input", function() {
-        if($('#check_current_address').is(':checked')) {
-          $("#logistic_sub_district").val(this.value);
-        }
+
+    $("#province").on("change", function() {
+      if($('#check_current_address').is(':checked')) {
+        $("#delivery_province").val(this.value);
+      }
+      changeProvince();
     });
-      $("#district").on("input", function() {
-        if($('#check_current_address').is(':checked')) {
-          $("#logistic_district").val(this.value);
-        }
+
+    $("#district").on("change", function() {
+      if($('#check_current_address').is(':checked')) {
+        $("#delivery_district").val(this.value).removeClass('readonlyNone');
+      }
+      changeDistrict();
     });
-      $("#province").on("input", function() {
-        if($('#check_current_address').is(':checked')) {
-          $("#logistic_province").val(this.value);
-        }
+
+    $("#sub_district").on("change", function() {
+      if($('#check_current_address').is(':checked')) {
+        $("#delivery_sub_district").val(this.value).removeClass('readonlyNone');
+      }
+      // $('#postcode').val($('#sub_district').attr('data-zipcode'));
     });
-      $("#postcode").on("input", function() {
-        if($('#check_current_address').is(':checked')) {
-          $("#logistic_postcode").val(this.value);
+
+    $("#postcode").on("input", function() {
+      if($('#check_current_address').is(':checked')) {
+        $("#delivery_postcode").val(this.value);
+      }
+    });
+
+    $("#delivery_province").on("change", function() {
+      changeLogisticProvince();
+    });
+
+    $("#delivery_district").on("change", function() {
+      changeLogisticDistrict();
+    });
+
+    $("#delivery_sub_district").on("change", function() {
+      $('#delivery_postcode').val($('#delivery_sub_district').attr('data-zipcode'));
+    });
+
+    $("#form-validate").validate({
+      rules : {
+        password_confirmation : {
+          equalTo : "#password"
         }
+      },
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "privacy_confirm") {
+          // error.insertAfter($(element).parent());
+        } else {
+          error.insertAfter(element);
+        }
+      },
+      invalidHandler: function(form, validator) {
+        if (!validator.numberOfInvalids()) {
+          return;
+        } else {
+          $('html, body').animate({
+            scrollTop: ($(validator.errorList[0].element).offset().top - 150)
+          }, 500);
+        }
+      }
     });
     
   });
+
+  function changeProvince() {
+    var province = $('#province').val();
+    var opt = "<option value=\"\" selected=\"selected\">{{ __('messages.please_select') }}</option>";
+    $('#district').attr('readonly', false).html(opt);
+    if($('#check_current_address').is(':checked')) {
+      $('#delivery_district').html(opt);
+      $('#delivery_sub_district').html(opt);
+    }
+    if (province != '') {
+      $.ajax({
+        type : 'get',
+        url : base_url + '/{{ get_lang() }}/get_district_list',
+        data : {
+          province : province,
+          _token : '{{ csrf_token() }}'
+        },
+        dataType: 'json',
+        success:function(data){
+          var returnData = data.districts;
+          if (returnData.length != 0) {
+            for (var i = 0; i < returnData.length; i++) {
+              opt += "<option value='" + returnData[i].id + "'>" + returnData[i].name + "</option>";
+            }
+          }
+          $('#district').html(opt);
+          if($('#check_current_address').is(':checked')) {
+            $('#delivery_district').html(opt);
+          }
+        }
+      });
+    }
+  }
+
+  function changeDistrict() {
+    var district = $('#district').val();
+    var opt = "<option value=\"\" selected=\"selected\">{{ __('messages.please_select') }}</option>";
+    $('#sub_district').attr('readonly', false).html(opt);
+    if($('#check_current_address').is(':checked')) {
+      $('#delivery_sub_district').html(opt);
+    }
+    if (district != '') {
+      $.ajax({
+        type : 'get',
+        url : base_url + '/{{ get_lang() }}/get_sub_district_list',
+        data : {
+          district : district,
+          _token : '{{ csrf_token() }}'
+        },
+        dataType: 'json',
+        success:function(data){
+          var returnData = data.sub_districts;
+          if (returnData.length != 0) {
+            for (var i = 0; i < returnData.length; i++) {
+              opt += "<option value='" + returnData[i].id + "' data-zipcode='" + returnData[i].zip_code + "'>" + returnData[i].name + "</option>";
+            }
+          }
+          $('#sub_district').html(opt);
+          if($('#check_current_address').is(':checked')) {
+            $('#delivery_sub_district').html(opt);
+          }
+        }
+      });
+    }
+  }
+
+  function changeLogisticProvince() {
+    var province = $('#delivery_province').val();
+    var opt = "<option value=\"\" selected=\"selected\">{{ __('messages.please_select') }}</option>";
+    $('#delivery_district').attr('readonly', false).html(opt);
+    $('#delivery_sub_district').html(opt);
+    if (province != '') {
+      $.ajax({
+        type : 'get',
+        url : base_url + '/{{ get_lang() }}/get_district_list',
+        data : {
+          province : province,
+          _token : '{{ csrf_token() }}'
+        },
+        dataType: 'json',
+        success:function(data){
+          var returnData = data.districts;
+          if (returnData.length != 0) {
+            for (var i = 0; i < returnData.length; i++) {
+              opt += "<option value='" + returnData[i].id + "'>" + returnData[i].name + "</option>";
+            }
+          }
+          $('#delivery_district').html(opt);
+        }
+      });
+    }
+  }
+
+  function changeLogisticDistrict() {
+    var district = $('#delivery_district').val();
+    var opt = "<option value=\"\" selected=\"selected\">{{ __('messages.please_select') }}</option>";
+    $('#delivery_sub_district').attr('readonly', false).html(opt);
+    if (district != '') {
+      $.ajax({
+        type : 'get',
+        url : base_url + '/{{ get_lang() }}/get_sub_district_list',
+        data : {
+          district : district,
+          _token : '{{ csrf_token() }}'
+        },
+        dataType: 'json',
+        success:function(data){
+          var returnData = data.sub_districts;
+          if (returnData.length != 0) {
+            for (var i = 0; i < returnData.length; i++) {
+              opt += "<option value='" + returnData[i].id + "' data-zipcode='" + returnData[i].zip_code + "'>" + returnData[i].name + "</option>";
+            }
+          }
+          $('#delivery_sub_district').html(opt);
+        }
+      });
+    }
+  }
   </script>
 @endpush

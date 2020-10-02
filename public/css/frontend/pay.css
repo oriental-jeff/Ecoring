@@ -83,7 +83,7 @@ section.box-history {
 		    transition: .5s;
 		}
 		.box-Payment .box-check:checked+.box-check-label {
-		    background: rgb(247 247 247 / 84%);			
+		    background: rgba(247,247,247,0.84);
 		}
 			
 	/* ---------------------------------------------------**** Mobile and Tablet ****--------------------------------------------------- */
@@ -100,7 +100,7 @@ section.box-history {
 	    @media only screen and (orientation:portrait){
 			.box-total .col-lg-5.col-sm-12.border-left {
 			    border: 0px !important;
-		        border-top: 1px solid rgb(0 0 0 / 0.1) !important;
+		        border-top: 1px solid rgba(0,0,0,0.1) !important;
 			    margin-top: 25px;
 			}
 	    }
@@ -134,7 +134,7 @@ section.box-history {
 	    @media only screen and (orientation:portrait){
 			.box-total .border-left {
 			    border: 0px !important;
-		        border-top: 1px solid rgb(0 0 0 / 0.1) !important;
+		        border-top: 1px solid rgba(0,0,0,0.1) !important;
 			    margin-top: 25px;
 			}
 	    }
@@ -142,7 +142,7 @@ section.box-history {
 	    @media only screen and (orientation:landscape){
 			.box-total .col-lg-5.col-sm-12.border-left {
 			    border: 0px !important;
-		        border-top: 1px solid rgb(0 0 0 / 0.1) !important;
+		        border-top: 1px solid rgba(0,0,0,0.1) !important;
 			    margin-top: 25px;
 			}
 	    }

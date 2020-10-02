@@ -122,7 +122,8 @@ class Products extends Model implements HasMedia
     {
         $promotion = $this->hasOne('App\Model\PromotionDetails', 'products_id', 'id')
             ->whereHas('promotions', function ($q) {
-                $q->whereRaw('curdate() between start_at and end_at');
+                $q->whereRaw('curdate() between start_at and end_at')
+                    ->where('active', 1);
             })->first();
 
         if (!empty($promotion)) :

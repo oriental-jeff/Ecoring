@@ -7,7 +7,7 @@ use Facades\App\Repository\Pages;
 use Illuminate\Http\Request;
 use App\Model\Cart;
 use App\Model\Logistics;
-use App\Model\Order;
+use App\Model\Orders;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -16,7 +16,7 @@ class CartController extends Controller
     public function index()
     {
         $pages = Pages::get(5);
-        $carts = Cart::where('users_id', 1)->priceCondition()->get();
+        $carts = Cart::where('users_id', 1)->get();
         return view('frontend.cart.index', compact(['carts', 'pages']));
     }
 

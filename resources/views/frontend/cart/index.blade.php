@@ -48,7 +48,6 @@
                     </div>
 
                     @foreach ($carts as $cart)
-                    {{ dd($cart->promotion_details) }}
                     <div class="order-body row position-relative">
                         @if ($cart->stocks[0]->quantity === 0)
                         <div class="order-disabled"></div>
@@ -76,25 +75,26 @@
                                     </div>
                                     <div class="text-center">
                                         @if ($cart->stocks[0]->quantity == 0)
-                                        <span class="text-danger">สินค้าหมด</span>
+                                        <div class="text-danger">สินค้าหมด</div>
                                         @elseif ($cart->quantity > $cart->stocks[0]->quantity)
-                                        <span class="text-danger">จำนวนสินค้าไม่เพียงพอ<br>
-                                            ( คงเหลือ {{ $cart->stocks[0]->quantity }} )
-                                        </span>
+                                        <div class="text-danger">
+                                            จำนวนสินค้าไม่เพียงพอ
+                                        </div>
                                         @endif
+                                        <div>( คงเหลือ {{ $cart->stocks[0]->quantity }} )</div>
                                     </div>
                                 </span>
                             </div>
                         </div>
                         <div class="col-md-2 col-ms-2 col-6 text-center display-price disabled" style="color: #ddd">
                             <b class="line-through">฿{{ number_format($cart->product->full_price) }}</b><br>
-                            ฿<span>{{ $price = number_format($cart->promotion_details[0]->price) ?? number_format($cart->product->price) }}</span>
+                            ฿<span>{{ number_format($cart->product->product_price) }}</span>
                         </div>
                         <div class="col-md-2 col-ms-2 col-6 text-center display-amount">
                             @if ($cart->stocks[0]->quantity === 0)
-                            ฿<span>{{ number_format($price * 0) }}</span>
+                            ฿<span>{{ number_format($cart->product->product_price * 0) }}</span>
                             @else
-                            ฿<span>{{ number_format($price * $cart->quantity) }}</span>
+                            ฿<span>{{ number_format($cart->product->product_price * $cart->quantity) }}</span>
                             @endif
                         </div>
                         <div class="col-md-2 col-ms-2 text-center border-left" style="z-index:1">

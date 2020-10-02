@@ -7,7 +7,7 @@ use Facades\App\Repository\Pages;
 use Illuminate\Http\Request;
 use App\Model\Cart;
 use App\Model\Logistics;
-use App\Model\Order;
+use App\Model\Orders;
 use Illuminate\Support\Facades\Auth;
 
 class PayController extends Controller

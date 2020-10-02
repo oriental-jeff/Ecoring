@@ -40,7 +40,7 @@ section.box-Type {
 			    display: flex;
 			    align-items: center;
 			    justify-content: center;
-			    background: rgb(0 0 0 / 0.1);
+			    background: rgba(0,0,0,0.1);
 			    background-clip: content-box;
 			    padding: 0px 10px;
 			    opacity: 0;
@@ -50,7 +50,7 @@ section.box-Type {
 				opacity: 1;
 			}
 			.box-Type .item:hover .text {
-			    background: rgb(0 0 0 / 60%);
+			    background: rgba(0,0,0,0.60);
 			    background-clip: content-box;
 			}
 			
