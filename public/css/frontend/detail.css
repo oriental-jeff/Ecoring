@@ -50,7 +50,7 @@
 	        content: "\f08a";
 		    font: normal normal normal 30px/1 FontAwesome;
 		    color: #fe212b;
-		    background: rgb(255 255 255 / 26%);
+		    background: rgba(255, 255, 255, 0.26);
 		    display: block;
 		}
 		.box-products .icon-Favorites.active::before {
@@ -118,6 +118,9 @@
 	    display: inline-block;
 	    vertical-align: middle;
 	}
+		.btn-group * {
+			height: 35px;
+		}
 		.btn-group .btn {
 		    display: inline-block;
 		    padding: 6px 15px;

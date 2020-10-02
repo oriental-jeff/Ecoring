@@ -17,7 +17,7 @@ class LoginController extends Controller
 
   public function __construct()
   {
-    // $this->middleware('guest')->except('logout');
+    $this->middleware('guest:web')->except('logout');
   }
 
   public function showLoginForm()
@@ -41,7 +41,7 @@ class LoginController extends Controller
   {
     return array_merge(
       request()->only($this->username(), 'password'), 
-      ['active' => 1]
+      ['active' => 1, 'guest' => 1]
     );
   }
 

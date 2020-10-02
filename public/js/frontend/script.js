@@ -324,22 +324,43 @@ function calAmount(e) {
     sumTotal();
 }
 
-function sumTotal() {
+function sumTotal(displayDiscount = 0) {
     var total = 0;
+    var totalDiscount = 0;
+    var amount = 0;
+    var discountAmount = 0;
+    var vat7 = 0;
     var hasCB = false;
     $('.btn-next-process').addClass('disabled');
     if ($('.order-head').find('input:checkbox').hasClass('selectAll')) hasCB = true;
     $('.box-history .order-body').each(function () {
         if (hasCB) {
             if ($(this).find('input:checkbox').prop('checked')) {
-                total += parseFloat($(this).find('.display-amount>span').html().replace(',', ''));
+                amount = parseFloat($(this).find('.display-amount>span').text().replace(',', ''));
+                total += amount;
+                if (displayDiscount !== 0) {
+                    discountAmount = parseFloat($(this).find('.display-price>b>span').text().replace(',', '')) * parseFloat($(this).find('.display-qty').text().replace(',', ''));
+                    totalDiscount += discountAmount - amount;
+                }
             }
         } else {
-            total += parseFloat($(this).find('.display-amount>span').html().replace(',', ''));
+            amount = parseFloat($(this).find('.display-amount>span').text().replace(',', ''));
+            total += amount;
+            if (displayDiscount !== 0) {
+                discountAmount = parseFloat($(this).find('.display-price>b>span').text().replace(',', '')) * parseFloat($(this).find('.display-qty').text().replace(',', ''));
+                totalDiscount += discountAmount - amount;
+            }
         }
     });
     if (total > 0) $('.btn-next-process').removeClass('disabled');
-    $('.display-total span').html(numberWithCommas(total.toFixed(2)));
+    $('.display-total span').html(numberWithCommas(numberWithCommas(total.toFixed(2))));
+    if (displayDiscount !== 0) {
+        $('.display-discount-total span').html(numberWithCommas(totalDiscount.toFixed(2)));
+        var valVat7 = total * 0.07;
+        $('.display-vat7 span').html(numberWithCommas((valVat7).toFixed(2)));
+        var deliveryPrice = parseFloat($('.display-logistic-price span').html());
+        $('.display-gtotal span').html(numberWithCommas((total + deliveryPrice + valVat7).toFixed(2)));
+    }
 }
 
 function numberWithCommas(x) {

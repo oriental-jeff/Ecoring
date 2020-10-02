@@ -179,6 +179,13 @@ Route::name('backend.')
             });
         Route::resource('/bankaccounts', 'BankAccountsController');
 
+        Route::name('orders.')
+            ->prefix('/orders')
+            ->group(function () {
+                Route::get('/search', 'OrdersController@search')->name('search');
+            });
+        Route::resource('/orders', 'OrdersController');
+
         Route::name('payment_notifications.')
             ->prefix('/payment_notifications')
             ->group(function () {

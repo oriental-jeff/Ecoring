@@ -172,6 +172,13 @@
             </li>
             @endcan
 
+            @can('access orders')
+            <li class="{{ request()->routeIs('backend.orders*') ? 'active' : '' }}">
+                <a href="{{ route('backend.orders.index') }}" class="menu-link"><i class="fas fa-receipt"></i>
+                    <span>รายการสั่งซื้อ</span></a>
+            </li>
+            @endcan
+
             @can('access payment_notifications')
             <li class="{{ request()->routeIs('backend.payment_notifications*') ? 'active' : '' }}">
                 <a href="{{ route('backend.payment_notifications.index') }}" class="menu-link"><i

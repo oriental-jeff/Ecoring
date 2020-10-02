@@ -36,75 +36,9 @@ class Cart extends Model implements HasMedia
         return $this->hasMany('App\Model\PromotionDetails', 'products_id', 'products_id');
     }
 
-    // public function promotions()
-    // {
-    //     return $this->hasOne('App\Model\Promotions', 'promotions_id', 'promotions_id')
-    //         ->where('start_at', '<=', date('Y-m-d'))
-    //         ->where('end_at', '>=', date('Y-m-d'));
-    // }
-
     public function update_name()
     {
         return $this->hasOne('App\User', 'id', 'updated_by');
-    }
-
-    public function scopepriceCondition($query)
-    {
-        return $query
-            ->whereHas('product')
-            ->whereHas('stocks')
-            ->whereHas('promotion_details', function ($q) {
-                $q->whereHas('promotionPrice');
-            });
-        // return $query
-        //     ->whereHas('product')
-        //     ->whereHas('stocks')
-        //     ->leftJoin('promotion_details as pmtdt', 'pmtdt.products_id', '=', 'cart.products_id')
-        //     ->leftJoin('promotions as pmt', function ($join) {
-        //         $join->on('pmt.id', '=', 'pmtdt.promotions_id')
-        //             ->where('start_at', '<=', date('Y-m-d'))
-        //             ->where('end_at', '>=', date('Y-m-d'));
-        //     });
-        // ->whereHas('promotion_details', function ($q) {
-        //     $q->leftJoin('promotions as pmt', function ($join) {
-        //         $join->on('pmt.id', '=', 'promotion_details.promotions_id')
-        //             ->where('start_at', '<=', date('Y-m-d'))
-        //             ->where('end_at', '>=', date('Y-m-d'));
-        //     });
-        // });
-        // return $query
-        //     // ->leftJoin('products as pd', 'pd.id', '=', 'cart.products_id')
-        //     ->whereHas('product')
-        //     ->leftJoin('stocks as stk', function ($join) {
-        //         $join->on('stk.products_id', '=', 'cart.products_id');
-        //         $join->where('warehouses_id', config('global.warehouse'));
-        //     })
-        //     ->leftJoin('promotion_details as pmtdt', 'pmtdt.products_id', '=', 'cart.products_id')
-        //     ->leftJoin('promotions as pmt', function ($join) {
-        //         $join->on('pmt.id', '=', 'pmtdt.promotions_id')
-        //             ->where('start_at', '<=', date('Y-m-d'))
-        //             ->where('end_at', '>=', date('Y-m-d'));
-        //     });
-        // ->selectRaw('cart.id as id, IF(pmtdt.price, pmtdt.price, pd.price) as real_price, stk.quantity as stock_qty');
-
-        // return $query->whereHas('product', function ($q) {
-        //     $q->whereHas('promotions', function ($q1) {
-        //         $q1->where('start_at', '<=', date('Y-m-d'))
-        //             ->where('end_end', '>=', date('Y-m-d'));
-        //     });
-        // });
-
-        // return $query->whereHas('promotions', function ($q) {
-        //     $q->where('start_at', '<=', date('Y-m-d'))
-        //         ->where('end_end', '>=', date('Y-m-d'));
-        // });
-
-        // return $query->whereHas('promotion_details', function ($q) {
-        //     $q->select('price');
-        // })->whereHas('promotions', function ($q) {
-        //     $q->where('warehouses_id', 2)
-        //         ->whereRaw('quantity < cart.quantity');
-        // });
     }
 
     public function scopeonlyActive($query)
@@ -114,8 +48,8 @@ class Cart extends Model implements HasMedia
 
     public function scopestockCheckAvailable($query, $warehouse = 1)
     {
-        return $query->whereHas('promotion_details', function ($q) use ($warehouse) {
-            $q->select('price')->where('warehouses_id', $warehouse)
+        return $query->whereHas('stocks', function ($q) use ($warehouse) {
+            $q->where('warehouses_id', $warehouse)
                 ->whereRaw('quantity < cart.quantity');
         });
     }

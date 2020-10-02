@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\Models\Media;
 
-class Order extends Model implements HasMedia
+class Orders extends Model implements HasMedia
 {
     use LogsActivity, HasMediaTrait;
     protected $table = 'order';
