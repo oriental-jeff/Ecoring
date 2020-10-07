@@ -86,68 +86,16 @@ $(document).ready(function () {
             calAmount($this);
         }
     });
-
-    $('.box-products .box-List .btn').on('click', function () {
-        if ($(window).width() < 1025) {
-            var cart = $('#boxOfProductmobile');
-        } else {
-            var cart = $('#boxOfProduct');
-        }
-        var imgtodrag = $(this).closest('.list').find(".img").eq(0);
-        if (imgtodrag) {
-            var imgclone = imgtodrag.clone()
-                .offset({
-                    top: imgtodrag.offset().top,
-                    left: imgtodrag.offset().left
-                })
-                .css({
-                    'opacity': '0.9',
-                    width: imgtodrag.width(),
-                    height: imgtodrag.height(),
-                    'position': 'absolute',
-                    'z-index': '1031'
-                })
-                .appendTo($('body'))
-                .animate({
-                    'top': cart.offset().top + 10,
-                    'left': cart.offset().left + 10,
-                    'width': 40,
-                    'height': 28
-                }, 1000, 'easeInOutExpo');
-            if ($(window).width() < 1025) {
-                $('body').css('overflow', 'hidden');
-            }
-
-            setTimeout(function () {
-                cart.effect("shake", {
-                    times: 2,
-                    distance: 10
-                }, 300);
-            }, 1500);
-
-            imgclone.animate({
-                'width': 0,
-                'height': 0
-            }, function () {
-                $(this).detach()
-                $('body').css('overflow', '');
-                // ฟังก์ชันเมื่อย้ายตำแหน่ง เสร็จต้องการให้ทำอะไร
-                // สามารถนำไปประยุกต์ เพิ่มสินค้าในตะกร้าสินค้า ด้วย ajax
-                // alert('เพิ่มสินค้า');
-            });
-        }
-    });
-
+    
   $(".btn-heart").on("click", function() {
     // toggleFavorite();
+    var This = $(this);
     var product = $(this).attr('data-product');
     var favorite = $(this).attr('data-fav');
     if (favorite == '1') {
       var new_favorite = '0';
-      $(this).removeClass('active');
     } else {
       var new_favorite = '1';
-      $(this).addClass('active');
     }
     $.ajax({
       type : 'get',
@@ -159,6 +107,12 @@ $(document).ready(function () {
       },
       dataType: 'json',
       success: function(data) {
+        $(This).attr('data-fav', new_favorite);
+        if (new_favorite == '0') {
+          $(This).removeClass('active');
+        } else {
+          $(This).addClass('active');
+        }
       },
       error: function(data) {
         $('#loginModal').modal('show');
@@ -167,10 +121,14 @@ $(document).ready(function () {
   });
 
   $(".btn-cart").on("click", function() {
+	  var This = $(this);
     // toggleFavorite();
     var product = $(this).attr('data-product');
-    var quantity = 1;
-    var amount = 0;
+    if($("#quantity").length > 0) {
+      var quantity = $("#quantity").val();
+    } else {
+      var quantity = 1;
+    }
     $.ajax({
       type : 'get',
       url : base_url + '/en/add_cart',
@@ -181,6 +139,13 @@ $(document).ready(function () {
       },
       dataType: 'json',
       success: function(data) {
+        if (data.condition == 1) {
+          $('.cart_item').html(data.cart_item);
+          effectCart(This);
+        } else {
+          $('#notiMsg').html(data.msg);
+          $('#notiModal').modal('show');
+        }
       },
       error: function(data) {
         $('#loginModal').modal('show');
@@ -189,6 +154,57 @@ $(document).ready(function () {
   });
 
 });
+
+function effectCart(i) {
+    if ($(window).width() < 1025) {
+        var cart = $('#boxOfProductmobile');
+    } else {
+        var cart = $('#boxOfProduct');
+    }
+    var imgtodrag = i.closest('.list').find(".img").eq(0);
+    if (imgtodrag) {
+        var imgclone = imgtodrag.clone()
+            .offset({
+                top: imgtodrag.offset().top,
+                left: imgtodrag.offset().left
+            })
+            .css({
+                'opacity': '0.9',
+                width: imgtodrag.width(),
+                height: imgtodrag.height(),
+                'position': 'absolute',
+                'z-index': '1031'
+            })
+            .appendTo($('body'))
+            .animate({
+                'top': cart.offset().top + 10,
+                'left': cart.offset().left + 10,
+                'width': 40,
+                'height': 28
+            }, 1000, 'easeInOutExpo');
+        if ($(window).width() < 1025) {
+            $('body').css('overflow', 'hidden');
+        }
+
+        setTimeout(function () {
+            cart.effect("shake", {
+                times: 2,
+                distance: 10
+            }, 300);
+        }, 1500);
+
+        imgclone.animate({
+            'width': 0,
+            'height': 0
+        }, function () {
+            $(this).detach()
+            $('body').css('overflow', '');
+            // ฟังก์ชันเมื่อย้ายตำแหน่ง เสร็จต้องการให้ทำอะไร
+            // สามารถนำไปประยุกต์ เพิ่มสินค้าในตะกร้าสินค้า ด้วย ajax
+            // alert('เพิ่มสินค้า');
+        });
+    }
+}
 
 function sliderCategory() {
     $(".menu-category .owl-carousel").owlCarousel({

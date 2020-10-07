@@ -65,6 +65,8 @@ Route::name('frontend.')
 
     Route::get('get_district_list', 'AjaxController@get_district_list');
     Route::get('get_sub_district_list', 'AjaxController@get_sub_district_list');
+    Route::get('change_favorite', 'AjaxController@change_favorite');
+    Route::get('add_cart', 'AjaxController@add_cart');
 
     Route::get('/lang', function () {
       return back()->withInput(['locale' => app()->getLocale()]);
