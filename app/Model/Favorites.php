@@ -10,9 +10,6 @@ class Favorites extends Model
   use LogsActivity;
   protected $table = 'favorites';
   protected $guarded = [];
-  protected $attributes = [
-    'active' => 1,
-  ];
 
   protected static $logName = 'favorite';
   protected static $logAttributes = ['*'];

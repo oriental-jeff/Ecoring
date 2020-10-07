@@ -1,4 +1,4 @@
-{{-- <section class="box-tebBottom">
+<!-- <section class="box-tebBottom">
   <div class="container">
     <div class="row">
       <div class="col-4 list">
@@ -24,7 +24,7 @@
       </div>
     </div>
   </div>
-</section> --}}
+</section> -->
 
 <section class="box-footer">
   <div class="container">
@@ -196,7 +196,48 @@
   </ul>
 </div>
 
-<!-- Modal -->
+<!-- Modal Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">กรุณา Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="{{ route('frontend.auth.login.form', ['locale' => get_lang()]) }}" type="button" class="btn btn-primary">{{ __('messages.submit') }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Notification -->
+<div class="modal fade" id="notiModal" tabindex="-1" aria-labelledby="notiModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="notiModalLabel">Notification</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="notiMsg"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Privacy -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">

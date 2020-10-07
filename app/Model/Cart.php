@@ -46,6 +46,11 @@ class Cart extends Model implements HasMedia
         return $query->where('active', 1);
     }
 
+    public function scopewithoutOrder($query)
+    {
+        return $query->whereNull('orders_id');
+    }
+
     public function scopestockCheckAvailable($query, $warehouse = 1)
     {
         return $query->whereHas('stocks', function ($q) use ($warehouse) {

@@ -37,9 +37,7 @@
           <div class="position-relative d-inline-flex">
             <a href="{{ route('frontend.cart', ['locale' => get_lang()]) }}" id="boxOfProductmobile">
               <img src="{{ asset('images/I-cart.svg') }}" class="icon-cart">
-              @if (!empty($main['count_cart_products']))
-                <i>{{ $main['count_cart_products'] }}</i>
-              @endif
+              <i class="cart_item">{{ $main['count_cart_products'] }}</i>
             </a>
           </div>
         </button>
@@ -117,9 +115,7 @@
                         <div class="position-relative d-inline-flex">
                           <a href="{{ route('frontend.cart', ['locale' => get_lang()]) }}" id="boxOfProduct">
                             <img src="{{ asset('images/I-cart.svg') }}" class="icon-menu">
-                            @if (!empty($main['count_cart_products']))
-                              <i>{{ $main['count_cart_products'] }}</i>
-                            @endif
+                            <i class="cart_item">{{ $main['count_cart_products'] }}</i>
                           </a>
                         </div>
                       </div>
