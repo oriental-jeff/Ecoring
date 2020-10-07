@@ -165,9 +165,9 @@
                                 <tr>
                                     <td>ค่าจัดส่ง</td>
                                     <td class="text-right display-logistic-price">
-                                        ฿<span>{{ number_format($logistic[0]->base_price) }}</span>
+                                        ฿<span>{{ number_format($logistic[0]->logistic_price) }}</span>
                                         <input type="hidden" id="delivery_charge" name="delivery_charge"
-                                            value="{{ $logistic[0]->base_price }}"></td>
+                                            value="{{ $logistic[0]->logistic_price }}"></td>
                                 </tr>
                                 <tr>
                                     <td>ภาษี 7%</td>

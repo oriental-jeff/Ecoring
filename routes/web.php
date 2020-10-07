@@ -47,7 +47,7 @@ Route::name('frontend.')
         Route::post('/cart/order', 'CartController@order')->name('cart-order');
         Route::post('/pay', 'PayController@index')->name('pay');
         Route::post('/pay/success', 'PayController@store')->name('pay-success');
-        Route::post('/payment', 'PaymentController@index')->name('payment');
+        Route::get('/payment', 'PaymentController@index')->name('payment');
         Route::post('/payment/success', 'PaymentController@store')->name('payment-success');
 
         Route::get('/register', 'UserController@create')->name('register');
