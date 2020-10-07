@@ -15,7 +15,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a
                             href="{{ route('frontend.home', ['locale' => get_lang()]) }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $pages->{get_lang('title')} }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">ตะกร้าสินค้า</li>
                 </ol>
             </nav>
         </div>
@@ -25,7 +25,7 @@
             enctype="multipart/form-data" action="{{ route('frontend.cart-order', ['locale' => get_lang()]) }}">
             @method('post')
             <div class="container">
-                <h4>{{ $pages->{get_lang('title')} }}</h4>
+                <h4>ตะกร้าสินค้า</h4>
 
                 <div class="box-order font-weight-normal">
                     <div class="order-head row">
@@ -86,7 +86,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-2 col-ms-2 col-6 text-center display-price disabled" style="color: #ddd">
+                        <div class="col-md-2 col-ms-2 col-6 text-center display-price">
                             <b class="line-through">฿{{ number_format($cart->product->full_price) }}</b><br>
                             ฿<span>{{ number_format($cart->product->product_price) }}</span>
                         </div>
@@ -97,14 +97,15 @@
                             ฿<span>{{ number_format($cart->product->product_price * $cart->quantity) }}</span>
                             @endif
                         </div>
-                        <div class="col-md-2 col-ms-2 text-center border-left" style="z-index:1">
-                            @if ($cart->stocks[0]->quantity != 0)
+                        <div class="col-md-2 col-ms-2 text-center border-left"
+                            style="{{ $cart->stocks[0]->quantity === 0 ? 'z-index:1' : '' }}">
+                            {{-- @if ($cart->stocks[0]->quantity != 0) --}}
                             <a class="btn btn-secondary font-weight-light radius-25 w-100" href="javascript:void(0);"
                                 onclick="delList(this, {{ $cart->id }})">
                                 <img class="m-0 mr-2" style="width: 17px;" src="{{ url('images/icon-delete.svg') }}">
                                 ลบรายการนี้
                             </a>
-                            @endif
+                            {{-- @endif --}}
                         </div>
                     </div>
                     @endforeach
@@ -152,7 +153,7 @@
     });
 
     function delList(e, cartId) {
-        $(e).closest('.order-body').find('.del-loading').show();
+        // $(e).closest('.order-body').find('.del-loading').show();
         swal({
             title: "ลบรายการนี้?",
             icon: "warning",
@@ -161,6 +162,7 @@
         })
         .then((willDelete) => {
             if (willDelete) {
+                $(e).closest('.order-body').find('div:first-child').before('<div class="order-disabled"></div>');
                 $.ajax({
                     url: '/api/v1/carts/' + cartId,
                     type: 'DELETE',
@@ -179,11 +181,11 @@
                         swal("ผิดพลาด!! ไม่สามารถลบได้", {
                             icon: "delete",
                         });
-                        $(e).closest('.order-body').find('.del-loading').hide();
+                        $(e).closest('.order-body').find('.order-disabled-del').remove();
                     }
                 });
             } else {
-                $(e).closest('.order-body').find('.del-loading').hide();
+                $(e).closest('.order-body').find('.order-disabled-del').remove();
             }
         });
     }

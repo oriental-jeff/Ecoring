@@ -90,6 +90,11 @@ class BankAccounts extends Model implements HasMedia
         return $this->hasOne('App\User', 'id', 'updated_by');
     }
 
+    public function scopeonlyActive($query)
+    {
+        return $query->where('active', 1);
+    }
+
     public function scopegetDataByKeyword($query, $keyword)
     {
         return $query->where('acc_no', 'like', "%$keyword%")

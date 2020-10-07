@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Auth;
 class PaymentController extends Controller
 {
 
-    public function index(Request $request)
+    public function index($locate, Orders $OrderCode, Request $request)
     {
         $pages = Pages::get(3);
         $bank_accounts = BankAccounts::onlyActive()->get();
 
-        return view('frontend.payment.index', compact(['pages', 'bank_accounts']));
+        return view('frontend.payment.index', compact(['pages', 'bank_accounts', 'OrderCode']));
     }
 
     public function store(Request $request)

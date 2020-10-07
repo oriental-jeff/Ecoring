@@ -15,7 +15,7 @@
                     <li class="breadcrumb-item"><a
                             href="{{ route('frontend.home', ['locale' => get_lang()]) }}">Home</a></li>
                     <li class="breadcrumb-item"><a
-                            href="{{ route('frontend.cart', ['locale' => get_lang()]) }}">{{ $pages->{get_lang('title')} }}</a>
+                            href="{{ route('frontend.cart', ['locale' => get_lang()]) }}">ตะกร้าสินค้า</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">คำสั่งซื้อ</li>
                 </ol>
@@ -44,7 +44,9 @@
                             ราคารวม
                         </div>
                     </div>
-
+                    @php
+                    $totalWeight = 0;
+                    @endphp
                     @foreach ($carts as $cart)
                     <div class="order-body row">
                         <input type="hidden" name="cartID[]" value="{{ $cart->id }}">
@@ -68,9 +70,14 @@
                         <div class="col-md-2 col-6 text-center display-amount">
                             ฿<span>{{ number_format($cart->product->product_price * $cart->quantity) }}</span>
                         </div>
+                        @php
+                        $totalWeight += $cart->product->weight;
+                        @endphp
                     </div>
                     @endforeach
-
+                    @php
+                    session()->put('weight', $totalWeight);
+                    @endphp
                 </div>
 
                 <div class="row font-weight-normal mb-4">
@@ -103,7 +110,7 @@
                                 <img src="{{ url($logistic->image) }}" class="img-Shipment">
                                 <h5>{{ $logistic->{get_lang('name')} }}</h5>
                                 ระยะเวลาการส่ง : <span class="period">{{ $logistic->period }}</span><br>
-                                อัตราค่าบริการ : <span class="base_price">{{ number_format($logistic->base_price) }}
+                                อัตราค่าบริการ : <span class="base_price">{{ number_format($logistic->logistic_price) }}
                                     บาท<br>
                             </label>
                         </div>
@@ -141,11 +148,58 @@
                                                 <div class="col-lg-2">
                                                     <input class="box-check" type="radio" name="opt" id="opt{{$k}}"
                                                         value="{{ $da->id }}" data-ref="{{ $da }}"
-                                                        {{ $k === 0 ? 'checked' : '' }}>
+                                                        {{ $da->default === 1 ? 'checked' : '' }}>
                                                 </div>
                                                 <div class="col-lg-10">
                                                     <label class="box-check-label" for="opt{{$k}}">
-                                                        {{ $da->{get_lang('name')} }}
+                                                        <table>
+                                                            <tr>
+                                                                <td>เบอร์โทร :</td>
+                                                                <td><input type="text" id="custom_mobile{{ $da->id }}"
+                                                                        name="custom_mobile{{ $da->id }}"
+                                                                        value="{{ $da->telephone }}" readonly></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>ที่อยู่ :</td>
+                                                                <td><input type="text" id="custom_address{{ $da->id }}"
+                                                                        name="custom_address{{ $da->id }}"
+                                                                        value="{{ $da->address }}" readonly>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>แขวง/ตำบล :</td>
+                                                                <td><input type="text"
+                                                                        id="custom_sub_district_id{{ $da->id }}"
+                                                                        name="custom_sub_district_id{{ $da->id }}"
+                                                                        value="{{ $da->sub_districts->{get_lang('name')} }}"
+                                                                        readonly>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>เขต/อำเภอ :</td>
+                                                                <td><input type="text"
+                                                                        id="custom_district_id{{ $da->id }}"
+                                                                        name="custom_district_id{{ $da->id }}"
+                                                                        value="{{ $da->districts->{get_lang('name')} }}"
+                                                                        readonly>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>จังหวัด :</td>
+                                                                <td><input type="text"
+                                                                        id="custom_province_id{{ $da->id }}"
+                                                                        name="custom_province_id{{ $da->id }}"
+                                                                        value="{{ $da->provinces->{get_lang('name')} }}"
+                                                                        readonly>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>รหัสไปรษณีย์ :</td>
+                                                                <td><input type="text" id="custom_postcode{{ $da->id }}"
+                                                                        name="custom_postcode{{ $da->id }}"
+                                                                        value="{{ $da->postcode }}" readonly></td>
+                                                            </tr>
+                                                        </table>
                                                     </label>
                                                 </div>
                                             </div>
@@ -166,48 +220,53 @@
                         <div class="col-lg-6">
                             <!-- User Info ID -->
                             <input class="box-check" type="radio" name="delivery_addr" id="delivery_addr_profile"
-                                value="option1" checked>
+                                value="profile" checked>
                             <label class="box-check-label" for="delivery_addr_profile">
                                 ที่อยู่โปรไฟล์
                                 <table>
                                     <tr>
                                         <td style="min-width: 100px;">ชื่อ :</td>
                                         <td>
-                                            <input type="text" id="profile_id" name="profile_id"
+                                            <input type="hidden" id="profile_id" name="profile_id"
                                                 value="{{ Auth::id() }}">
                                             <input type="text" id="profile_fullname" name="profile_fullname"
-                                                value="สมหมาย คอมเมิส" readonly></td>
+                                                value="{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}"
+                                                readonly></td>
                                     </tr>
                                     <tr>
                                         <td>เบอร์โทร :</td>
                                         <td><input type="text" id="profile_mobile" name="profile_mobile"
-                                                value="0567894567" readonly>
+                                                value="{{ Auth::user()->profiles->telephone }}" readonly>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>ที่อยู่ :</td>
                                         <td><input type="text" id="profile_address" name="profile_address"
-                                                value="181/93 ถ.พหลโยธิน 50" readonly></td>
+                                                value="{{ Auth::user()->profiles->address }}" readonly></td>
                                     </tr>
                                     <tr>
                                         <td>แขวง/ตำบล :</td>
                                         <td><input type="text" id="profile_sub_district_id"
-                                                name="profile_sub_district_id" value="แขวงอนุสาวรีย์" readonly></td>
+                                                name="profile_sub_district_id"
+                                                value="{{ Auth::user()->profiles->sub_districts->{get_lang('name')} }}"
+                                                readonly></td>
                                     </tr>
                                     <tr>
                                         <td>เขต/อำเภอ :</td>
                                         <td><input type="text" id="profile_district_id" name="profile_district_id"
-                                                value="บางเขน" readonly></td>
+                                                value="{{ Auth::user()->profiles->districts->{get_lang('name')} }}"
+                                                readonly></td>
                                     </tr>
                                     <tr>
                                         <td>จังหวัด :</td>
                                         <td><input type="text" id="profile_province_id" name="profile_province_id"
-                                                value="กรุงเทพฯ" readonly></td>
+                                                value="{{ Auth::user()->profiles->provinces->{get_lang('name')} }}"
+                                                readonly></td>
                                     </tr>
                                     <tr>
                                         <td>รหัสไปรษณีย์ :</td>
                                         <td><input type="text" id="profile_postcode" name="profile_postcode"
-                                                value="10220" readonly></td>
+                                                value="{{ Auth::user()->profiles->postcode }}" readonly></td>
                                     </tr>
                                 </table>
 
@@ -216,72 +275,57 @@
                         <div class="col-lg-6">
                             <!-- Address Delivery ID -->
                             <input class="box-check" type="radio" name="delivery_addr" id="delivery_addr_custom"
-                                value="option2">
+                                value="custom">
                             <label class="box-check-label" for="delivery_addr_custom">
                                 แก้ไขที่อยู่ที่ต้องการจัดส่ง
                                 <table>
                                     <tr>
                                         <td style="min-width: 100px;">ชื่อ :</td>
                                         <td>
-                                            <input type="text" id="custom_id" name="custom_id"
-                                                value="{{ $logistics[0]->id }}">
+                                            <input type="hidden" id="custom_id" name="custom_id"
+                                                value="{{ Auth::id() }}">
                                             <input type="text" id="custom_fullname" name="custom_fullname"
-                                                value="สมหมาย คอมเมิส" readonly></td>
+                                                value="{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}"
+                                                readonly></td>
                                     </tr>
                                     <tr>
                                         <td>เบอร์โทร :</td>
                                         <td><input type="text" id="custom_mobile" name="custom_mobile"
-                                                value="0567894567" readonly></td>
+                                                value="{{ Auth::user()->address_deliveries_default->telephone }}"
+                                                readonly></td>
                                     </tr>
                                     <tr>
                                         <td>ที่อยู่ :</td>
                                         <td><input type="text" id="custom_address" name="custom_address"
-                                                value="181/93 ถ.พหลโยธิน 50" readonly>
+                                                value="{{ Auth::user()->address_deliveries_default->address }}"
+                                                readonly>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>แขวง/ตำบล :</td>
-                                        <td>
-                                            <select class="form-control" id="custom_sub_district_id"
-                                                name="custom_sub_district_id" readonly>
-                                                <option>แขวงอนุสาวรีย์</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
+                                        <td><input type="text" id="custom_sub_district_id" name="custom_sub_district_id"
+                                                value="{{ Auth::user()->address_deliveries_default->sub_districts->{get_lang('name')} }}"
+                                                readonly>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>เขต/อำเภอ :</td>
-                                        <td>
-                                            <select class="form-control" id="custom_district_id"
-                                                name="custom_district_id" readonly>
-                                                <option>บางเขน</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
+                                        <td><input type="text" id="custom_district_id" name="custom_district_id"
+                                                value="{{ Auth::user()->address_deliveries_default->districts->{get_lang('name')} }}"
+                                                readonly>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>จังหวัด :</td>
-                                        <td>
-                                            <select class="form-control" id="custom_province_id"
-                                                name="custom_province_id" readonly>
-                                                <option>กรุงเทพฯ</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
+                                        <td><input type="text" id="custom_province_id" name="custom_province_id"
+                                                value="{{ Auth::user()->address_deliveries_default->provinces->{get_lang('name')} }}"
+                                                readonly>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>รหัสไปรษณีย์ :</td>
-                                        <td><input type="text" id="custom_postcode" name="custom_postcode" value="10220"
-                                                readonly></td>
+                                        <td><input type="text" id="custom_postcode" name="custom_postcode"
+                                                value="{{ Auth::user()->profiles->postcode }}" readonly></td>
                                     </tr>
                                 </table>
                             </label>
@@ -312,17 +356,9 @@
 <script>
     $(function() {
         sumTotal();
-        // getDeliveryAddress();
-        // getLogistic();
-        // $('input[type=radio][name=logistic_id]').on('change', function() {
-        //     $('#customeAddr').attr('disabled', true);
-        //     if ($(this).val() === 'option2') $('#customeAddr').attr('disabled', false);
-        //     getLogistic();
-        // });
         $('input[type=radio][name=delivery_addr]').on('change', function() {
             $('#customeAddr').attr('disabled', true);
-            if ($(this).val() === 'option2') $('#customeAddr').attr('disabled', false);
-            // getDeliveryAddress();
+            if ($(this).val() === 'custom') $('#customeAddr').attr('disabled', false);
         });
     });
     // custom delivery address
@@ -330,29 +366,14 @@
         let d = $('input[name=opt]:checked').data('ref');
         // add data to input form
         $('#custom_id').val(d.id);
-        $('#custom_fullname').val(d.name_th);
+        $('#custom_address').val($('#custom_address' + d.id).val());
+        $('#custom_mobile').val($('#custom_mobile' + d.id).val());
+        $('#custom_sub_district_id').val($('#custom_sub_district_id' + d.id).val());
+        $('#custom_district_id').val($('#custom_district_id' + d.id).val());
+        $('#custom_province_id').val($('#custom_province_id' + d.id).val());
+        $('#custom_postcode').val($('#custom_postcode' + d.id).val());
 
         $('#customeAddrModalCenter').modal('hide');
-
-        // getDeliveryAddress();
     }
-    // function getLogistic() {
-    //     var lgt = $('input[name=logistic_id]:checked').closest('.logisticScope').find('label');
-    //     var logisticData = {
-    //         id: $('input[name=logistic_id]:checked').val(),
-    //         img: lgt.find('img').attr('src'),
-    //         name: lgt.find('h5').text(),
-    //         period: lgt.find('.period').text(),
-    //         base_price: lgt.find('.base_price').text()
-    //     };
-    //     localStorage.setItem('logisticData', JSON.stringify(logisticData));
-    // }
-    // function getDeliveryAddress() {
-    //     var deliveryAddr = {};
-    //     $('input[name=delivery_addr]:checked').next().find(':input').each(function() {
-    //         deliveryAddr[$(this).attr('name').replace('profile_','').replace('custom_','')] = $(this).val();
-    //     });
-    //     localStorage.setItem('deliveryAddr', JSON.stringify(deliveryAddr));
-    // }
 </script>
 @endpush

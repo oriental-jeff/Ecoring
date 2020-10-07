@@ -19,7 +19,6 @@ class CreateOrderTable extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('payments_id');
             $table->string('code')->unique();
             $table->integer('logistics_id');
             $table->integer('users_id');
@@ -27,6 +26,7 @@ class CreateOrderTable extends Migration
             $table->float('total_weight');
             $table->decimal('discount');
             $table->integer('delivery_charge');
+            $table->string('telephone');
             $table->text('address');
             $table->integer('sub_district_id');
             $table->integer('district_id');

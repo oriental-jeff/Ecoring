@@ -62,6 +62,21 @@ class Logistics extends Model implements HasMedia
         ][$attributes];
     }
 
+    public function getLogisticPriceAttribute()
+    {
+        // dd($weight);
+        // dd(session()->get('weight'));
+        $weight = session()->get('weight');
+        $price_length = $this->hasOne('App\Model\LogisticRates', 'logistics_id', 'id')->whereRaw($weight . ' >= weight_from AND ' . $weight . ' <= weight_to')->whereRaw('curdate() >= start_at AND curdate() <= end_at')->orderBy('id', 'desc')->first();
+        if (!empty($price_length)) :
+            $price = $price_length->price;
+        else :
+            $price = $this->base_price;
+        endif;
+
+        return $price;
+    }
+
     public function update_name()
     {
         return $this->hasOne('App\User', 'id', 'updated_by');
