@@ -24,18 +24,6 @@ class PageController extends Controller
     return view('backend.page.index', compact('pages'));
   }
 
-  public function search(Request $request) 
-  {
-    $this->authorize(mapPermission(self::MODULE));
-    if ($request->filled('keyword')) :
-      $pages = Page::getDataByKeyword($request->keyword)->get();
-    else:
-      $pages = Page::all();
-    endif;
-
-    return view('backend.page.show', compact('pages'));
-  }
-
   public function create(Request $request)
   {
     $this->authorize(mapPermission(self::MODULE));

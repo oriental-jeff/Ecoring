@@ -20,6 +20,8 @@ class CreatePageBannerTable extends Migration
         $table->integer('page_id');
         $table->string('type', 30)->comment('static, slide');
         $table->tinyInteger('position');
+
+        $table->index('page_id');
       });
 
       Schema::create('banner_detail', function (Blueprint $table) {
@@ -30,6 +32,8 @@ class CreatePageBannerTable extends Migration
         $table->integer('created_by');
         $table->integer('updated_by');
         $table->timestamps();
+
+        $table->index('banner_id');
       });
 
       Schema::create('pages', function (Blueprint $table) {
@@ -49,6 +53,8 @@ class CreatePageBannerTable extends Migration
         $table->integer('updated_by');
         $table->timestamps();
         $table->softDeletes('deleted_at', 0);
+
+        $table->index('parent_id');
       });
 
     }

@@ -23,9 +23,39 @@ class Orders extends Model implements HasMedia
         return $this->hasOne('App\User', 'id', 'updated_by');
     }
 
-    public function scopegetDataByKeyword($query, $keyword)
+    public function product()
     {
-        return $query->where('name_th', 'like', "%$keyword%")
-            ->orWhere('name_en', 'like', "%$keyword%");
+        return $this->hasOne('App\Model\Products', 'id', 'products_id');
+    }
+
+    public function logistic()
+    {
+        return $this->hasOne('App\Model\Logistics', 'id', 'logistics_id');
+    }
+
+    public function warehouse()
+    {
+        return $this->hasOne('App\Model\Warehouses', 'id', 'warehouses_id');
+    }
+
+    public function scopeonlyNotPay($query)
+    {
+        return $query->where('status', 0);
+    }
+
+    public function scopegetDataByKeyword($query, $request)
+    {
+        $keyword = $request->keyword;
+        if ($keyword) {
+            $query = $query
+                ->whereHas('product', function ($q1) use ($keyword) {
+                    $q1->where('name_th', 'like', "%$keyword%")
+                        ->orWhere('name_en', 'like', "%$keyword%");
+                })
+                ->orWhereHas('warehouse', function ($q2) use ($keyword) {
+                    $q2->where('name', 'like', "%$keyword%");
+                });
+        }
+        return $query;
     }
 }

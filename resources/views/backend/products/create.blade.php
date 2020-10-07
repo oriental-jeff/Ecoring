@@ -1,9 +1,12 @@
-@extends('backend.layouts.header', [
-    'script' =>
-        [
-            'editor'   => true,
-        ]
-    ]
+@extends('backend.layouts.header', ['script' => [
+    'editor'   => true,
+    'dropzone' => true
+  ],      
+],
+[ 'css' => [
+    'dropzone'   => true
+  ],
+]
 )
 @section('title')
 	เพิ่มสินค้า

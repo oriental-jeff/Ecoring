@@ -26,19 +26,6 @@ class RoleController extends Controller
     return view('backend.role.index', compact('roles'));
   }
 
-  public function search(Request $request)
-  {
-    $this->authorize(mapPermission(self::MODULE));
-    $roles = [];
-    if($request->filled('keyword')):
-      $roles = Role::where('name', 'like', '%'.request('keyword').'%')->get();
-    else:
-      $roles = Role::all();
-    endif;
-
-    return view('backend.role.show', compact('roles'));
-  }
-
   public function create()
   {
     $this->authorize(mapPermission(self::MODULE));

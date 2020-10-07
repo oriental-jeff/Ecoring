@@ -119,24 +119,24 @@
 						<div class="row box-List pt-3">
               @foreach ($products as $product)
                 <div class="card col-xl-3 col-lg-3 col-sm-4 col-6 list">
-                  <div class="btn-heart {{ $product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');"></div>
-	              <div class="card-body">
-	                <a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $product->id]) }}">
-	                  <div class="img">
-	                    <div class="src-img" style="background-image: url({{ $product->image ?? 'http://via.placeholder.com/500x350' }})">
-	                      <img src="{{ asset('images/size-img.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
-	                    </div>
-	                  </div>
-	                  <div class="box-text">
-	                      <h6>{{ $product->{ get_lang('name') } }}</h6>
-	                      <span>{{ __('messages.grade') }} - {{ $product->grades_name->{ get_lang('name') } }}</span>
-	                  </div>
-	                </a>
-	              </div>
-	              <div class="card-footer">
-	                <span class="price">{{ __('messages.price') }} : ฿{{ number_format($product->product_price) }}<b>฿{{ number_format($product->full_price) }}</b></span>
-	                <button type="button" class="btn w-100" {{ empty(Auth::user()) ? 'disabled' : '' }}>{{ __('messages.add_basket') }}</button>
-	              </div>
+                  <div class="btn-heart {{ $product->favorites_count > 0 ? 'active' : '' }}" data-fav="{{ $product->favorites_count }}" data-product="{{ $product->id }}"></div>
+  	              <div class="card-body">
+  	                <a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $product->id]) }}">
+  	                  <div class="img">
+  	                    <div class="src-img" style="background-image: url({{ $product->image ?? 'http://via.placeholder.com/500x350' }})">
+  	                      <img src="{{ asset('images/size-img.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
+  	                    </div>
+  	                  </div>
+  	                  <div class="box-text">
+  	                      <h6>{{ $product->{ get_lang('name') } }}</h6>
+  	                      <span>{{ __('messages.grade') }} - {{ $product->grades_name->{ get_lang('name') } }}</span>
+  	                  </div>
+  	                </a>
+  	              </div>
+  	              <div class="card-footer">
+  	                <span class="price">{{ __('messages.price') }} : ฿{{ number_format($product->product_price) }}<b>฿{{ number_format($product->full_price) }}</b></span>
+  	                <button type="button" class="btn btn-cart w-100" {{ empty(Auth::user()) ? 'disabled' : '' }} data-product="{{ $product->id }}">{{ __('messages.add_basket') }}</button>
+  	              </div>
                 </div>
               @endforeach
             </div>

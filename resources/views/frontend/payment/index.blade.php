@@ -28,12 +28,12 @@
                     <div class="col-lg-4 col-md-6 mb-3">
                         <label for="orders_code">หมายเลขสั่งซื้อ<span class="text-danger"> * </span> :</label>
                         <input type="text" class="form-control" id="orders_code" name="orders_code"
-                            placeholder="หมายเลขสั่งซื้อ" value="{{ old('orders_code') ?? '' }}">
+                            placeholder="หมายเลขสั่งซื้อ" value="{{ old('orders_code') ?? $_GET['orderCode'] ?? '' }}">
                         {{ $errors->first('orders_code') }}
                     </div>
                     <div class="col-lg-4 col-md-6 mb-3">
                         <div id="rs_order" class="alert alert-danger" role="alert"
-                            style="position: relative; top: 33px; height: 35px;">
+                            style="position: relative; top: 33px; height: 35px; display: none;">
                             <div style="margin-top: -6px;">ไม่พบข้อมูล !!</div>
                         </div>
                     </div>
@@ -42,20 +42,22 @@
                     <div class="col-lg-4 col-md-6 mb-3">
                         <label for="fullname">ชื่อ-นามสกุล<span class="text-danger"> * </span> :</label>
                         <input type="text" class="form-control" id="fullname" name="fullname"
-                            value="{{ (Auth::check()) ? Auth::user()->first_name. ' ' . Auth::user()->last_name ?? '' : '' }}"
-                            {{ Auth::check() ? 'disabled' : 'required' }}>
+                            value="{{ Auth::user() ? Auth::user()->first_name. ' ' . Auth::user()->last_name : '' }}"
+                            {{ Auth::user() ? 'disabled' : 'required' }}>
                         {{ $errors->first('first_name'). ' ' . $errors->first('last_name') }}
                     </div>
                     <div class="col-lg-4 col-md-6 mb-3">
                         <label for="contact">เบอร์ติดต่อ<span class="text-danger"> * </span> :</label>
-                        <input type="tel" class="form-control" id="contact" name="contact" value="" required>
+                        <input type="tel" class="form-control" id="contact" name="contact"
+                            value="{{ Auth::user() ? Auth::user()->profiles->telephone : '' }}"
+                            {{ Auth::user() ? 'disabled' : 'required' }}>
                         {{ $errors->first('contact') }}
                     </div>
                     <div class="col-lg-4 col-md-6 mb-3">
                         <label for="email">อีเมล<span class="text-danger"> * </span> :</label>
                         <input type="email" class="form-control" id="email" name="email"
-                            value="{{ Auth::check() ? Auth::user()->email ?? '' : '' }}"
-                            {{ Auth::check() ? 'disabled' : 'required' }}>
+                            value="{{ Auth::user() ? Auth::user()->email : '' }}"
+                            {{ Auth::user() ? 'disabled' : 'required' }}>
                         {{ $errors->first('email') }}
                     </div>
                 </div>
@@ -118,30 +120,38 @@
 @push('after-scripts')
 <script>
     $(function() {
+        var orderCode = "{{ $_GET['orderCode'] ?? '' }}";
         $('#image').on('change', function(){
             readURL(this);
         });
-        $('#rs_order').hide();
+        // $('#rs_order').hide();
         $('#orders_code').on('change', function() {
             $('.btn-submit').attr('disabled', true);
             $('#rs_order').hide();
             if ($(this).val()) {
-                $.ajax({
-                    url: '/api/v1/payments/checkorder/' + $(this).val(),
-                    type: 'GET',
-                    success: function (result) {
-                        if (result == 0) {
-                            $('#rs_order').show();
-                        } else {
-                            $('.btn-submit').attr('disabled', false);
-                        }
-                    },
-                    error: function(data) {
-                        $('#rs_order').show();
-                    }
-                });
+                checkorder($(this).val());
             }
         });
+        $('#orders_code').on('keyup', function() {
+            $('.btn-submit').attr('disabled', true);
+        });
+        if (orderCode) checkorder(orderCode);
     });
+    function checkorder(v) {
+        $.ajax({
+            url: '/api/v1/payments/checkorder/' + v,
+            type: 'GET',
+            success: function (result) {
+                if (result.data.result == 0) {
+                    $('#rs_order').show();
+                } else {
+                    $('.btn-submit').attr('disabled', false);
+                }
+            },
+            error: function(data) {
+                $('#rs_order').show();
+            }
+        });
+    }
 </script>
 @endpush

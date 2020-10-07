@@ -87,58 +87,123 @@ $(document).ready(function () {
         }
     });
 
-    $('.box-products .box-List .btn').on('click', function () {
-        if ($(window).width() < 1025) {
-            var cart = $('#boxOfProductmobile');
+    $(".btn-heart").on("click", function () {
+        // toggleFavorite();
+        var This = $(this);
+        var product = $(this).attr('data-product');
+        var favorite = $(this).attr('data-fav');
+        if (favorite == '1') {
+            var new_favorite = '0';
         } else {
-            var cart = $('#boxOfProduct');
+            var new_favorite = '1';
         }
-        var imgtodrag = $(this).closest('.list').find(".img").eq(0);
-        if (imgtodrag) {
-            var imgclone = imgtodrag.clone()
-                .offset({
-                    top: imgtodrag.offset().top,
-                    left: imgtodrag.offset().left
-                })
-                .css({
-                    'opacity': '0.9',
-                    width: imgtodrag.width(),
-                    height: imgtodrag.height(),
-                    'position': 'absolute',
-                    'z-index': '1031'
-                })
-                .appendTo($('body'))
-                .animate({
-                    'top': cart.offset().top + 10,
-                    'left': cart.offset().left + 10,
-                    'width': 40,
-                    'height': 28
-                }, 1000, 'easeInOutExpo');
-            if ($(window).width() < 1025) {
-                $('body').css('overflow', 'hidden');
+        $.ajax({
+            type: 'get',
+            url: base_url + '/en/change_favorite',
+            data: {
+                product_id: product,
+                favorite: favorite,
+                _token: '{{ csrf_token() }}',
+            },
+            dataType: 'json',
+            success: function (data) {
+                $(This).attr('data-fav', new_favorite);
+                if (new_favorite == '0') {
+                    $(This).removeClass('active');
+                } else {
+                    $(This).addClass('active');
+                }
+            },
+            error: function (data) {
+                $('#loginModal').modal('show');
             }
-
-            setTimeout(function () {
-                cart.effect("shake", {
-                    times: 2,
-                    distance: 10
-                }, 300);
-            }, 1500);
-
-            imgclone.animate({
-                'width': 0,
-                'height': 0
-            }, function () {
-                $(this).detach()
-                $('body').css('overflow', '');
-                // ฟังก์ชันเมื่อย้ายตำแหน่ง เสร็จต้องการให้ทำอะไร
-                // สามารถนำไปประยุกต์ เพิ่มสินค้าในตะกร้าสินค้า ด้วย ajax
-                // alert('เพิ่มสินค้า');
-            });
-        }
+        });
     });
 
+    $(".btn-cart").on("click", function () {
+        var This = $(this);
+        // toggleFavorite();
+        var product = $(this).attr('data-product');
+        if ($("#quantity").length > 0) {
+            var quantity = $("#quantity").val();
+        } else {
+            var quantity = 1;
+        }
+        $.ajax({
+            type: 'get',
+            url: base_url + '/en/add_cart',
+            data: {
+                product_id: product,
+                quantity: quantity,
+                _token: '{{ csrf_token() }}',
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.condition == 1) {
+                    $('.cart_item').html(data.cart_item);
+                    effectCart(This);
+                } else {
+                    $('#notiMsg').html(data.msg);
+                    $('#notiModal').modal('show');
+                }
+            },
+            error: function (data) {
+                $('#loginModal').modal('show');
+            }
+        });
+    });
 });
+
+function effectCart(i) {
+    if ($(window).width() < 1025) {
+        var cart = $('#boxOfProductmobile');
+    } else {
+        var cart = $('#boxOfProduct');
+    }
+    var imgtodrag = i.closest('.list').find(".img").eq(0);
+    if (imgtodrag) {
+        var imgclone = imgtodrag.clone()
+            .offset({
+                top: imgtodrag.offset().top,
+                left: imgtodrag.offset().left
+            })
+            .css({
+                'opacity': '0.9',
+                width: imgtodrag.width(),
+                height: imgtodrag.height(),
+                'position': 'absolute',
+                'z-index': '1031'
+            })
+            .appendTo($('body'))
+            .animate({
+                'top': cart.offset().top + 10,
+                'left': cart.offset().left + 10,
+                'width': 40,
+                'height': 28
+            }, 1000, 'easeInOutExpo');
+        if ($(window).width() < 1025) {
+            $('body').css('overflow', 'hidden');
+        }
+
+        setTimeout(function () {
+            cart.effect("shake", {
+                times: 2,
+                distance: 10
+            }, 300);
+        }, 1500);
+
+        imgclone.animate({
+            'width': 0,
+            'height': 0
+        }, function () {
+            $(this).detach()
+            $('body').css('overflow', '');
+            // ฟังก์ชันเมื่อย้ายตำแหน่ง เสร็จต้องการให้ทำอะไร
+            // สามารถนำไปประยุกต์ เพิ่มสินค้าในตะกร้าสินค้า ด้วย ajax
+            // alert('เพิ่มสินค้า');
+        });
+    }
+}
 
 function sliderCategory() {
     $(".menu-category .owl-carousel").owlCarousel({
@@ -234,35 +299,37 @@ function slidershowImg() {
 }
 
 function sliderTRemaining() {
-    var timer = $('#TRemaining').attr('data-time');
-    // Set the date we're counting down to
-    var countDownDate = new Date(timer).getTime();
+    if ($("#TRemaining").length > 0) {
+        var timer = $('#TRemaining').attr('data-time');
+        // Set the date we're counting down to
+        var countDownDate = new Date(timer).getTime();
 
-    // Update the count down every 1 second
-    var x = setInterval(function () {
+        // Update the count down every 1 second
+        var x = setInterval(function () {
 
-        // Get today's date and time
-        var now = new Date().getTime();
+            // Get today's date and time
+            var now = new Date().getTime();
 
-        // Find the distance between now and the count down date
-        var distance = countDownDate - now;
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
 
-        // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Display the result in the element with id="demo"
-        document.getElementById("TRemaining").innerHTML = days + "d " + hours + "h " +
-            minutes + "m " + seconds + "s ";
+            // Display the result in the element with id="demo"
+            document.getElementById("TRemaining").innerHTML = days + "d " + hours + "h " +
+                minutes + "m " + seconds + "s ";
 
-        // If the count down is finished, write some text
-        if (distance < 0) {
-            clearInterval(x);
-            document.getElementById("TRemaining").innerHTML = "EXPIRED";
-        }
-    }, 1000);
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("TRemaining").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    }
 }
 
 function sliderTRemaining_old() {
@@ -327,9 +394,11 @@ function calAmount(e) {
 function sumTotal(displayDiscount = 0) {
     var total = 0;
     var totalDiscount = 0;
+    var totalWeight = 0;
     var amount = 0;
     var discountAmount = 0;
     var vat7 = 0;
+    var logisticPrice = 0;
     var hasCB = false;
     $('.btn-next-process').addClass('disabled');
     if ($('.order-head').find('input:checkbox').hasClass('selectAll')) hasCB = true;
@@ -341,6 +410,8 @@ function sumTotal(displayDiscount = 0) {
                 if (displayDiscount !== 0) {
                     discountAmount = parseFloat($(this).find('.display-price>b>span').text().replace(',', '')) * parseFloat($(this).find('.display-qty').text().replace(',', ''));
                     totalDiscount += discountAmount - amount;
+                    // Weight
+                    totalWeight += parseFloat($(this).find('.weight').val());
                 }
             }
         } else {
@@ -349,6 +420,8 @@ function sumTotal(displayDiscount = 0) {
             if (displayDiscount !== 0) {
                 discountAmount = parseFloat($(this).find('.display-price>b>span').text().replace(',', '')) * parseFloat($(this).find('.display-qty').text().replace(',', ''));
                 totalDiscount += discountAmount - amount;
+                // Weight
+                totalWeight += parseFloat($(this).find('.weight').val());
             }
         }
     });
@@ -360,18 +433,21 @@ function sumTotal(displayDiscount = 0) {
         $('.display-vat7 span').html(numberWithCommas((valVat7).toFixed(2)));
         var deliveryPrice = parseFloat($('.display-logistic-price span').html());
         $('.display-gtotal span').html(numberWithCommas((total + deliveryPrice + valVat7).toFixed(2)));
+        $('.display-weight span').html(numberWithCommas(totalWeight.toFixed(2)));
+        // $('.display-logistic-price span').html(numberWithCommas(logisticPrice.toFixed(2)));
+
+        // form
+        $('#total_amount').val(total.toFixed(2));
+        $('#discount').val(totalDiscount.toFixed(2));
+        $('#vat').val(valVat7.toFixed(2));
+        $('#total_weight').val(totalWeight.toFixed(2));
+        // $('#delivery_charge').val(logisticPrice.toFixed(2));
     }
 }
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
 
 function readURL(_this, _div = null) {
     var sum = (_this.files[0].size / 1048576);

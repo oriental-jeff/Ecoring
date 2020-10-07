@@ -7,7 +7,7 @@ use Facades\App\Repository\Pages;
 use Illuminate\Http\Request;
 use App\Model\Cart;
 use App\Model\Logistics;
-use App\Model\Orders;
+use App\Model\UserAddressDelivery;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -15,9 +15,9 @@ class CartController extends Controller
 
     public function index()
     {
-        $pages = Pages::get(5);
-        $carts = Cart::where('users_id', 1)->get();
-        return view('frontend.cart.index', compact(['carts', 'pages']));
+        // $pages = Pages::get();
+        $carts = Cart::where('users_id', Auth::user()->id)->whereNull('orders_id')->get();
+        return view('frontend.cart.index', compact(['carts']));
     }
 
     public function order(Request $request)
@@ -29,13 +29,13 @@ class CartController extends Controller
         }
         $cart = Cart::whereIn('id', $request->cartID)->stockCheckAvailable(config('global.warehouse'))->get();
         if (COUNT($cart) == 0) {
-            $pages = Pages::get(5);
-            $carts = Cart::whereIn('id', $request->cartID)->get();
+            // $pages = Pages::get();
+            $carts = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->get();
             $logistics = Logistics::onlyActive()->get();
 
-            $delivery_addr = $logistics;
+            $delivery_addr = UserAddressDelivery::where('user_id', Auth::id())->get();
 
-            return view('frontend.cart.order', compact(['carts', 'pages', 'logistics', 'delivery_addr']));
+            return view('frontend.cart.order', compact(['carts', 'logistics', 'delivery_addr']));
         } else {
             return back();
         }

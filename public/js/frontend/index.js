@@ -26,13 +26,11 @@ $(document).ready(function() {
                 return !!b && y <= l && g >= f
         }
     })(jQuery)
-    
-    jQuery(window).scroll(function(event) {
-        console.log($("#a-lazyload").visible2());
-    });
-	
+    	
 	boxSlide();
 	boxType();
+	lazyLoad();
+	
 });
 function boxSlide() {
 	$(".box-slide .owl-carousel").owlCarousel({
@@ -80,5 +78,27 @@ function boxType() {
     });
     $('.box-Type .o-next').click(function() {
         $('.box-Type .owl-next').click();
+    });
+}
+function lazyLoad() {
+	var list = $(".box-products .box-List.lazyload .list");
+	var btn = $("#a-lazyload");
+	
+	// โหลดทีล่ะเท่าไร
+	var n = 6;
+	
+	list.slice(n).hide();
+    var mincount = n;
+	var maxcount = n*2;
+    jQuery(window).scroll(function(event) {
+        if (!btn.visible2(true)) {
+			list.slice(mincount,maxcount).fadeIn(1200);
+			mincount = mincount+n;
+			maxcount = maxcount+n;
+			
+			if(mincount > list.length ){
+				btn.hide();
+			}
+        }
     });
 }

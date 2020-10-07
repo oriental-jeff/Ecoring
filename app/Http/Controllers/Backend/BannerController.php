@@ -20,25 +20,6 @@ class BannerController extends Controller
     $this->authorize(mapPermission(self::MODULE));
     if ($request->filled('keyword')) :
       if(Auth::user()->hasRole(['admin'])):
-        $banners = Banner::with('banners_detail.')->getDataByKeyword($request->keyword)->adminOnly()->get();
-      else:
-        $banners = Banner::with('banners_detail.')->getDataByKeyword($request->keyword)->get();
-      endif;
-    else:
-      if(Auth::user()->hasRole(['admin'])):
-        $banners = Banner::with('banners_detail.update_name')->adminOnly()->limit(50)->get();
-      else:
-        $banners = Banner::with('banners_detail.update_name')->limit(50)->get();
-      endif;
-    endif;
-    return view('backend.banner.index', compact('banners'));
-  }
-
-  public function search(Request $request) 
-  {
-    $this->authorize(mapPermission(self::MODULE));
-    if ($request->filled('keyword')) :
-      if(Auth::user()->hasRole(['admin'])):
         $banners = Banner::getDataByKeyword($request->keyword)->adminOnly()->get();
       else:
         $banners = Banner::getDataByKeyword($request->keyword)->get();
@@ -50,7 +31,7 @@ class BannerController extends Controller
         $banners = Banner::all();
       endif;
     endif;
-    return view('backend.banner.show', compact('banners'));
+    return view('backend.banner.index', compact('banners'));
   }
 
   public function create(Request $request)

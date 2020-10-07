@@ -21,11 +21,6 @@ class Promotions extends Model implements HasMedia
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
 
-    public function products()
-    {
-        return $this->hasMany('App\Model\Products', 'promotions_id', 'id');
-    }
-
     public function getActiveAttribute($attributes)
     {
         return [

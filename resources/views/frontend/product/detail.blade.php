@@ -65,7 +65,7 @@
 							<div class="col-md-6">
 								<h4 class="text-head">
 									<!-- favorites mobile -->
-									<div class="icon-Favorites float-right ml-2 d-block d-lg-none {{ $product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');">{{ __('messages.favorite') }}</div>
+									<div class="icon-Favorites float-right ml-2 d-block d-lg-none btn-heart {{ $product->favorites_count > 0 ? 'active' : '' }}" data-fav="{{ $product->favorites_count }}" data-product="{{ $product->id }}">{{ __('messages.favorite') }}</div>
 									<!-- favorites mobile -->
 									{{ $product->{ get_lang('name') } }}
 								</h4>
@@ -89,24 +89,28 @@
 					<div class="col-lg-3 box-left-sticky">
 						<div class="b-sticky">
 							<!-- favorites PC -->
-							<div class="icon-Favorites d-none d-lg-block {{ $product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');">{{ __('messages.favorite') }}</div>
+							<div class="icon-Favorites d-none d-lg-block btn-heart {{ $product->favorites_count > 0 ? 'active' : '' }}" data-fav="{{ $product->favorites_count }}" data-product="{{ $product->id }}">{{ __('messages.favorite') }}</div>
 							<!-- favorites PC -->
 						
 							<hr class="d-none d-lg-block">
 							<div class="font-weight-bold mt-3 clearfix">{{ __('messages.grade') }} <h3 class="float-right">{{ $product->grades_name->{ get_lang('name') } }}</h3></div>
 							<div class="font-weight-bold mt-3 clearfix"><b class="line-through">฿{{ number_format($product->full_price) }}</b> <h4 class="float-right">{{ __('messages.price') }} : ฿{{ number_format($product->price) }}</h4></div>
 							<div class="font-weight-bold mt-3 clearfix">
-								{{ __('messages.quantity') }}
-								<div class="btn-group">
-							    <button type="button" class="btn btn-delete disabled">-</button>
-							    <input type="text" class="btn" value="1">
-							    <button type="button" class="btn btn-plus">+</button>
-								</div>
+                @if ($product->stocks[0]->quantity > 0)
+  								{{ __('messages.quantity') }}
+  								<div class="btn-group">
+  							    <button type="button" class="btn btn-delete disabled">-</button>
+  							    <input type="text" class="btn" id="quantity" value="1">
+  							    <button type="button" class="btn btn-plus">+</button>
+  								</div>
+                @else
+                  {{ __('messages.out_of_stock') }}
+                @endif
 							</div>
 							<br>
 							<div class="mt-3" style="color: #00b16b;">{{ __('messages.product_total_quantity') }} : {{ $product->stocks[0]->quantity }} {{ __('messages.unit') }}</div>
 							<br>
-							<button type="button" class="btn border-0 w-100" {{ empty(Auth::user()) ? 'disabled' : '' }}>{{ __('messages.add_basket') }}</button>
+							<button type="button" class="btn border-0 btn-cart w-100" {{ empty(Auth::user()) ? 'disabled' : '' }} data-product="{{ $product->id }}">{{ __('messages.add_basket') }}</button>
 							<br>
 							{{-- <div class="mt-3" style="color: #00b16b;">ราคานี้ตั้งแต่ 16/03/2020 ถึง 16/03/2020 ราคานี้ใช้สำหรับการสั่งซื้อทางออนไลน์เท่านั้น</div>
 							<br> --}}
@@ -190,7 +194,7 @@
         <div class="owl-carousel box-List">
           @foreach ($new_products as $new_product)
 			<div class="card item col-12 list">
-				<div class="btn-heart {{ $new_product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');"></div>
+				<div class="btn-heart {{ $new_product->favorites_count > 0 ? 'active' : '' }}" data-fav="{{ $new_product->favorites_count }}" data-product="{{ $new_product->id }}"></div>
 				<div class="card-body">
 					<a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $new_product->id]) }}">
 						<div class="img">
@@ -206,7 +210,7 @@
 				</div>
 				<div class="card-footer">
 					<span class="price">{{ __('messages.price') }} : ฿{{ number_format($new_product->price) }}<b>฿{{ number_format($new_product->full_price) }}</b></span>
-					<button type="button" class="btn w-100" {{ empty(Auth::user()) ? 'disabled' : '' }}>{{ __('messages.add_basket') }}</button>
+					<button type="button" class="btn btn-cart w-100" {{ empty(Auth::user()) ? 'disabled' : '' }} data-product="{{ $new_product->id }}">{{ __('messages.add_basket') }}</button>
 				</div>
 			</div>
           @endforeach

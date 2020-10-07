@@ -15,6 +15,8 @@ return [
     'login' => 'Login',
     'logout' => 'Logout',
     'edit_password' => 'Edit Password',
+    'hi' => 'Hi',
+    'privacy_policy' => 'Privacy Policy',
 
     'new_product' => 'New Product',
     'recommended_product' => 'Recommended Product',
@@ -30,6 +32,9 @@ return [
     'product_total_quantity' => 'Total Quantity',
     'unit' => 'Unit',
     'close' => 'Close',
+    'you_have_product' => 'You have products',
+    'wait_for_payment' => 'Waiting for payment',
+    'time_left' => 'Time left',
 
     'aboutus' => 'About Us',
     'contactus' => 'Contact Us',
@@ -70,7 +75,7 @@ return [
     'register_noti2' => 'before making a purchase',
     'username_placeholder' => 'username',
     'password_placeholder' => 'password',
-    'password_noti' => 'Please fill in more than 6 character',
+    'password_noti' => 'Please fill in more than 8 character',
     'confirm_password_noti' => 'Please confirm your password',
     'telephone_noti' => 'Please fill in your mobile phone for the convenience of product delivery',
     'receive_infomation' => 'Receive infomation from the shop',
@@ -106,5 +111,6 @@ return [
     'update_password_success' => 'Password has been updated successfully',
     'duplicate_password' => 'New password can not be the same as old password!',
     'old_password_not_matched' => 'Old password does not matched',
+    'send_forgot_email_success' => 'Request for forgot password has been sent to your email',
 
 ];
