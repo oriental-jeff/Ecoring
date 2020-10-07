@@ -42,7 +42,7 @@
         <div class="row box-List py-3">
           @foreach ($new_products as $new_product)
             <div class="card col-xl-2 col-lg-3 col-sm-4 col-6 list">
-              <div class="btn-heart {{ $new_product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');"></div>
+              <div class="btn-heart {{ $new_product->favorites_count > 0 ? 'active' : '' }}" data-fav="{{ $new_product->favorites_count }}" data-product="{{ $new_product->id }}"></div>
               <div class="card-body">
               	<a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $new_product->id]) }}">
                   <div class="img">
@@ -52,13 +52,13 @@
                   </div>
                   <div class="box-text">
                   	<h6>{{ $new_product->{ get_lang('name') } }}</h6>
-				  	<span>{{ __('messages.grade') }} - {{ $new_product->grades_name->{ get_lang('name') } }}</span>
+                    <span>{{ __('messages.grade') }} - {{ $new_product->grades_name->{ get_lang('name') } }}</span>
                   </div>
             	</a>
               </div>
               <div class="card-footer">
-			  	<span class="price">{{ __('messages.price') }} : ฿{{ number_format($new_product->price) }}<b>฿{{ number_format($new_product->full_price) }}</b></span>
-			  	<button type="button" class="btn w-100" {{ empty(Auth::user()) ? 'disabled' : '' }}>{{ __('messages.add_basket') }}</button>
+                <span class="price">{{ __('messages.price') }} : ฿{{ number_format($new_product->price) }}<b>฿{{ number_format($new_product->full_price) }}</b></span>
+                <button type="button" class="btn btn-cart w-100" {{ empty(Auth::user()) ? 'disabled' : '' }} data-product="{{ $new_product->id }}">{{ __('messages.add_basket') }}</button>
               </div>
             </div>
           @endforeach
@@ -85,7 +85,7 @@
           
     <section class="box-Type">
       <div class="container">
-        <h5 class="mb-3">ประเภทสินค้า</h5>
+        <h5 class="mb-3">{{ __('messages.category') }}</h5>
       </div>
         
       <!-- ก้อน PC -->
@@ -141,7 +141,7 @@
         <div class="row box-List lazyload">
           @foreach ($recommended_products as $recommended_product)
           <div class="card col-xl-2 col-lg-3 col-sm-4 col-6 list">
-            <div class="btn-heart {{ $recommended_product->favorites_count > 0 ? 'active' : '' }}" onclick="alert('click');"></div>
+            <div class="btn-heart {{ $recommended_product->favorites_count > 0 ? 'active' : '' }}" data-fav="{{ $recommended_product->favorites_count }}" data-product="{{ $recommended_product->id }}"></div>
             <div class="card-body">
               <a href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $recommended_product->id]) }}">
                 <div class="img">
@@ -157,7 +157,7 @@
             </div>
             <div class="card-footer">
               <span class="price">{{ __('messages.price') }} : ฿{{ number_format($recommended_product->price) }}<b>฿{{ number_format($recommended_product->full_price) }}</b></span>
-              <button type="button" class="btn w-100" {{ empty(Auth::user()) ? 'disabled' : '' }}>{{ __('messages.add_basket') }}</button>
+              <button type="button" class="btn btn-cart w-100" {{ empty(Auth::user()) ? 'disabled' : '' }} data-product="{{ $recommended_product->id }}">{{ __('messages.add_basket') }}</button>
             </div>
           </div>
           @endforeach

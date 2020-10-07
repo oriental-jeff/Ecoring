@@ -24,6 +24,7 @@
 
   <script>
     var base_url = '{!! url("/") !!}';
+    var auth_user = "{{{ (Auth::user()) ? Auth::user() : null }}}";
   </script>
 </head>
 <body>

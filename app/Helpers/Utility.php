@@ -19,6 +19,8 @@ if (! function_exists('get_main')) {
       'web_info' => App\Model\WebInfo::find(1),
       'web_socials' => App\Model\WebSocial::onlyActive()->get(),
       'categories' => App\Model\Categories::get(),
+      'count_cart_products' => App\Model\Cart::where('users_id', Auth::id())->whereNull('orders_id')->count(),
+      'order_not_pay' => App\Model\Orders::where('users_id', Auth::id())->onlyNotPay()->orderBy('id', 'asc')->get(),
     ];
     
     return $main;
