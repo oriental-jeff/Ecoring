@@ -21,65 +21,23 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::name('frontend.auth.')
-  ->namespace('Frontend\Auth')
-  ->prefix('{locale}')
-  ->where(['locale' => '[a-zA-Z]{2}'])
-  ->middleware(['setlocale', 'front_user.active'])
-  ->group(function () {
-    Route::get('/login', 'LoginController@showLoginForm')->name('login.form');
-    Route::post('/login', 'LoginController@login')->name('login');
-    Route::post('/logout', 'LoginController@logout')->name('logout');
-    Route::get('/login/{provider}', 'LoginController@redirectToProvider');
-    Route::get('/login/{provier}/callback', 'LoginController@handleProviderCallback');
-});
-
-Route::name('frontend.')
-  ->namespace('Frontend')
-  ->prefix('{locale}')
-  ->where(['locale' => '[a-zA-Z]{2}'])
-  ->middleware('setlocale')
-  ->group(function(){
-
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/product', 'ProductController@index')->name('product');
-    Route::get('/product/{product}', 'ProductController@detail')->name('product-detail');
-    Route::get('/cart', 'CartController@index')->name('cart');
-    Route::post('/cart/order', 'CartController@order')->name('cart-order');
-    Route::post('/pay', 'PayController@index')->name('pay');
-    Route::post('/payment', 'PaymentController@index')->name('payment');
-    Route::post('/payment/success', 'PaymentController@store')->name('payment-success');
-
-    Route::get('/register', 'UserController@create')->name('register');
-    Route::name('user.')
-      ->prefix('/user')
-      ->group(function () {
-          Route::get('/profile', 'UserController@edit')->name('profile')->middleware('verified');
-          Route::get('/edit-password', 'UserController@edit_password')->name('edit-password')->middleware('verified');
-          Route::get('/favorite', 'UserController@favorite')->name('favorite')->middleware('verified');
-    });
-    Route::resource('/user', 'UserController');
-
-    Route::get('forgot_password', 'ForgotPasswordController@index')->name('password.reset');
-
-    Route::get('/auction', function () {
-      return redirect()->away('https://www.google.com');
-    })->name('auction');
-
-    Route::get('get_district_list', 'AjaxController@get_district_list');
-    Route::get('get_sub_district_list', 'AjaxController@get_sub_district_list');
-    Route::get('change_favorite', 'AjaxController@change_favorite');
-    Route::get('add_cart', 'AjaxController@add_cart');
-
-    Route::get('/lang', function () {
-      return back()->withInput(['locale' => app()->getLocale()]);
-      //return redirect(route('frontend.home', ['locale' => app()->getLocale()]));
+    ->namespace('Frontend\Auth')
+    ->prefix('{locale}')
+    ->where(['locale' => '[a-zA-Z]{2}'])
+    ->middleware(['setlocale', 'front_user.active'])
+    ->group(function () {
+        Route::get('/login', 'LoginController@showLoginForm')->name('login.form');
+        Route::post('/login', 'LoginController@login')->name('login');
+        Route::post('/logout', 'LoginController@logout')->name('logout');
+        Route::get('/login/{provider}', 'LoginController@redirectToProvider');
+        Route::get('/login/{provier}/callback', 'LoginController@handleProviderCallback');
     });
 
 Route::name('frontend.')
     ->namespace('Frontend')
     ->prefix('{locale}')
     ->where(['locale' => '[a-zA-Z]{2}'])
-    ->middleware(['setlocale'])
+    ->middleware('setlocale')
     ->group(function () {
 
         Route::get('/home', 'HomeController@index')->name('home');
@@ -89,7 +47,7 @@ Route::name('frontend.')
         Route::post('/cart/order', 'CartController@order')->name('cart-order');
         Route::post('/pay', 'PayController@index')->name('pay');
         Route::post('/pay/success', 'PayController@store')->name('pay-success');
-        Route::get('/payment', 'PaymentController@index')->name('payment');
+        Route::post('/payment', 'PaymentController@index')->name('payment');
         Route::post('/payment/success', 'PaymentController@store')->name('payment-success');
 
         Route::get('/register', 'UserController@create')->name('register');
@@ -110,6 +68,8 @@ Route::name('frontend.')
 
         Route::get('get_district_list', 'AjaxController@get_district_list');
         Route::get('get_sub_district_list', 'AjaxController@get_sub_district_list');
+        Route::get('change_favorite', 'AjaxController@change_favorite');
+        Route::get('add_cart', 'AjaxController@add_cart');
 
         Route::get('/lang', function () {
             return back()->withInput(['locale' => app()->getLocale()]);
