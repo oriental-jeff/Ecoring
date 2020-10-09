@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
       PagesTableSeeder::class,
       AboutUsSeeder::class,
       AboutUsSeeder::class,
-      // CategorySeeder::class,
-      // WarehouseSeeder::class,
+      CategorySeeder::class,
+      WarehouseSeeder::class,
     ]);
     $this->command->info('Main table seeded!');
 

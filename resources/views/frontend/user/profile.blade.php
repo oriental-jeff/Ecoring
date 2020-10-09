@@ -40,29 +40,29 @@
                 <div class="col-6 pr-0">
                   <button type="button" class="btn font-weight-light radius-25 w-100" onclick="alert('click');">
                     <img style="width: 23px;" src="{{ asset('images/icon-camera.svg') }}"> 
-                    รูปโปรไฟล์
+                    {{ __('messages.profile_image') }}
                   </button>
                 </div>
                 <div class="col-6 pl-1">
                   <a class="btn font-weight-light radius-25 w-100" id="btnEdit" href="javascript:;">
                     <img style="width: 23px;" src="{{ asset('images/icon-edit.svg') }}"> 
-                    แก้ไขข้อมูล
+                    {{ __('messages.edit_profile') }}
                   </a>
                 </div>
               </div>
   						<hr>
   						<a class="btn btn-secondary font-weight-light radius-25 w-100 mb-3" href="../history">
   							<img class="m-0 mr-2" style="width: 23px;" src="{{ asset('images/icon-history.svg') }}"> 
-  							ประวัติการสั่งซื้อสินค้า
+  							{{ __('messages.history') }}
   						</a>
   						<a class="btn btn-secondary font-weight-light radius-25 w-100 mb-3" href="{{ route('frontend.user.favorite', ['locale' => get_lang(), 'user' => $user->id]) }}">
-  							<i class="fa fa-heart-o"></i>
-  							รายการโปรด
+  							<i class="fa fa-heart-o pr-2"></i>
+  							{{ __('messages.favorite') }}
   						</a>
   						<hr>
   						<a class="btn btn-danger font-weight-light radius-25 w-100 mb-3" href="javascript:;" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
   							<img class="m-0 mr-2" style="width: 23px;" src="{{ asset('images/icon-logout.svg') }}"> 
-  							ออกจากระบบ
+  							{{ __('messages.logout') }}
   						</a>
   					</div>
   				</div>

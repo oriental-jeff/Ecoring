@@ -114,9 +114,11 @@ section.box-history {
 			width: 130px;
 		}
 		.box-order .order-body a.btn {
-		    width: 43px !important;
-		    height: 43px;
+		    width: 39px !important;
+		    height: 39px;
 		    overflow: hidden;
+		    color: transparent;
+		    padding-left: 11px;
 		}
 		.btn-group {
 		    width: 40px;

@@ -31,6 +31,19 @@ class LoginController extends Controller
         return view('frontend.auth.login', compact(['pages']));
     }
 
+    public function authenticated(Request $request, $user)
+    {
+      $user = Auth::user();
+      if (is_null($user->email_verified_at)) { // This is the most important part for you
+        Auth::logout();
+        $message = __('messages.email_not_verified');
+        $request->session()->flash('message', $message);
+        $request->session()->flash('alert-class', 'alert-warning');
+
+        return redirect(route('frontend.auth.login.form', ['locale' => get_lang()]));
+      }
+    }
+
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();

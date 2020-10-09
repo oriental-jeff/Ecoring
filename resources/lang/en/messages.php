@@ -28,6 +28,7 @@ return [
     'search' => 'Search',
     'search_products' => 'Search Products',
     'favorite' => 'Favorite',
+    'history' => 'History',
     'quantity' => 'Quantity',
     'product_total_quantity' => 'Total Quantity',
     'unit' => 'Unit',
@@ -48,6 +49,8 @@ return [
     'tags' => 'Tags',
 
     'profile' => 'Profile',
+    'profile_image' => 'Image',
+    'edit_profile' => 'Edit Profile',
     'username' => 'Username',
     'email' => 'Email',
     'password' => 'Password',
@@ -112,5 +115,10 @@ return [
     'duplicate_password' => 'New password can not be the same as old password!',
     'old_password_not_matched' => 'Old password does not matched',
     'send_forgot_email_success' => 'Request for forgot password has been sent to your email',
+
+    'add_basket_success' => 'Add to basket successfully',
+    'out_of_stock' => 'Out of stocks',
+    'not_enought_product' => 'Not enought product',
+    'email_not_verified' => 'Your email address is not verified',
 
 ];

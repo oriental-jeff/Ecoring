@@ -28,6 +28,7 @@ return [
     'search' => 'ค้นหา',
     'search_products' => 'ค้นหาสินค้า',
     'favorite' => 'รายการโปรด',
+    'history' => 'ประวัติการสั่งซื้อ',
     'quantity' => 'จำนวน',
     'product_total_quantity' => 'มีสินค้าทั้งหมด',
     'unit' => 'ชิ้น',
@@ -48,6 +49,8 @@ return [
     'tags' => 'คำที่เกี่ยวข้อง',
 
     'profile' => 'โปรไฟล์',
+    'profile_image' => 'รูปโปรไฟล์',
+    'edit_profile' => 'แก้ไขข้อมูล',
     'username' => 'ชื่อบัญชี',
     'email' => 'อีเมล',
     'password' => 'รหัสผ่าน',
@@ -112,5 +115,10 @@ return [
     'duplicate_password' => 'ห้ามใช้รหัสผ่านใหม่ซ้ำรหัสผ่านเดิม',
     'old_password_not_matched' => 'รหัสผ่านเก่าไม่ถูกต้อง',
     'send_forgot_email_success' => 'ส่งอีเมลร้องขอลืมรหัสผ่านเรียบร้อย',
+
+    'add_basket_success' => 'เพิ่มสินค้าลงตะกร้าแล้ว',
+    'out_of_stock' => 'สินค้าหมด',
+    'not_enought_product' => 'สินค้ามีไม่เพียงพอ',
+    'email_not_verified' => 'คุณยังไม่ได้ทำการยืนยันอีเมล',
 
 ];

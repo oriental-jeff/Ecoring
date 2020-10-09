@@ -25,6 +25,15 @@
             <div class="box-paper border-top">
               <form method="post" id="form-validate" action="{{ route('frontend.auth.login', ['locale' => get_lang()]) }}" class="px-5 pt-5 pb-3 m-auto" style="max-width: 500px;">
                 @csrf
+                
+                @if(Session::has('message'))
+                  <div id="alert_box" class="alert {{ Session::get('alert-class', 'alert-light') }} py-2">
+                    <b>{{ Session::get('message') }}</b>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                @endif
                 <div class="form-group icon-User">
                   <label for="email">{{ __('messages.username') }} ({{ __('messages.email') }})</label>
                   <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="{{ __('messages.username_placeholder') }}" @error('email') is-invalid @enderror value="{{ old('email') }}" required="">
