@@ -20,6 +20,7 @@ class CheckFrontUserStatus
       
       return redirect(route('frontend.auth.login.form', ['locale' => get_lang()]));
     }
+    
     return $next($request);
   }
 }

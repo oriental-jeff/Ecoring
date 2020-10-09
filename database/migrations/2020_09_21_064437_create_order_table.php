@@ -33,7 +33,8 @@ class CreateOrderTable extends Migration
             $table->integer('province_id');
             $table->integer('postcode');
             $table->decimal('vat');
-            $table->integer('status')->default(0)->comment('ordered|payment|preparing|delivered');
+            $table->string('tracking_no')->nullable();
+            $table->integer('status')->default(0);
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();

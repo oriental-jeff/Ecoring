@@ -12,6 +12,9 @@ class Orders extends Model implements HasMedia
 {
     use LogsActivity, HasMediaTrait;
     protected $table = 'order';
+    protected $attributes = [
+        'status' => 0,
+    ];
     protected $guarded = [];
 
     protected static $logName = 'order';
@@ -21,6 +24,31 @@ class Orders extends Model implements HasMedia
     public function update_name()
     {
         return $this->hasOne('App\User', 'id', 'updated_by');
+    }
+
+    public function provinces()
+    {
+        return $this->hasOne('App\Model\Province', 'id', 'province_id');
+    }
+
+    public function districts()
+    {
+        return $this->hasOne('App\Model\District', 'id', 'district_id');
+    }
+
+    public function sub_districts()
+    {
+        return $this->hasOne('App\Model\SubDistrict', 'id', 'sub_district_id');
+    }
+
+    public function transaction()
+    {
+        return $this->hasOne('App\Model\Transactions');
+    }
+
+    public function cart()
+    {
+        return $this->hasMany('App\Model\Cart');
     }
 
     public function product()
@@ -37,6 +65,23 @@ class Orders extends Model implements HasMedia
     {
         return $this->hasOne('App\Model\Warehouses', 'id', 'warehouses_id');
     }
+
+    public function status_config()
+    {
+        return $this->hasOne('App\Model\StatusConfig', 'status_id', 'status');
+    }
+
+    // public function getStatusAttribute($attributes)
+    // {
+    //     return [
+    //         0 => 'รอการชำระเงิน',
+    //         1 => 'รอการตรวจสอบ',
+    //         2 => 'ยกเลิกคำสั่งซื้อ',
+    //         3 => 'ชำระเงินแล้ว',
+    //         4 => 'กำลังจัดเตรียมสินค้า',
+    //         5 => 'จัดส่งสินค้า',
+    //     ][$attributes];
+    // }
 
     public function scopeonlyNotPay($query)
     {

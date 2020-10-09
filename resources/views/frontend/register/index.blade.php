@@ -296,7 +296,11 @@
 
     $("#form-validate").validate({
       rules : {
+        password : {
+          minlength : 8
+        },
         password_confirmation : {
+          minlength : 8,
           equalTo : "#password"
         }
       },
