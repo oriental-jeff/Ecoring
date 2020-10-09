@@ -16,7 +16,7 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('transaction_code');
-            $table->string('orders_code');
+            $table->integer('orders_id');
             $table->decimal('amount');
             $table->tinyInteger('status')->default(0)->comment('0:wait|1:processing|2:fail|3:done');
             $table->integer('created_by');

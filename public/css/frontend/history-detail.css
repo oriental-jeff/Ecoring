@@ -175,6 +175,11 @@ section.box-history {
 }
 
 .box-detail .Checkmark.status3 {
+    color: #dc3545;
+    background-image: url(../../images/I-close-red.svg);
+}
+
+.box-detail .Checkmark.status4 {
     color: #25ba4c;
     background-image: url(../../images/I-Checkmark1.svg);
 }

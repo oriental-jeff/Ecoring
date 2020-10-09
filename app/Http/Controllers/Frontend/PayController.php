@@ -7,6 +7,7 @@ use Facades\App\Repository\Pages;
 use Illuminate\Http\Request;
 use App\Model\Orders;
 use App\Model\Cart;
+use App\Model\Stocks;
 use App\Model\Logistics;
 use App\Model\UserProfile;
 use App\Model\UserAddressDelivery;
@@ -18,14 +19,13 @@ class PayController extends Controller
 
     public function index(Request $request)
     {
-        // dd($request);
         // $pages = Pages::get(5);
-        $cart = Cart::whereIn('id', $request->cartID)->stockCheckAvailable(config('global.warehouse'))->get();
-        if (COUNT($cart) == 0) {
+        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->stockCheckAvailable(config('global.warehouse'))->get();
+        if (COUNT($cart) > 0) {
+            return redirect(route('frontend.cart', ['locale' => get_lang()]));
+        } else {
             $carts = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->get();
             $logistic = Logistics::where('id', $request->logistic_id)->onlyActive()->get();
-
-            // Discount
 
             // Delivery
             if ($request->delivery_addr == 'profile') { // Profile Delivery Address
@@ -35,19 +35,15 @@ class PayController extends Controller
             }
 
             return view('frontend.pay.index', compact(['carts', 'logistic', 'delivery_addr']));
-        } else {
-            $carts = Cart::where('users_id', Auth::id())->whereNull('orders_id')->get();
-            return view('frontend.cart.index', compact(['carts']));
         }
     }
 
     public function store(Request $request)
     {
         // Check Cart
-        $carts = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->get();
-        if (COUNT($carts) == 0) {
-            $carts = Cart::where('users_id', Auth::id())->whereNull('orders_id')->get();
-            return view('frontend.cart.index', compact(['carts']));
+        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->stockCheckAvailable(config('global.warehouse'))->get();
+        if (COUNT($cart) > 0) {
+            return redirect(route('frontend.cart', ['locale' => get_lang()]));
         } else {
             $data = request()->validate([
                 "logistics_id" => "required",
@@ -64,52 +60,52 @@ class PayController extends Controller
                 "delivery_charge" => "required",
             ]);
 
-            $cart = Cart::whereIn('id', $request->cartID)->stockCheckAvailable(config('global.warehouse'))->get();
-            // dd($cart);
+            $order_data = [
+                "code" => "UCM" . rand(0, 99999999),
+                "logistics_id" => $data['logistics_id'],
+                "telephone" => $data['telephone'],
+                "address" => $data['address'],
+                "sub_district_id" => $data['sub_district_id'],
+                "district_id" => $data['district_id'],
+                "province_id" => $data['province_id'],
+                "postcode" => $data['postcode'],
+                "vat" => $data['vat'],
+                "total_amount" => $data['total_amount'],
+                "total_weight" => $data['total_weight'],
+                "discount" => $data['discount'],
+                "delivery_charge" => $data['delivery_charge'],
+                "users_id" => Auth::id(),
+                "updated_by" => Auth::id(),
+                "created_by" => Auth::id(),
+            ];
 
-            if (COUNT($cart) == 0) {
-                $order_data = [
-                    "code" => "UCM" . rand(0, 99999999),
-                    "logistics_id" => $data['logistics_id'],
-                    "telephone" => $data['telephone'],
-                    "address" => $data['address'],
-                    "sub_district_id" => $data['sub_district_id'],
-                    "district_id" => $data['district_id'],
-                    "province_id" => $data['province_id'],
-                    "postcode" => $data['postcode'],
-                    "vat" => $data['vat'],
-                    "total_amount" => $data['total_amount'],
-                    "total_weight" => $data['total_weight'],
-                    "discount" => $data['discount'],
-                    "delivery_charge" => $data['delivery_charge'],
-                    "users_id" => Auth::id(),
-                    "updated_by" => Auth::id(),
-                    "created_by" => Auth::id(),
-                ];
+            try {
+                // Create Order
+                $od = Orders::create($order_data);
 
-                try {
-                    // Create Order
-                    $od = Orders::create($order_data);
+                $orderResult = ["code" => $od->code, "total_amount" => $data['total_amount'] + $data['delivery_charge'] + $data['vat']];
+                $bank_accounts = BankAccounts::onlyActive()->get();
 
-                    $orderResult = ["code" => $od->code, "total_amount" => $data['total_amount']];
-                    $bank_accounts = BankAccounts::onlyActive()->get();
+                // Update
+                foreach ($request->cartID as $k => $v) {
+                    // Cart
+                    $c = Cart::find($v);
+                    // Stock
+                    $s = Stocks::where('products_id', $c->products_id)->where('warehouses_id', config('global.warehouse'))->get()[0];
+                    $s->quantity = $s->quantity - $c->quantity;
+                    $s->updated_by = Auth::id();
+                    $s->update();
 
-                    // Update Cart
-                    foreach ($request->cartID as $k => $v) {
-                        $c = Cart::find($v);
-                        $c->orders_id = $od->id;
-                        $c->amount = $request->productPrice[$k];
-                        $c->update();
-                    }
-
-                    return view('frontend.pay.success', compact(['orderResult', 'bank_accounts']));
-                } catch (\Throwable $th) {
-                    $carts = Cart::where('users_id', Auth::id())->whereNull('orders_id')->get();
-                    return view('frontend.cart.index', compact(['carts']));
+                    // Cart
+                    $c->orders_id = $od->id;
+                    $c->amount_full = $request->productPriceFull[$k];
+                    $c->amount = $request->productPrice[$k];
+                    $c->update();
                 }
-            } else {
-                $carts = Cart::where('users_id', Auth::id())->whereNull('orders_id')->get();
-                return view('frontend.cart.index', compact(['carts']));
+
+                return view('frontend.pay.success', compact(['orderResult', 'bank_accounts']));
+            } catch (\Throwable $th) {
+                return redirect(route('frontend.cart', ['locale' => get_lang()]));
             }
         }
     }

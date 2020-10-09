@@ -27,8 +27,10 @@ class CartController extends Controller
             $c->quantity = $request->quantity[$k];
             $c->update();
         }
-        $cart = Cart::whereIn('id', $request->cartID)->stockCheckAvailable(config('global.warehouse'))->get();
-        if (COUNT($cart) == 0) {
+        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->stockCheckAvailable(config('global.warehouse'))->get();
+        if (COUNT($cart) > 0) {
+            return redirect(route('frontend.cart', ['locale' => get_lang()]));
+        } else {
             // $pages = Pages::get();
             $carts = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->get();
             $logistics = Logistics::onlyActive()->get();
@@ -36,8 +38,6 @@ class CartController extends Controller
             $delivery_addr = UserAddressDelivery::where('user_id', Auth::id())->get();
 
             return view('frontend.cart.order', compact(['carts', 'logistics', 'delivery_addr']));
-        } else {
-            return back();
         }
     }
 

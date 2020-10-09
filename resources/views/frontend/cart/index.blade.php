@@ -178,7 +178,7 @@
                         });
                     },
                     error: function(data) {
-                        swal("ผิดพลาด!! ไม่สามารถลบได้", {
+                        swal("เกิดข้อผิดพลาด!! ไม่สามารถลบได้", {
                             icon: "delete",
                         });
                         $(e).closest('.order-body').find('.order-disabled-del').remove();

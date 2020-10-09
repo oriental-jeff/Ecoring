@@ -152,6 +152,44 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.btn-cancel-order').on('click', function () {
+        swal({
+                title: "Cancel this orders?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $(this).addClass('disabled');
+                    $.ajax({
+                        type: 'get',
+                        url: base_url + '/en/cancel_order',
+                        data: {
+                            order_id: $(this).data('orderid'),
+                            _token: '{{ csrf_token() }}',
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            swal("This order has been cancelled.", {
+                                icon: "success",
+                                buttons: false,
+                                timer: 1500
+                            }).then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function (data) {
+                            swal("เกิดข้อผิดพลาด!! ไม่สามารถยกเลิกได้", {
+                                icon: "delete",
+                            });
+                            $(this).removeClass('disabled');
+                        }
+                    });
+                }
+            });
+    });
 });
 
 function effectCart(i) {

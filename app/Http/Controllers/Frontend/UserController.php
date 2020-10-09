@@ -12,6 +12,8 @@ use App\Model\Province;
 use App\Model\District;
 use App\Model\SubDistrict;
 use App\Model\Favorites;
+use App\Model\Orders;
+use App\Model\StatusConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -258,6 +260,28 @@ class UserController extends Controller
         $user = User::where('id', Auth::id())->first();
 
         return view('frontend.user.changepass', compact(['user', 'pages']));
+    }
+
+    public function history(Request $request)
+    {
+        $pages = Pages::get(1);
+        $orders = Orders::where('users_id', Auth::id());
+        if ($request->filled('search_orderid')) {
+            $orders = $orders->where('code', 'like', "%$request->search_orderid%");
+        }
+        $orders = $orders->orderBy('created_at', 'desc')->paginate(config('global.pagination'));
+        $status = StatusConfig::where('type', 'order')->get();
+
+        return view('frontend.user.history', compact(['orders', 'pages', 'status']));
+    }
+
+    public function detail($local, $order_id)
+    {
+        $pages = Pages::get(1);
+        $order = Orders::where([['id', $order_id], ['users_id', Auth::id()]])->get();
+        $status = StatusConfig::where('type', 'order')->get();
+
+        return view('frontend.user.history-detail', compact(['order', 'pages', 'status']));
     }
 
     public function favorite(Request $request)

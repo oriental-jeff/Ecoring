@@ -54,6 +54,7 @@
                     @foreach ($carts as $cart)
                     <div class="order-body row">
                         <input type="hidden" name="cartID[]" value="{{ $cart->id }}">
+                        <input type="hidden" name="productPriceFull[]" value="{{ $cart->product->full_price }}">
                         <input type="hidden" name="productPrice[]"
                             value="{{ $cart->product->product_price * $cart->quantity }}">
                         <input type="hidden" class="weight" name="weight[]" value="{{ $cart->product->weight }}">
