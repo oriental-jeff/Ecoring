@@ -22,23 +22,25 @@ class CartController extends Controller
 
     public function order(Request $request)
     {
+        // Check Cart
+        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id');
+        $cartCount = clone $cart;
+        if ($cartCount->count() == 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
         foreach ($request->cartID as $k => $v) {
             $c = Cart::find($v);
             $c->quantity = $request->quantity[$k];
             $c->update();
         }
-        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->stockCheckAvailable(config('global.warehouse'))->get();
-        if (COUNT($cart) > 0) {
-            return redirect(route('frontend.cart', ['locale' => get_lang()]));
-        } else {
-            // $pages = Pages::get();
-            $carts = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->get();
-            $logistics = Logistics::onlyActive()->get();
+        // Check Stock
+        if ($cart->stockCheckAvailable(config('global.warehouse'))->count() > 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
 
-            $delivery_addr = UserAddressDelivery::where('user_id', Auth::id())->get();
+        // $pages = Pages::get();
+        $carts = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->get();
+        $logistics = Logistics::onlyActive()->get();
 
-            return view('frontend.cart.order', compact(['carts', 'logistics', 'delivery_addr']));
-        }
+        $delivery_addr = UserAddressDelivery::where('user_id', Auth::id())->get();
+
+        return view('frontend.cart.order', compact(['carts', 'logistics', 'delivery_addr']));
     }
 
     public function add(Request $request)

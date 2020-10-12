@@ -25,6 +25,9 @@ class PaymentController extends Controller
 
     public function store(Request $request)
     {
+        $pn = PaymentNotifications::where('orders_code', $request->orders_code)->count();
+        if ($pn > 0) return redirect(route('frontend.payment', ['locale' => get_lang()]));
+
         $pages = Pages::get(3);
         // Check order
         $order = Orders::where('code', $request->orders_code);
@@ -53,15 +56,8 @@ class PaymentController extends Controller
 
             return view('frontend.payment.success', compact(['order', 'pages']));
         } else {
-            return redirect(route('frontend.payment.index'));
+            return redirect(route('frontend.payment', ['locale' => get_lang()]));
         }
-    }
-
-    public function success(Request $request)
-    {
-        $pages = Pages::get(3);
-        $order = $request->orders_code;
-        return view('frontend.payment.success', compact(['order', 'pages']));
     }
 
     private function validateRequest()
@@ -111,6 +107,6 @@ class PaymentController extends Controller
       // foreach (['taylor@example.com', 'dries@example.com'] as $recipient) {
       //   Mail::to($recipient)->send(new ApplyMail($data));
       // }
-      
+
     }
 }

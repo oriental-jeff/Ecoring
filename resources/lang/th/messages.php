@@ -12,6 +12,8 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'home' => 'หน้าหลัก',
+
     'login' => 'เข้าสู่ระบบ',
     'logout' => 'ออกจากระบบ',
     'edit_password' => 'เปลี่ยนรหัสผ่าน',
@@ -122,15 +124,88 @@ return [
     'not_enought_product' => 'สินค้ามีไม่เพียงพอ',
     'email_not_verified' => 'คุณยังไม่ได้ทำการยืนยันอีเมล',
 
+    /**
+     * Payment
+     */
     'payment_title' => 'แจ้งการชำระเงิน',
     'order_code' => 'หมายเลขสั่งซื้อ',
     'contact_number' => 'เบอร์ติดต่อ',
     'date' => 'วันที่',
     'time' => 'เวลา',
     'transfer_to' => 'โอนเข้าบัญชี',
+    'bank_account' => 'ธนาคาร',
     'proof_of_transfer' => 'หลักฐานการโอนเงิน',
+    'payment_option' => 'เลือกช่องทางการชำระเงิน',
+    'bank_transfer' => 'โอนเข้าบัญชีธนาคาร',
+    'bank_acc_name' => 'ชื่อบัญชี',
+    'bank_acc_no' => 'หมายเลขบัญชี',
+    'credit_debit_card' => 'ชำระผ่านบัตรเครดิต/เดบิต',
+    'btn_payment' => 'แจ้งการชำระเงิน',
+    'payment_notification_success' => 'แจ้งการชำระเงินสำเร็จ',
 
+    'order_not_found' => 'ไม่พบหมายเลขสั่งซื้อ',
+    'order_has_been_existe' => 'หมายเลขสั่งซื้อนี้ เคยได้รับการแจ้งมาแล้ว',
+
+    /**
+     * Cart
+     */
+    'cart_title' => 'ตะกร้าสินค้า',
+    'cart_detail' => 'รายละเอียดสินค้า',
+    'cart_quantity' => 'จำนวน',
+    'cart_unit' => 'ราคาต่อหน่วย',
+    'cart_amount' => 'ราคา',
+    'cart_action' => 'จัดการสินค้า',
+    'cart_stock' => 'คงเหลือ',
+    'cart_delete' => 'ลบรายการนี้',
+    'cart_delete_confirm' => 'ต้องการลบรายการนี้ ?',
+    'cart_total' => 'ราคารวม',
+    'cart_discount' => 'ส่วนลด',
+    'cart_total_weight' => 'น้ำหนักรวม',
+    'cart_shipping' => 'ค่าจัดส่ง',
+    'cart_vat' => 'ภาษี',
+    'cart_total_payment' => 'ยอดรวมทั้งสิ้น',
+
+    /**
+     * Order
+     */
+    'order_list_title' => 'คำสั่งซื้อ',
+    'checkout_title' => 'ใบสั่งซื้อ',
+    'your_order' => 'บันทึกใบสั่งซื้อ',
+    'is_successfully_saved' => 'สำเร็จ',
+    'order_message_1' => 'ระบบได้บันทึกใบสั่งซื้อสินค้าของท่านแล้ว กรุณาชำระเงิน ภายใน 24 ชั่วโมง
+    มายังบัญชีธนาคารของทางเว็บไซต์ ดังนี้',
+    'order_message_2' => 'หากท่านทำการชำระเงินเรียบร้อยแล้ว กรุณาแจ้งชำระเงินที่หน้าเว็บไซต์
+    เพื่อให้เจ้าหน้าที่ทำการตรวจสอบความถูกต้องก่อนทำการจัดส่งสินค้า',
+    'btn_save_changes' => 'บันทึกการเปลี่ยนแปลง',
+    'btn_continue_shipping' => 'ซื้อสินค้าเพิ่ม',
+    'btn_continue' => 'ดำเนินการต่อ',
+    'btn_checkout' => 'ดำเนินการต่อ',
+    'btn_place_order' => 'ยืนยันการชำระเงิน',
+
+    /**
+     * Delivery
+     */
+    'shipping_option' => 'เลือกช่องทางการจัดส่ง',
+    'estimated_delivery_time' => 'ระยะเวลาการส่ง',
+    'shipping_cost' => 'อัตราค่าบริการ',
+    'delivery_address' => 'เลือกที่อยู่ในการจัดส่ง',
+    'address_selection' => 'เลือกที่อยู่ในการจัดส่งเพิ่มเติม',
+    'address_profile' => 'ที่อยู่โปรไฟล์',
+    'shipping_address' => 'ที่อยู่ที่ต้องการจัดส่ง',
+    'shipping_method' => 'ช่องทางการจัดส่ง',
+
+    /**
+     * Button
+     */
     'btn_back' => 'ย้อนกลับ',
     'btn_upload' => 'อัพโหลด',
+    'btn_close' => 'ปิด',
+    'btn_back_to_main_page' => 'กลับสู่หน้าหลัก',
+
+    /**
+     * Other
+     * Data result
+     */
+    'baht' => 'บาท',
 
 ];

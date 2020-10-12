@@ -12,6 +12,8 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'home' => 'Home',
+
     'login' => 'Login',
     'logout' => 'Logout',
     'edit_password' => 'Edit Password',
@@ -122,15 +124,86 @@ return [
     'not_enought_product' => 'Not enought product',
     'email_not_verified' => 'Your email address is not verified',
 
-    'payment_title' => 'Payment Notification',
+    /**
+     * Payment
+     */
+    'payment_title' => 'Payment notification',
     'order_code' => 'Order No.',
     'contact_number' => 'Contact',
     'date' => 'Date',
     'time' => 'Time',
-    'transfer_to' => 'Payment Method',
-    'proof_of_transfer' => 'Payment Slip',
+    'transfer_to' => 'Payment method',
+    'bank_account' => 'Bank account',
+    'proof_of_transfer' => 'Payment slip',
+    'payment_option' => 'Payment option',
+    'bank_transfer' => 'Bank Transfer',
+    'bank_acc_name' => 'Bank account name',
+    'bank_acc_no' => 'Bank accout no.',
+    'credit_debit_card' => 'Credit / Debit Card',
+    'btn_payment' => 'Submit',
+    'payment_notification_success' => 'Your payment has been sent',
 
+    'order_not_found' => 'Order not found.',
+    'order_has_been_existe' => 'This Order no. has been notified before',
+
+    /**
+     * Cart
+     */
+    'cart_title' => 'Shopping Cart',
+    'cart_detail' => 'Description',
+    'cart_quantity' => 'Quantity',
+    'cart_unit' => 'Unit',
+    'cart_amount' => 'Amount',
+    'cart_action' => 'Manage',
+    'cart_stock' => 'Stock',
+    'cart_delete' => 'Delete',
+    'cart_delete_confirm' => 'Are you sure to delete this items ?',
+    'cart_total' => 'Total amount',
+    'cart_discount' => 'Discount',
+    'cart_total_weight' => 'Total weight',
+    'cart_shipping' => 'Shipping',
+    'cart_vat' => 'Vat',
+    'cart_total_payment' => 'Total Payment',
+
+    /**
+     * Order
+     */
+    'order_list_title' => 'Order list(s)',
+    'checkout_title' => 'Checkout',
+    'your_order' => 'Your order',
+    'is_successfully_saved' => 'is successfully saved',
+    'order_message_1' => 'Your order has been successfully saved, Please pay within 24 hours to the bank account of the information as below',
+    'order_message_2' => 'If you have completed the payment Please notify payment on the website. In order for the staff to check the accuracy before shipping',
+    'btn_save_changes' => 'Save Changes',
+    'btn_continue_shipping' => 'Continue shopping',
+    'btn_continue' => 'Continue',
+    'btn_checkout' => 'Checkout',
+    'btn_place_order' => 'Place Order',
+
+    /**
+     * Delivery
+     */
+    'shipping_option' => 'Shipping option',
+    'estimated_delivery_time' => 'Estimated delivery time',
+    'shipping_cost' => 'Shipping cost',
+    'delivery_address' => 'Delivery address',
+    'address_selection' => 'Address selection',
+    'address_profile' => 'Profile address',
+    'shipping_address' => 'Shipping address',
+    'shipping_method' => 'Shipping method',
+
+    /**
+     * Button
+     */
     'btn_back' => 'Back',
     'btn_upload' => 'Upload',
+    'btn_close' => 'Close',
+    'btn_back_to_main_page' => 'Back to main page',
+
+    /**
+     * Other
+     * Data result
+     */
+    'baht' => 'Baht',
 
 ];

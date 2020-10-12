@@ -10,8 +10,9 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a
-                            href="{{ route('frontend.home', ['locale' => get_lang()]) }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Payment</li>
+                            href="{{ route('frontend.home', ['locale' => get_lang()]) }}">{{ __('messages.home') }}</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ __('messages.payment_title') }}</li>
                 </ol>
             </nav>
         </div>
@@ -22,7 +23,7 @@
             <div class="box-paper border-top">
                 <div class="box-head">
                     <img src="{{ asset('images/I-Checkmark1.svg') }}">
-                    <h5>แจ้งการชำระเงินสำเร็จ</h5>
+                    <h5>{{ __('messages.payment_notification_success') }}</h5>
                 </div>
                 {{-- <div class="box-body">
                     <h5 class="text-color">ยอดรวมทั้งสิ้น : ฿ 15,030.00</h5>
@@ -31,7 +32,7 @@
                 </div> --}}
                 <div class="box-btn">
                     <a href="{{ route('frontend.home', ['locale' => get_lang()]) }}"
-                        class="btn btn-secondary border-0 d-block">กลับสู่หน้าหลัก</a>
+                        class="btn btn-secondary border-0 d-block">{{ __('messages.btn_back_to_main_page') }}</a>
                 </div>
             </div>
         </div>

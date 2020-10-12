@@ -13,8 +13,15 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a
-                            href="{{ route('frontend.home', ['locale' => get_lang()]) }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">ใบสั่งซื้อ</li>
+                            href="{{ route('frontend.home', ['locale' => get_lang()]) }}">{{ __('messages.home') }}</a>
+                    </li>
+                    <li class="breadcrumb-item"><a
+                            href="{{ route('frontend.cart', ['locale' => get_lang()]) }}">{{ __('messages.cart_title') }}</a>
+                    </li>
+                    <li class="breadcrumb-item"><a
+                            href="{{ route('frontend.pay', ['locale' => get_lang()]) }}">{{ __('messages.order_list_title') }}</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ __('messages.checkout_title') }}</li>
                 </ol>
             </nav>
         </div>
@@ -25,7 +32,7 @@
             enctype="multipart/form-data" action="{{ route('frontend.pay-success', ['locale' => get_lang()]) }}">
             @method('post')
             <div class="container">
-                <h4>ใบสั่งซื้อ</h4>
+                <h4>{{ __('messages.checkout_title') }}</h4>
                 {{-- <div class="box-status">
                 <div class="bTop">
                     <h5 class="text-success">หมายเลขการสั่งซื้อ : UCM789456123</h5>
@@ -36,16 +43,16 @@
                 <div class="box-order font-weight-normal">
                     <div class="order-head row">
                         <div class="col-md-6 d-none d-md-block">
-                            รายละเอียดสินค้า
+                            {{ __('messages.cart_detail') }}
                         </div>
                         <div class="col-md-2 d-none d-md-block text-center">
-                            จำนวน
+                            {{ __('messages.cart_quantity') }}
                         </div>
                         <div class="col-md-2 d-none d-md-block text-center">
-                            ราคาต่อหน่วย
+                            {{ __('messages.cart_unit') }}
                         </div>
                         <div class="col-md-2 d-none d-md-block text-center">
-                            ราคารวม
+                            {{ __('messages.cart_amount') }}
                         </div>
                     </div>
                     @php
@@ -67,7 +74,7 @@
                             </div>
                             {{ $cart->product->{ get_lang('name') } }}
                             <div class="Bnumber ml-auto">
-                                <div class="d-block d-md-none float-left">จำนวน</div>
+                                <div class="d-block d-md-none float-left">{{ __('messages.cart_quantity') }}</div>
                                 <span class="display-qty">{{ $cart->quantity }}</span>
                             </div>
                         </div>
@@ -91,57 +98,58 @@
                 <div class="box-total">
                     <div class="row">
                         <div class="col-lg-3 col-sm-5 pt-4">
-                            <h5>ช่องทางการจัดส่ง</h5>
+                            <h5>{{ __('messages.shipping_method') }}</h5>
                             <input type="hidden" name="logistics_id" value="{{ $logistic[0]->id }}">
                             <img src="{{ $logistic[0]->image }}" class="img-Shipment">
                             <h5>{{ $logistic[0]->{get_lang('name')} }}</h5>
-                            ระยะเวลาการส่ง : {{ $logistic[0]->period }}<br>
-                            อัตราค่าบริการ : {{ number_format($logistic[0]->logistic_price) }} บาท<br>
+                            {{ __('messages.estimated_delivery_time') }} : {{ $logistic[0]->period }}<br>
+                            {{ __('messages.shipping_cost') }} : {{ number_format($logistic[0]->logistic_price) }}
+                            บาท<br>
                         </div>
                         <div class="col-lg-4 col-sm-7 pt-4 border-left">
-                            <h5>ที่อยู่ในการจัดส่ง</h5>
+                            <h5>{{ __('messages.delivery_address') }}</h5>
                             <table class="w-100">
                                 <tr>
-                                    <td class="w-45">ชื่อ :</td>
+                                    <td class="w-45">{{ __('messages.name') }} :</td>
                                     <td>{{ $delivery_addr[0]->fullname ?? Auth::user()->first_name . ' ' . Auth::user()->last_name }}
                                         <input type="hidden" name="fullname"
                                             value="{{ $delivery_addr[0]->fullname ?? Auth::user()->first_name . ' ' . Auth::user()->last_name }}">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>เบอร์โทร :</td>
+                                    <td>{{ __('messages.telephone') }} :</td>
                                     <td>{{ $delivery_addr[0]->telephone }}
                                         <input type="hidden" name="telephone"
                                             value="{{ $delivery_addr[0]->telephone }}">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>ที่อยู่ :</td>
+                                    <td>{{ __('messages.address') }} :</td>
                                     <td>{{ $delivery_addr[0]->address }}
                                         <input type="hidden" name="address" value="{{ $delivery_addr[0]->address }}">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>แขวง/ตำบล :</td>
+                                    <td>{{ __('messages.sub_district') }} :</td>
                                     <td>{{ $delivery_addr[0]->sub_districts->{get_lang('name')} }}
                                         <input type="hidden" name="sub_district_id"
                                             value="{{ $delivery_addr[0]->sub_district_id }}">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>เขต/อำเภอ :</td>
+                                    <td>{{ __('messages.district') }} :</td>
                                     <td>{{ $delivery_addr[0]->districts->{get_lang('name')} }}
                                         <input type="hidden" name="district_id"
                                             value="{{ $delivery_addr[0]->district_id }}"></td>
                                 </tr>
                                 <tr>
-                                    <td>จังหวัด :</td>
+                                    <td>{{ __('messages.province') }} :</td>
                                     <td>{{ $delivery_addr[0]->provinces->{get_lang('name')} }}
                                         <input type="hidden" name="province_id"
                                             value="{{ $delivery_addr[0]->province_id }}"></td>
                                 </tr>
                                 <tr>
-                                    <td>รหัสไปรษณีย์ :</td>
+                                    <td>{{ __('messages.postcode') }} :</td>
                                     <td>{{ $delivery_addr[0]->postcode }}
                                         <input type="hidden" name="postcode" value="{{ $delivery_addr[0]->postcode }}">
                                     </td>
@@ -152,34 +160,36 @@
                             <h5><br></h5>
                             <table class="w-100 font-weight-normal" style="line-height: 1.8;">
                                 <tr>
-                                    <td class="w-45">ราคาเต็ม</td>
+                                    <td class="w-45">{{ __('messages.cart_total') }}</td>
                                     <td class="text-right display-total">฿<span>0.00</span>
                                         <input type="hidden" id="total_amount" name="total_amount" value=""></td>
                                 </tr>
                                 <tr class="text-danger">
-                                    <td>ส่วนลด</td>
+                                    <td>{{ __('messages.cart_discount') }}</td>
                                     <td class="text-right display-discount-total">- ฿<span>0.00</span>
                                         <input type="hidden" id="discount" name="discount" value=""></td>
                                 </tr>
                                 <tr class="d-none">
-                                    <td>น้ำหนักรวม</td>
+                                    <td>{{ __('messages.cart_total_weight') }}</td>
                                     <td class="text-right display-weight"><span>0.00</span>
                                         <input type="hidden" id="total_weight" name="total_weight" value=""></td>
                                 </tr>
                                 <tr>
-                                    <td>ค่าจัดส่ง</td>
+                                    <td>{{ __('messages.cart_shipping') }}</td>
                                     <td class="text-right display-logistic-price">
                                         ฿<span>{{ number_format($logistic[0]->logistic_price) }}</span>
                                         <input type="hidden" id="delivery_charge" name="delivery_charge"
                                             value="{{ $logistic[0]->logistic_price }}"></td>
                                 </tr>
                                 <tr>
-                                    <td>ภาษี 7%</td>
+                                    <td>{{ __('messages.cart_vat') }} 7%</td>
                                     <td class="text-right display-vat7">฿<span>0.00</span>
                                         <input type="hidden" id="vat" name="vat" value=""></td>
                                 </tr>
                             </table>
-                            <h3 class="text-right mt-3 text-success display-gtotal">ยอดรวมทั้งสิ้น : ฿<span>0.00</span>
+                            <h3 class="text-right mt-3 text-success display-gtotal">
+                                {{ __('messages.cart_total_payment') }} :
+                                ฿<span>0.00</span>
                             </h3>
                         </div>
                     </div>
@@ -187,20 +197,20 @@
                 <hr>
 
                 <div class="box-Payment font-weight-normal">
-                    <h5>เลือกช่องทางการชำระเงิน</h5>
+                    <h5>{{ __('messages.payment_option') }}</h5>
                     <div class="row">
                         <div class="col-sm-6">
                             <input class="box-check" type="radio" name="paymentMethod" id="paymentMethod1"
                                 value="transfer" checked>
                             <label class="box-check-label" for="paymentMethod1">
-                                โอนเข้าบัญชีธนาคาร
+                                {{ __('messages.bank_transfer') }}
                             </label>
                         </div>
                         <div class="col-sm-6">
                             <input class="box-check" type="radio" name="paymentMethod" id="paymentMethod2"
                                 value="dccard">
                             <label class="box-check-label" for="paymentMethod2">
-                                ชำระผ่านบัตรเครดิต/เดบิต
+                                {{ __('messages.credit_debit_card') }}
                             </label>
                         </div>
                     </div>
@@ -209,10 +219,11 @@
                 <div class="row px-2">
                     <div class="col-lg-2 offset-lg-8 col-md-3 offset-md-6 col-6 px-1">
                         <button type="button" class="btn btn-secondary border-0 w-100"
-                            onclick="window.history.back()">ย้อนกลับ</button>
+                            onclick="window.history.back()">{{ __('messages.btn_back') }}</button>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6 px-1">
-                        <button type="submit" class="btn-submit btn border-0 w-100">ยืนยันการชำระเงิน</button>
+                        <button type="submit"
+                            class="btn-submit btn border-0 w-100">{{ __('messages.btn_place_order') }}</button>
                     </div>
                 </div>
             </div>
