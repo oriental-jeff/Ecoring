@@ -14,8 +14,9 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a
-                            href="{{ route('frontend.home', ['locale' => get_lang()]) }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">ตะกร้าสินค้า</li>
+                            href="{{ route('frontend.home', ['locale' => get_lang()]) }}">{{ __('messages.home') }}</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ __('messages.cart_title') }}</li>
                 </ol>
             </nav>
         </div>
@@ -25,25 +26,25 @@
             enctype="multipart/form-data" action="{{ route('frontend.cart-order', ['locale' => get_lang()]) }}">
             @method('post')
             <div class="container">
-                <h4>ตะกร้าสินค้า</h4>
+                <h4>{{ __('messages.cart_title') }}</h4>
 
                 <div class="box-order font-weight-normal">
                     <div class="order-head row">
                         <div class="col-xl-4 col-sm-5 d-none d-md-block">
                             <input type="checkbox" name="selectAllPDT" class="selectAll">
-                            รายละเอียดสินค้า
+                            {{ __('messages.cart_detail') }}
                         </div>
                         <div class="col-xl-2 col-sm-1 d-none d-md-block text-center">
-                            จำนวน
+                            {{ __('messages.cart_quantity') }}
                         </div>
                         <div class="col-xl-2 col-sm-2 d-none d-md-block text-center">
-                            ราคาต่อหน่วย
+                            {{ __('messages.cart_unit') }}
                         </div>
                         <div class="col-xl-2 col-sm-2 d-none d-md-block text-center">
-                            ราคารวม
+                            {{ __('messages.cart_amount') }}
                         </div>
                         <div class="col-xl-2 col-sm-2 d-none d-md-block text-center">
-                            จัดการสินค้า
+                            {{ __('messages.cart_action') }}
                         </div>
                     </div>
 
@@ -64,7 +65,7 @@
                             </div>
                             <span class="pdtTitle">{{ $cart->product->{ get_lang('name') } }}</span>
                             <div class="Bnumber ml-auto">
-                                <div class="d-block d-md-none float-left">จำนวน</div>
+                                <div class="d-block d-md-none float-left">{{ __('messages.cart_unit') }}</div>
                                 <span>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-delete disabled">-</button>
@@ -75,13 +76,14 @@
                                     </div>
                                     <div class="text-center">
                                         @if ($cart->stocks[0]->quantity == 0)
-                                        <div class="text-danger">สินค้าหมด</div>
+                                        <div class="text-danger">{{ __('messages.out_of_stock') }}</div>
                                         @elseif ($cart->quantity > $cart->stocks[0]->quantity)
                                         <div class="text-danger">
-                                            จำนวนสินค้าไม่เพียงพอ
+                                            {{ __('messages.not_enought_product') }}
                                         </div>
                                         @endif
-                                        <div>( คงเหลือ {{ $cart->stocks[0]->quantity }} )</div>
+                                        <div>( {{ __('messages.cart_stock') }} {{ $cart->stocks[0]->quantity }} )
+                                        </div>
                                     </div>
                                 </span>
                             </div>
@@ -100,11 +102,11 @@
                         <div class="col-md-2 col-ms-2 text-center border-left"
                             style="{{ $cart->stocks[0]->quantity === 0 ? 'z-index:1' : '' }}">
                             {{-- @if ($cart->stocks[0]->quantity != 0) --}}
-                            <a data-id="{{ $cart->id }}"
+                            <a data-id="{{ $cart->id }}" aria-placeholder="{{ __('messages.cart_delete_confirm') }}"
                                 class="btn-remmove-cart btn btn-secondary font-weight-light radius-25 w-100"
                                 href="javascript:void(0);">
                                 <img class="m-0 mr-2" style="width: 17px;" src="{{ url('images/icon-delete.svg') }}">
-                                ลบรายการนี้
+                                {{ __('messages.cart_delete') }}
                             </a>
                             {{-- @endif --}}
                         </div>
@@ -115,7 +117,7 @@
 
                 <div class="row font-weight-normal mb-4">
                     <div class="offset-lg-8 col-lg-2 offset-md-6 col-md-3 offset-2 col-5 text-center">
-                        <h5>ราคารวม</h5>
+                        <h5>{{ __('messages.cart_total') }}</h5>
                     </div>
                     <div class="col-lg-2 col-md-3 col-5 text-center display-total">
                         <h5>฿<span>0</span></h5>
@@ -125,11 +127,11 @@
                 <div class="row px-2">
                     <div class="col-lg-2 offset-lg-8 col-md-3 offset-md-6 col-6 px-1">
                         <a href="{{ route('frontend.product', ['locale' => get_lang()]) }}"
-                            class="btn btn-secondary border-0 w-100">ซื้อสินค้าเพิ่ม</a>
+                            class="btn btn-secondary border-0 w-100">{{ __('messages.btn_continue_shipping') }}</a>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6 px-1"><a href="javascript:void(0);"
                             onclick="$('#order-form-validate').submit();" class="btn border-0 w-100 btn-next-process"
-                            disabled>ดำเนินการต่อ</a>
+                            disabled>{{ __('messages.btn_continue') }}</a>
                     </div>
                 </div>
             </div>

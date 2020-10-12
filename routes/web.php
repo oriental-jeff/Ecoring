@@ -77,6 +77,7 @@ Route::name('frontend.')
         Route::get('add_cart', 'AjaxController@add_cart');
         Route::get('remove_cart', 'AjaxController@remove_cart');
         Route::get('cancel_order', 'AjaxController@cancel_order');
+        Route::get('check_order', 'AjaxController@check_order');
 
         Route::get('/lang', function () {
             return back()->withInput(['locale' => app()->getLocale()]);

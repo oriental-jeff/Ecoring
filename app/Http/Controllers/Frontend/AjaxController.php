@@ -11,6 +11,7 @@ use App\Model\Cart;
 use App\Model\Products;
 use App\Model\Orders;
 use App\Model\Stocks;
+use App\Model\PaymentNotifications;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -173,11 +174,30 @@ class AjaxController extends Controller
             return false;
         }
 
-        $success['cartId'] =  $cartId;
-
         return response()->json([
             'cartId' => $cartId,
             'msg' => 'Successfully deleted.',
         ]);
+    }
+
+    /**
+     * Remove check order on Payment Notification Page
+     * @param int $cartId
+     * @return int $msgcode -> if more then 1 is already existe
+     */
+    public function check_order(Request $request)
+    {
+        // Check already existe
+        $pn = PaymentNotifications::where('orders_code', $request->ordercode)->count();
+        $order = Orders::where('code', $request->ordercode)->count();
+        try {
+            $msg = $order == 0 ? __('messages.order_not_found') : ($pn > 0 ? __('messages.order_has_been_existe') : '')  ;
+            return response()->json([
+                'msgcode' => $msg,
+                'msg' => 'Count total code in Order',
+            ]);
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 }

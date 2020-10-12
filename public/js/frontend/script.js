@@ -157,7 +157,7 @@ $(document).ready(function () {
         var e = this;
         var cartId = $(e).data('id');
             swal({
-                title: "ลบรายการนี้?",
+                title: $(this).attr('aria-placeholder'),
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -180,9 +180,6 @@ $(document).ready(function () {
                             });
                         },
                         error: function(data) {
-                            swal("เกิดข้อผิดพลาด!! ไม่สามารถลบได้", {
-                                icon: "delete",
-                            });
                             $(e).closest('.order-body').find('.order-disabled-del').remove();
                         }
                     });
@@ -211,18 +208,9 @@ $(document).ready(function () {
                         },
                         dataType: 'json',
                         success: function (data) {
-                            swal("This order has been cancelled.", {
-                                icon: "success",
-                                buttons: false,
-                                timer: 1500
-                            }).then(() => {
                                 location.reload();
-                            });
                         },
                         error: function (data) {
-                            swal("เกิดข้อผิดพลาด!! ไม่สามารถยกเลิกได้", {
-                                icon: "delete",
-                            });
                             $(this).removeClass('disabled');
                         }
                     });

@@ -13,11 +13,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a
-                            href="{{ route('frontend.home', ['locale' => get_lang()]) }}">Home</a></li>
-                    <li class="breadcrumb-item"><a
-                            href="{{ route('frontend.cart', ['locale' => get_lang()]) }}">ตะกร้าสินค้า</a>
+                            href="{{ route('frontend.home', ['locale' => get_lang()]) }}">{{ __('messages.home') }}</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">คำสั่งซื้อ</li>
+                    <li class="breadcrumb-item"><a
+                            href="{{ route('frontend.cart', ['locale' => get_lang()]) }}">{{ __('messages.cart_title') }}</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ __('messages.order_list_title') }}</li>
                 </ol>
             </nav>
         </div>
@@ -28,20 +29,20 @@
             enctype="multipart/form-data" action="{{ route('frontend.pay', ['locale' => get_lang()]) }}">
             @method('post')
             <div class="container">
-                <h4>คำสั่งซื้อ</h4>
+                <h4>{{ __('messages.order_list_title') }}</h4>
                 <div class="box-order font-weight-normal">
                     <div class="order-head row">
                         <div class="col-md-6 d-none d-md-block">
-                            รายละเอียดสินค้า
+                            {{ __('messages.cart_detail') }}
                         </div>
                         <div class="col-md-2 d-none d-md-block text-center">
-                            จำนวน
+                            {{ __('messages.cart_quantity') }}
                         </div>
                         <div class="col-md-2 d-none d-md-block text-center">
-                            ราคาต่อหน่วย
+                            {{ __('messages.cart_unit') }}
                         </div>
                         <div class="col-md-2 d-none d-md-block text-center">
-                            ราคารวม
+                            {{ __('messages.cart_amount') }}
                         </div>
                     </div>
                     @php
@@ -59,7 +60,7 @@
                             </div>
                             {{ $cart->product->{ get_lang('name') } }}
                             <div class="Bnumber ml-auto">
-                                <div class="d-block d-md-none float-left">จำนวน</div>
+                                <div class="d-block d-md-none float-left">{{ __('messages.cart_quantity') }}</div>
                                 <span>{{ $cart->quantity }}</span>
                             </div>
                         </div>
@@ -82,7 +83,7 @@
 
                 <div class="row font-weight-normal mb-4">
                     <div class="offset-lg-8 col-lg-2 offset-md-6 col-md-3 offset-2 col-5 text-center">
-                        <h5>ราคารวม</h5>
+                        <h5>{{ __('messages.cart_total') }}</h5>
                     </div>
                     <div class="col-lg-2 col-md-3 col-5 text-center display-total">
                         <h5>฿<span>0.00</span></h5>
@@ -93,14 +94,15 @@
                     <div class="col-lg-2 offset-lg-8 col-md-3 offset-md-6 col-6 px-1">
                     </div>
                     <div class="col-lg-2 col-md-3 col-6 px-1">
-                        <a href="{{ URL::previous() }}" class="btn btn-secondary border-0 w-100">ย้อนกลับ</a>
+                        <a href="{{ URL::previous() }}"
+                            class="btn btn-secondary border-0 w-100">{{ __('messages.btn_back') }}</a>
                     </div>
                 </div>
 
                 <hr>
 
                 <div class="box-Shipment font-weight-normal t2">
-                    <h5>เลือกช่องทางการจัดส่ง</h5> {{ session()->get('weight') }}
+                    <h5>{{ __('messages.shipping_option') }}</h5>
                     <div class="row">
                         @foreach ($logistics as $k => $logistic)
                         <div class="col-md-4 logisticScope">
@@ -109,9 +111,11 @@
                             <label class="box-check-label" for="logistic_id{{ $k }}">
                                 <img src="{{ url($logistic->image) }}" class="img-Shipment">
                                 <h5>{{ $logistic->{get_lang('name')} }}</h5>
-                                ระยะเวลาการส่ง : <span class="period">{{ $logistic->period }}</span><br>
-                                อัตราค่าบริการ : <span class="base_price">{{ number_format($logistic->logistic_price) }}
-                                    บาท<br>
+                                {{ __('messages.estimated_delivery_time') }} : <span
+                                    class="period">{{ $logistic->period }}</span><br>
+                                {{ __('messages.shipping_cost') }} : <span
+                                    class="base_price">{{ number_format($logistic->logistic_price) }}
+                                    {{ __('messages.baht') }}<br>
                             </label>
                         </div>
                         @endforeach
@@ -121,13 +125,13 @@
                 <div class="box-Shipment font-weight-normal">
                     <div class="row">
                         <div class="col-lg-6">
-                            <h5>เลือกที่อยู่ในการจัดส่ง</h5>
+                            <h5>{{ __('messages.delivery_address') }}</h5>
                         </div>
                         <div class="col-lg-6 text-right">
                             <!-- Button trigger modal -->
                             <button id="customeAddr" disabled type="button" class="btn btn-secondary"
                                 data-toggle="modal" data-target="#customeAddrModalCenter">
-                                เลือกที่อยู่ในการจัดส่งเพิ่มเติม
+                                {{ __('messages.address_selection') }}
                             </button>
 
                             <!-- Modal -->
@@ -136,7 +140,8 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">เลือกที่อยู่ในการจัดส่ง
+                                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                                {{ __('messages.delivery_address') }}
                                             </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -154,7 +159,8 @@
                                                     <label class="box-check-label" for="opt{{$k}}">
                                                         <table>
                                                             <tr>
-                                                                <td style="min-width: 100px;">ชื่อ :</td>
+                                                                <td style="min-width: 100px;">{{ __('messages.name') }}
+                                                                    :</td>
                                                                 <td>
                                                                     <input type="hidden" id="custom_id{{ $da->id }}"
                                                                         name="custom_id{{ $da->id }}"
@@ -164,20 +170,20 @@
                                                                         value="{{ $da->fullname }}" readonly></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>เบอร์โทร :</td>
+                                                                <td>{{ __('messages.telephone') }} :</td>
                                                                 <td><input type="text" id="custom_mobile{{ $da->id }}"
                                                                         name="custom_mobile{{ $da->id }}"
                                                                         value="{{ $da->telephone }}" readonly></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>ที่อยู่ :</td>
+                                                                <td>{{ __('messages.address') }} :</td>
                                                                 <td><input type="text" id="custom_address{{ $da->id }}"
                                                                         name="custom_address{{ $da->id }}"
                                                                         value="{{ $da->address }}" readonly>
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td>แขวง/ตำบล :</td>
+                                                                <td>{{ __('messages.sub_district') }} :</td>
                                                                 <td><input type="text"
                                                                         id="custom_sub_district_id{{ $da->id }}"
                                                                         name="custom_sub_district_id{{ $da->id }}"
@@ -186,7 +192,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td>เขต/อำเภอ :</td>
+                                                                <td>{{ __('messages.district') }} :</td>
                                                                 <td><input type="text"
                                                                         id="custom_district_id{{ $da->id }}"
                                                                         name="custom_district_id{{ $da->id }}"
@@ -195,7 +201,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td>จังหวัด :</td>
+                                                                <td>{{ __('messages.province') }} :</td>
                                                                 <td><input type="text"
                                                                         id="custom_province_id{{ $da->id }}"
                                                                         name="custom_province_id{{ $da->id }}"
@@ -204,7 +210,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td>รหัสไปรษณีย์ :</td>
+                                                                <td>{{ __('messages.postcode') }} :</td>
                                                                 <td><input type="text" id="custom_postcode{{ $da->id }}"
                                                                         name="custom_postcode{{ $da->id }}"
                                                                         value="{{ $da->postcode }}" readonly></td>
@@ -217,9 +223,9 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
+                                                data-dismiss="modal">{{ __('messages.btn_close') }}</button>
                                             <button type="button" onclick="getCustomData()" class="btn btn-primary">Save
-                                                changes</button>
+                                                {{ __('messages.btn_save_changes') }}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -232,10 +238,10 @@
                             <input class="box-check" type="radio" name="delivery_addr" id="delivery_addr_profile"
                                 value="profile" checked>
                             <label class="box-check-label" for="delivery_addr_profile">
-                                ที่อยู่โปรไฟล์
+                                {{ __('messages.address_profile') }}
                                 <table>
                                     <tr>
-                                        <td style="min-width: 100px;">ชื่อ :</td>
+                                        <td style="min-width: 100px;">{{ __('messages.name') }} :</td>
                                         <td>
                                             <input type="hidden" id="profile_id" name="profile_id"
                                                 value="{{ Auth::user()->profiles->id }}">
@@ -244,37 +250,37 @@
                                                 readonly></td>
                                     </tr>
                                     <tr>
-                                        <td>เบอร์โทร :</td>
+                                        <td>{{ __('messages.telephone') }} :</td>
                                         <td><input type="text" id="profile_mobile" name="profile_mobile"
                                                 value="{{ Auth::user()->profiles->telephone }}" readonly>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>ที่อยู่ :</td>
+                                        <td>{{ __('messages.address') }} :</td>
                                         <td><input type="text" id="profile_address" name="profile_address"
                                                 value="{{ Auth::user()->profiles->address }}" readonly></td>
                                     </tr>
                                     <tr>
-                                        <td>แขวง/ตำบล :</td>
+                                        <td>{{ __('messages.sub_district') }} :</td>
                                         <td><input type="text" id="profile_sub_district_id"
                                                 name="profile_sub_district_id"
                                                 value="{{ Auth::user()->profiles->sub_districts->{get_lang('name')} }}"
                                                 readonly></td>
                                     </tr>
                                     <tr>
-                                        <td>เขต/อำเภอ :</td>
+                                        <td>{{ __('messages.district') }} :</td>
                                         <td><input type="text" id="profile_district_id" name="profile_district_id"
                                                 value="{{ Auth::user()->profiles->districts->{get_lang('name')} }}"
                                                 readonly></td>
                                     </tr>
                                     <tr>
-                                        <td>จังหวัด :</td>
+                                        <td>{{ __('messages.province') }} :</td>
                                         <td><input type="text" id="profile_province_id" name="profile_province_id"
                                                 value="{{ Auth::user()->profiles->provinces->{get_lang('name')} }}"
                                                 readonly></td>
                                     </tr>
                                     <tr>
-                                        <td>รหัสไปรษณีย์ :</td>
+                                        <td>{{ __('messages.postcode') }} :</td>
                                         <td><input type="text" id="profile_postcode" name="profile_postcode"
                                                 value="{{ Auth::user()->profiles->postcode }}" readonly></td>
                                     </tr>
@@ -287,10 +293,10 @@
                             <input class="box-check" type="radio" name="delivery_addr" id="delivery_addr_custom"
                                 value="custom">
                             <label class="box-check-label" for="delivery_addr_custom">
-                                แก้ไขที่อยู่ที่ต้องการจัดส่ง
+                                {{ __('messages.shipping_address') }}
                                 <table>
                                     <tr>
-                                        <td style="min-width: 100px;">ชื่อ :</td>
+                                        <td style="min-width: 100px;">{{ __('messages.name') }} :</td>
                                         <td>
                                             <input type="hidden" id="custom_id" name="custom_id"
                                                 value="{{ Auth::user()->address_deliveries_default->id }}">
@@ -299,41 +305,41 @@
                                                 readonly></td>
                                     </tr>
                                     <tr>
-                                        <td>เบอร์โทร :</td>
+                                        <td>{{ __('messages.telephone') }} :</td>
                                         <td><input type="text" id="custom_mobile" name="custom_mobile"
                                                 value="{{ Auth::user()->address_deliveries_default->telephone }}"
                                                 readonly></td>
                                     </tr>
                                     <tr>
-                                        <td>ที่อยู่ :</td>
+                                        <td>{{ __('messages.address') }} :</td>
                                         <td><input type="text" id="custom_address" name="custom_address"
                                                 value="{{ Auth::user()->address_deliveries_default->address }}"
                                                 readonly>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>แขวง/ตำบล :</td>
+                                        <td>{{ __('messages.sub_district') }} :</td>
                                         <td><input type="text" id="custom_sub_district_id" name="custom_sub_district_id"
                                                 value="{{ Auth::user()->address_deliveries_default->sub_districts->{get_lang('name')} }}"
                                                 readonly>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>เขต/อำเภอ :</td>
+                                        <td>{{ __('messages.district') }} :</td>
                                         <td><input type="text" id="custom_district_id" name="custom_district_id"
                                                 value="{{ Auth::user()->address_deliveries_default->districts->{get_lang('name')} }}"
                                                 readonly>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>จังหวัด :</td>
+                                        <td>{{ __('messages.province') }} :</td>
                                         <td><input type="text" id="custom_province_id" name="custom_province_id"
                                                 value="{{ Auth::user()->address_deliveries_default->provinces->{get_lang('name')} }}"
                                                 readonly>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>รหัสไปรษณีย์ :</td>
+                                        <td>{{ __('messages.postcode') }} :</td>
                                         <td><input type="text" id="custom_postcode" name="custom_postcode"
                                                 value="{{ Auth::user()->profiles->postcode }}" readonly></td>
                                     </tr>
@@ -346,11 +352,11 @@
                 <div class="row px-2">
                     <div class="col-lg-2 offset-lg-8 col-md-3 offset-md-6 col-6 px-1">
                         <a href="{{ route('frontend.product', ['locale' => get_lang()]) }}"
-                            class="btn btn-secondary border-0 w-100">ซื้อสินค้าเพิ่ม</a>
+                            class="btn btn-secondary border-0 w-100">{{ __('messages.btn_continue_shipping') }}</a>
                     </div>
                     <div class="col-lg-2 col-md-3 col-6 px-1">
                         <a href="javascript:void(0);" onclick="$('#pay-form-validate').submit();"
-                            class="btn border-0 w-100 btn-next-process">ดำเนินการต่อ</a>
+                            class="btn border-0 w-100 btn-next-process">{{ __('messages.btn_checkout') }}</a>
                     </div>
                 </div>
             </div>
