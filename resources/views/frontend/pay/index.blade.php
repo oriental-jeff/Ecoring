@@ -103,7 +103,10 @@
                             <table class="w-100">
                                 <tr>
                                     <td class="w-45">ชื่อ :</td>
-                                    <td>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</td>
+                                    <td>{{ $delivery_addr[0]->fullname ?? Auth::user()->first_name . ' ' . Auth::user()->last_name }}
+                                        <input type="hidden" name="fullname"
+                                            value="{{ $delivery_addr[0]->fullname ?? Auth::user()->first_name . ' ' . Auth::user()->last_name }}">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>เบอร์โทร :</td>

@@ -55,19 +55,22 @@ class PaymentNotifications extends Model implements HasMedia
         return asset('images/backend/flag_th.jpg');
     }
 
+    public function getStatusAttribute($attributes)
+    {
+        return [
+            0 => 'New',
+            1 => 'Done',
+        ][$attributes];
+    }
+
     public function bank_account_info()
     {
         return $this->hasOne('App\Model\BankAccounts', 'id', 'bank_accounts_id');
     }
 
-    public function getStatusAttribute($attributes)
+    public function order()
     {
-        return [
-            0 => 'New',
-            1 => 'In Progress',
-            2 => 'Failed',
-            3 => 'Success',
-        ][$attributes];
+        return $this->hasOne('App\Model\Orders', 'code', 'orders_code');
     }
 
     public function update_name()

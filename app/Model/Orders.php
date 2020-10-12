@@ -13,6 +13,7 @@ class Orders extends Model implements HasMedia
     use LogsActivity, HasMediaTrait;
     protected $table = 'order';
     protected $attributes = [
+        'payment_type' => 0,
         'status' => 0,
     ];
     protected $guarded = [];
@@ -24,6 +25,11 @@ class Orders extends Model implements HasMedia
     public function update_name()
     {
         return $this->hasOne('App\User', 'id', 'updated_by');
+    }
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'users_id');
     }
 
     public function provinces()
@@ -71,17 +77,13 @@ class Orders extends Model implements HasMedia
         return $this->hasOne('App\Model\StatusConfig', 'status_id', 'status');
     }
 
-    // public function getStatusAttribute($attributes)
-    // {
-    //     return [
-    //         0 => 'รอการชำระเงิน',
-    //         1 => 'รอการตรวจสอบ',
-    //         2 => 'ยกเลิกคำสั่งซื้อ',
-    //         3 => 'ชำระเงินแล้ว',
-    //         4 => 'กำลังจัดเตรียมสินค้า',
-    //         5 => 'จัดส่งสินค้า',
-    //     ][$attributes];
-    // }
+    public function getPaymentTypeAttribute($attributes)
+    {
+        return [
+            1 => 'ชำระผ่านบัตรเครดิต/เดบิต',
+            0 => 'โอนเข้าบัญชีธนาคาร',
+        ][$attributes];
+    }
 
     public function scopeonlyNotPay($query)
     {
@@ -91,15 +93,13 @@ class Orders extends Model implements HasMedia
     public function scopegetDataByKeyword($query, $request)
     {
         $keyword = $request->keyword;
+        $status = $request->status;
         if ($keyword) {
-            $query = $query
-                ->whereHas('product', function ($q1) use ($keyword) {
-                    $q1->where('name_th', 'like', "%$keyword%")
-                        ->orWhere('name_en', 'like', "%$keyword%");
-                })
-                ->orWhereHas('warehouse', function ($q2) use ($keyword) {
-                    $q2->where('name', 'like', "%$keyword%");
-                });
+            $query = $query->where('code', 'like', "%$keyword%")
+                ->orWhere('tracking_no', 'like', "%$keyword%");
+        }
+        if (isset($status) || $status) {
+            $query = $query->where('status', (int) $status);
         }
         return $query;
     }

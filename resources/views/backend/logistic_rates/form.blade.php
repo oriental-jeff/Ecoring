@@ -52,15 +52,25 @@
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
                 <label class="col-form-label" for="start_at">วันที่เริ่ม <span class="text-danger"> * </span> :
                 </label>
-                <input type="date" class="form-control datepicker-startdate valid" id="start_at" name="start_at"
-                    value="{{ old('start_at') ?? $logistic_rate->start_at }}" required="" />
+                <div class="input-group date" id="dtstart_at" data-target-input="nearest">
+                    <input type="text" class="form-control datepicker-startdate valid" id="start_at" name="start_at"
+                        value="{{ old('start_at') ?? $logistic_rate->start_at }}" required="" />
+                    <div class="input-group-append" data-target="#dtstart_at" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
                 {{ $errors->first('start_at') }}
             </div>
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
                 <label class="col-form-label" for="end_at">วันที่สิ้นสุด (ปล่อยว่างหากไม่ต้องการกำหนด) :
                 </label>
-                <input type="date" class="form-control datepicker-enddate valid" id="end_at" name="end_at"
-                    value="{{ old('end_at') ?? $logistic_rate->end_at }}" />
+                <div class="input-group date" id="dtend_at" data-target-input="nearest">
+                    <input type="text" class="form-control datepicker-enddate valid" id="end_at" name="end_at"
+                        value="{{ old('end_at') ?? $logistic_rate->end_at }}" />
+                    <div class="input-group-append" data-target="#dtend_at" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
                 {{ $errors->first('end_at') }}
             </div>
         </div>

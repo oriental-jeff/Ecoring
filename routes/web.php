@@ -75,6 +75,7 @@ Route::name('frontend.')
         Route::get('get_sub_district_list', 'AjaxController@get_sub_district_list');
         Route::get('change_favorite', 'AjaxController@change_favorite');
         Route::get('add_cart', 'AjaxController@add_cart');
+        Route::get('remove_cart', 'AjaxController@remove_cart');
         Route::get('cancel_order', 'AjaxController@cancel_order');
 
         Route::get('/lang', function () {

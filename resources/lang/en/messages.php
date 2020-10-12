@@ -122,4 +122,15 @@ return [
     'not_enought_product' => 'Not enought product',
     'email_not_verified' => 'Your email address is not verified',
 
+    'payment_title' => 'Payment Notification',
+    'order_code' => 'Order No.',
+    'contact_number' => 'Contact',
+    'date' => 'Date',
+    'time' => 'Time',
+    'transfer_to' => 'Payment Method',
+    'proof_of_transfer' => 'Payment Slip',
+
+    'btn_back' => 'Back',
+    'btn_upload' => 'Upload',
+
 ];

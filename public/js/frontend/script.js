@@ -153,6 +153,45 @@ $(document).ready(function () {
         });
     });
 
+    $(".btn-remmove-cart").on("click", function (e) {
+        var e = this;
+        var cartId = $(e).data('id');
+            swal({
+                title: "ลบรายการนี้?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $(e).closest('.order-body').find('div:first-child').before('<div class="order-disabled"></div>');
+                    $.ajax({
+                        type: 'get',
+                        url: base_url + '/en/remove_cart',
+                        data: {
+                            cartId: cartId,
+                            _token: '{{ csrf_token() }}',
+                        },
+                        dataType: 'json',
+                        success: function (result) {
+                            $(e).closest('.order-body').fadeOut('slow', function () {
+                                $(this).remove();
+                                sumTotal();
+                            });
+                        },
+                        error: function(data) {
+                            swal("เกิดข้อผิดพลาด!! ไม่สามารถลบได้", {
+                                icon: "delete",
+                            });
+                            $(e).closest('.order-body').find('.order-disabled-del').remove();
+                        }
+                    });
+                } else {
+                    $(e).closest('.order-body').find('.order-disabled-del').remove();
+                }
+            });
+    });
+
     $('.btn-cancel-order').on('click', function () {
         swal({
                 title: "Cancel this orders?",

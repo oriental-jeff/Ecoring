@@ -22,7 +22,7 @@ class PromotionDetailsController extends Controller
         if ($request->filled('keyword')) :
             $promotion_details = PromotionDetails::getDataByKeyword($request->keyword)->get();
         else :
-            $promotion_details = PromotionDetails::limit(50)->get();
+            $promotion_details = PromotionDetails::limit(50)->orderBy('updated_at', 'desc')->get();
         endif;
         return view('backend.promotion_details.index', compact('promotion_details'));
     }

@@ -158,4 +158,26 @@ class AjaxController extends Controller
             return false;
         endif;
     }
+
+    /**
+     * Remove item from Cart
+     * @param int $cartId
+     */
+    public function remove_cart(Request $request)
+    {
+        $cartId = $request->cartId;
+        try {
+            $cart = Cart::findOrFail($cartId);
+            $cart->delete();
+        } catch (\Throwable $th) {
+            return false;
+        }
+
+        $success['cartId'] =  $cartId;
+
+        return response()->json([
+            'cartId' => $cartId,
+            'msg' => 'Successfully deleted.',
+        ]);
+    }
 }

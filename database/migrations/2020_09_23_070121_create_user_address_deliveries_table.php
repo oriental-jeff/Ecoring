@@ -25,8 +25,8 @@ class CreateUserAddressDeliveriesTable extends Migration
     });
   }
 
-  public function down()
-  {
-    Schema::dropIfExists('user_address_deliveries');
-  }
+    public function down()
+    {
+        Schema::dropIfExists('user_address_deliveries');
+    }
 }

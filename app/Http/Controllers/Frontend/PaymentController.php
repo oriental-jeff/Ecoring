@@ -27,13 +27,11 @@ class PaymentController extends Controller
     {
         $pages = Pages::get(3);
         // Check order
-        // $order = Orders::where('code', $request->orders_code);
-        $order = 'TEST-20201001';
-        // dd($request);
+        $order = Orders::where('code', $request->orders_code);
         if ($order and $this->validateRequest()) {
             if (Auth::user()) {
                 $fullname = Auth::user()->first_name . ' ' . Auth::user()->last_name;
-                $contact = '';
+                $contact = Auth::user()->profiles->telephone;
                 $email = Auth::user()->email;
             } else {
                 $fullname = $request->fullname;
@@ -62,8 +60,7 @@ class PaymentController extends Controller
     public function success(Request $request)
     {
         $pages = Pages::get(3);
-        $order = 'TEST-20201001';
-        $order = '';
+        $order = $request->orders_code;
         return view('frontend.payment.success', compact(['order', 'pages']));
     }
 

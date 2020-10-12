@@ -20,12 +20,14 @@ class CreateOrderTable extends Migration
         Schema::create('order', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code')->unique();
+            $table->integer('payment_type')->default(0);
             $table->integer('logistics_id');
             $table->integer('users_id');
             $table->decimal('total_amount');
             $table->float('total_weight');
             $table->decimal('discount');
             $table->integer('delivery_charge');
+            $table->string('fullname');
             $table->string('telephone');
             $table->text('address');
             $table->integer('sub_district_id');
@@ -34,7 +36,11 @@ class CreateOrderTable extends Migration
             $table->integer('postcode');
             $table->decimal('vat');
             $table->string('tracking_no')->nullable();
-            $table->integer('status')->default(0);
+            $table->integer('inv_sent_count')->default(0);
+            $table->timestamp('inv_sent_last')->nullable();
+            $table->string('rcpt_sent_count')->default(0);
+            $table->timestamp('rcpt_sent_last')->nullable();
+            $table->integer('status')->default(0)->comment('Relation with Status COnfig');
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();

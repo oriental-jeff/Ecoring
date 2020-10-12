@@ -48,6 +48,7 @@ class PayController extends Controller
             $data = request()->validate([
                 "logistics_id" => "required",
                 "telephone" => "required",
+                "fullname" => "required",
                 "address" => "required",
                 "sub_district_id" => "required",
                 "district_id" => "required",
@@ -60,10 +61,14 @@ class PayController extends Controller
                 "delivery_charge" => "required",
             ]);
 
+            $payment_type = $request->paymentMethod == 'dccard' ? 1 : 0;
+
             $order_data = [
                 "code" => "UCM" . rand(0, 99999999),
+                "payment_type" => $payment_type,
                 "logistics_id" => $data['logistics_id'],
                 "telephone" => $data['telephone'],
+                "fullname" => $data['fullname'],
                 "address" => $data['address'],
                 "sub_district_id" => $data['sub_district_id'],
                 "district_id" => $data['district_id'],

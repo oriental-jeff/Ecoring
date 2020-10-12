@@ -21,7 +21,7 @@ class CreatePaymentnotificationsTable extends Migration
             $table->string('contact');
             $table->string('email');
             $table->dateTime('payment_datetime');
-            $table->tinyInteger('status')->default(0)->comment('0:wait|1:done');
+            $table->tinyInteger('status')->default(0)->comment('0:new|1:done');
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();

@@ -122,4 +122,15 @@ return [
     'not_enought_product' => 'สินค้ามีไม่เพียงพอ',
     'email_not_verified' => 'คุณยังไม่ได้ทำการยืนยันอีเมล',
 
+    'payment_title' => 'แจ้งการชำระเงิน',
+    'order_code' => 'หมายเลขสั่งซื้อ',
+    'contact_number' => 'เบอร์ติดต่อ',
+    'date' => 'วันที่',
+    'time' => 'เวลา',
+    'transfer_to' => 'โอนเข้าบัญชี',
+    'proof_of_transfer' => 'หลักฐานการโอนเงิน',
+
+    'btn_back' => 'ย้อนกลับ',
+    'btn_upload' => 'อัพโหลด',
+
 ];

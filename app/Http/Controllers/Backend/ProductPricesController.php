@@ -20,7 +20,7 @@ class ProductPricesController extends Controller
         if ($request->filled('keyword')) :
             $product_prices = ProductPrices::getDataByKeyword($request->keyword)->get();
         else :
-            $product_prices = ProductPrices::limit(50)->get();
+            $product_prices = ProductPrices::limit(50)->orderBy('updated_at', 'desc')->get();
         endif;
         return view('backend.product_prices.index', compact('product_prices'));
     }
