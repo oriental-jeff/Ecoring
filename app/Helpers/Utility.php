@@ -21,8 +21,10 @@ if (! function_exists('get_main')) {
       'categories' => App\Model\Categories::get(),
       'count_cart_products' => App\Model\Cart::where('users_id', Auth::id())->whereNull('orders_id')->count(),
       'order_not_pay' => App\Model\Orders::where('users_id', Auth::id())->onlyNotPay()->orderBy('id', 'asc')->get(),
+      'bank_transfer' => App\Model\BankAccounts::onlyActive()->get(),
+      'logistics' => App\Model\Logistics::onlyActive()->get(),
     ];
-    
+
     return $main;
   }
 }
@@ -46,7 +48,7 @@ if (! function_exists('get_link_share_facebook')) {
 if (! function_exists('get_link_share_twitter')) {
   function get_link_share_twitter( $title ='') {
     return 'https://twitter.com/intent/tweet?text='.$title.'&amp;url='.url()->current();
-  } 
+  }
 }
 
 if (! function_exists('add_log')) {
