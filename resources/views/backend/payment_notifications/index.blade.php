@@ -49,6 +49,7 @@
                                 <!-- <th width="1%">ลำดับ</th> -->
                                 <th class="text-center">จัดการ</th>
                                 <th class="text-center">วันที่อัพเดท</th>
+                                <th class="text-center">ตรวจสอบ</th>
                                 <th class="text-center">หมายเลขสั่งซื้อ</th>
                                 <th class="text-center">ชื่อ-นามสกุล</th>
                                 <th class="text-center">เบอร์ติดต่อ</th>
@@ -92,6 +93,10 @@
                                 </td>
                                 <td class="text-center">
                                     {{ date('d/m/Y H:i:s', strtotime($payment_notification->updated_at)) }}</td>
+                                <td class="text-center"><img style="width: 14px;"
+                                        src="{{ $payment_notification->order ? asset('images/I-Checkmark1.svg') : asset('images/I-close-red.svg') }}"
+                                        class="img-table">
+                                </td>
                                 <td class="text-center">{{ $payment_notification->orders_code }}</td>
                                 <td class="text-left">{{ $payment_notification->fullname }}</td>
                                 <td class="text-center">{{ $payment_notification->contact }}</td>

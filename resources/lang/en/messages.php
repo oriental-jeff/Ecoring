@@ -76,7 +76,7 @@ return [
     'register' => 'Register',
     'register_noti1' => 'If you are not a member,please register',
     'register_noti2' => 'before making a purchase',
-    'username_placeholder' => 'username',
+    'username_placeholder' => '@abc.com',
     'password_placeholder' => 'password',
     'password_noti' => 'Please fill in more than 8 character',
     'confirm_password_noti' => 'Please confirm your password',
@@ -115,10 +115,22 @@ return [
     'duplicate_password' => 'New password can not be the same as old password!',
     'old_password_not_matched' => 'Old password does not matched',
     'send_forgot_email_success' => 'Request for forgot password has been sent to your email',
+    'verify_resend_success' => 'Verify email has been sent',
 
     'add_basket_success' => 'Add to basket successfully',
     'out_of_stock' => 'Out of stocks',
     'not_enought_product' => 'Not enought product',
     'email_not_verified' => 'Your email address is not verified',
+
+    'payment_title' => 'Payment Notification',
+    'order_code' => 'Order No.',
+    'contact_number' => 'Contact',
+    'date' => 'Date',
+    'time' => 'Time',
+    'transfer_to' => 'Payment Method',
+    'proof_of_transfer' => 'Payment Slip',
+
+    'btn_back' => 'Back',
+    'btn_upload' => 'Upload',
 
 ];

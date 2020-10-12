@@ -100,7 +100,7 @@
                 <hr>
 
                 <div class="box-Shipment font-weight-normal t2">
-                    <h5>เลือกช่องทางการจัดส่ง</h5>
+                    <h5>เลือกช่องทางการจัดส่ง</h5> {{ session()->get('weight') }}
                     <div class="row">
                         @foreach ($logistics as $k => $logistic)
                         <div class="col-md-4 logisticScope">
@@ -153,6 +153,16 @@
                                                 <div class="col-lg-10">
                                                     <label class="box-check-label" for="opt{{$k}}">
                                                         <table>
+                                                            <tr>
+                                                                <td style="min-width: 100px;">ชื่อ :</td>
+                                                                <td>
+                                                                    <input type="hidden" id="custom_id{{ $da->id }}"
+                                                                        name="custom_id{{ $da->id }}"
+                                                                        value="{{ $da->id }}">
+                                                                    <input type="text" id="custom_fullname{{ $da->id }}"
+                                                                        name="custom_fullname{{ $da->id }}"
+                                                                        value="{{ $da->fullname }}" readonly></td>
+                                                            </tr>
                                                             <tr>
                                                                 <td>เบอร์โทร :</td>
                                                                 <td><input type="text" id="custom_mobile{{ $da->id }}"
@@ -228,9 +238,9 @@
                                         <td style="min-width: 100px;">ชื่อ :</td>
                                         <td>
                                             <input type="hidden" id="profile_id" name="profile_id"
-                                                value="{{ Auth::id() }}">
+                                                value="{{ Auth::user()->profiles->id }}">
                                             <input type="text" id="profile_fullname" name="profile_fullname"
-                                                value="{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}"
+                                                value="{{ Auth::user()->first_name. ' ' .Auth::user()->last_name }}"
                                                 readonly></td>
                                     </tr>
                                     <tr>
@@ -283,9 +293,9 @@
                                         <td style="min-width: 100px;">ชื่อ :</td>
                                         <td>
                                             <input type="hidden" id="custom_id" name="custom_id"
-                                                value="{{ Auth::id() }}">
+                                                value="{{ Auth::user()->address_deliveries_default->id }}">
                                             <input type="text" id="custom_fullname" name="custom_fullname"
-                                                value="{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}"
+                                                value="{{ Auth::user()->address_deliveries_default->fullname }}"
                                                 readonly></td>
                                     </tr>
                                     <tr>
@@ -363,15 +373,12 @@
     });
     // custom delivery address
     function getCustomData() {
+        var inputName = ['id', 'fullname', 'address', 'mobile', 'sub_district_id', 'district_id', 'province_id', 'postcode'];
         let d = $('input[name=opt]:checked').data('ref');
         // add data to input form
-        $('#custom_id').val(d.id);
-        $('#custom_address').val($('#custom_address' + d.id).val());
-        $('#custom_mobile').val($('#custom_mobile' + d.id).val());
-        $('#custom_sub_district_id').val($('#custom_sub_district_id' + d.id).val());
-        $('#custom_district_id').val($('#custom_district_id' + d.id).val());
-        $('#custom_province_id').val($('#custom_province_id' + d.id).val());
-        $('#custom_postcode').val($('#custom_postcode' + d.id).val());
+        inputName.forEach(v => {
+            $('#custom_' + v).val($('#custom_' + v + d.id).val());
+        });
 
         $('#customeAddrModalCenter').modal('hide');
     }

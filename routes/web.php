@@ -52,13 +52,14 @@ Route::name('frontend.')
         Route::post('/payment/success', 'PaymentController@store')->name('payment-success')->middleware('front_user.active');
 
         Route::get('/register', 'UserController@create')->name('register');
+        Route::get('/verify-resend', 'UserController@verify_resend')->name('verify-resend');
 
         Route::name('user.')
             ->prefix('/user')
             ->group(function () {
-                Route::get('/profile', 'UserController@edit')->name('profile')->middleware('front_user.active');
-                Route::get('/edit-password', 'UserController@edit_password')->name('edit-password')->middleware('front_user.active');
-                Route::get('/favorite', 'UserController@favorite')->name('favorite')->middleware('front_user.active');
+                Route::get('/profile', 'UserController@edit')->name('profile')->middleware('verified');
+                Route::get('/edit-password', 'UserController@edit_password')->name('edit-password')->middleware('verified');
+                Route::get('/favorite', 'UserController@favorite')->name('favorite')->middleware('verified');
                 Route::get('/history', 'UserController@history')->name('history')->middleware('verified');
                 Route::get('/history/detail/{order_id}', 'UserController@detail')->name('history-detail')->middleware('verified');
             });
@@ -74,6 +75,7 @@ Route::name('frontend.')
         Route::get('get_sub_district_list', 'AjaxController@get_sub_district_list');
         Route::get('change_favorite', 'AjaxController@change_favorite');
         Route::get('add_cart', 'AjaxController@add_cart');
+        Route::get('remove_cart', 'AjaxController@remove_cart');
         Route::get('cancel_order', 'AjaxController@cancel_order');
 
         Route::get('/lang', function () {

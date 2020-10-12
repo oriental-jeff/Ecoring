@@ -24,7 +24,7 @@
             <!-- begin panel-body -->
             <div class="panel-body">
                 <form class="form-horizontal" id="form-validate" name="demo-form" enctype="multipart/form-data"
-                    action="{{ route('backend.orders.update', ['order' => $order->id] ) }}" method='post'>
+                    action="{{ route('backend.orders.update', ['order' => $order[0]->id] ) }}" method='post'>
                     @method('PATCH')
                     @include('backend.orders.form')
                     @csrf

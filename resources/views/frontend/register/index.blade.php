@@ -108,20 +108,12 @@
 									<label for="district">{{ __('messages.district') }} <span class="text-danger">*</span></label>
 									<select class="form-control" id="district" name="district" required="" readonly>
 										<option value="">{{ __('messages.please_select') }}</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
 									</select>
 								</div>
                 <div class="col-lg-4 col-md-6 mb-3">
                   <label for="sub_district">{{ __('messages.sub_district') }} <span class="text-danger">*</span></label>
                   <select class="form-control" id="sub_district" name="sub_district" required="" readonly>
                     <option value="">{{ __('messages.please_select') }}</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
                   </select>
                 </div>
 								<div class="col-lg-4 col-md-6 mb-3">
@@ -139,6 +131,15 @@
 										<label class="form-check-label font-weight-light" for="check_current_address"> {{ __('messages.use_same_address') }}</label>
 									</div>
 								</div>
+                <div class="col-lg-6 col-md-6 mb-3">
+                  <label for="delivery_fullname">{{ __('messages.name') }} <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="delivery_fullname" name="delivery_fullname" required="">
+                </div>
+                <div class="col-lg-6 col-md-6 mb-3">
+                  <label for="delivery_telephone">{{ __('messages.telephone') }} <span class="text-danger">*</span></label>
+                  <input type="tel" class="form-control" id="delivery_telephone" name="delivery_telephone" required="">
+                  <small class="form-text text-muted text-color">{{ __('messages.telephone_noti') }}</small>
+                </div>
 								<div class="col-lg-6 col-md-6 mb-3">
 									<label for="delivery_address">{{ __('messages.address') }} <span class="text-danger">*</span></label>
 									<input type="text" class="form-control readonly" id="delivery_address" name="delivery_address" required="" readonly>
@@ -156,30 +157,17 @@
 									<label for="delivery_district">{{ __('messages.district') }} <span class="text-danger">*</span></label>
 									<select class="form-control readonly readonlyNone" id="delivery_district" name="delivery_district" readonly>
 										<option>{{ __('messages.please_select') }}</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
 									</select>
 								</div>
                 <div class="col-lg-4 col-md-6 mb-3">
                   <label for="delivery_sub_district">{{ __('messages.sub_district') }} <span class="text-danger">*</span></label>
                   <select class="form-control readonly readonlyNone" id="delivery_sub_district" name="delivery_sub_district" readonly>
                     <option>{{ __('messages.please_select') }}</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
                   </select>
                 </div>
 								<div class="col-lg-4 col-md-6 mb-3">
 									<label for="delivery_postcode">{{ __('messages.postcode') }} <span class="text-danger">*</span></label>
 									<input type="tel" class="form-control readonly" id="delivery_postcode" name="delivery_postcode" required="" readonly>
-								</div>
-								<div class="col-lg-4 col-md-6 mb-3">
-									<label for="delivery_telephone">{{ __('messages.telephone') }} <span class="text-danger">*</span></label>
-									<input type="tel" class="form-control" id="delivery_telephone" name="delivery_telephone" required="">
-									<small class="form-text text-muted text-color">{{ __('messages.telephone_noti') }}</small>
 								</div>
 							</div>
 							<hr>
@@ -200,14 +188,16 @@
 							<div style="background: #393536;color: #fff;" class="px-4 py-2 mb-4">
 								<div class="form-check form-check-inline">
 									<input class="form-check-input" type="checkbox" id="privacy_confirm" name="privacy_confirm" required="">
-									<label class="form-check-label" for="privacy_confirm">{{ __('messages.privacy_confirm') }}<a href="javascript:;" class="text-color pl-2"><b><u>Privacy Policy</u></b></a></label>
+									<label class="form-check-label" for="privacy_confirm">{{ __('messages.privacy_confirm') }}
+										<a href="javascript:;" class="text-color pl-2" data-toggle="modal" data-target="#privacy_policy"><b><u>Privacy Policy</u></b></a>
+									</label>
 								</div>
 							</div>
 						</div>
 						<div class="row px-3 py-4" style="background-color: #ffffff;">
-							<div class="col-xl-4 offset-xl-4 col-lg-5 offset-lg-3 col-md-6 px-1 mb-3">
+							{{-- <div class="col-xl-4 offset-xl-4 col-lg-5 offset-lg-3 col-md-6 px-1 mb-3">
 								<div class="g-recaptcha" data-sitekey="6Ldbdg0TAAAAAI7KAf72Q6uagbWzWecTeBWmrCpJ"></div>
-							</div>
+							</div> --}}
 							<div class="col-xl-2 col-lg-2 col-md-3 col-6 px-1">
 								<button type="reset" class="btn btn-secondary border-0 w-100">{{ __('messages.reset') }}</button>
 							</div>
@@ -238,6 +228,7 @@
 
     $("#check_current_address").click(function() {
       if($('#check_current_address').is(':checked')) {
+        $("#delivery_fullname").val($("#first_name").val() + ' ' + $("#last_name").val());
         $("#delivery_address").val($("#address").val());
         $("#delivery_sub_district").html($('#sub_district').html()).val($("#sub_district").val());
         $("#delivery_district").html($('#district').html()).val($("#district").val());
@@ -246,6 +237,12 @@
         $('#boxAddress2 .readonly').attr('readonly', true);
       } else {
         $('#boxAddress2 .readonly:not(.readonlyNone)').attr('readonly', false);
+      }
+    });
+
+    $("#first_name, #last_name").on("input", function() {
+      if($('#check_current_address').is(':checked')) {
+        $("#delivery_fullname").val($("#first_name").val() + ' ' + $("#last_name").val());
       }
     });
     
@@ -273,7 +270,10 @@
       if($('#check_current_address').is(':checked')) {
         $("#delivery_sub_district").val(this.value).removeClass('readonlyNone');
       }
-      // $('#postcode').val($('#sub_district').attr('data-zipcode'));
+      $('#postcode').val($('option:selected', this).attr('data-zipcode'));
+      if($('#check_current_address').is(':checked')) {
+        $('#delivery_postcode').val($('option:selected', this).attr('data-zipcode'));
+      }
     });
 
     $("#postcode").on("input", function() {
@@ -291,7 +291,7 @@
     });
 
     $("#delivery_sub_district").on("change", function() {
-      $('#delivery_postcode').val($('#delivery_sub_district').attr('data-zipcode'));
+      $('#delivery_postcode').val($('option:selected', this).attr('data-zipcode'));
     });
 
     $("#form-validate").validate({

@@ -185,279 +185,142 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-lg-9">
-                                    @if(Session::has('message'))
-                                    <div id="alert_box"
-                                        class="alert {{ Session::get('alert-class', 'alert-light') }} py-2">
-                                        <b>{{ Session::get('message') }}</b>
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                    <div class="col-lg-3 col-md-6 mb-3">
+                                        <label for="district">{{ __('messages.district') }}</label>
+                                        <select class="form-control" id="district" name="district" required="" readonly>
+                                            <option value="">{{ __('messages.please_select') }}</option>
+                                            @foreach($districts as $district)
+                                            <option value="{{ $district->id }}"
+                                                {{ $user->profiles->district_id == $district->id ? 'selected' : '' }}>
+                                                {{ $district->{ get_lang('name') } }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                    @endif
-                                    <div class="box-paper border-top">
-                                        @method('patch')
-                                        @csrf
-                                        <div class="box-head text-left pb-2">
-                                            <h5 style="color: #00b16b;">{{ __('messages.data_account') }}</h5>
-                                            <div class="form-row align-items-end">
-                                                <div class="col-xl-9 col-lg-8 mb-3">
-                                                    <label style="color: #212529;">{{ __('messages.username') }}</label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="{{ __('messages.username_placeholder') }}"
-                                                        value="{{ $user->email }}" readonly="">
-                                                </div>
-                                                <div class="col-xl-3 col-lg-4 mb-3">
-                                                    <a class="float-right btn font-weight-light radius-25"
-                                                        href="{{ route('frontend.user.edit-password', ['locale' => get_lang(), 'user' => $user->id]) }}">
-                                                        <img class="m-0 float-left mr-2" style="width: 23px;"
-                                                            src="{{ asset('images/icon-Password2.svg') }}">
-                                                        {{ __('messages.edit_password') }}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="pt-2 pb-3 m-auto row" style="max-width: 600px;">
-                                                <div class="col-sm-6 p-1">
-                                                    <a href="#" class="btn-face"><img
-                                                            src="{{ asset('images/btn-face.jpg') }}">
-                                                        {{ __('messages.bind_account_with') }} Facebook</a>
-                                                </div>
-                                                <div class="col-sm-6 p-1">
-                                                    <a href="#" class="btn-line"><img
-                                                            src="{{ asset('images/btn-line.jpg') }}">
-                                                        {{ __('messages.bind_account_with') }} Line</a>
-                                                </div>
-                                            </div>
+                                    <div class="col-lg-4 col-md-6 mb-3">
+                                        <label for="sub_district">{{ __('messages.sub_district') }}</label>
+                                        <select class="form-control" id="sub_district" name="sub_district" required=""
+                                            readonly>
+                                            <option value="">{{ __('messages.please_select') }}</option>
+                                            @foreach($sub_districts as $sub_district)
+                                            <option value="{{ $sub_district->id }}"
+                                                {{ $user->profiles->sub_district_id == $sub_district->id ? 'selected' : '' }}>
+                                                {{ $sub_district->{ get_lang('name') } }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 mb-3">
+                                        <label for="postcode">{{ __('messages.postcode') }}</label>
+                                        <input type="tel" class="form-control" id="postcode" name="postcode"
+                                            value="{{ $user->profiles->postcode }}" required="" readonly>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <h5 style="color: #00b16b;">{{ __('messages.data_address_delivery') }}</h5>
+                                <div class="form-row">
+                                    <div class="col-lg-6 col-md-6 mb-3">
+                                        <label for="delivery_fullname">{{ __('messages.name') }}</label>
+                                        <input type="text" class="form-control" id="delivery_fullname"
+                                            name="delivery_fullname"
+                                            value="{{ $user->address_deliveries_default->fullname }}" required=""
+                                            readonly>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 mb-3">
+                                        <label for="delivery_telephone">{{ __('messages.telephone') }}</label>
+                                        <input type="tel" class="form-control" id="delivery_telephone"
+                                            name="delivery_telephone"
+                                            value="{{ $user->address_deliveries_default->telephone }}" required=""
+                                            readonly>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 mb-3">
+                                        <label for="delivery_address">{{ __('messages.address') }}</label>
+                                        <input type="text" class="form-control" id="delivery_address"
+                                            name="delivery_address"
+                                            value="{{ $user->address_deliveries_default->address }}" required=""
+                                            readonly>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 mb-3">
+                                        <label for="delivery_province">{{ __('messages.province') }}</label>
+                                        <select class="form-control area-select" id="delivery_province"
+                                            name="delivery_province" data-size="10" data-live-search="true" required=""
+                                            readonly>
+                                            <option value="">{{ __('messages.please_select') }}</option>
+                                            @foreach($provinces as $province)
+                                            <option value="{{ $province->id }}"
+                                                {{ $user->profiles->province_id == $province->id ? 'selected' : '' }}>
+                                                {{ $province->{ get_lang('name') } }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 mb-3">
+                                        <label for="delivery_district">{{ __('messages.district') }}</label>
+                                        <select class="form-control" id="delivery_district" name="delivery_district"
+                                            required="" readonly>
+                                            <option value="">{{ __('messages.please_select') }}</option>
+                                            @foreach($districts as $district)
+                                            <option value="{{ $district->id }}"
+                                                {{ $user->profiles->district_id == $district->id ? 'selected' : '' }}>
+                                                {{ $district->{ get_lang('name') } }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 mb-3">
+                                        <label for="delivery_sub_district">{{ __('messages.sub_district') }}</label>
+                                        <select class="form-control" id="delivery_sub_district"
+                                            name="delivery_sub_district" required="" readonly>
+                                            <option value="">{{ __('messages.please_select') }}</option>
+                                            @foreach($sub_districts as $sub_district)
+                                            <option value="{{ $sub_district->id }}"
+                                                {{ $user->profiles->sub_district_id == $sub_district->id ? 'selected' : '' }}>
+                                                {{ $sub_district->{ get_lang('name') } }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 mb-3">
+                                        <label for="delivery_postcode">{{ __('messages.postcode') }}</label>
+                                        <input type="tel" class="form-control" id="delivery_postcode"
+                                            name="delivery_postcode"
+                                            value="{{ $user->address_deliveries_default->postcode }}" required=""
+                                            readonly>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="form-row">
+                                    <div class="col-12 mb-3">
+                                        <label class="align-top">{{ __('messages.receive_infomation') }} :</label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="receive_info1"
+                                                name="receive_info" value="1"
+                                                {{ $user->profiles->receive_info == 1 ? 'checked' : '' }} disabled>
+                                            <label class="form-check-label"
+                                                for="receive_info1">{{ __('messages.receive_yes') }}</label>
                                         </div>
-
-                                        <form class="form-horizontal" method="post" id="form-validate" name="demo-form"
-                                            accept-charset="utf-8"
-                                            action="{{ route('frontend.user.update', ['locale' => get_lang(), 'user' => $user->id]) }}">
-                                            <div class="box-body text-left" style="max-width:none;">
-                                                <h5 style="color: #00b16b;">{{ __('messages.data_profile') }}</h5>
-                                                <div class="form-row">
-                                                    <div class="col-lg-6 col-md-6 mb-3">
-                                                        <label for="first_name">{{ __('messages.name') }}</label>
-                                                        <input type="text" class="form-control" id="first_name"
-                                                            name="first_name" value="{{ $user->first_name }}"
-                                                            required="" readonly>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 mb-3">
-                                                        <label for="last_name">{{ __('messages.surname') }}</label>
-                                                        <input type="tel" class="form-control" id="last_name"
-                                                            name="last_name" value="{{ $user->last_name }}" required=""
-                                                            readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="col-lg-6 col-md-6 mb-3">
-                                                        <label class="w-100">{{ __('messages.sex') }}</label>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="sex1"
-                                                                name="sex" value="1"
-                                                                {{ $user->profiles->sex == 1 ? 'checked' : '' }}
-                                                                disabled>
-                                                            <label class="form-check-label"
-                                                                for="sex1">{{ __('messages.men') }}</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="sex2"
-                                                                name="sex" value="2"
-                                                                {{ $user->profiles->sex == 2 ? 'checked' : '' }}
-                                                                disabled>
-                                                            <label class="form-check-label"
-                                                                for="sex2">{{ __('messages.women') }}</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 mb-3">
-                                                        <label for="birthday">{{ __('messages.birthday') }}</label>
-                                                        <input type="date" class="form-control" id="birthday"
-                                                            name="birthday" value="{{ $user->profiles->birthday }}"
-                                                            required="" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="col-lg-6 col-md-6 mb-3">
-                                                        <label for="telephone">{{ __('messages.telephone') }}</label>
-                                                        <input type="tel" class="form-control" id="telephone"
-                                                            name="telephone" value="{{ $user->profiles->telephone }}"
-                                                            required="" readonly>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 mb-3">
-                                                        <label for="email2">{{ __('messages.email') }}</label>
-                                                        <input type="email" class="form-control" id="email2"
-                                                            value="{{ $user->email }}" disabled>
-                                                    </div>
-                                                </div>
-                                                <hr>
-
-                                                <h5 style="color: #00b16b;">{{ __('messages.data_address') }}</h5>
-                                                <div class="form-row">
-                                                    <div class="col-lg-6 col-md-6 mb-3">
-                                                        <label for="address">{{ __('messages.address') }}</label>
-                                                        <input type="text" class="form-control" id="address"
-                                                            name="address" value="{{ $user->profiles->address }}"
-                                                            required="" readonly>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-6 mb-3">
-                                                        <label for="province">{{ __('messages.province') }}</label>
-                                                        <select class="form-control area-select" id="province"
-                                                            name="province" data-size="10" data-live-search="true"
-                                                            required="" readonly>
-                                                            <option value="">{{ __('messages.please_select') }}</option>
-                                                            @foreach($provinces as $province)
-                                                            <option value="{{ $province->id }}"
-                                                                {{ $user->profiles->province_id == $province->id ? 'selected' : '' }}>
-                                                                {{ $province->{ get_lang('name') } }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-6 mb-3">
-                                                        <label for="district">{{ __('messages.district') }}</label>
-                                                        <select class="form-control" id="district" name="district"
-                                                            required="" readonly>
-                                                            <option value="">{{ __('messages.please_select') }}</option>
-                                                            @foreach($districts as $district)
-                                                            <option value="{{ $district->id }}"
-                                                                {{ $user->profiles->district_id == $district->id ? 'selected' : '' }}>
-                                                                {{ $district->{ get_lang('name') } }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6 mb-3">
-                                                        <label
-                                                            for="sub_district">{{ __('messages.sub_district') }}</label>
-                                                        <select class="form-control" id="sub_district"
-                                                            name="sub_district" required="" readonly>
-                                                            <option value="">{{ __('messages.please_select') }}</option>
-                                                            @foreach($sub_districts as $sub_district)
-                                                            <option value="{{ $sub_district->id }}"
-                                                                {{ $user->profiles->sub_district_id == $sub_district->id ? 'selected' : '' }}>
-                                                                {{ $sub_district->{ get_lang('name') } }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6 mb-3">
-                                                        <label for="postcode">{{ __('messages.postcode') }}</label>
-                                                        <input type="tel" class="form-control" id="postcode"
-                                                            name="postcode" value="{{ $user->profiles->postcode }}"
-                                                            required="" readonly>
-                                                    </div>
-                                                </div>
-                                                <br>
-
-                                                <h5 style="color: #00b16b;">{{ __('messages.data_address_delivery') }}
-                                                </h5>
-                                                <div class="form-row">
-                                                    <div class="col-lg-6 col-md-6 mb-3">
-                                                        <label
-                                                            for="delivery_address">{{ __('messages.address') }}</label>
-                                                        <input type="text" class="form-control" id="delivery_address"
-                                                            name="delivery_address"
-                                                            value="{{ $user->address_deliveries_default->address }}"
-                                                            required="" readonly>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-6 mb-3">
-                                                        <label
-                                                            for="delivery_province">{{ __('messages.province') }}</label>
-                                                        <select class="form-control area-select" id="delivery_province"
-                                                            name="delivery_province" data-size="10"
-                                                            data-live-search="true" required="" readonly>
-                                                            <option value="">{{ __('messages.please_select') }}</option>
-                                                            @foreach($provinces as $province)
-                                                            <option value="{{ $province->id }}"
-                                                                {{ $user->profiles->province_id == $province->id ? 'selected' : '' }}>
-                                                                {{ $province->{ get_lang('name') } }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-6 mb-3">
-                                                        <label
-                                                            for="delivery_district">{{ __('messages.district') }}</label>
-                                                        <select class="form-control" id="delivery_district"
-                                                            name="delivery_district" required="" readonly>
-                                                            <option value="">{{ __('messages.please_select') }}</option>
-                                                            @foreach($districts as $district)
-                                                            <option value="{{ $district->id }}"
-                                                                {{ $user->profiles->district_id == $district->id ? 'selected' : '' }}>
-                                                                {{ $district->{ get_lang('name') } }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6 mb-3">
-                                                        <label
-                                                            for="delivery_sub_district">{{ __('messages.sub_district') }}</label>
-                                                        <select class="form-control" id="delivery_sub_district"
-                                                            name="delivery_sub_district" required="" readonly>
-                                                            <option value="">{{ __('messages.please_select') }}</option>
-                                                            @foreach($sub_districts as $sub_district)
-                                                            <option value="{{ $sub_district->id }}"
-                                                                {{ $user->profiles->sub_district_id == $sub_district->id ? 'selected' : '' }}>
-                                                                {{ $sub_district->{ get_lang('name') } }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6 mb-3">
-                                                        <label
-                                                            for="delivery_postcode">{{ __('messages.postcode') }}</label>
-                                                        <input type="tel" class="form-control" id="delivery_postcode"
-                                                            name="delivery_postcode"
-                                                            value="{{ $user->address_deliveries_default->postcode }}"
-                                                            required="" readonly>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6 mb-3">
-                                                        <label
-                                                            for="delivery_telephone">{{ __('messages.telephone') }}</label>
-                                                        <input type="tel" class="form-control" id="delivery_telephone"
-                                                            name="delivery_telephone"
-                                                            value="{{ $user->address_deliveries_default->telephone }}"
-                                                            required="" readonly>
-                                                    </div>
-                                                </div>
-                                                <hr>
-
-                                                <div class="form-row">
-                                                    <div class="col-12 mb-3">
-                                                        <label class="align-top">{{ __('messages.receive_infomation') }}
-                                                            :</label>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                id="receive_info1" name="receive_info" value="1"
-                                                                {{ $user->profiles->receive_info == 1 ? 'checked' : '' }}
-                                                                disabled>
-                                                            <label class="form-check-label"
-                                                                for="receive_info1">{{ __('messages.receive_yes') }}</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                id="receive_info2" name="receive_info" value="0"
-                                                                {{ $user->profiles->receive_info == 0 ? 'checked' : '' }}
-                                                                disabled>
-                                                            <label class="form-check-label"
-                                                                for="receive_info2">{{ __('messages.receive_no') }}</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row px-3 py-4" style="background-color: #ffffff;display: none;"
-                                                id="boxBtn">
-                                                <div
-                                                    class="col-xl-2 col-lg-2 offset-lg-8 col-md-3 offset-md-6 col-6 px-1">
-                                                    <button type="button" class="btn btn-secondary border-0 w-100"
-                                                        onclick="window.location.reload(true);">{{ __('messages.reset') }}</button>
-                                                </div>
-                                                <div class=" col-xl-2 col-lg-2 col-md-3 col-6 px-1">
-                                                    <button type="submit"
-                                                        class="btn border-0 w-100">{{ __('messages.submit') }}</button>
-                                                </div>
-                                            </div>
-                                        </form>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="receive_info2"
+                                                name="receive_info" value="0"
+                                                {{ $user->profiles->receive_info == 0 ? 'checked' : '' }} disabled>
+                                            <label class="form-check-label"
+                                                for="receive_info2">{{ __('messages.receive_no') }}</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row px-3 py-4" style="background-color: #ffffff;display: none;" id="boxBtn">
+                                <div class="col-xl-2 col-lg-2 offset-lg-8 col-md-3 offset-md-6 col-6 px-1">
+                                    <button type="button" class="btn btn-secondary border-0 w-100"
+                                        onclick="window.location.reload(true);">{{ __('messages.reset') }}</button>
+                                </div>
+                                <div class=" col-xl-2 col-lg-2 col-md-3 col-6 px-1">
+                                    <button type="submit"
+                                        class="btn border-0 w-100">{{ __('messages.submit') }}</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 <!-- end #content -->
@@ -467,16 +330,16 @@
 <script>
     $(document).ready(function() {
 
-		$(document).on("click","#btnEdit",function() {
-			$(this).addClass('active');
-		    $('#form-validate [readonly]').attr('readonly', false);
-		    $('#form-validate [disabled]').attr('disabled', false);
-		    $('#boxBtn').slideDown();
-		    $('#first_name').focus()[0].setSelectionRange(99999, 99999);
+    $(document).on("click","#btnEdit",function() {
+     $(this).addClass('active');
+     $('#form-validate [readonly]').attr('readonly', false);
+     $('#form-validate [disabled]').attr('disabled', false);
+     $('#boxBtn').slideDown();
+     $('#first_name').focus()[0].setSelectionRange(99999, 99999);
 
-		    $('html').animate({scrollTop:$('#form-validate').offset().top-90}, '500');
-		    $('#form-validate #email2').attr('readonly', true);
-		});
+     $('html').animate({scrollTop:$('#form-validate').offset().top-90}, '500');
+     $('#form-validate #email2').attr('readonly', true);
+   });
 
     $("#province").on("change", function() {
       changeProvince();
@@ -526,7 +389,7 @@
       }
     });
 
-	});
+  });
 
   function changeProvince() {
     var province = $('#province').val();

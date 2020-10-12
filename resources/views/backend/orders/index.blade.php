@@ -17,6 +17,18 @@
                             <input type="text" class="form-control" name="keyword"
                                 value="{{ request('keyword') ?? '' }}">
                         </div>
+                        <div class="form-group col-md-4 col-lg-2">
+                            <label for="status">สถานะ</label>
+                            <select id="status" name="status" class="form-control">
+                                <option value="">ทั้งหมด</option>
+                                @foreach ($status as $item)
+                                <option value="{{ $item->status_id }}"
+                                    {{ !is_null(request('status')) ? (request('status') == $item->status_id ? 'selected' : '') : '' }}>
+                                    {{ $item->name_th }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-group col-lg-6 col-md-12 col-sm-12">
                             <div class='mt-4 '>
                                 <button type="submit" class="btn btn-white btn-search" id="search"><i
@@ -51,12 +63,18 @@
                             <tr>
                                 <!-- <th width="1%">ลำดับ</th> -->
                                 <th class="text-center">จัดการ</th>
-                                <th class="text-center">วันที่อัพเดท</th>
-                                <th class="text-center">รูป</th>
-                                <th class="text-center">ชื่อสินค้า (ไทย)</th>
-                                <th class="text-center">ชื่อสินค้า (อังกฤษ)</th>
-                                <th class="text-center">จำนวนคงเหลือ</th>
-                                <th class="text-center">ที่จัดเก็บ</th>
+                                <th class="text-center">วันที่สั่งสินค้า</th>
+                                <th class="text-center">หมายเลขการสั่งซื้อ</th>
+                                <th class="text-center">สถานะ</th>
+                                <th class="text-center">การชำระเงิน</th>
+                                <th class="text-center">ยอดรวมทั้งสิ้น</th>
+                                <th class="text-center">ช่องทางการจัดส่ง</th>
+                                <th class="text-center">อัตราค่าบริการ</th>
+                                <th class="text-center">จัดส่งใบแจ้งหนี้</th>
+                                <th class="text-center">วันที่จัดส่งใบแจ้งหนี้</th>
+                                <th class="text-center">จัดส่งใบเสร็จ</th>
+                                <th class="text-center">วันที่จัดส่งใบเสร็จ</th>
+                                <th class="text-center">Tracking No.</th>
                                 <th class="text-center">ผู้แก้ไขล่าสุด</th>
                             </tr>
                         </thead>
@@ -64,6 +82,7 @@
 
                             @if(!empty($orders))
                             @foreach($orders as $order)
+                            {{ $order->product }}
                             <tr class="del">
                                 <td class="text-center">
                                     <div class=" dropright">
@@ -94,13 +113,29 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center">{{ date('d/m/Y H:i:s', strtotime($order->updated_at)) }}</td>
-                                <td class="text-center"><img src="{{ $order->product->image ?? '' }}" class="img-table">
+                                <td class="text-center">
+                                    {{ date('d/m/Y H:i:s', strtotime($order->created_at)) }}
                                 </td>
-                                <td class="text-left">{{ $order->product->name_th }}</td>
-                                <td class="text-left">{{ $order->product->name_en }}</td>
-                                <td class="text-right">{{ $order->quantity }}</td>
-                                <td class="text-center">{{ $order->warehouse->name }}</td>
+                                <td class="text-center">{{ $order->code }}</td>
+                                <td class="text-left">{{ $order->status_config->name_th }}</td>
+                                <td class="text-left">
+                                    {{ $order->payment_type }}
+                                </td>
+                                <td class="text-right">
+                                    ฿{{ number_format($order->total_amount + $order->delivery_charge + $order->vat, 2) }}
+                                </td>
+                                <td class="text-center"><img src="{{ $order->logistic->image }}" class="img-table">
+                                </td>
+                                <td class="text-center">{{ number_format($order->delivery_charge, 2) }}</td>
+                                <td class="text-center">{{ $order->po_sent_count }}</td>
+                                <td class="text-center">
+                                    {{ $order->po_sent_last ? date('d/m/Y H:i:s', strtotime($order->po_sent_last)) : '' }}
+                                </td>
+                                <td class="text-center">{{ $order->rcpt_sent_count }}</td>
+                                <td class="text-center">
+                                    {{ $order->rcpt_sent_last ? date('d/m/Y H:i:s', strtotime($order->rcpt_sent_last)) : '' }}
+                                </td>
+                                <td class="text-left">{{ $order->tracking_no }}</td>
                                 <td class="text-center">{{ $order->update_name->first_name }}</td>
                             </tr>
                             @endforeach

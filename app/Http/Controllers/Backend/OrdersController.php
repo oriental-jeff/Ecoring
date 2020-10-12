@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Model\Orders;
 use App\Model\Warehouses;
 use App\Model\Products;
+use App\Model\StatusConfig;
 use Illuminate\Support\Facades\Auth;
 
 class OrdersController extends Controller
@@ -16,22 +17,24 @@ class OrdersController extends Controller
     public function index(Request $request)
     {
         $this->authorize(mapPermission(self::MODULE));
-        if ($request->filled('keyword')) :
+        if ($request->filled('keyword') or $request->filled('status')) :
             $orders = Orders::getDataByKeyword($request)->get();
         else :
-            $orders = Orders::limit(50)->orderBy('updated_at', 'desc')->get();
+            $orders = Orders::limit(50)->orderBy('created_at', 'desc')->get();
         endif;
 
-        return view('backend.orders.index', compact('orders'));
+        $status = StatusConfig::where('type', 'order')->get();
+
+        return view('backend.orders.index', compact(['orders', 'status']));
     }
 
     public function edit(Orders $order)
     {
         $this->authorize(mapPermission(self::MODULE));
-        $warehouses = Warehouses::all();
-        $products = Products::onlyActive()->get();
+        $order = Orders::where([['id', $order->id]])->get();
+        $status = StatusConfig::where('type', 'order')->get();
 
-        return view('backend.orders.update', compact(['order', 'warehouses', 'products']));
+        return view('backend.orders.update', compact(['order', 'status']));
     }
 
     public function update(Request $request, Orders $order)
@@ -53,18 +56,11 @@ class OrdersController extends Controller
     private function validateRequest()
     {
         $validatedData = request()->validate([
-            "warehouses_id" => "required",
-            "products_id" => "required",
-            "quantity" => "required",
+            "status" => "required",
+            "tracking_no" => "",
         ]);
 
         $validatedData['updated_by'] = Auth::id();
-
-        if (request()->route()->getActionMethod() == 'store') :
-
-            $validatedData['created_by'] = Auth::id();
-
-        endif;
 
         return $validatedData;
     }

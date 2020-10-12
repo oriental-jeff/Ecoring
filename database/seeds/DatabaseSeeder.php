@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             WarehouseSeeder::class,
             StatusConfigSeeder::class,
+            GradeSeeder::class,
+            TagSeeder::class,
         ]);
         $this->command->info('Main table seeded!');
 

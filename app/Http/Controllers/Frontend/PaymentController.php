@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Model\Orders;
 use App\Model\PaymentNotifications;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMail;
 
 class PaymentController extends Controller
 {
@@ -25,13 +27,11 @@ class PaymentController extends Controller
     {
         $pages = Pages::get(3);
         // Check order
-        // $order = Orders::where('code', $request->orders_code);
-        $order = 'TEST-20201001';
-        // dd($request);
+        $order = Orders::where('code', $request->orders_code);
         if ($order and $this->validateRequest()) {
             if (Auth::user()) {
                 $fullname = Auth::user()->first_name . ' ' . Auth::user()->last_name;
-                $contact = '';
+                $contact = Auth::user()->profiles->telephone;
                 $email = Auth::user()->email;
             } else {
                 $fullname = $request->fullname;
@@ -60,8 +60,7 @@ class PaymentController extends Controller
     public function success(Request $request)
     {
         $pages = Pages::get(3);
-        $order = 'TEST-20201001';
-        $order = '';
+        $order = $request->orders_code;
         return view('frontend.payment.success', compact(['order', 'pages']));
     }
 
@@ -94,5 +93,24 @@ class PaymentController extends Controller
         ]);
 
         return $validatedData;
+    }
+
+    public function send_email($data)
+    {
+      $to_email = $data['email'];
+      // $to_email = 'dragoon.jr@gmail.com';
+      $to_name = $data['name'];
+      $send_to = [['email' => $to_email, 'name' => $to_name]];
+      $data['from_name'] = 'Ecoring Thailand Shop';
+      $data['subject'] = 'Thank you for order product from Ecoring Thailand Shop';
+      $data['footer'] = 'Ecoring thailand shop team';
+
+      Mail::to($send_to)
+      ->send(new InvoiceMail($data));
+
+      // foreach (['taylor@example.com', 'dries@example.com'] as $recipient) {
+      //   Mail::to($recipient)->send(new ApplyMail($data));
+      // }
+      
     }
 }

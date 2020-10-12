@@ -67,11 +67,19 @@ class Logistics extends Model implements HasMedia
         // dd($weight);
         // dd(session()->get('weight'));
         $weight = session()->get('weight');
-        $price_length = $this->hasOne('App\Model\LogisticRates', 'logistics_id', 'id')->whereRaw($weight . ' >= weight_from AND ' . $weight . ' <= weight_to')->whereRaw('curdate() >= start_at AND curdate() <= end_at')->orderBy('id', 'desc')->first();
-        if (!empty($price_length)) :
-            $price = $price_length->price;
+        $price_length = $this->hasOne('App\Model\LogisticRates', 'logistics_id', 'id')->whereRaw($weight . ' >= weight_from AND ' . $weight . ' <= weight_to');
+        $price_length1 = clone $price_length;
+        $price_length1 = $price_length1->whereRaw('curdate() >= start_at AND curdate() <= end_at')->orderBy('id', 'desc')->first();
+        if (!empty($price_length1)) :
+            $price = $price_length1->price;
         else :
-            $price = $this->base_price;
+            // Check when end_at is null
+            $price_length = $price_length->whereRaw('curdate() >= start_at')->orderBy('id', 'desc')->first();
+            if (!empty($price_length)) :
+                $price = $price_length->price;
+            else :
+                $price = $this->base_price;
+            endif;
         endif;
 
         return $price;

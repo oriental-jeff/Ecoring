@@ -12,6 +12,7 @@ class CreateUserAddressDeliveriesTable extends Migration
       $table->id();
       $table->integer('user_id');
       $table->tinyInteger('default')->default(0);
+      $table->string('full_name')->nullable();
       $table->text('address');
       $table->integer('province_id');
       $table->integer('district_id');
@@ -24,8 +25,8 @@ class CreateUserAddressDeliveriesTable extends Migration
     });
   }
 
-  public function down()
-  {
-    Schema::dropIfExists('user_address_deliveries');
-  }
+    public function down()
+    {
+        Schema::dropIfExists('user_address_deliveries');
+    }
 }

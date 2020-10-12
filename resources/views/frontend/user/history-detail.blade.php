@@ -49,8 +49,7 @@
                             {{ ($order[0]->status >= 3) ? $status[3]->{get_lang('name')} : $order[0]->status_config->{get_lang('name')} }}
                         </div>
                     </span></div>
-                <div>การชำระเงิน : <span
-                        class="float-right">{{ $order[0]->transaction ? 'ชำระผ่านบัตรเครดิต/เดบิต' : 'โอนเข้าบัญชีธนาคาร' }}</span>
+                <div>การชำระเงิน : <span class="float-right">{{ $order[0]->payment_type }}</span>
                 </div>
             </div>
 

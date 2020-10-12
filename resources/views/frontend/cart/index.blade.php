@@ -100,8 +100,9 @@
                         <div class="col-md-2 col-ms-2 text-center border-left"
                             style="{{ $cart->stocks[0]->quantity === 0 ? 'z-index:1' : '' }}">
                             {{-- @if ($cart->stocks[0]->quantity != 0) --}}
-                            <a class="btn btn-secondary font-weight-light radius-25 w-100" href="javascript:void(0);"
-                                onclick="delList(this, {{ $cart->id }})">
+                            <a data-id="{{ $cart->id }}"
+                                class="btn-remmove-cart btn btn-secondary font-weight-light radius-25 w-100"
+                                href="javascript:void(0);">
                                 <img class="m-0 mr-2" style="width: 17px;" src="{{ url('images/icon-delete.svg') }}">
                                 ลบรายการนี้
                             </a>
@@ -151,43 +152,5 @@
             sumTotal();
         });
     });
-
-    function delList(e, cartId) {
-        // $(e).closest('.order-body').find('.del-loading').show();
-        swal({
-            title: "ลบรายการนี้?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                $(e).closest('.order-body').find('div:first-child').before('<div class="order-disabled"></div>');
-                $.ajax({
-                    url: '/api/v1/carts/' + cartId,
-                    type: 'DELETE',
-                    success: function (result) {
-                        $(e).closest('.order-body').fadeOut('slow', function () {
-                            $(this).remove();
-                            sumTotal();
-                            // swal("This order has been removed.", {
-                            //     icon: "success",
-                            //     buttons: false,
-                            //     timer: 1500
-                            // });
-                        });
-                    },
-                    error: function(data) {
-                        swal("เกิดข้อผิดพลาด!! ไม่สามารถลบได้", {
-                            icon: "delete",
-                        });
-                        $(e).closest('.order-body').find('.order-disabled-del').remove();
-                    }
-                });
-            } else {
-                $(e).closest('.order-body').find('.order-disabled-del').remove();
-            }
-        });
-    }
 </script>
 @endpush
