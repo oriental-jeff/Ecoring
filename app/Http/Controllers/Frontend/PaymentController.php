@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Model\Orders;
 use App\Model\PaymentNotifications;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMail;
 
 class PaymentController extends Controller
 {
@@ -94,5 +96,24 @@ class PaymentController extends Controller
         ]);
 
         return $validatedData;
+    }
+
+    public function send_email($data)
+    {
+      $to_email = $data['email'];
+      // $to_email = 'dragoon.jr@gmail.com';
+      $to_name = $data['name'];
+      $send_to = [['email' => $to_email, 'name' => $to_name]];
+      $data['from_name'] = 'Ecoring Thailand Shop';
+      $data['subject'] = 'Thank you for order product from Ecoring Thailand Shop';
+      $data['footer'] = 'Ecoring thailand shop team';
+
+      Mail::to($send_to)
+      ->send(new InvoiceMail($data));
+
+      // foreach (['taylor@example.com', 'dries@example.com'] as $recipient) {
+      //   Mail::to($recipient)->send(new ApplyMail($data));
+      // }
+      
     }
 }

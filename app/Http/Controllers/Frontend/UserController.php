@@ -62,6 +62,7 @@ class UserController extends Controller
             'current_address' => ['required'],
             'receive_info' => '',
             'privacy_confirm' => ['required'],
+            'delivery_fullname' => ['required', 'string', 'max:255'],
             'delivery_address' => ['required'],
             'delivery_province' => ['required'],
             'delivery_district' => ['required'],
@@ -97,6 +98,7 @@ class UserController extends Controller
 
         $user_address_delivery = [
             'default' => 1,
+            'fullname' => $data['delivery_fullname'],
             'address' => $data['delivery_address'],
             'province_id' => $data['delivery_province'],
             'district_id' => $data['delivery_district'],
@@ -123,7 +125,20 @@ class UserController extends Controller
         ];
         // $this->send_email($email_data);
 
-        $message = __('messages.create_success');
+        // $message = __('messages.create_success');
+        $message = __('messages.verify_resend_success');
+        $request->session()->flash('message', $message);
+        $request->session()->flash('alert-class', 'alert-success');
+
+        return redirect(route('frontend.auth.login.form', ['locale' => get_lang()]));
+    }
+
+    public function verify_resend(Request $request)
+    {
+        $user = User::find(4);
+        $user->sendEmailVerificationNotification();
+
+        $message = __('messages.verify_resend_success');
         $request->session()->flash('message', $message);
         $request->session()->flash('alert-class', 'alert-success');
 
@@ -201,6 +216,7 @@ class UserController extends Controller
                 'sub_district' => ['required'],
                 'postcode' => ['required'],
                 'receive_info' => '',
+                'delivery_fullname' => ['required', 'string', 'max:255'],
                 'delivery_address' => ['required'],
                 'delivery_province' => ['required'],
                 'delivery_district' => ['required'],
@@ -230,6 +246,7 @@ class UserController extends Controller
 
             $user_address_delivery = [
                 'default' => 1,
+                'fullname' => $data['delivery_fullname'],
                 'address' => $data['delivery_address'],
                 'province_id' => $data['delivery_province'],
                 'district_id' => $data['delivery_district'],

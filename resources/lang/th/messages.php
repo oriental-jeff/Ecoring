@@ -76,7 +76,7 @@ return [
     'register' => 'สมัครสมาชิก',
     'register_noti1' => 'หากท่านยังไม่ได้เป็นสมาชิก กรุณาสมัครสมาชิก',
     'register_noti2' => 'ก่อนทำการซื้อสินค้า',
-    'username_placeholder' => 'กรอกชื่อบัญชี',
+    'username_placeholder' => '@abc.com',
     'password_placeholder' => 'กรอกรหัสผ่าน',
     'password_noti' => 'กรุณาใส่ 8 ตัวอักษรขึ้นไป',
     'confirm_password_noti' => 'กรุณากรอกรหัสผ่านให้ตรงกัน',
@@ -115,6 +115,7 @@ return [
     'duplicate_password' => 'ห้ามใช้รหัสผ่านใหม่ซ้ำรหัสผ่านเดิม',
     'old_password_not_matched' => 'รหัสผ่านเก่าไม่ถูกต้อง',
     'send_forgot_email_success' => 'ส่งอีเมลร้องขอลืมรหัสผ่านเรียบร้อย',
+    'verify_resend_success' => 'ส่งอีเมลสำหรับยืนยันตัวตนเรียบร้อย',
 
     'add_basket_success' => 'เพิ่มสินค้าลงตะกร้าแล้ว',
     'out_of_stock' => 'สินค้าหมด',
