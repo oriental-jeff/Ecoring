@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             StatusConfigSeeder::class,
             GradeSeeder::class,
             TagSeeder::class,
+            PolicySeeder::class,
         ]);
         $this->command->info('Main table seeded!');
 

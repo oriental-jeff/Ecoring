@@ -69,6 +69,8 @@ Route::name('backend.')
 
         Route::resource('/webinfo', 'WebInfoController');
 
+        Route::resource('/policy', 'PolicyController');
+
         Route::resource('/about', 'AboutUsController');
 
         Route::name('websocial.')
