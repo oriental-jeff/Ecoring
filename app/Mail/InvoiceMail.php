@@ -30,7 +30,7 @@ class InvoiceMail extends Mailable
   {
     return $this->from('admin@ecoringthailand.com')
     ->subject('Thank you for order product from Ecoring Thailand Shop.')
-    ->markdown('frontend.email.invoice-email')
+    ->markdown('emails.invoice-email')
     ->with([
       'data' =>  $this->data,
     ]);

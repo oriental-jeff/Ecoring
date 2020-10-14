@@ -204,7 +204,7 @@ return [
 
     'markdown' => [
 
-        'theme' => 'default',
+        'theme' => 'custom',
 
 
 

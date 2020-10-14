@@ -50,6 +50,7 @@ Route::name('frontend.')
         Route::post('/pay/success', 'PayController@store')->name('pay-success')->middleware('front_user.active');
         Route::get('/payment', 'PaymentController@index')->name('payment')->middleware('front_user.active');
         Route::post('/payment/success', 'PaymentController@store')->name('payment-success')->middleware('front_user.active');
+        Route::get('/payment/invoice', 'PaymentController@send_email')->name('payment-invoice');
 
         Route::get('/register', 'UserController@create')->name('register');
         Route::get('/verify-resend', 'UserController@verify_resend')->name('verify-resend');
@@ -131,6 +132,12 @@ Route::name('frontend.')
             // Artisan::call('make:seeder CategorySeeder');
             // Artisan::call('make:seeder WarehouseSeeder');
             return 'Create Seeder Success';
+        });
+
+        Route::get('/createMail', function () {
+            Artisan::call('vendor:publish --tag=laravel-mail');
+            // Artisan::call('make:migration create_user_address_deliveries_table');
+            return 'Create Mail Template Success';
         });
     });
 
