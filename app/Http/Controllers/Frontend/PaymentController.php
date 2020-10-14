@@ -11,6 +11,7 @@ use App\Model\PaymentNotifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMail;
+use PDF;
 
 class PaymentController extends Controller
 {
@@ -93,16 +94,40 @@ class PaymentController extends Controller
 
     public function send_email($data)
     {
-      $to_email = $data['email'];
-      // $to_email = 'dragoon.jr@gmail.com';
-      $to_name = $data['name'];
-      $send_to = [['email' => $to_email, 'name' => $to_name]];
+      // $to_email = $data['email'];
+      // $to_name = $data['name'];
+      $data = [];
+      $data['to_email'] = 'dragoon.jr@gmail.com';
+      $data['to_name'] = 'Test';
+      $send_to = [['email' => $data['to_email'], 'name' => $data['to_name']]];
       $data['from_name'] = 'Ecoring Thailand Shop';
       $data['subject'] = 'Thank you for order product from Ecoring Thailand Shop';
       $data['footer'] = 'Ecoring thailand shop team';
 
-      Mail::to($send_to)
-      ->send(new InvoiceMail($data));
+      $pdf = PDF::loadView('emails.invoice-email', $data);
+      try {
+        Mail::send('emails.invoice-email', $data, function($message)use($data, $pdf) {
+          $message->to($data['to_email'], $data['to_name'])
+          ->subject('Thank you for order product from Ecoring Thailand Shop.')
+          ->attachData($pdf->output(), "invoice.pdf");
+        });
+      } catch(JWTException $exception) {
+        $this->serverstatuscode = "0";
+        $this->serverstatusdes = $exception->getMessage();
+      }
+
+      if (Mail::failures()) {
+        $this->statusdesc  =   "Error sending mail";
+        $this->statuscode  =   "0";
+
+      } else {
+        $this->statusdesc  =   "Message sent Succesfully";
+        $this->statuscode  =   "1";
+      }
+      return response()->json(compact('this'));
+
+      // Mail::to($send_to)
+      // ->send(new InvoiceMail($data));
 
       // foreach (['taylor@example.com', 'dries@example.com'] as $recipient) {
       //   Mail::to($recipient)->send(new ApplyMail($data));

@@ -88,6 +88,7 @@ return [
     'receive_no' => 'ไม่ต้องการ',
     'privacy_confirm' => 'ฉันได้อ่านและยอมรับ เงื่อนไข-ข้อตกลง',
     'bind_account_with' => 'ผูกบัญชีนี้กับ',
+    'unbind_account_with' => 'เลิกผูกบัญชีกับ',
 
     'data_account' => 'ข้อมูลบัญชี',
     'data_profile' => 'ข้อมูลโปรไฟล์',

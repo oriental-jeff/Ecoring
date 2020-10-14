@@ -24,13 +24,11 @@ Route::name('frontend.auth.')
     ->namespace('Frontend\Auth')
     ->prefix('{locale}')
     ->where(['locale' => '[a-zA-Z]{2}'])
-    ->middleware(['setlocale', 'front_user.active'])
+    ->middleware(['setlocale'])
     ->group(function () {
-        Route::get('/login', 'LoginController@showLoginForm')->name('login.form');
-        Route::post('/login', 'LoginController@login')->name('login');
-        Route::post('/logout', 'LoginController@logout')->name('logout');
-        Route::get('/login/{provider}', 'LoginController@redirectToProvider');
-        Route::get('/login/{provier}/callback', 'LoginController@handleProviderCallback');
+        Route::get('/login', 'LoginController@showLoginForm')->name('login.form')->middleware('front_user.active');
+        Route::post('/login', 'LoginController@login')->name('login')->middleware('front_user.active');
+        Route::post('/logout', 'LoginController@logout')->name('logout')->middleware('front_user.active');
     });
 
 Route::name('frontend.')
@@ -39,6 +37,9 @@ Route::name('frontend.')
     ->where(['locale' => '[a-zA-Z]{2}'])
     ->middleware('setlocale')
     ->group(function () {
+        Route::get('/auth/{provider}', 'SocialAccountController@redirectToProvider')->name('auth.provider');
+        Route::get('/deauth/{provider}', 'SocialAccountController@deauthorizeProvider')->name('deauth.provider');
+        Route::get('/auth/{provier}/callback', 'SocialAccountController@handleProviderCallback')->name('auth.provider.callback');
 
         Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/product', 'ProductController@index')->name('product');
@@ -50,6 +51,7 @@ Route::name('frontend.')
         Route::post('/pay/success', 'PayController@store')->name('pay-success')->middleware('front_user.active');
         Route::get('/payment', 'PaymentController@index')->name('payment')->middleware('front_user.active');
         Route::post('/payment/success', 'PaymentController@store')->name('payment-success')->middleware('front_user.active');
+        Route::get('/payment/invoice', 'PaymentController@send_email')->name('payment-invoice');
 
         Route::get('/register', 'UserController@create')->name('register');
         Route::get('/verify-resend', 'UserController@verify_resend')->name('verify-resend');
@@ -131,6 +133,12 @@ Route::name('frontend.')
             // Artisan::call('make:seeder CategorySeeder');
             // Artisan::call('make:seeder WarehouseSeeder');
             return 'Create Seeder Success';
+        });
+
+        Route::get('/createMail', function () {
+            Artisan::call('vendor:publish --tag=laravel-mail');
+            // Artisan::call('make:migration create_user_address_deliveries_table');
+            return 'Create Mail Template Success';
         });
     });
 

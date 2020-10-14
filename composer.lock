@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ccdbb383b1c4e1b067e4cbf944cc036",
+    "content-hash": "b9076088ef20de6d4c5f90ed6bcbd962",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4028,6 +4028,106 @@
                 }
             ],
             "time": "2020-08-18T17:17:46+00:00"
+        },
+        {
+            "name": "socialiteproviders/line",
+            "version": "v2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Line.git",
+                "reference": "c32d86d3293adf42590aa9c7c53051deadcbba12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Line/zipball/c32d86d3293adf42590aa9c7c53051deadcbba12",
+                "reference": "c32d86d3293adf42590aa9c7c53051deadcbba12",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "socialiteproviders/manager": "~2.0 || ~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Line\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sorrawut Kittikeereechaikun",
+                    "email": "mix5003@gmail.com"
+                }
+            ],
+            "description": "Line Provider for Laravel Socialite",
+            "time": "2018-09-03T10:32:12+00:00"
+        },
+        {
+            "name": "socialiteproviders/manager",
+            "version": "v3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Manager.git",
+                "reference": "fc8dbcf0061f12bfe0cc347e9655af932860ad36"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Manager/zipball/fc8dbcf0061f12bfe0cc347e9655af932860ad36",
+                "reference": "fc8dbcf0061f12bfe0cc347e9655af932860ad36",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "laravel/socialite": "~4.0|~5.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.2",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SocialiteProviders\\Manager\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Manager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andy Wendt",
+                    "email": "andy@awendt.com"
+                },
+                {
+                    "name": "Anton Komarev",
+                    "email": "a.komarev@cybercog.su"
+                },
+                {
+                    "name": "Miguel Piedrafita",
+                    "email": "soy@miguelpiedrafita.com"
+                },
+                {
+                    "name": "atymic",
+                    "email": "atymicq@gmail.com",
+                    "homepage": "https://atymic.dev"
+                }
+            ],
+            "description": "Easily add new or override built-in providers in Laravel Socialite.",
+            "homepage": "https://socialiteproviders.com/",
+            "time": "2020-09-08T10:41:06+00:00"
         },
         {
             "name": "spatie/image",

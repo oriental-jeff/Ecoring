@@ -23,6 +23,7 @@ if (! function_exists('get_main')) {
       'order_not_pay' => App\Model\Orders::where('users_id', Auth::id())->onlyNotPay()->orderBy('id', 'asc')->get(),
       'bank_transfer' => App\Model\BankAccounts::onlyActive()->get(),
       'logistics' => App\Model\Logistics::onlyActive()->get(),
+      'policy' => App\Model\Policy::get(),
     ];
 
     return $main;

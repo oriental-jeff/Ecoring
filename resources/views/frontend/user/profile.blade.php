@@ -105,12 +105,40 @@
                             <hr>
                             <div class="pt-2 pb-3 m-auto row" style="max-width: 600px;">
                                 <div class="col-sm-6 p-1">
-                                    <a href="#" class="btn-face"><img src="{{ asset('images/btn-face.jpg') }}">
-                                        {{ __('messages.bind_account_with') }} Facebook</a>
+                                    @php
+                                    $fb = $user->social_account->first(function($item) {
+                                    return $item->provider == 'facebook';
+                                    });
+                                    @endphp
+                                    @if ($user->social_account && $fb)
+                                    <a href="{{ route('frontend.deauth.provider', ['locale' => get_lang(), 'provider' => 'facebook']) }}"
+                                        class="btn-face"><img src="{{ asset('images/btn-face.jpg') }}">
+                                        {{ __('messages.unbind_account_with') }}
+                                        Facebook</a>
+                                    @else
+                                    <a href="{{ route('frontend.auth.provider', ['locale' => get_lang(), 'provider' => 'facebook']) }}"
+                                        class="btn-face"><img src="{{ asset('images/btn-face.jpg') }}">
+                                        {{ __('messages.bind_account_with') }}
+                                        Facebook</a>
+                                    @endif
                                 </div>
                                 <div class="col-sm-6 p-1">
-                                    <a href="#" class="btn-line"><img src="{{ asset('images/btn-line.jpg') }}">
-                                        {{ __('messages.bind_account_with') }} Line</a>
+                                    @php
+                                    $ln = $user->social_account->first(function($item) {
+                                    return $item->provider == 'line';
+                                    });
+                                    @endphp
+                                    @if ($user->social_account && $ln)
+                                    <a href="{{ route('frontend.deauth.provider', ['locale' => get_lang(), 'provider' => 'line']) }}"
+                                        class="btn-line"><img src="{{ asset('images/btn-line.jpg') }}">
+                                        {{ __('messages.unbind_account_with') }}
+                                        Line</a>
+                                    @else
+                                    <a href="{{ route('frontend.auth.provider', ['locale' => get_lang(), 'provider' => 'line']) }}"
+                                        class="btn-line"><img src="{{ asset('images/btn-line.jpg') }}">
+                                        {{ __('messages.bind_account_with') }}
+                                        Line</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
