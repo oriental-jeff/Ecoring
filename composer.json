@@ -20,6 +20,8 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "orangehill/iseed": "^2.6",
+        "socialiteproviders/line": "^2.1",
+        "socialiteproviders/manager": "^3.6",
         "spatie/laravel-activitylog": "^3.14",
         "spatie/laravel-medialibrary": "^7.0.0",
         "spatie/laravel-permission": "^3.12",
@@ -57,7 +59,7 @@
             "app/Helpers/String.php",
             "app/Helpers/File.php",
             "app/Helpers/Utility.php"
-        ]	
+        ]
     },
     "autoload-dev": {
         "psr-4": {

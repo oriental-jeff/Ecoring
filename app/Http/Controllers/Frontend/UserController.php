@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Facades\App\Repository\Pages;
 use App\User;
+use App\SocialAccount;
 use App\Model\UserProfile;
 use App\Model\UserAddressDelivery;
 use App\Model\UserVerify;
@@ -69,6 +70,8 @@ class UserController extends Controller
             'delivery_sub_district' => ['required'],
             'delivery_postcode' => ['required'],
             'delivery_telephone' => ['required'],
+            'provider' => '',
+            'provider_user_id' => '',
         ]);
 
         $user_data = [
@@ -109,13 +112,23 @@ class UserController extends Controller
 
         $user = User::create($user_data);
 
+        /** Create Social Account */
+        if ($data['provider_user_id']) {
+            $account = new SocialAccount([
+                'user_id' => $user->id,
+                'provider' => $data['provider'],
+                'provider_user_id' => $data['provider_user_id'],
+            ]);
+            $account->save();
+        }
+
         $user_profile['user_id'] = $user->id;
         UserProfile::create($user_profile);
 
         $user_address_delivery['user_id'] = $user->id;
         UserAddressDelivery::create($user_address_delivery);
 
-        $user->sendEmailVerificationNotification();
+        // $user->sendEmailVerificationNotification();
 
         $verify_code = '';
         $email_data = [

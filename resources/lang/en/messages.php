@@ -88,6 +88,7 @@ return [
     'receive_no' => 'No',
     'privacy_confirm' => 'I have read and agree conditions - agreement',
     'bind_account_with' => 'Bind account with',
+    'unbind_account_with' => 'Unbind account with',
 
     'data_account' => 'Account',
     'data_profile' => 'Profile',

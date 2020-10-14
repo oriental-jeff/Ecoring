@@ -48,6 +48,10 @@ class User extends Authenticatable implements MustVerifyEmail
     return $this->belongsTo('App\User', 'updated_by');
   }
 
+  public function social_account() {
+    return $this->hasMany('App\SocialAccount', 'user_id', 'id');
+  }
+
   public function profiles() {
     return $this->hasOne('App\Model\UserProfile', 'user_id', 'id');
   }
@@ -73,7 +77,7 @@ class User extends Authenticatable implements MustVerifyEmail
   }
 
   /*public function getActiveAttribute($attributes) {
-      return  [ 
+      return  [
                  1 => 'Active' ,
                  0 =>'Inactive'
               ][$attributes];
