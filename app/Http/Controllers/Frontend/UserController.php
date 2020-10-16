@@ -128,7 +128,7 @@ class UserController extends Controller
         $user_address_delivery['user_id'] = $user->id;
         UserAddressDelivery::create($user_address_delivery);
 
-        // $user->sendEmailVerificationNotification();
+        $user->sendEmailVerificationNotification();
 
         $verify_code = '';
         $email_data = [

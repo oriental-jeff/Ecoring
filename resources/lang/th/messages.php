@@ -74,7 +74,6 @@ return [
     'postcode' => 'รหัสไปรษณีย์',
     'remember_me' => 'จดจำฉันไว้ในระบบ',
     'forget_password' => 'ลืมรหัสผ่าน',
-    'login' => 'เข้าสู่ระบบ',
     'register' => 'สมัครสมาชิก',
     'register_noti1' => 'หากท่านยังไม่ได้เป็นสมาชิก กรุณาสมัครสมาชิก',
     'register_noti2' => 'ก่อนทำการซื้อสินค้า',
@@ -112,6 +111,9 @@ return [
     'sort_by_price_low' => 'ราคาน้อย > มาก',
     'sort_by_price_high' => 'ราคามาก > น้อย',
 
+    /*
+    Notification
+    */
     'create_success' => 'บันทึกข้อมูลเรียบร้อย',
     'update_success' => 'แก้ไขข้อมูลเรียบร้อย',
     'update_password_success' => 'แก้ไขรหัสผ่านเรียบร้อย',
@@ -124,6 +126,8 @@ return [
     'out_of_stock' => 'สินค้าหมด',
     'not_enought_product' => 'สินค้ามีไม่เพียงพอ',
     'email_not_verified' => 'คุณยังไม่ได้ทำการยืนยันอีเมล',
+
+    'noti_not_login' => 'กรุณา Login เข้าสู่ระบบ',
 
     /**
      * Payment

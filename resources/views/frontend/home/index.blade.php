@@ -10,22 +10,34 @@
 	<div id="content" class="content">
     <section class="box-banner">
       <div class="owl-carousel">
-        <div class="item" style="background-color: #e2ddb7;">
-          <div class="img-banner banner-portrait" style="background-image: url('../images/banner-m.jpg')"></div>
-          <div class="img-banner" style="background-image: url('../images/banner.jpg');"></div>
-        </div>
-        <div class="item" style="background-color: #e2ddb7;">
-          <div class="img-banner banner-portrait" style="background-image: url('../images/banner-m.jpg')"></div>
-          <div class="img-banner" style="background-image: url('../images/banner.jpg');"></div>
-        </div>
-        <div class="item" style="background-color: #e2ddb7;">
-          <div class="img-banner banner-portrait" style="background-image: url('../images/banner-m.jpg')"></div>
-          <div class="img-banner" style="background-image: url('../images/banner.jpg');"></div>
-        </div>
-        <div class="item" style="background-color: #e2ddb7;">
-          <div class="img-banner banner-portrait" style="background-image: url('../images/banner-m.jpg')"></div>
-          <div class="img-banner" style="background-image: url('../images/banner.jpg');"></div>
-        </div>
+        @foreach($banners as $banner)
+          @if($banner->position == 1)
+            @foreach($banner->banners_detail as $banner_detail)
+              @switch($banner_detail->type)
+                @case('image')
+                  <a href="{{ $banner_detail->url ?? '#' }}" target="_blank">
+                    <div class="item" style="background-color: #e2ddb7;">
+                      <div class="img-banner banner-portrait" style="background-image: url('{{ $banner_detail->slide_banner_mobile }}')"></div>
+                      <div class="img-banner" style="background-image: url('{{ $banner_detail->slide_banner_pc }}')"></div>
+                    </div>
+                  </a>
+                @break
+                @case('video')
+                  <div class="item" style="background-color: #e2ddb7;">
+                    <video src="{{ $banner_detail->banner_video }}" muted autoplay loop></video>
+                    <div class="this-none"></div>
+                  </div>
+                @break
+                @case('youtube')
+                  <div class="item" style="background-color: #e2ddb7;">
+                    <iframe src="https://www.youtube.com/embed/{{$banner_detail->url}}?mute=1&autoplay=1&loop=1&playlist={{$banner_detail->url}}" frameborder="0"></iframe>
+                    <a href="https://www.youtube.com/embed/{{$banner_detail->url}}?autoplay=1&loop=1&playlist={{$banner_detail->url}}" target="_blank"><div class="this-none"></div></a>
+                  </div>
+                @break
+              @endswitch
+            @endforeach
+          @endif
+        @endforeach
       </div>
     </section>
 
@@ -68,18 +80,32 @@
           
     <section class="box-slide">
       <div class="owl-carousel">
-        <div class="item">
-          <div class="img-banner banner-portrait" style="background-image: url('../images/banner2-m.jpg')"></div>
-          <div class="img-banner" style="background-image: url('../images/banner2.jpg');"></div>
-        </div>
-        <div class="item">
-          <div class="img-banner banner-portrait" style="background-image: url('../images/banner2-m.jpg')"></div>
-          <div class="img-banner" style="background-image: url('../images/banner2.jpg');"></div>
-        </div>
-        <div class="item">
-          <div class="img-banner banner-portrait" style="background-image: url('../images/banner2-m.jpg')"></div>
-          <div class="img-banner" style="background-image: url('../images/banner2.jpg');"></div>
-        </div>
+        @foreach($banners as $banner)
+          @if($banner->position == 2)
+            @foreach($banner->banners_detail as $banner_detail)
+              @switch($banner_detail->type)
+                @case('image')
+                  <div class="item">
+                    <div class="img-banner banner-portrait" style="background-image: url('{{ $banner_detail->slide_banner_mobile }}')"></div>
+                    <div class="img-banner" style="background-image: url('{{ $banner_detail->slide_banner_pc }}')"></div>
+                  </div>
+                @break
+                @case('video')
+                  <div class="item">
+                    <video src="{{ $banner_detail->banner_video }}" muted autoplay loop></video>
+                    <div class="this-none"></div>
+                  </div>
+                @break
+                @case('youtube')
+                  <div class="item">
+                    <iframe src="https://www.youtube.com/embed/{{$banner_detail->url}}?mute=1&autoplay=1&loop=1&playlist={{$banner_detail->url}}" frameborder="0"></iframe>
+                    <a href="https://www.youtube.com/embed/{{$banner_detail->url}}?autoplay=1&loop=1&playlist={{$banner_detail->url}}" target="_blank"><div class="this-none"></div></a>
+                  </div>
+                @break
+              @endswitch
+            @endforeach
+          @endif
+        @endforeach
       </div>
     </section>
           

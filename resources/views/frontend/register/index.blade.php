@@ -77,7 +77,7 @@
                             <div class="col-lg-5 col-md-6 mb-3">
                                 <label for="last_name">{{ __('messages.surname') }} <span
                                         class="text-danger">*</span></label>
-                                <input type="tel" class="form-control" id="last_name" name="last_name" required="">
+                                <input type="text" class="form-control" id="last_name" name="last_name" required="">
                             </div>
                         </div>
                         <div class="form-row">

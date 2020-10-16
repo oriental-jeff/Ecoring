@@ -178,13 +178,13 @@ $end_time = $time->addDays(1);
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">กรุณา Login</h5>
+                <h5 class="modal-title" id="loginModalLabel">Notification</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                {{ __('messages.noti_not_login') }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -236,3 +236,12 @@ $end_time = $time->addDays(1);
         </div>
     </div>
 </div>
+
+<a href="https://line.me/ti/p/~idline" target="_blank" id="btn-chat-line"></a>
+
+<!-- Your customer chat facebook code -->
+<div class="fb-customerchat" attribution=setup_tool page_id="678747588854354" theme_color="#00b06b"
+	logged_in_greeting="ecoring สวัสดีครับ ^_^ มีอะไรให้ช่วยเหลือ สอบถามได้เลยนะครับ"
+	logged_out_greeting="ecoring สวัสดีครับ ^_^ มีอะไรให้ช่วยเหลือ สอบถามได้เลยนะครับ">
+</div>
+<div id="fb-root"></div>

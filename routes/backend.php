@@ -153,6 +153,9 @@ Route::name('backend.')
             });
         Route::resource('/promotion_details', 'PromotionDetailsController');
 
+        // Get Product promotion condition
+        Route::get('/product/promotion', 'PromotionDetailsController@promotion');
+
         Route::name('stocks.')
             ->prefix('/stocks')
             ->group(function () {

@@ -7,10 +7,12 @@ use App\Model\Promotions;
 use App\Model\Page;
 use App\Model\PromotionDetails;
 use App\Model\Products;
+use App\Model\Tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 
 class PromotionDetailsController extends Controller
 {
@@ -52,9 +54,10 @@ class PromotionDetailsController extends Controller
         $promotions = Promotions::onlyActive()->get();
         $promotion_details = new PromotionDetails;
         $products = Products::onlyActive()->get();
+        $tags = Tags::all();
         $pages = Page::get();
 
-        return view('backend.promotion_details.create', compact(['promotions', 'promotion_details', 'pages', 'products']));
+        return view('backend.promotion_details.create', compact(['promotions', 'promotion_details', 'pages', 'products', 'tags']));
     }
 
     public function store(Request $request)
@@ -118,5 +121,34 @@ class PromotionDetailsController extends Controller
         $this->authorize(mapPermission(self::MODULE));
         $promotion_details->delete();
         return redirect(route('backend.promotion_details.index'));
+    }
+
+    /**
+     * Get Product Promotion
+     */
+    public function promotion(Request $request)
+    {
+        $products = Products::selectRaw('id, created_at, name_th, sku, categories_id');
+        // $products = Products::select(['id','created_at','name_th','sku','categories_id']);
+        return datatables()->of($products)
+        ->addColumn('image', function ($q) {
+            $image= asset($q->image);
+            return '<img src="'.$image.'" class="img-table">';
+        })
+        ->addColumn('categorie', function ($q) {
+            return $q->categories_name->name_th;
+        })
+        ->addColumn('tags', function ($q) {
+            $t = $q->producttags;
+            $s = '';
+            foreach ($t as $k => $v) {
+                $s .= $v->tags->name_th.",";
+            }
+            return $s;
+        })
+        ->editColumn('created_at', function ($q){
+            return date('d/m/Y H:i:s', strtotime($q->created_at) );
+        })
+        ->rawColumns(['image'])->make(true);
     }
 }

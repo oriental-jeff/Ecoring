@@ -74,7 +74,6 @@ return [
     'postcode' => 'Postcode',
     'remember_me' => 'Remember Me',
     'forget_password' => 'Forget Password',
-    'login' => 'Login',
     'register' => 'Register',
     'register_noti1' => 'If you are not a member,please register',
     'register_noti2' => 'before making a purchase',
@@ -112,6 +111,9 @@ return [
     'sort_by_price_low' => 'From High to Low Price',
     'sort_by_price_high' => 'From Low to High Price',
 
+    /*
+    Notification
+    */
     'create_success' => 'Information has been saved',
     'update_success' => 'Information has been updated successfully',
     'update_password_success' => 'Password has been updated successfully',
@@ -124,6 +126,8 @@ return [
     'out_of_stock' => 'Out of stocks',
     'not_enought_product' => 'Not enought product',
     'email_not_verified' => 'Your email address is not verified',
+
+    'noti_not_login' => 'Please login',
 
     /**
      * Payment
