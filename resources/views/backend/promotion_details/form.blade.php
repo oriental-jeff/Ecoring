@@ -4,19 +4,20 @@
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
                 <h5>เลือกโปรโมชั่น <span class="text-danger"> * </span>:</h5>
                 <select id="promotions_id" name="promotions_id" class="form-control"
-                    {{ (request()->route()->getActionMethod() == 'create') ? 'required' : 'disabled' }}>
-                    @foreach ($promotions as $promotion)
+                  {{ (request()->route()->getActionMethod() == 'create') ? 'required' : 'disabled' }}>
+                  <option value="">กรุณาระบุ</option>
+                  @foreach ($promotions as $promotion)
                     @if (request()->route()->getActionMethod() == 'create')
-                    <option value="{{ $promotion->id }}"
+                      <option value="{{ $promotion->id }}"
                         start_end_at="{{ date_format(date_create($promotion->start_at), 'd/m/Y') . ' - ' . date_format(date_create($promotion->end_at), 'd/m/Y') }}">
                         {{ $promotion->name_th }}</option>
                     @else
-                    <option value="{{ $promotion->id }}"
+                      <option value="{{ $promotion->id }}"
                         start_end_at="{{ date_format(date_create($promotion->start_at), 'd/m/Y') . ' - ' . date_format(date_create($promotion->end_at), 'd/m/Y') }}"
                         {{ $promotion_detail->promotion_id === $promotion->id ? 'selected' : '' }}>
                         {{ $promotion->name_th }}</option>
                     @endif
-                    @endforeach
+                  @endforeach
                 </select>
                 {{ $errors->first('name_th') }}
             </div>
@@ -24,7 +25,9 @@
                 <label class="col-form-label">เงื่อนไข :</label>
                 <div class="alert alert-primary" role="alert" style="position: relative; top: 25px; height: 35px;">
                     <div id="date_cond" style="height: 25px; margin-top: 6px;">
+                      @if (!empty($promotions[0]))
                         {{ date_format(date_create($promotions[0]->start_at), 'd/m/Y') . ' - ' . date_format(date_create($promotions[0]->end_at), 'd/m/Y') }}
+                      @endif
                     </div>
                 </div>
             </div>

@@ -16,6 +16,22 @@ body {
 .g-recaptcha > div {
     margin: auto;
 }
+#fb-root iframe {
+    bottom: 69px !important;
+    right: 0px !important;
+}
+a#btn-chat-line {
+	position: fixed;
+	background: url(../../images/icon-line.png) no-repeat center;
+    background-size: cover;
+    right: 12px;
+    bottom: 140px;
+    height: 60px;
+    width: 60px;
+    border-radius: 29px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px 0px;
+    z-index: 99;
+}
 #boxOfProduct,
 #boxOfProductmobile {
     height: 19px !important;
@@ -50,11 +66,16 @@ body a:hover {
 input[type=checkbox] ,
 input[type=radio] {
 	width: 15px;
-    height: 20px;
+    height: 15px;
     vertical-align: sub;
-    margin-top: 2px;
     margin-right: 7px;
     filter: hue-rotate(250deg);
+}
+.form-check-inline .form-check-input {
+    position: static;
+    margin-top: 0;
+    margin-right: .3125rem;
+    margin-left: .3125rem;
 }
 .form-control {
     min-height: 38px;
@@ -1170,8 +1191,8 @@ footer {
 		border-radius: 50%;
 		border: 4px solid #3fc892;
 		position: fixed;
-		bottom: 50px;
-		right: 40px;
+		bottom: 7px;
+	    right: 17px;
 		cursor: pointer;
 		box-shadow: 0 0 0px 5px rgba(255, 255, 255, 0.75);
 		z-index: 100;
@@ -1266,7 +1287,7 @@ footer {
 		    padding-top: 57px;
 		}
 		footer {
-		    padding-bottom: 57px;
+/* 		    padding-bottom: 57px; */
 		}
 		a .img::after {
 		    font-size: 12px;
@@ -1501,6 +1522,11 @@ footer {
 	    .box-paper .b-list {
 		    border: 0px !important;
 	        margin-bottom: 30px;
+		}
+		#privacy_confirm {
+		    margin-left: -10px;
+		    margin-right: 10px;
+		    width: 33px;
 		}
         /* แนวตั้ง */
         @media only screen and (orientation:portrait){

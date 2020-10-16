@@ -20,13 +20,13 @@ class BannerController extends Controller
     $this->authorize(mapPermission(self::MODULE));
     if ($request->filled('keyword')) :
       if(Auth::user()->hasRole(['admin'])):
-        $banners = Banner::getDataByKeyword($request->keyword)->adminOnly()->get();
+        $banners = Banner::getDataByKeyword($request->keyword)->get();
       else:
         $banners = Banner::getDataByKeyword($request->keyword)->get();
       endif;
     else:
       if(Auth::user()->hasRole(['admin'])):
-        $banners = Banner::adminOnly()->get();
+        $banners = Banner::get();
       else:
         $banners = Banner::all();
       endif;

@@ -51,6 +51,27 @@
 	}
 </script>
 
+<!-- Your customer chat facebook code -->
+<script>
+    // START : MESSENGER FACEBOOK SCRIPT
+    window.fbAsyncInit = function () {
+        FB.init({
+            xfbml: true,
+            version: 'v3.2'
+        });
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/th_TH/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    // END : MESSENGER FACEBOOK SCRIPT
+</script>
+
 <script>
 </script>
 

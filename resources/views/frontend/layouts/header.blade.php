@@ -1,6 +1,6 @@
 <div class="navbar-top d-none d-xl-block">
   <div class="container">
-    <span>โทร : 02-118-6096 | 日本語 : 063-203-9807 (9:30-18:30)</span>
+    <span>{{ __('messages.telephone') }} : {{ $main['web_info']->company_tel }}</span>
     <div class="box-social">
       @foreach($main['web_socials'] as $web_social)
         @if(!empty($web_social->url))
