@@ -139,12 +139,13 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (data) {
-                if (data.condition == 1) {
+                if (data.condition == "1") {
                     $('.cart_item').html(data.cart_item);
                     effectCart(This);
                 } else {
                     $('#notiMsg').html(data.msg);
                     $('#notiModal').modal('show');
+                    if (data.condition == "0") This.attr('disabled', true);
                 }
             },
             error: function (data) {
@@ -392,6 +393,9 @@ function sliderTRemaining() {
             if (distance < 0) {
                 clearInterval(x);
                 document.getElementById("TRemaining").innerHTML = "EXPIRED";
+                $.ajax({url: base_url + '/en/reset_product_on_cart',data: {_token: '{{ csrf_token() }}'}});
+                console.log($('#button-hourglass').hasClass('active'));
+                if (!$('#button-hourglass').hasClass('active')) $('#button-hourglass').addClass('active');
             }
         }, 1000);
     }
@@ -401,6 +405,7 @@ function sliderTRemaining_old() {
     // this code set time to 24 hrs
     // var timer2 = "05:35:06";
     var timer2 = $('#TRemaining').attr('data-time');
+    console.log(timer2, ':timer2');
     var timer3 = localStorage.getItem('TRemaining');
 
     if (timer3) {

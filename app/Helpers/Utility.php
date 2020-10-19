@@ -20,7 +20,7 @@ if (! function_exists('get_main')) {
       'web_socials' => App\Model\WebSocial::onlyActive()->get(),
       'categories' => App\Model\Categories::get(),
       'count_cart_products' => App\Model\Cart::where('users_id', Auth::id())->whereNull('orders_id')->count(),
-      'order_not_pay' => App\Model\Orders::where('users_id', Auth::id())->onlyNotPay()->orderBy('id', 'asc')->get(),
+    //   'order_not_pay' => App\Model\Orders::where('users_id', Auth::id())->onlyNotPay()->orderBy('id', 'asc')->get(),
       'bank_transfer' => App\Model\BankAccounts::onlyActive()->get(),
       'logistics' => App\Model\Logistics::onlyActive()->get(),
       'policy' => App\Model\Policy::get(),

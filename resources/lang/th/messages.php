@@ -36,6 +36,7 @@ return [
     'unit' => 'ชิ้น',
     'close' => 'ปิด',
     'you_have_product' => 'คุณมีรายการสินค้า',
+    'wait_for_confirm' => 'รอยืนยันคำสั่งซื้อ',
     'wait_for_payment' => 'รอชำระเงิน',
     'time_left' => 'เหลือเวลาอีก',
 
@@ -169,6 +170,7 @@ return [
     'cart_shipping' => 'ค่าจัดส่ง',
     'cart_vat' => 'ภาษี',
     'cart_total_payment' => 'ยอดรวมทั้งสิ้น',
+    'count_product_on_cart' => 'คน กำลังดูสินค้านี้',
 
     /**
      * Order

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Helpers\GlobalFn;
 use App\Http\Controllers\Controller;
 use Facades\App\Repository\Pages;
 use Illuminate\Http\Request;
@@ -23,12 +24,23 @@ class CartController extends Controller
     public function order(Request $request)
     {
         // Check Cart
-        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id');
+        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->where('active', 1);
         $cartCount = clone $cart;
         if ($cartCount->count() == 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
+
+        // Check lastest time update before update new
+        $cartLastest = Cart::where('active', 1)->withoutOrder()->where('users_id', Auth::id())->first();
+
+        $dNow = isset($cartLastest->updated_at) ? $cartLastest->updated_at : null;
+
+        // Clear all old cart set active to 0
+        GlobalFn::resetProductOnCart();
+
         foreach ($request->cartID as $k => $v) {
             $c = Cart::find($v);
             $c->quantity = $request->quantity[$k];
+            $c->active = 1;
+            $c->updated_at = $dNow ? $dNow : now();
             $c->update();
         }
         // Check Stock

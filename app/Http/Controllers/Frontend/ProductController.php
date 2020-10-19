@@ -42,7 +42,7 @@ class ProductController extends Controller
       $max_price = 15000;
     endif;
     $max_price_selected = $max_price;
-    
+
     $products = Products::onlyActive()->withCount('favorites')->onlyAvailable(config('global.warehouse'));
     if ($request->filled('keyword')):
       $request->active = 1;

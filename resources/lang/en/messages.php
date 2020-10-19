@@ -23,7 +23,7 @@ return [
     'new_product' => 'New Product',
     'recommended_product' => 'Recommended Product',
     'category' => 'Category',
-    'grade' => 'Grade',
+    'grade' => 'Rank',
     'price' => 'Price',
     'product' => 'Product',
     'list' => 'List',
@@ -36,6 +36,7 @@ return [
     'unit' => 'Unit',
     'close' => 'Close',
     'you_have_product' => 'You have products',
+    'wait_for_confirm' => 'Waiting for order confirm',
     'wait_for_payment' => 'Waiting for payment',
     'time_left' => 'Time left',
 
@@ -169,6 +170,7 @@ return [
     'cart_shipping' => 'Shipping',
     'cart_vat' => 'Vat',
     'cart_total_payment' => 'Total Payment',
+    'count_product_on_cart' => 'people viewing this.',
 
     /**
      * Order
