@@ -157,7 +157,7 @@ return [
     'cart_title' => 'Shopping Cart',
     'cart_detail' => 'Description',
     'cart_quantity' => 'Quantity',
-    'cart_unit' => 'Unit',
+    'cart_unit' => 'Unit price',
     'cart_amount' => 'Amount',
     'cart_action' => 'Manage',
     'cart_stock' => 'Stock',
@@ -182,8 +182,8 @@ return [
     'btn_save_changes' => 'Save Changes',
     'btn_continue_shipping' => 'Continue shopping',
     'btn_continue' => 'Continue',
-    'btn_checkout' => 'Checkout',
-    'btn_place_order' => 'Place Order',
+    'btn_checkout' => 'Continue',
+    'btn_place_order' => 'Confirm',
 
     /**
      * Delivery
