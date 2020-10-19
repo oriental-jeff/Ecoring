@@ -49,7 +49,7 @@ Route::name('frontend.')
         Route::post('/cart/order', 'CartController@order')->name('cart-order')->middleware('front_user.active');
         Route::post('/pay', 'PayController@index')->name('pay')->middleware('front_user.active');
         Route::post('/pay/success', 'PayController@store')->name('pay-success')->middleware('front_user.active');
-        Route::get('/payment', 'PaymentController@index')->name('payment'); // ->middleware('front_user.active')
+        Route::get('/payment', 'PaymentController@index')->name('payment')->middleware('front_user.active');
         Route::post('/payment/success', 'PaymentController@store')->name('payment-success')->middleware('front_user.active');
         Route::get('/payment/invoice', 'PaymentController@send_email')->name('payment-invoice');
 

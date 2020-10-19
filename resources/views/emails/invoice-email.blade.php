@@ -1,228 +1,234 @@
-<!doctype html>
-<html>
 
-<head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-    <title>INVOICE 3-2-1</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
-    <style>
-        body {
-            padding: 60px 40px;
-            margin: 0;
-            font-family: 'Kanit', sans-serif;
-            font-weight: 100;
-        }
+{{-- <link href="{{ asset('plugins/bootstrap/4.5.2/css/bootstrap.min.css') }}" rel="stylesheet" /> --}}
 
-        .box-paper {
-            display: block;
-            margin: auto;
-            max-width: 1000px;
-        }
+<style type="text/css">
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 
-        .box-paper img.img-logo {
-            margin: auto;
-            display: block;
-            width: 150px;
-        }
+a {
+  color: #5D6975;
+  text-decoration: underline;
+}
 
-        .box-paper h1.head {
-            border-top: 2px solid #a7a7a7;
-            border-bottom: 2px solid #a7a7a7;
-            text-align: center;
-        }
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  color: #001028;
+  background: #FFFFFF;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-family: Arial;
+}
 
-        .box-paper .box-top {
-            display: inline-block;
-            width: 100%;
-        }
+header {
+  padding: 10px 0;
+  margin-bottom: 30px;
+}
 
-        .box-paper .box-top .box-left {
-            float: left;
-        }
+#logo {
+  text-align: center;
+  margin-bottom: 10px;
+}
 
-        .box-paper .box-top .box-left p {}
+#logo img {
+  width: 90px;
+}
 
-        .box-paper .box-top .box-right {
-            float: right;
-        }
+h1 {
+  border-top: 1px solid  #5D6975;
+  border-bottom: 1px solid  #5D6975;
+  color: #5D6975;
+  font-size: 2.4em;
+  line-height: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 20px 0;
+  background: url(dimension.png);
+}
 
-        .box-paper .box-top .box-right table {}
+#project {
+  float: right;
+}
 
-        .box-paper .box-top .box-right tr {}
+#project span {
+  color: #5D6975;
+  text-align: right;
+  width: 52px;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 0.8em;
+}
 
-        .box-paper .box-top .box-right td {
-            padding: 0px 8px;
-        }
+#company {
+  float: left;
+  text-align: left;
+}
 
-        .box-paper .box-top .box-right td:first-child {
-            color: #868686;
-            text-align: right;
-        }
+#project div,
+#company div {
+  white-space: nowrap;        
+}
 
-        .box-paper .box-top a {
-            color: #868686;
-        }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 20px;
+}
 
-        table.box-list {
-            width: 100%;
-            margin-top: 45px;
-            border-collapse: collapse;
-        }
+table tr:nth-child(2n-1) td {
+  background: #F5F5F5;
+}
 
-        table.box-list thead {}
+table th,
+table td {
+  text-align: center;
+}
 
-        table.box-list thead tr {
-            border-bottom: 2px solid #000;
-        }
+table th {
+  padding: 5px 20px;
+  color: #5D6975;
+  border-bottom: 1px solid #C1CED9;
+  white-space: nowrap;        
+  font-weight: normal;
+}
 
-        table.box-list thead th {
-            padding: 10px 15px;
-            text-align: left;
-            color: #7b7b7b;
-            border: 0;
-            border-bottom: 2px solid #c5d2d4;
-        }
+table .service,
+table .desc {
+  text-align: left;
+}
 
-        table.box-list tbody {}
+table td {
+  padding: 20px;
+  text-align: right;
+}
 
-        table.box-list tbody tr {}
+table td.service,
+table td.desc {
+  vertical-align: top;
+}
 
-        table.box-list tbody td {
-            padding: 20px 15px;
-        }
+table td.unit,
+table td.qty,
+table td.total {
+  font-size: 1.2em;
+}
 
-        table.box-list tbody tr:nth-child(odd) td {
-            background-color: #f5f5f5;
-        }
+table td.grand {
+  border-top: 1px solid #5D6975;;
+}
 
-        table.box-list tbody td:first-child {
-            vertical-align: top;
-        }
+#notices .notice {
+  color: #5D6975;
+  font-size: 1.2em;
+}
 
-        table.box-list tbody .border-top td {
-            border-top: 2px solid #a5a5a5;
-        }
+footer {
+  color: #5D6975;
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #C1CED9;
+  padding: 8px 0;
+  text-align: center;
+}
+</style>
 
-        .align-center {
-            text-align: center !important;
-        }
-
-        .align-right {
-            text-align: right !important;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="box-paper">
-        <img src="http://ecoringcommerce.am2bmarketing.co.th/storage/1/logo.png" alt="logo" class="img-logo">
-        <h1 class="head">INVOICE</h1>
-        <div class="box-top">
-            <div class="box-left">
-                <p>
-                    {{ $web_info->{get_lang('company_name')} }}<br>
-                    {!! nl2br($web_info->{get_lang('company_address')}) !!}<br>
-                    {{ $web_info->company_tel }}<br>
-                    <a href="mailto:{{ $web_info->company_email }}">{{ $web_info->company_email }}</a>
-                </p>
-            </div>
-            <div class="box-right">
-                <table>
-                    <tr>
-                        <td>NUMBER</td>
-                        <td>#{{ $order[0]->code }}</td>
-                    </tr>
-                    <tr>
-                        <td>DATE</td>
-                        <td>{{ mysqlFormatToThaiFormat($order[0]->created_at) }}</td>
-                    </tr>
-                    <tr>
-                        <td>CLIENT</td>
-                        <td>{{ $order[0]->fullname }}</td>
-                    </tr>
-                    <tr>
-                        <td>ADDRESS</td>
-                        <td>{{ $order[0]->address.', '.$order[0]->sub_districts->{get_lang('name')} }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>{{ $order[0]->districts->{get_lang('name')}.', '.$order[0]->provinces->{get_lang('name')}.', '.$order[0]->postcode }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>EMAIL</td>
-                        <td><a href="mailto:{{ $order[0]->user->email }}">{{ $order[0]->user->email }}</a></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <table class="box-list">
-            <thead>
-                <tr>
-                    {{-- <th>SERVICE</th> --}}
-                    <th style="width: 450px;">DESCRIPTION</th>
-                    <th class="align-center">PRICE</th>
-                    <th class="align-center">QTY</th>
-                    <th class="align-right">TOTAL</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($order[0]->cart as $cart)
-                <tr>
-                    {{-- <td class="service">Design</td> --}}
-                    <td>{!! $cart->product->{get_lang('description')} !!}</td>
-                    <td class="align-center">฿{{ number_format($cart->amount, 2) }}</td>
-                    <td class="align-center">{{ $cart->quantity }}</td>
-                    <td class="align-right">฿{{ number_format($cart->amount, 2) }}</td>
-                </tr>
-                @endforeach
-                <tr>
-                    <td class="align-right" colspan="3">SUBTOTAL</td>
-                    <td class="align-right">฿{{ number_format($order[0]->total_amount, 2) }}</td>
-                </tr>
-                <tr>
-                    <td class="align-right" colspan="3">TAX 25%</td>
-                    <td class="align-right">฿{{ number_format($order[0]->vat, 2) }}</td>
-                </tr>
-                <tr class="border-top">
-                    <td class="align-right" colspan="3">GRAND TOTAL</td>
-                    <td class="align-right">฿{{ number_format($order[0]->total_amount + $order[0]->vat, 2) }}</td>
-                </tr>
-            </tbody>
-            {{-- <tbody>
-                @foreach ($order[0]->cart as $cart)
-                <tr>
-                    <td>Development</td>
-                    <td>{!! $cart->product->{get_lang('description')} !!}</td>
-                    <td class="align-center">{{ number_format($cart->amount, 2) }}</td>
-            <td class="align-center">{{ $cart->quantity }}</td>
-            <td class="align-right">{{ number_format($cart->amount, 2) }}</td>
-            </tr>
-            @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td class="align-right" colspan="4">SUBTOTAL</td>
-                    <td class="align-right">$5,200.00</td>
-                </tr>
-                <tr>
-                    <td class="align-right" colspan="4">TAX 25%</td>
-                    <td class="align-right">$1,400.00</td>
-                </tr>
-                <tr class="border-top">
-                    <td class="align-right" colspan="4">GRAND TOTAL</td>
-                    <td class="align-right">$6,500.00</td>
-                </tr>
-            </tfoot> --}}
-        </table>
-
-        <br>
-        <h3 style="margin: 0px;">NOTICE :</h3>
-        <p style="margin: 0px;color: #7b7b7b;">A finance charge of 1.5% will be made on unpaid balances after 30 days.
-        </p>
-
-    </div>
-</body>
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Example 1</title>
+    <link rel="stylesheet" href="style.css" media="all" />
+  </head>
+  <body>
+    <header class="clearfix">
+      <div id="logo">
+        <img src="http://ecoringcommerce.am2bmarketing.co.th/images/logo.png">
+      </div>
+      <h1>INVOICE</h1>
+      <div id="company" class="clearfix">
+        <div>Company Name</div>
+        <div>455 Foggy Heights,<br /> AZ 85004, US</div>
+        <div>(602) 519-0450</div>
+        <div><a href="mailto:company@example.com">company@example.com</a></div>
+      </div>
+      <div id="project">
+        <div><span>PROJECT</span> Website development</div>
+        <div><span>CLIENT</span> John Doe</div>
+        <div><span>ADDRESS</span> 796 Silver Harbour, TX 79273, US</div>
+        <div><span>EMAIL</span> <a href="mailto:john@example.com">john@example.com</a></div>
+        <div><span>DATE</span> August 17, 2015</div>
+        <div><span>DUE DATE</span> September 17, 2015</div>
+      </div>
+    </header>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th class="service">SERVICE</th>
+            <th class="desc">DESCRIPTION</th>
+            <th>PRICE</th>
+            <th>QTY</th>
+            <th>TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="service">Design</td>
+            <td class="desc">Creating a recognizable design solution based on the company's existing visual identity</td>
+            <td class="unit">$40.00</td>
+            <td class="qty">26</td>
+            <td class="total">$1,040.00</td>
+          </tr>
+          <tr>
+            <td class="service">Development</td>
+            <td class="desc">Developing a Content Management System-based Website</td>
+            <td class="unit">$40.00</td>
+            <td class="qty">80</td>
+            <td class="total">$3,200.00</td>
+          </tr>
+          <tr>
+            <td class="service">SEO</td>
+            <td class="desc">Optimize the site for search engines (SEO)</td>
+            <td class="unit">$40.00</td>
+            <td class="qty">20</td>
+            <td class="total">$800.00</td>
+          </tr>
+          <tr>
+            <td class="service">Training</td>
+            <td class="desc">Initial training sessions for staff responsible for uploading web content</td>
+            <td class="unit">$40.00</td>
+            <td class="qty">4</td>
+            <td class="total">$160.00</td>
+          </tr>
+          <tr>
+            <td colspan="4">SUBTOTAL</td>
+            <td class="total">$5,200.00</td>
+          </tr>
+          <tr>
+            <td colspan="4">TAX 25%</td>
+            <td class="total">$1,300.00</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="grand total">GRAND TOTAL</td>
+            <td class="grand total">$6,500.00</td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="notices">
+        <div>NOTICE:</div>
+        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+      </div>
+    </main>
+    <footer>
+      Invoice was created on a computer and is valid without the signature and seal.
+    </footer>
+  </body>
 </html>
