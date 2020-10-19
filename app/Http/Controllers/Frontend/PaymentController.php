@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMail;
 use PDF;
 
+use App\Model\WebInfo;
+
 class PaymentController extends Controller
 {
 
@@ -21,7 +23,14 @@ class PaymentController extends Controller
         $pages = Pages::get(3);
         $bank_accounts = BankAccounts::onlyActive()->get();
 
-        return view('frontend.payment.index', compact(['pages', 'bank_accounts', 'OrderCode']));
+        /**
+         * For test docs only
+         */
+        $order = Orders::where([['id', 38]])->get();
+        $web_info = WebInfo::find(1)->first();
+        return view('emails.invoice-email', compact(['order', 'web_info']));
+
+        // return view('frontend.payment.index', compact(['pages', 'bank_accounts', 'OrderCode']));
     }
 
     public function store(Request $request)
