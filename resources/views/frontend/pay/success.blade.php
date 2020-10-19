@@ -77,6 +77,7 @@
 <script>
     $(function() {
         sumTotal(1);
+        if (!$('#button-hourglass').hasClass('active')) $('#button-hourglass').addClass('active');
     });
 </script>
 @endpush

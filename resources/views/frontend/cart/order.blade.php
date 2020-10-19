@@ -376,6 +376,7 @@
             $('#customeAddr').attr('disabled', true);
             if ($(this).val() === 'custom') $('#customeAddr').attr('disabled', false);
         });
+        if (!$('#button-hourglass').hasClass('active')) $('#button-hourglass').addClass('active');
     });
     // custom delivery address
     function getCustomData() {

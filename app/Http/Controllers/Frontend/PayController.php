@@ -20,7 +20,7 @@ class PayController extends Controller
     public function index(Request $request)
     {
         // Check Cart
-        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id');
+        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->where('active', 1);
         $cartCount = clone $cart;
         if ($cartCount->count() == 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
 
@@ -43,7 +43,7 @@ class PayController extends Controller
     public function store(Request $request)
     {
         // Check Cart
-        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id');
+        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->where('active', 1);
         $cartCount = clone $cart;
         if ($cartCount->count() == 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
 

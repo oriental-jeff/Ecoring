@@ -15,6 +15,7 @@ use App\Model\PaymentNotifications;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\GlobalFn;
 
 class AjaxController extends Controller
 {
@@ -105,9 +106,10 @@ class AjaxController extends Controller
             $product = Products::where('id', $request->product_id)->first();
             $quantity_remain = $product->stocks[0]->quantity;
             $cart_item = 0;
-            if ($quantity_remain > 0) :
+            $condition = 0;
+            if ($quantity_remain > 0 and !GlobalFn::productReservedOnCart($request->product_id)) :
                 $amount = $product->product_price;
-                $cart = Cart::where('users_id', Auth::id())->whereNull('orders_id');
+                $cart = Cart::where('users_id', Auth::id())->whereNull('orders_id')->where('active', 1);
                 $cart_item = $cart->count();
                 $cart = $cart->where('products_id', $request->product_id)->withoutOrder()->first();
                 if (!empty($cart)) :
@@ -128,11 +130,9 @@ class AjaxController extends Controller
                         'updated_by' => Auth::id(),
                     ];
                     Cart::create($data);
-                    $cart_item = Cart::where('users_id', Auth::id())->whereNull('orders_id')->count();
+                    $cart_item = Cart::where('users_id', Auth::id())->whereNull('orders_id')->where('active', 1)->count();
                     $condition = 1;
                 endif;
-            else :
-                $conditon = 0;
             endif;
 
             switch ($condition):
@@ -196,6 +196,16 @@ class AjaxController extends Controller
                 'msgcode' => $msg,
                 'msg' => 'Count total code in Order',
             ]);
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
+
+    public function resetProductOnCart(Request $request)
+    {
+        try {
+            GlobalFn::resetProductOnCart();
+            return true;
         } catch (\Throwable $th) {
             return false;
         }

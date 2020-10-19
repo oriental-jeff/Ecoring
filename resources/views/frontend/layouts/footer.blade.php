@@ -129,17 +129,20 @@
         </div>
     </div>
 </div>
-
-@if (!empty($main['order_not_pay'][0]))
+@if (!empty(GlobalFn::getCountdown()[0][0]))
 @php
-$time = $main['order_not_pay'][0]->created_at;
-$end_time = $time->addDays(1);
+$time = GlobalFn::getCountdown()[1] == 'cart' ? GlobalFn::getCountdown()[0][0]->updated_at :
+GlobalFn::getCountdown()[0][0]->created_at ;
+$minutes = GlobalFn::getCountdown()[1] == 'cart' ? 20 : 1440 ;
+$end_time = $time->addMinutes($minutes);
 @endphp
 <div id="button-hourglass"><img src="{{ asset('images/I-hourglass.svg') }}"></div>
 <div class="box-hourglass">
     <button type="button" id="btn-close"></button>
     <p class="mb-2">{{ __('messages.you_have_product') }}</p>
-    <p>{{ __('messages.wait_for_payment') }} <b>{{ $main['order_not_pay']->count() }}</b> {{ __('messages.list') }}<br>
+    <p>{{ GlobalFn::getCountdown()[1] == 'cart' ? __('messages.wait_for_confirm') : __('messages.wait_for_payment') }}
+        <b>{{ GlobalFn::getCountdown()[0]->count() }}</b>
+        {{ __('messages.list') }}<br>
         {{ __('messages.time_left') }} <b><span id="TRemaining" data-time="{{ $end_time }}"></span></b></p>
 </div>
 @endif
@@ -165,10 +168,18 @@ $end_time = $time->addDays(1);
             </a>
         </li>
         <li class="nav-item col">
+            @guest
             <a class="nav-link" href="{{ route('frontend.auth.login.form', ['locale' => get_lang()]) }}">
                 <img src="{{ asset('images/I-login.svg') }}" class="icon-menu">
                 {{ __('messages.login') }}
             </a>
+            @endguest
+            @auth
+            <a class="nav-link" href="{{ route('frontend.user.profile', ['locale' => get_lang()]) }}">
+                <img src="{{ asset('images/I-login.svg') }}" class="icon-menu"> {{ __('messages.hi') }}
+                {{ Auth::user()->first_name }}
+            </a>
+            @endauth
         </li>
     </ul>
 </div>
@@ -241,7 +252,7 @@ $end_time = $time->addDays(1);
 
 <!-- Your customer chat facebook code -->
 <div class="fb-customerchat" attribution=setup_tool page_id="678747588854354" theme_color="#00b06b"
-	logged_in_greeting="ecoring สวัสดีครับ ^_^ มีอะไรให้ช่วยเหลือ สอบถามได้เลยนะครับ"
-	logged_out_greeting="ecoring สวัสดีครับ ^_^ มีอะไรให้ช่วยเหลือ สอบถามได้เลยนะครับ">
+    logged_in_greeting="ecoring สวัสดีครับ ^_^ มีอะไรให้ช่วยเหลือ สอบถามได้เลยนะครับ"
+    logged_out_greeting="ecoring สวัสดีครับ ^_^ มีอะไรให้ช่วยเหลือ สอบถามได้เลยนะครับ">
 </div>
 <div id="fb-root"></div>

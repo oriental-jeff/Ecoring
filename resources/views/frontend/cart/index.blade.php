@@ -50,12 +50,12 @@
 
                     @foreach ($carts as $cart)
                     <div class="order-body row position-relative">
-                        @if ($cart->stocks[0]->quantity === 0)
+                        @if ($cart->stocks[0]->quantity === 0 or GlobalFn::productReservedOnCart($cart->product->id))
                         <div class="order-disabled"></div>
                         @endif
                         <div class="col-md-6 col-ms-5 d-flex align-items-center">
                             <input type="checkbox" name="cartID[]" value="{{ $cart->id }}"
-                                {{ ($cart->stocks[0]->quantity === 0) ? 'disabled' : '' }}>
+                                {{ ($cart->stocks[0]->quantity === 0 or GlobalFn::productReservedOnCart($cart->product->id)) ? 'disabled' : '' }}>
                             <div class="img">
                                 <div class="src-img"
                                     style="background-image: url('{{ $cart->product->image ?? 'http://via.placeholder.com/500x350' }}')">
@@ -63,7 +63,17 @@
                                     <!-- ช่องนี้ห้ามแก้ -->
                                 </div>
                             </div>
-                            <span class="pdtTitle">{{ $cart->product->{ get_lang('name') } }}</span>
+                            <div class="flex">
+                                <a
+                                    href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $cart->product->id]) }}">
+                                    <div class="pdtTitle">{{ $cart->product->{ get_lang('name') } }}</div>
+                                    @if (GlobalFn::getCountProductOnCart($cart->product->id) > 0)
+                                    <small class="count-product-on-cart">
+                                        {{ GlobalFn::getCountProductOnCart($cart->product->id)}}
+                                        {{ __('messages.count_product_on_cart') }}</small>
+                                    @endif
+                                </a>
+                            </div>
                             <div class="Bnumber ml-auto">
                                 <div class="d-block d-md-none float-left">{{ __('messages.cart_unit') }}</div>
                                 <span>
@@ -71,7 +81,7 @@
                                         <button type="button" class="btn btn-delete disabled">-</button>
                                         <input type="text" name="quantity[]" class="btn quantity"
                                             value="{{ $cart->quantity }}" onchange="calAmount($(this));"
-                                            {{ ($cart->stocks[0]->quantity === 0) ? 'disabled' : '' }}>
+                                            {{ ($cart->stocks[0]->quantity === 0 or GlobalFn::productReservedOnCart($cart->product->id)) ? 'disabled' : '' }}>
                                         <button type="button" class="btn btn-plus">+</button>
                                     </div>
                                     <div class="text-center">
@@ -82,7 +92,9 @@
                                             {{ __('messages.not_enought_product') }}
                                         </div>
                                         @endif
-                                        <div>( {{ __('messages.cart_stock') }} {{ $cart->stocks[0]->quantity }} )
+                                        <div>( {{ __('messages.cart_stock') }}
+                                            {{ GlobalFn::productReservedOnCart($cart->product->id) ? 0 : $cart->stocks[0]->quantity }}
+                                            )
                                         </div>
                                     </div>
                                 </span>
@@ -93,14 +105,15 @@
                             ฿<span>{{ number_format($cart->product->product_price) }}</span>
                         </div>
                         <div class="col-md-2 col-ms-2 col-6 text-center display-amount">
-                            @if ($cart->stocks[0]->quantity === 0)
+                            @if ($cart->stocks[0]->quantity === 0 or
+                            GlobalFn::productReservedOnCart($cart->product->id))
                             ฿<span>{{ number_format($cart->product->product_price * 0) }}</span>
                             @else
                             ฿<span>{{ number_format($cart->product->product_price * $cart->quantity) }}</span>
                             @endif
                         </div>
                         <div class="col-md-2 col-ms-2 text-center border-left"
-                            style="{{ $cart->stocks[0]->quantity === 0 ? 'z-index:1' : '' }}">
+                            style="{{ ($cart->stocks[0]->quantity === 0 or GlobalFn::productReservedOnCart($cart->product->id)) ? 'z-index:1' : '' }}">
                             {{-- @if ($cart->stocks[0]->quantity != 0) --}}
                             <a data-id="{{ $cart->id }}" aria-placeholder="{{ __('messages.cart_delete_confirm') }}"
                                 class="btn-remmove-cart btn btn-secondary font-weight-light radius-25 w-100"
