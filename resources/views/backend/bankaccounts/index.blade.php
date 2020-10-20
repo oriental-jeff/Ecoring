@@ -99,7 +99,12 @@
                                 </td>
                                 <td class="text-center">{{ $bankaccount->acc_no }}</td>
                                 <td class="text-center">{{ $bankaccount->acc_name }}</td>
-                                <td class="text-center"><img src="{{ $bankaccount->image ?? '' }}" class="img-table">
+                                <td class="text-center">
+                                    <a class="fancybox" rel="gallery1" href="{{ $bankaccount->image ?? '' }}"
+                                        title="{{ $bankaccount->acc_no }}">
+                                        <img src="{{ $bankaccount->image ?? '' }}" class="img-table" />
+                                    </a>
+                                </td>
                                 <td class="text-center">{{ $bankaccount->active }}</td>
                                 <td class="text-center">{{ $bankaccount->update_name->first_name }}</td>
                             </tr>
@@ -128,12 +133,15 @@
     var colum_width = '<?php echo $colum_width; ?>';
 </script>
 
-
-
-
-
-
-
-
-
 @endsection
+
+@push('after-scripts')
+<script>
+    $(document).ready(function() {
+        $(".fancybox").fancybox({
+            openEffect	: 'none',
+            closeEffect	: 'none'
+        });
+    });
+</script>
+@endpush

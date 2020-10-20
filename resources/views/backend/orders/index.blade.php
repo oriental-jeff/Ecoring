@@ -124,7 +124,12 @@
                                 <td class="text-right">
                                     ฿{{ number_format($order->total_amount + $order->delivery_charge + $order->vat, 2) }}
                                 </td>
-                                <td class="text-center"><img src="{{ $order->logistic->image }}" class="img-table">
+                                <td class="text-center">
+                                    <a class="fancybox" rel="gallery1" href="{{ $order->logistic->image ?? '' }}"
+                                        title="{{ $order->logistic->name_th }}">
+                                        <img src="{{ $order->logistic->image ?? '' }}" class="img-table" />
+                                    </a>
+                                </td>
                                 </td>
                                 <td class="text-center">{{ number_format($order->delivery_charge, 2) }}</td>
                                 <td class="text-center">{{ $order->po_sent_count }}</td>
@@ -163,12 +168,15 @@
     var colum_width = '<?php echo $colum_width; ?>';
 </script>
 
-
-
-
-
-
-
-
-
 @endsection
+
+@push('after-scripts')
+<script>
+    $(document).ready(function() {
+        $(".fancybox").fancybox({
+            openEffect	: 'none',
+            closeEffect	: 'none'
+        });
+    });
+</script>
+@endpush

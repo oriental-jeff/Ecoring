@@ -117,7 +117,12 @@
                                     </div>
                                 </td>
                                 <td class="text-center">{{ date('d/m/Y H:i:s', strtotime($product->updated_at)) }}</td>
-                                <td class="text-center"><img src="{{ $product->image ?? '' }}" class="img-table"></td>
+                                <td class="text-center">
+                                    <a class="fancybox" rel="gallery1" href="{{ $product->image ?? '' }}"
+                                        title="{{ $product->name_th }}">
+                                        <img src="{{ $product->image ?? '' }}" class="img-table" />
+                                    </a>
+                                </td>
                                 <td class="text-left">{{ $product->name_th }}</td>
                                 <td class="text-left">{{ $product->name_en }}</td>
                                 <td class="text-left">{{ $product->sku }}</td>
@@ -154,12 +159,15 @@
     var colum_width = '<?php echo $colum_width; ?>';
 </script>
 
-
-
-
-
-
-
-
-
 @endsection
+
+@push('after-scripts')
+<script>
+    $(document).ready(function() {
+        $(".fancybox").fancybox({
+            openEffect	: 'none',
+            closeEffect	: 'none'
+        });
+    });
+</script>
+@endpush

@@ -104,7 +104,12 @@
                                     </div>
                                 </td>
                                 <td class="text-center">{{ date('d/m/Y H:i:s', strtotime($logistic->updated_at)) }}</td>
-                                <td class="text-center"><img src="{{ $logistic->image ?? '' }}" class="img-table"></td>
+                                <td class="text-center">
+                                    <a class="fancybox" rel="gallery1" href="{{ $logistic->image ?? '' }}"
+                                        title="{{ $logistic->name_th }}">
+                                        <img src="{{ $logistic->image ?? '' }}" class="img-table" />
+                                    </a>
+                                </td>
                                 <td class="text-left">{{ $logistic->name_th }}</td>
                                 <td class="text-left">{{ $logistic->name_en }}</td>
                                 <td class="text-center">{{ $logistic->period }}</td>
@@ -137,12 +142,15 @@
     var colum_width = '<?php echo $colum_width; ?>';
 </script>
 
-
-
-
-
-
-
-
-
 @endsection
+
+@push('after-scripts')
+<script>
+    $(document).ready(function() {
+        $(".fancybox").fancybox({
+            openEffect	: 'none',
+            closeEffect	: 'none'
+        });
+    });
+</script>
+@endpush
