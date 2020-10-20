@@ -23,8 +23,10 @@
             </div>
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2 float-right">
                 <h4>หลักฐานการโอน:</h4>
-                <a href="{{ asset($payment_notification->image) ?? 'javascript:void(0);' }}" target="_blank">
-                    <img src="{{ $payment_notification->image ?? '' }}" style="width:240px">
+                <a class="fancybox" rel="gallery1"
+                    href="{{ asset($payment_notification->image) ?? 'javascript:void(0);' }}"
+                    title="หมายเลขสั่งซื้อ: {{ $payment_notification->orders_code }}">
+                    <img src="{{ asset($payment_notification->image) ?? 'javascript:void(0);' }}" style="width:240px" />
                 </a>
             </div>
         </div>
@@ -55,3 +57,15 @@
                 class="fas fa-reply text-danger"></i> ย้อนกลับ</button>
     </div>
 </div>
+
+
+@push('after-scripts')
+<script>
+    $(document).ready(function() {
+        $(".fancybox").fancybox({
+            openEffect	: 'none',
+            closeEffect	: 'none'
+        });
+    });
+</script>
+@endpush

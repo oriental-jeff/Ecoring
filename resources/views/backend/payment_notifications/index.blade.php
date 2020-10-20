@@ -51,6 +51,7 @@
                                 <th class="text-center">วันที่อัพเดท</th>
                                 <th class="text-center">ตรวจสอบ</th>
                                 <th class="text-center">หมายเลขสั่งซื้อ</th>
+                                <th class="text-center">หลักฐานการโอน</th>
                                 <th class="text-center">ชื่อ-นามสกุล</th>
                                 <th class="text-center">เบอร์ติดต่อ</th>
                                 <th class="text-center">สถานะ</th>
@@ -98,6 +99,12 @@
                                         class="img-table">
                                 </td>
                                 <td class="text-center">{{ $payment_notification->orders_code }}</td>
+                                <td class="text-center">
+                                    <a class="fancybox" rel="gallery1" href="{{ $payment_notification->image ?? '' }}"
+                                        title="{{ $payment_notification->orders_code }}">
+                                        <img src="{{ $payment_notification->image ?? '' }}" class="img-table" />
+                                    </a>
+                                </td>
                                 <td class="text-left">{{ $payment_notification->fullname }}</td>
                                 <td class="text-center">{{ $payment_notification->contact }}</td>
                                 <td class="text-center">{{ $payment_notification->status }}</td>
@@ -128,12 +135,15 @@
     var colum_width = '<?php echo $colum_width; ?>';
 </script>
 
-
-
-
-
-
-
-
-
 @endsection
+
+@push('after-scripts')
+<script>
+    $(document).ready(function() {
+        $(".fancybox").fancybox({
+            openEffect	: 'none',
+            closeEffect	: 'none'
+        });
+    });
+</script>
+@endpush
