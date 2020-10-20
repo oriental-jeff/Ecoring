@@ -21,9 +21,9 @@ class HomeController extends Controller
     $pages = Pages::get(1);
     $banners = Banners::get(1);
     $aboutus = AboutUs::find(1);
-    $new_products = Products::onlyActive()->withCount('favorites')->onlyAvailable(config('global.warehouse'))->orderBy('created_at', 'desc')->limit(12)->get();
+    $new_products = Products::onlyActive()->withCount('favorites')->orderBy('created_at', 'desc')->limit(12)->get();
     $categories = Categories::get();
-    $recommended_products = Products::onlyActive()->withCount('favorites')->onlyAvailable(config('global.warehouse'))->inRandomOrder()->limit(48)->get();
+    $recommended_products = Products::onlyActive()->withCount('favorites')->inRandomOrder()->limit(48)->get();
     // $applications = Application::onlyActive()->with(['project' => function ($query) {
     //   $query->where('active', 1);
     // }])->orderBy('updated_at', 'desc')->paginate(12);
