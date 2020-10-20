@@ -16,6 +16,11 @@ class GlobalFn
         $rs = \App\Model\Cart::where('products_id', $productID)->where('active', 1)->withoutOrder()->where('users_id', '!=', Auth::id())->count();
         return $rs > 0 ? true : false;
     }
+    public static function productOutOfStock($productID)
+    {
+        $rs = \App\Model\Products::where('id', $productID)->onlyAvailable(config('global.warehouse'))->count();
+        return $rs == 0 ? true : false;
+    }
     public static function getCountdown()
     {
         // Check priority is cart and order

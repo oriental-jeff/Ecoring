@@ -139,13 +139,19 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (data) {
-                if (data.condition == "1") {
+                var condition = parseInt(data.condition);
+                if (condition == 1) {
                     $('.cart_item').html(data.cart_item);
                     effectCart(This);
                 } else {
                     $('#notiMsg').html(data.msg);
                     $('#notiModal').modal('show');
-                    if (data.condition == "0") This.attr('disabled', true);
+                    if (condition == 0 || condition == 3) {
+                        $('.product-out-of-stock').text(data.msg);
+                        $('.product-unit').text(data.msg);
+                        This.text(data.msg);
+                        This.attr('disabled', true);
+                    }
                 }
             },
             error: function (data) {

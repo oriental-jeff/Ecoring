@@ -125,6 +125,7 @@ return [
 
     'add_basket_success' => 'Add to basket successfully',
     'out_of_stock' => 'Out of stocks',
+    'sold_out' => 'Sold Out',
     'not_enought_product' => 'Not enought product',
     'email_not_verified' => 'Your email address is not verified',
 
@@ -161,7 +162,7 @@ return [
     'cart_unit' => 'Unit price',
     'cart_amount' => 'Amount',
     'cart_action' => 'Manage',
-    'cart_stock' => 'Stock',
+    'cart_stock' => 'In Stock',
     'cart_delete' => 'Delete',
     'cart_delete_confirm' => 'Are you sure to delete this items ?',
     'cart_total' => 'Total amount',

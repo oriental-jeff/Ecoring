@@ -67,10 +67,13 @@
                                 <a
                                     href="{{ route('frontend.product-detail', ['locale' => get_lang(), 'product' => $cart->product->id]) }}">
                                     <div class="pdtTitle">{{ $cart->product->{ get_lang('name') } }}</div>
+                                    @if ($cart->stocks[0]->quantity > 0 and
+                                    !GlobalFn::productReservedOnCart($cart->product->id))
                                     @if (GlobalFn::getCountProductOnCart($cart->product->id) > 0)
                                     <small class="count-product-on-cart">
                                         {{ GlobalFn::getCountProductOnCart($cart->product->id)}}
                                         {{ __('messages.count_product_on_cart') }}</small>
+                                    @endif
                                     @endif
                                 </a>
                             </div>
@@ -92,7 +95,8 @@
                                             {{ __('messages.not_enought_product') }}
                                         </div>
                                         @endif
-                                        <div>( {{ __('messages.cart_stock') }}
+                                        <div>(
+                                            {{ GlobalFn::productOutOfStock($cart->product->id) ? __('messages.sold_out') : (GlobalFn::productReservedOnCart($cart->product->id) ? __('messages.out_of_stock') : __('messages.cart_stock')) }}
                                             {{ GlobalFn::productReservedOnCart($cart->product->id) ? 0 : $cart->stocks[0]->quantity }}
                                             )
                                         </div>
