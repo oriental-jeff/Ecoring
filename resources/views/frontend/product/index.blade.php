@@ -163,8 +163,8 @@
                                 <span class="price">{{ __('messages.price') }} :
                                     ฿{{ number_format($product->product_price) }}<b>฿{{ number_format($product->full_price) }}</b></span>
                                 <button type="button" class="btn btn-cart w-100"
-                                    {{ (empty(Auth::user()) or GlobalFn::productReservedOnCart($product->id)) ? 'disabled' : '' }}
-                                    data-product="{{ $product->id }}">{{ __('messages.add_basket') }}</button>
+                                    {{ (empty(Auth::user()) or GlobalFn::productReservedOnCart($product->id) or GlobalFn::productOutOfStock($product->id)) ? 'disabled' : '' }}
+                                    data-product="{{ $product->id }}">{{ GlobalFn::productOutOfStock($product->id) ? __('messages.sold_out') : (GlobalFn::productReservedOnCart($product->id) ? __('messages.out_of_stock') : __('messages.add_basket')) }}</button>
                             </div>
                         </div>
                         @endforeach

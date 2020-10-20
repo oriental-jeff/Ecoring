@@ -101,15 +101,16 @@ class AjaxController extends Controller
     0 : สินค้าหมด
     1 : หยิบลงตะกร้าได้
     2 : จำนวนสินค้าในตะกร้าเกินกว่าที่มีในสต๊อก
+    3 : ถูกจำหน่ายแล้ว
     */
         if (Auth::check()) :
             $product = Products::where('id', $request->product_id)->first();
             $quantity_remain = $product->stocks[0]->quantity;
             $cart_item = 0;
-            $condition = 0;
+            $condition = $quantity_remain == 0 ? 3 : 0;
             if ($quantity_remain > 0 and !GlobalFn::productReservedOnCart($request->product_id)) :
                 $amount = $product->product_price;
-                $cart = Cart::where('users_id', Auth::id())->whereNull('orders_id')->where('active', 1);
+                $cart = Cart::where('users_id', Auth::id())->whereNull('orders_id');
                 $cart_item = $cart->count();
                 $cart = $cart->where('products_id', $request->product_id)->withoutOrder()->first();
                 if (!empty($cart)) :
@@ -130,7 +131,7 @@ class AjaxController extends Controller
                         'updated_by' => Auth::id(),
                     ];
                     Cart::create($data);
-                    $cart_item = Cart::where('users_id', Auth::id())->whereNull('orders_id')->where('active', 1)->count();
+                    $cart_item = Cart::where('users_id', Auth::id())->whereNull('orders_id')->count();
                     $condition = 1;
                 endif;
             endif;
@@ -139,8 +140,8 @@ class AjaxController extends Controller
                 case 0:
                     $msg = __('messages.out_of_stock');
                     break;
-                case 1:
-                    $msg = __('messages.add_basket_success');
+                case 3:
+                    $msg = __('messages.sold_out');
                     break;
                 case 2:
                     $msg = __('messages.not_enought_product');

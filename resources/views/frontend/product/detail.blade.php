@@ -35,9 +35,12 @@
                                     id="showImg2">
                                     <img src="{{ asset('images/size-img2.png') }}" alt=""><!-- ช่องนี้ห้ามแก้ -->
                                 </div>
+                                @if ($product->stocks[0]->quantity > 0 and
+                                !GlobalFn::productReservedOnCart($product->id))
                                 @if (GlobalFn::getCountProductOnCart($product->id) > 0)
                                 <div class="count-product-on-cart">{{ GlobalFn::getCountProductOnCart($product->id)}}
                                     {{ __('messages.count_product_on_cart') }}</div>
+                                @endif
                                 @endif
                                 @if(!empty($product->image_detail))
                                 @php
@@ -121,8 +124,8 @@
                             <h4 class="float-right">{{ __('messages.price') }} : ฿{{ number_format($product->price) }}
                             </h4>
                         </div>
-                        <div class="font-weight-bold mt-3 clearfix">
-                            @if ($product->stocks[0]->quantity > 0)
+                        <div class="product-out-of-stock font-weight-bold mt-3 clearfix">
+                            @if ($product->stocks[0]->quantity > 0 and !GlobalFn::productReservedOnCart($product->id))
                             {{ __('messages.quantity') }}
                             <div class="btn-group">
                                 <button type="button" class="btn btn-delete disabled">-</button>
@@ -134,13 +137,14 @@
                             @endif
                         </div>
                         <br>
-                        <div class="mt-3" style="color: #fe212b;">{{ __('messages.product_total_quantity') }} :
+                        <div class="mt-3 product-unit" style="color: #fe212b;">
+                            {{ __('messages.product_total_quantity') }} :
                             {{ GlobalFn::productReservedOnCart($product->id) ? 0 : $product->stocks[0]->quantity }}
                             {{ __('messages.unit') }}</div>
                         <br>
                         <button type="button" class="btn border-0 btn-cart w-100"
-                            {{ (empty(Auth::user()) or GlobalFn::productReservedOnCart($product->id)) ? 'disabled' : '' }}
-                            data-product="{{ $product->id }}">{{ __('messages.add_basket') }}</button>
+                            {{ (empty(Auth::user()) or GlobalFn::productReservedOnCart($product->id) or GlobalFn::productOutOfStock($product->id)) ? 'disabled' : '' }}
+                            data-product="{{ $product->id }}">{{ GlobalFn::productOutOfStock($product->id) ? __('messages.sold_out') : (GlobalFn::productReservedOnCart($product->id) ? __('messages.out_of_stock') : __('messages.add_basket')) }}</button>
                         <br>
                         {{-- <div class="mt-3" style="color: #00b16b;">ราคานี้ตั้งแต่ 16/03/2020 ถึง 16/03/2020 ราคานี้ใช้สำหรับการสั่งซื้อทางออนไลน์เท่านั้น</div>
 							<br> --}}
@@ -255,8 +259,8 @@
                         <span class="price">{{ __('messages.price') }} :
                             ฿{{ number_format($new_product->price) }}<b>฿{{ number_format($new_product->full_price) }}</b></span>
                         <button type="button" class="btn btn-cart w-100"
-                            {{ (empty(Auth::user()) or GlobalFn::productReservedOnCart($new_product->id)) ? 'disabled' : '' }}
-                            data-product="{{ $new_product->id }}">{{ __('messages.add_basket') }}</button>
+                            {{ (empty(Auth::user()) or GlobalFn::productReservedOnCart($new_product->id) or GlobalFn::productOutOfStock($new_product->id)) ? 'disabled' : '' }}
+                            data-product="{{ $new_product->id }}">{{ GlobalFn::productOutOfStock($new_product->id) ? __('messages.sold_out') : (GlobalFn::productReservedOnCart($new_product->id) ? __('messages.out_of_stock') : __('messages.add_basket')) }}</button>
                     </div>
                 </div>
                 @endforeach

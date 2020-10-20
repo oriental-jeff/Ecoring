@@ -24,7 +24,7 @@ class CartController extends Controller
     public function order(Request $request)
     {
         // Check Cart
-        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->where('active', 1);
+        $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id');
         $cartCount = clone $cart;
         if ($cartCount->count() == 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
 

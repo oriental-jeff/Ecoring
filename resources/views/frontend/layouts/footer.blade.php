@@ -144,6 +144,21 @@ $end_time = $time->addMinutes($minutes);
         <b>{{ GlobalFn::getCountdown()[0]->count() }}</b>
         {{ __('messages.list') }}<br>
         {{ __('messages.time_left') }} <b><span id="TRemaining" data-time="{{ $end_time }}"></span></b></p>
+    <p>
+        @if (GlobalFn::getCountdown()[1] == 'cart')
+        <a class="btn font-weight-light radius-25 w-100 mt-3" style="background-color:#fff00d; color: #000;"
+            href="{{ route('frontend.cart', ['locale' => get_lang()]) }}">
+            <img class="m-0 mr-2" style="width: 23px;" src="{{ asset('images/I-cart.svg') }}">
+            {{ __('messages.cart_title') }}
+        </a>
+        @else
+        <a class="btn font-weight-light radius-25 w-100 mt-3" style="background-color:#fff00d; color: #000;"
+            href="{{ route('frontend.user.history', ['locale' => get_lang()]) }}">
+            <img class="m-0 mr-2" style="width: 23px; fill: #000" src="{{ asset('images/icon-history.svg') }}">
+            {{ __('messages.history') }}
+        </a>
+        @endif
+    </p>
 </div>
 @endif
 

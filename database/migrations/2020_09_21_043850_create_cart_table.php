@@ -21,6 +21,7 @@ class CreateCartTable extends Migration
             $table->integer('quantity')->default(0);
             $table->decimal('amount_full')->default(0);
             $table->decimal('amount')->default(0);
+            $table->tinyInteger('active')->default(0);
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();

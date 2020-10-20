@@ -125,6 +125,7 @@ return [
 
     'add_basket_success' => 'เพิ่มสินค้าลงตะกร้าแล้ว',
     'out_of_stock' => 'สินค้าหมด',
+    'sold_out' => 'ถูกจำหน่ายแล้ว',
     'not_enought_product' => 'สินค้ามีไม่เพียงพอ',
     'email_not_verified' => 'คุณยังไม่ได้ทำการยืนยันอีเมล',
 

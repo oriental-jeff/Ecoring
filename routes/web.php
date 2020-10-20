@@ -26,8 +26,8 @@ Route::name('frontend.auth.')
     ->where(['locale' => '[a-zA-Z]{2}'])
     ->middleware(['setlocale'])
     ->group(function () {
-        Route::get('/login', 'LoginController@showLoginForm')->name('login.form')->middleware('front_user.active');
-        Route::post('/login', 'LoginController@login')->name('login')->middleware('front_user.active');
+        Route::get('/login', 'LoginController@showLoginForm')->name('login.form');
+        Route::post('/login', 'LoginController@login')->name('login');
         Route::post('/logout', 'LoginController@logout')->name('logout')->middleware('front_user.active');
     });
 
@@ -61,7 +61,7 @@ Route::name('frontend.')
             ->group(function () {
                 Route::get('/profile', 'UserController@edit')->name('profile')->middleware('verified');
                 Route::get('/edit-password', 'UserController@edit_password')->name('edit-password')->middleware('verified');
-                Route::get('/favorite', 'UserController@favorite')->name('favorite')->middleware('verified');
+                Route::get('/favorite', 'UserController@favorite')->name('favorite')->middleware('front_user.active');
                 Route::get('/history', 'UserController@history')->name('history')->middleware('verified');
                 Route::get('/history/detail/{order_id}', 'UserController@detail')->name('history-detail')->middleware('verified');
             });
