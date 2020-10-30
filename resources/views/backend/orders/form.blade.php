@@ -50,14 +50,16 @@
 
         <div class="box-total">
             <div class="row">
-                <div class="col-lg-3 col-sm-5 pt-4">
+                <input type="hidden" id="pickup_optional" name="pickup_optional"
+                    value="{{ $order[0]->pickup_optional }}">
+                <div class="col-lg-3 col-sm-5 pt-4 delivery_service">
                     <h5>ช่องทางการจัดส่ง</h5>
                     <img src="{{ $order[0]->logistic->image }}" class="img-Shipment">
                     <h5>{{ $order[0]->logistic->{get_lang('name')} }}</h5>
                     ระยะเวลาการส่ง : {{ $order[0]->logistic->period }}<br>
                     อัตราค่าบริการ : {{ number_format($order[0]->delivery_charge) }} บาท<br>
                 </div>
-                <div class="col-lg-4 col-sm-7 pt-4 border-left">
+                <div class="col-lg-4 col-sm-7 pt-4 border-left delivery_service">
                     <h5>ที่อยู่ในการจัดส่ง</h5>
                     <table class="w-100">
                         <tr>
@@ -90,6 +92,29 @@
                         </tr>
                     </table>
                 </div>
+
+                <div class="col-lg-7 col-sm-12 pt-4 border-left pickup_store">
+                    <h5>{{ __('messages.pickup_in_store') }}</h5>
+                    <table class="w-100">
+                        <tr>
+                            <td class="w-45">{{ __('messages.branch_name') }} :</td>
+                            <td>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ __('messages.address') }} :</td>
+                            <td>{{ $order[0]->address }}
+                                <input type="hidden" name="address" value="{{ $order[0]->address }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{ __('messages.contact_number') }} :</td>
+                            <td>{{ $order[0]->telephone }}
+                                <input type="hidden" name="telephone" value="{{ $order[0]->telephone }}">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
                 <div class="col-lg-5 col-sm-12 pt-4 border-left">
                     <h5><br></h5>
                     <table class="w-100 font-weight-normal" style="line-height: 1.8;">
@@ -160,3 +185,19 @@
                 class="fas fa-reply text-danger"></i> ย้อนกลับ</button>
     </div>
 </div>
+
+
+@push('after-scripts')
+<script>
+    $(document).ready(function() {
+        // Fixed bug when click back from pay page
+        if($('#pickup_optional').val() == 0) {
+            $('.delivery_service').show();
+            $('.pickup_store').hide();
+        } else {
+            $('.delivery_service').hide();
+            $('.pickup_store').show();
+        }
+	});
+</script>
+@endpush

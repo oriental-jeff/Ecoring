@@ -14,6 +14,7 @@ class Orders extends Model implements HasMedia
     protected $table = 'order';
     protected $attributes = [
         'payment_type' => 0,
+        'pickup_optional' => 0,
         'status' => 0,
     ];
     protected $guarded = [];
@@ -82,6 +83,14 @@ class Orders extends Model implements HasMedia
         return [
             1 => 'ชำระผ่านบัตรเครดิต/เดบิต',
             0 => 'โอนเข้าบัญชีธนาคาร',
+        ][$attributes];
+    }
+
+    public function getPickupOptionalNameAttribute($attributes)
+    {
+        return [
+            1 => 'มารับสินค้าเอง',
+            0 => 'ใช้ช่องทางการจัดส่ง',
         ][$attributes];
     }
 

@@ -60,9 +60,21 @@
                     </li>
                     @endcan
 
+                    @can('access branch')
+                    <li class="{{ request()->routeIs('backend.branch*') ? 'active' : '' }}">
+                        <a href="{{ route('backend.branch.index') }}" class="menu-link">สาขา</a>
+                    </li>
+                    @endcan
+
                     @can('access policy')
                     <li class="{{ request()->routeIs('backend.policy*') ? 'active' : '' }}">
                         <a href="{{ route('backend.policy.index') }}" class="menu-link">นโยบาย</a>
+                    </li>
+                    @endcan
+
+                    @can('access knowledge')
+                    <li class="{{ request()->routeIs('backend.knowledge*') ? 'active' : '' }}">
+                        <a href="{{ route('backend.knowledge.index') }}" class="menu-link">คลังความรู้</a>
                     </li>
                     @endcan
 
@@ -187,8 +199,7 @@
             </li>
             @endcan
 
-            <li
-                class="has-sub {{ request()->routeIs('backend.orders*', 'backend.payment_notifications*', 'backend.transactions*')  ? 'active' : '' }}">
+            <li class="has-sub {{ request()->routeIs('backend.orders*', 'backend.payment_notifications*', 'backend.transactions*')  ? 'active' : '' }}">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fas fa-sitemap"></i>
@@ -218,6 +229,43 @@
                         <a href="{{ route('backend.transactions.index') }}" class="menu-link">
                             <i class="fas fa-credit-card"></i>
                             <span>ประวัติการชำระผ่านบัตร</span>
+                        </a>
+                    </li>
+                    @endcan
+                </ul>
+            </li>
+
+            {{-- Menu Reports --}}
+            <li class="has-sub">
+                <a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="fas fa-file-invoice"></i>
+                    <span>รายงาน</span>
+                </a>
+                <ul class="sub-menu">
+                    @can('access report_orders')
+                    <li class="">
+                        <a href="{{ route('backend.orders.index') }}" class="menu-link">
+                            <i class="fas fa-receipt"></i>
+                            <span>รายงานการสั่งซื้อสินค้า</span>
+                        </a>
+                    </li>
+                    @endcan
+
+                    @can('access report_products_stock')
+                    <li class="">
+                        <a href="{{ route('backend.payment_notifications.index') }}" class="menu-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>รายงานสต๊อกสินค้า</span>
+                        </a>
+                    </li>
+                    @endcan
+
+                    @can('access report_customers')
+                    <li class="">
+                        <a href="{{ route('backend.transactions.index') }}" class="menu-link">
+                            <i class="fas fa-credit-card"></i>
+                            <span>รายงานข้อมูลลูกค้า</span>
                         </a>
                     </li>
                     @endcan

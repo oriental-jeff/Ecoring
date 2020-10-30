@@ -55,6 +55,7 @@
                         @endif
                         <div class="col-md-6 col-ms-5 d-flex align-items-center">
                             <input type="checkbox" name="cartID[]" value="{{ $cart->id }}"
+                                {{ $cart->active == 1 ? 'checked' : '' }}
                                 {{ ($cart->stocks[0]->quantity === 0 or GlobalFn::productReservedOnCart($cart->product->id)) ? 'disabled' : '' }}>
                             <div class="img">
                                 <div class="src-img"
@@ -120,7 +121,7 @@
                             style="{{ ($cart->stocks[0]->quantity === 0 or GlobalFn::productReservedOnCart($cart->product->id)) ? 'z-index:1' : '' }}">
                             {{-- @if ($cart->stocks[0]->quantity != 0) --}}
                             <a data-id="{{ $cart->id }}" aria-placeholder="{{ __('messages.cart_delete_confirm') }}"
-                                class="btn-remmove-cart btn btn-secondary font-weight-light radius-25 w-100"
+                                class="btn-remove-cart btn btn-secondary font-weight-light radius-25 w-100"
                                 href="javascript:void(0);">
                                 <img class="m-0 mr-2" style="width: 17px;" src="{{ url('images/icon-delete.svg') }}">
                                 {{ __('messages.cart_delete') }}
@@ -170,6 +171,9 @@
         $('input:checkbox').on('change', function() {
             sumTotal();
         });
+        if ({{ COUNT($carts) }} == $('input:checkbox:checked').length) {
+            $(".selectAll").prop('checked', true);
+        }
     });
 </script>
 @endpush

@@ -29,6 +29,7 @@ return [
     'list' => 'List',
     'search' => 'Search',
     'search_products' => 'Search Products',
+    'search_orders' => 'Search Orders',
     'favorite' => 'Favorite',
     'history' => 'History',
     'quantity' => 'Quantity',
@@ -131,12 +132,15 @@ return [
 
     'noti_not_login' => 'Please login',
 
+    'change_avatar_success' => 'Avatar has been changed.',
+
     /**
      * Payment
      */
     'payment_title' => 'Payment notification',
     'order_code' => 'Order No.',
     'contact_number' => 'Contact',
+    'order_date' => 'Order Date',
     'date' => 'Date',
     'time' => 'Time',
     'transfer_to' => 'Payment method',
@@ -149,9 +153,11 @@ return [
     'credit_debit_card' => 'Credit / Debit Card',
     'btn_payment' => 'Submit',
     'payment_notification_success' => 'Your payment has been sent',
+    'status' => 'Status',
 
     'order_not_found' => 'Order not found.',
     'order_has_been_existe' => 'This Order no. has been notified before',
+    'cancel_order' => 'Cancel Order',
 
     /**
      * Cart
@@ -191,6 +197,11 @@ return [
     /**
      * Delivery
      */
+    'pickup_optional' => 'Order Pickup Options',
+    'delivery_service' => 'Delivery Services',
+    'pickup_in_store' => 'Pickup in store',
+    'choose_branch_available' => 'Choose Branch',
+    'branch_name' => 'Branch Name',
     'shipping_option' => 'Shipping option',
     'estimated_delivery_time' => 'Estimated delivery time',
     'shipping_cost' => 'Shipping cost',
@@ -206,12 +217,19 @@ return [
     'btn_back' => 'Back',
     'btn_upload' => 'Upload',
     'btn_close' => 'Close',
+    'btn_ok' => 'Ok',
     'btn_back_to_main_page' => 'Back to main page',
+    'btn_more_delivery_address' => 'More Delivery Address',
 
     /**
      * Other
      * Data result
      */
     'baht' => 'Baht',
+    'more_detail' => 'More Detail',
+
+    // Knowledge / Q & A
+    'q&a' => 'Q & A',
+    'knowledge' => 'Knowledge Data'
 
 ];

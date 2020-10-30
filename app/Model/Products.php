@@ -162,9 +162,12 @@ class Products extends Model implements HasMedia
         $keyword = $request->keyword;
         $active = $request->active;
         $recommend = $request->recommend;
+
         if ($keyword) {
             $query = $query->where('name_th', 'like', "%$keyword%")
                 ->orWhere('name_en', 'like', "%$keyword%")
+                ->orWhere('sku', 'like', "%{$keyword}%")
+                ->orWhere('code', 'like', "%{$keyword}%")
                 ->orWhereHas('categories_name', function ($q1) use ($keyword) {
                     $q1->where('name_th', 'like', "%$keyword%")
                         ->orWhere('name_en', 'like', "%$keyword%");
@@ -174,9 +177,11 @@ class Products extends Model implements HasMedia
                         ->orWhere('name_en', 'like', "%$keyword%");
                 });
         }
+
         if ($active === "0" or $active === "1") {
             $query = $query->where('active', (int) $active);
         }
+
         if ($recommend === "1") {
             $query = $query->where('recommend', (int) $recommend);
         }

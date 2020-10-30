@@ -12,7 +12,9 @@ use App\Model\Logistics;
 use App\Model\UserProfile;
 use App\Model\UserAddressDelivery;
 use App\Model\BankAccounts;
+use App\Model\Branch;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\AutoGenDoc as GenCode;
 
 class PayController extends Controller
 {
@@ -28,16 +30,18 @@ class PayController extends Controller
         if ($cart->stockCheckAvailable(config('global.warehouse'))->count() > 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
 
         $carts = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->get();
-        $logistic = Logistics::where('id', $request->logistic_id)->onlyActive()->get();
 
         // Delivery
+        $pickup_optional = $request->pickup_optional;
+        $logistic = Logistics::where('id', $request->logistic_id)->onlyActive()->get();
         if ($request->delivery_addr == 'profile') { // Profile Delivery Address
             $delivery_addr = UserProfile::where('id', $request->profile_id)->get();
         } else { // Custome Delivery Address
             $delivery_addr = UserAddressDelivery::where('id', $request->custom_id)->get();
         }
+        $branch = Branch::where('id', $request->branch)->onlyActive()->get();
 
-        return view('frontend.pay.index', compact(['carts', 'logistic', 'delivery_addr']));
+        return view('frontend.pay.index', compact(['carts', 'logistic', 'delivery_addr', 'branch', 'pickup_optional']));
     }
 
     public function store(Request $request)
@@ -68,9 +72,13 @@ class PayController extends Controller
 
         $payment_type = $request->paymentMethod == 'dccard' ? 1 : 0;
 
+        $generated_code = GenCode::generateCode('order');
+
         $order_data = [
-            "code" => "UCM" . rand(0, 99999999),
+            // "code" => "UCM" . rand(0, 99999999),
+            "code" => $generated_code,
             "payment_type" => $payment_type,
+            "pickup_optional" => $request->pickup_optional,
             "logistics_id" => $data['logistics_id'],
             "telephone" => $data['telephone'],
             "fullname" => $data['fullname'],

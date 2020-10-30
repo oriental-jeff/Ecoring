@@ -101,7 +101,43 @@
 
                 <hr>
 
-                <div class="box-Shipment font-weight-normal t2">
+                <div class="box-Payment font-weight-normal">
+                    <h5>{{ __('messages.pickup_optional') }}</h5>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input class="box-check" type="radio" name="pickup_optional" id="pickup_optional1" value="0"
+                                checked>
+                            <label class="box-check-label" for="pickup_optional1">
+                                {{ __('messages.delivery_service') }}
+                            </label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="box-check" type="radio" name="pickup_optional" id="pickup_optional2"
+                                value="1">
+                            <label class="box-check-label" for="pickup_optional2">
+                                {{ __('messages.pickup_in_store') }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-Shipment font-weight-normal t2 pickup_store">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <label for="branch">
+                                <h5>{{ __('messages.choose_branch_available') }}</h5>
+                            </label>
+                            <select class="form-control" id="branch" name="branch" required="" style="margin-left: 0;">
+                                @foreach($branchs as $branch)
+                                <option value="{{ $branch->id }}">
+                                    {{ $branch->{ get_lang('name') } }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-Shipment font-weight-normal t2 delivery_service">
                     <h5>{{ __('messages.shipping_option') }}</h5>
                     <div class="row">
                         @foreach ($logistics as $k => $logistic)
@@ -122,7 +158,7 @@
                     </div>
                 </div>
 
-                <div class="box-Shipment font-weight-normal">
+                <div class="box-Shipment font-weight-normal delivery_service">
                     <div class="row">
                         <div class="col-lg-6">
                             <h5>{{ __('messages.delivery_address') }}</h5>
@@ -377,6 +413,24 @@
             if ($(this).val() === 'custom') $('#customeAddr').attr('disabled', false);
         });
         if (!$('#button-hourglass').hasClass('active')) $('#button-hourglass').addClass('active');
+
+        $('input[name=pickup_optional]').on('click', function() {
+            $('.pickup_store').toggle();
+            $('.delivery_service').toggle();
+        });
+
+        // Fixed bug when click back from pay page
+        if($('input[name=pickup_optional]:checked', '#pay-form-validate').val() == 0) {
+            $('.delivery_service').show();
+            $('.pickup_store').hide();
+        } else {
+            $('.delivery_service').hide();
+            $('.pickup_store').show();
+        }
+
+        // Delivery
+        if($('input[name=delivery_addr]:checked', '#pay-form-validate').val() == 'custom')
+            $('#customeAddr').attr('disabled', false);
     });
     // custom delivery address
     function getCustomData() {

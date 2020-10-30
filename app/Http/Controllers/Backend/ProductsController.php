@@ -141,6 +141,7 @@ class ProductsController extends Controller
             "categories_id" => "required",
             "grades_id" => "required",
             "sku" => "",
+            "code" => "",
             "name_th" => "required",
             "name_en" => "required",
             "description_th" => "",

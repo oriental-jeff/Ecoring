@@ -83,6 +83,7 @@ class AjaxController extends Controller
                     'products_id' => $request->product_id,
                     'created_by' => Auth::id(),
                     'updated_by' => Auth::id(),
+                    'products_updated' => Products::where('id', $request->product_id)->pluck('products_updated')[0] ?? null, // set this for favorite notification
                 ];
                 $favorite = Favorites::create($data);
             else :
@@ -170,9 +171,19 @@ class AjaxController extends Controller
         $cartId = $request->cartId;
         try {
             $cart = Cart::findOrFail($cartId);
+
+            if ($cart->active == 1) {
+                // update updated_at of product for make favorite notification
+                $pd = Products::find($cart->product->id);
+                $pd->update(['products_updated' => now()->toDateTimeString()]);
+
+                // dont notification this user id
+                GlobalFn::productFavoriteUpdate($cart->product->id);
+            }
+
             $cart->delete();
         } catch (\Throwable $th) {
-            return false;
+            return $th;
         }
 
         return response()->json([

@@ -71,6 +71,7 @@
                                 <th class="text-center">ชื่อเรียก (ไทย)</th>
                                 <th class="text-center">ชื่อเรียก (อังกฤษ)</th>
                                 <th class="text-center">SKU</th>
+                                <th class="text-center">Code</th>
                                 <th class="text-center">หมวดหมู่</th>
                                 {{-- <th class="text-center">เกรด</th> --}}
                                 {{-- <th class="text-center"
@@ -126,6 +127,7 @@
                                 <td class="text-left">{{ $product->name_th }}</td>
                                 <td class="text-left">{{ $product->name_en }}</td>
                                 <td class="text-left">{{ $product->sku }}</td>
+                                <td class="text-left">{{ $product->code ?? '-' }}</td>
                                 <td class="text-center">{{ $product->categories_name->name_th ?? '' }}</td>
                                 {{-- <td class="text-center">{{ $product->grades_name->name_th }}</td> --}}
                                 {{-- <td class="text-right">{{ $product->full_price }}</td> --}}

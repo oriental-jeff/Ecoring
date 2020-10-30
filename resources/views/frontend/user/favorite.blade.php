@@ -57,7 +57,7 @@
             <div class="row box-List py-3">
                 @foreach ($favorites as $favorite)
                 <div class="col-xl-2 col-lg-3 col-sm-4 col-6 list">
-                    <div class="btn-heart active" onclick="alert('click');"></div>
+                    <div class="btn-heart active" data-fav="1" data-product="{{ $favorite->products_id }}"></div>
                     <div class="card h-100">
                         <div class="card-body">
                             <a
@@ -78,8 +78,9 @@
                         <div class="card-footer">
                             <span class="price">{{ __('messages.price') }} :
                                 ฿{{ number_format($favorite->products->product_price) }}<b>฿{{ number_format($favorite->products->full_price) }}</b></span>
-                            <button type="button" class="btn w-100"
-                                {{ (empty(Auth::user()) or GlobalFn::productReservedOnCart($favorite->products->id) or GlobalFn::productOutOfStock($favorite->products->id)) ? 'disabled' : '' }}>{{ GlobalFn::productOutOfStock($favorite->products->id) ? __('messages.sold_out') : (GlobalFn::productReservedOnCart($favorite->products->id) ? __('messages.out_of_stock') : __('messages.add_basket')) }}</button>
+                            <button type="button" class="btn btn-cart w-100"
+                                {{ (empty(Auth::user()) or GlobalFn::productReservedOnCart($favorite->products->id) or GlobalFn::productOutOfStock($favorite->products->id)) ? 'disabled' : '' }}
+                                data-product="{{ $favorite->products->id }}">{{ GlobalFn::productOutOfStock($favorite->products->id) ? __('messages.sold_out') : (GlobalFn::productReservedOnCart($favorite->products->id) ? __('messages.out_of_stock') : __('messages.add_basket')) }}</button>
                         </div>
                     </div>
                 </div>

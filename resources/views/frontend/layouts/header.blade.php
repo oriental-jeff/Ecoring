@@ -100,7 +100,7 @@
                                             <a class="dropdown-toggle" href="javascript:;" role="button"
                                                 id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false">
-                                                <img src="{{ asset('images/I-login.svg') }}" class="icon-login">
+                                                <img src="{{ Auth::user()->profiles->avatar ?? asset('images/I-login.svg') }}" class="icon-login">
                                                 {{ __('messages.hi') }}
                                                 {{ Auth::user()->first_name }}
                                             </a>
@@ -120,9 +120,17 @@
                                             @endauth
                                         </div>
                                         <div class="col-md-3 border-left">
-                                            <a href="{{ route('frontend.user.favorite', ['locale' => get_lang()]) }}">
-                                                <img src="{{ asset('images/I-favorite.svg') }}" class="icon-menu">
-                                            </a>
+                                            <div class="position-relative d-inline-flex">
+                                                <a href="{{ route('frontend.user.favorite', ['locale' => get_lang()]) }}"
+                                                    id="boxOfFavorite">
+                                                    <img src="{{ asset('images/I-favorite.svg') }}" class="icon-menu">
+                                                    @php
+                                                    $fvrCount = GlobalFn::getProductFavoriteUpdate();
+                                                    @endphp
+                                                    <i
+                                                        class="cart_item {{ $fvrCount == 0 ? 'd-none' : '' }}">{{ $fvrCount }}</i>
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="col-md-3 border-left">
                                             <div class="position-relative d-inline-flex">
@@ -231,10 +239,17 @@
                     @endauth
                 </div>
                 <div class="col-6 border-left p-2">
-                    <a
-                        href="{{ !empty(Auth::user()) ? route('frontend.user.favorite', ['locale' => get_lang()]) : 'javascript:;' }}">
-                        <img src="{{ asset('images/I-favorite.svg') }}" class="icon-menu mr-2">Favorites
-                    </a>
+                    <div class="position-relative d-inline-flex">
+                        <a href="{{ route('frontend.user.favorite', ['locale' => get_lang()]) }}"
+                            id="boxOfFavoritemobile">
+                            <img src="{{ asset('images/I-favorite.svg') }}" class="icon-menu mr-2">
+                            {{ __('messages.favorite') }}
+                            @php
+                            $fvrCount = GlobalFn::getProductFavoriteUpdate();
+                            @endphp
+                            <i class="cart_item {{ $fvrCount == 0 ? 'd-none' : '' }}">{{ $fvrCount }}</i>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="navbar-top-mobile">

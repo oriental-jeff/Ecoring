@@ -71,6 +71,8 @@ Route::name('backend.')
 
         Route::resource('/policy', 'PolicyController');
 
+        Route::resource('/knowledge', 'KnowledgeController');
+
         Route::resource('/about', 'AboutUsController');
 
         Route::name('websocial.')
@@ -93,6 +95,12 @@ Route::name('backend.')
                 Route::get('/search', 'BannerController@search')->name('search');
             });
         Route::resource('/banner', 'BannerController');
+
+        // Reports
+        Route::name('reports.')->prefix('reports')->group(function() {
+            Route::get('/', 'ReportsController@index');
+            Route::get('/orders', 'ReportsController@orders')->name('orders');
+        });
 
         Route::name('menu.')
             ->prefix('/menu')
@@ -152,6 +160,13 @@ Route::name('backend.')
                 Route::get('/search', 'PromotionDetailsController@search')->name('search');
             });
         Route::resource('/promotion_details', 'PromotionDetailsController');
+
+        Route::name('branch.')
+          ->prefix('/branch')
+          ->group(function(){
+            Route::get('/search', 'BranchController@search')->name('search');
+        });
+        Route::resource('/branch', 'BranchController');
 
         // Get Product promotion condition
         Route::get('/product/promotion', 'PromotionDetailsController@promotion');

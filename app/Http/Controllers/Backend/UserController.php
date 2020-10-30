@@ -19,10 +19,12 @@ class UserController extends Controller
     if ($request->filled('keyword')) :
       $users = User::getDataByKeyword(request('keyword'))
           ->ignoreSuperAdmin()
+          ->where('guest', 0)
           ->get();
     else:
       $users = User::ignoreSuperAdmin()
           ->limit(50)
+          ->where('guest', 0)
           ->get();
     endif;
 

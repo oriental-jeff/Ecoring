@@ -14,7 +14,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a
                             href="{{ route('frontend.home', ['locale' => get_lang()]) }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">ประวัติการสั่งซื้อ</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ __('messages.history') }}</li>
                 </ol>
             </nav>
         </div>
@@ -24,31 +24,32 @@
         <div class="container">
             <div class="row pb-1">
                 <div class="col-xl-9 col-lg-8 col-sm-7">
-                    <h4 class="mx-auto mb-4">ประวัติการสั่งซื้อ</h4>
+                    <h4 class="mx-auto mb-4">{{ __('messages.history') }}</h4>
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-5">
                     <form class="form-inline form-Search float-right w-100"
                         action="{{ route('frontend.user.history', ['locale' => get_lang()]) }}" method="post">
                         @method('get')
                         @csrf
-                        <input class="form-control" name="search_orderid" type="text" placeholder="ค้นหาคำสั่งซื้อ"
+                        <input class="form-control" name="search_orderid" type="text" placeholder="{{ __('messages.search_orders') }}"
                             aria-label="Search" value="{{ request()->search_orderid }}">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i
-                                class="fa fa-search"></i></button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
                     </form>
                 </div>
             </div>
             @foreach ($orders as $order)
             <div class="List">
                 <div class="b-List">
-                    <div class="bTop">หมายเลขการสั่งซื้อ : {{ $order->code }}</div>
+                    <div class="bTop">{{ __('messages.order_code') }} : {{ $order->code }}</div>
                     <div class="btext">
-                        <div>วันที่สั่งสินค้า : <br>{{ $order->created_at->format("d/m/Y H:i:s") }}</div>
-                        <div>จำนวน : <br>{{ $order->cart->count() }}</div>
-                        <div>ราคา :
+                        <div>{{ __('messages.order_date') }} : <br>{{ $order->created_at->format("d/m/Y H:i:s") }}</div>
+                        <div>{{ __('messages.cart_quantity') }} : <br>{{ $order->cart->count() }}</div>
+                        <div>{{ __('messages.cart_amount') }} :
                             <br>฿{{ number_format($order->total_amount + $order->delivery_charge + $order->vat, 2) }}
                         </div>
-                        <div>สถานะ :
+                        <div>{{ __('messages.status') }} :
                             <div class="Checkmark status{{ ($order->status >= 3) ? 4 : $order->status+1 }}">
                                 {{ ($order->status >= 3) ? $status[3]->{get_lang('name')} : $order->status_config->{get_lang('name')} }}
                             </div>
@@ -56,13 +57,15 @@
                     </div>
                 </div>
                 <div class="b-btn">
-                    <a href="{{ route('frontend.user.history-detail', ['locale' => get_lang(), 'order_id' => $order->id]) }}"
-                        class="btn btn-secondary font-weight-light radius-25 mx-1"><img
-                            src="{{ asset('images/I-see.svg') }}"> ดูรายละเอียด</a>
+                    <a href="{{ route('frontend.user.history-detail', ['locale' => get_lang(), 'order_id' => $order->id]) }}" class="btn btn-secondary font-weight-light radius-25 mx-1">
+                        <img src="{{ asset('images/I-see.svg') }}">{{ __('messages.more_detail') }}
+                    </a>
+
                     <a href="javascript:void(0);" data-orderid="{{ $order->id }}"
                         class="btn-cancel-order btn btn-danger font-weight-light radius-25 mx-1 {{ $order->status > 0 ? 'disabled' : '' }}"
                         {{ $order->status > 0 ? 'disabled' : '' }}><img src="{{ asset('images/I-close.svg') }}">
-                        ยกเลิกคำสั่งซื้อ</a>
+                        {{ __('messages.cancel_order') }}
+                    </a>
                 </div>
             </div>
             @endforeach
@@ -100,9 +103,7 @@
 @endsection
 
 @push('after-scripts')
-<script>
-    $(document).ready(function() {
-
-	});
-</script>
+    <script>
+        $(document).ready(function() {});
+    </script>
 @endpush

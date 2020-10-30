@@ -173,11 +173,7 @@ class UserController extends Controller
 
     public function edit()
     {
-        if (get_lang() == 'th') :
-            $name = 'name_th';
-        else :
-            $name = 'name_en';
-        endif;
+        $name = get_lang() == 'th' ? 'name_th' : 'name_en';
 
         $pages = Pages::get(1);
         $user = User::where('id', Auth::id())->first();
@@ -216,7 +212,15 @@ class UserController extends Controller
             $request->session()->flash('alert-class', $alert_class);
 
             return redirect()->back();
+        elseif (request()->has('avatar')) :
+            $user->profiles->storeImage('avatar');
+
+            $message = __('messages.change_avatar_success');
+            $request->session()->flash('message', $message);
+            $request->session()->flash('alert-class', 'alert-success');
+            return redirect(route('frontend.user.profile', ['locale' => get_lang()]));
         else :
+            // dd($request);
             $data = request()->validate([
                 'first_name' => ['required', 'string', 'max:255'],
                 'last_name' => '',
@@ -229,22 +233,25 @@ class UserController extends Controller
                 'sub_district' => ['required'],
                 'postcode' => ['required'],
                 'receive_info' => '',
-                'delivery_fullname' => ['required', 'string', 'max:255'],
+                'delivery_fullname' => ['required'],
                 'delivery_address' => ['required'],
                 'delivery_province' => ['required'],
                 'delivery_district' => ['required'],
                 'delivery_sub_district' => ['required'],
                 'delivery_postcode' => ['required'],
-                'delivery_telephone' => ['required'],
+                'delivery_telephone' => ['required']
             ]);
 
+            // USER DATA
             $user_data = [
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
             ];
+            $user->update($user_data);
 
+            // USER PROFILE
             $user_profile = [
                 'sex' => $data['sex'],
                 'birthday' => $data['birthday'],
@@ -254,32 +261,74 @@ class UserController extends Controller
                 'district_id' => $data['district'],
                 'sub_district_id' => $data['sub_district'],
                 'postcode' => $data['postcode'],
-                'receive_info' => $data['receive_info'],
+                'receive_info' => $data['receive_info']
             ];
+            $userProfile = UserProfile::where('user_id', $user->id)->update($user_profile);
 
-            $user_address_delivery = [
-                'default' => 1,
-                'fullname' => $data['delivery_fullname'],
-                'address' => $data['delivery_address'],
-                'province_id' => $data['delivery_province'],
-                'district_id' => $data['delivery_district'],
-                'sub_district_id' => $data['delivery_sub_district'],
-                'postcode' => $data['delivery_postcode'],
-                'telephone' => $data['delivery_telephone'],
-            ];
+            // DELIVERY ADDRESSES
+            // Check delivery addresses for remove
+            $delivery_address = UserAddressDelivery::getAddressDeliveryByUserIds([$user->id])->get();
+            $delivery_address_ids = $delivery_address->pluck('id');
+            $diff = collect($delivery_address_ids->diff($request->deli_address_id)->all());
+            if ($diff->count() != 0) :
+                $diff->each(function($deli_address_id, $key) {
+                    UserAddressDelivery::find($deli_address_id)->delete();
+                });
+            endif;
 
-            UserProfile::where('user_id', $user->id)->update($user_profile);
+            // If old data delivery address = Update
+            if ($request->has('deli_address_id')) :
+                foreach ($request->delivery_fullname as $key => $value) :
+                    $data_user_address_delivery = [
+                        'fullname' => $data['delivery_fullname'][$key],
+                        'address' => $data['delivery_address'][$key],
+                        'province_id' => $data['delivery_province'][$key],
+                        'district_id' => $data['delivery_district'][$key],
+                        'sub_district_id' => $data['delivery_sub_district'][$key],
+                        'postcode' => $data['delivery_postcode'][$key],
+                        'telephone' => $data['delivery_telephone'][$key]
+                    ];
+                    // dd($data_user_address_delivery);
+                    $user_address_delivery = UserAddressDelivery::find($request->deli_address_id[$key]);
+                    $user_address_delivery->update($data_user_address_delivery);
+                endforeach;
+            else :
+                UserAddressDelivery::getAddressDeliveryByUserIds([$user->id])->delete();
+            endif;
 
-            UserAddressDelivery::where('user_id', $user->id)->update($user_address_delivery);
+            // If new data delivery address = Insert
+            if ($request->has('new_delivery_fullname')) :
+                foreach ($request->new_delivery_fullname as $key => $value) :
+                    $new_data = request()->validate([
+                        'new_delivery_fullname' => ['required'],
+                        'new_delivery_address' => ['required'],
+                        'new_delivery_province' => ['required'],
+                        'new_delivery_district' => ['required'],
+                        'new_delivery_sub_district' => ['required'],
+                        'new_delivery_postcode' => ['required'],
+                        'new_delivery_telephone' => ['required']
+                    ]);
 
-            $user->update($user_data);
+                    $new_data_user_address_delivery = [
+                        'user_id' => Auth::id(),
+                        'default' => 0,
+                        'fullname' => $new_data['new_delivery_fullname'][$key],
+                        'address' => $new_data['new_delivery_address'][$key],
+                        'province_id' => $new_data['new_delivery_province'][$key],
+                        'district_id' => $new_data['new_delivery_district'][$key],
+                        'sub_district_id' => $new_data['new_delivery_sub_district'][$key],
+                        'postcode' => $new_data['new_delivery_postcode'][$key],
+                        'telephone' => $new_data['new_delivery_telephone'][$key]
+                    ];
+                    UserAddressDelivery::create($new_data_user_address_delivery);
+                endforeach;
+            endif;
 
+            // REDIRECT & FLASH
             $message = __('messages.update_success');
             $alert_class = 'alert-success';
-
             $request->session()->flash('message', $message);
             $request->session()->flash('alert-class', $alert_class);
-
             return redirect(route('frontend.user.profile', ['locale' => get_lang()]));
         endif;
     }
@@ -341,10 +390,6 @@ class UserController extends Controller
 
         return view('frontend.user.favorite', compact(['pages', 'favorites']));
     }
-
-
-
-
 
     public function send_email($data)
     {

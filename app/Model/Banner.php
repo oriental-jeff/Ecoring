@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 
-class Banner extends Model 
+class Banner extends Model
 {
   use LogsActivity;
   protected $table = 'banners';
@@ -22,15 +22,16 @@ class Banner extends Model
   }*/
 
   public function pages() {
-      return $this->hasOne('App\Model\Pages', 'id', 'page_id');
+      return $this->hasOne('App\Model\Page', 'id', 'page_id');
   }
 
   public function banners_detail() {
+    // return $this->hasMany('App\Model\BannerDetail')->orderBy('slide_position', 'ASC');
     return $this->hasMany('App\Model\BannerDetail');
   }
 
   public function scopegetDataByKeyword($query, $keyword) {
-    return $query->where('name', 'like', "%$keyword%"); 
+    return $query->where('name', 'like', "%$keyword%");
   }
 
   public function scopebannerActive($query) {

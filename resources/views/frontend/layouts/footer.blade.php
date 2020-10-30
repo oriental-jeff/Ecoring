@@ -124,16 +124,24 @@
 <div class="footer-Copyright">
     <div class="container">
         <p>{{ $main['web_info']->{ get_lang('copyright') } }}</p>
+
+        <div class="Fright d-none d-sm-block">
+            <a href="{{ route('frontend.knowledge', ['locale' => get_lang()]) }}">
+                {{ __('messages.q&a') }}
+            </a>
+        </div>
+
         <div class="Fright d-none d-sm-block">
             <a href="#" data-toggle="modal" data-target="#privacy_policy">{{ __('messages.privacy_policy') }}</a>
         </div>
     </div>
 </div>
+
 @if (!empty(GlobalFn::getCountdown()[0][0]))
 @php
 $time = GlobalFn::getCountdown()[1] == 'cart' ? GlobalFn::getCountdown()[0][0]->updated_at :
 GlobalFn::getCountdown()[0][0]->created_at ;
-$minutes = GlobalFn::getCountdown()[1] == 'cart' ? 20 : 1440 ;
+$minutes = GlobalFn::getCountdown()[1] == 'cart' ? 20 : 1440 ; // 20m or 24h
 $end_time = $time->addMinutes($minutes);
 @endphp
 <div id="button-hourglass"><img src="{{ asset('images/I-hourglass.svg') }}"></div>
@@ -213,9 +221,9 @@ $end_time = $time->addMinutes($minutes);
                 {{ __('messages.noti_not_login') }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('messages.close') }}</button>
                 <a href="{{ route('frontend.auth.login.form', ['locale' => get_lang()]) }}" type="button"
-                    class="btn btn-primary">{{ __('messages.submit') }}</a>
+                    class="btn btn-primary">{{ __('messages.login') }}</a>
             </div>
         </div>
     </div>
@@ -235,7 +243,8 @@ $end_time = $time->addMinutes($minutes);
                 <div id="notiMsg"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('messages.close') }}</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{{ __('messages.btn_ok') }}</button>
             </div>
         </div>
     </div>

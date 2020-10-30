@@ -8,7 +8,9 @@ use Facades\App\Repository\Pages;
 use Illuminate\Http\Request;
 use App\Model\Cart;
 use App\Model\Logistics;
+use App\Model\Products;
 use App\Model\UserAddressDelivery;
+use App\Model\Branch;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -41,6 +43,14 @@ class CartController extends Controller
             $c->quantity = $request->quantity[$k];
             $c->active = 1;
             $c->updated_at = $dNow ? $dNow : now();
+
+            // update updated_at of product for make favorite notification
+            $pd = Products::find($c->product->id);
+            $pd->update(['products_updated' => now()->toDateTimeString()]);
+
+            // notification this user id
+            GlobalFn::productFavoriteUpdate($c->product->id, false);
+
             $c->update();
         }
         // Check Stock
@@ -52,7 +62,9 @@ class CartController extends Controller
 
         $delivery_addr = UserAddressDelivery::where('user_id', Auth::id())->get();
 
-        return view('frontend.cart.order', compact(['carts', 'logistics', 'delivery_addr']));
+        $branchs = Branch::onlyActive()->get();
+
+        return view('frontend.cart.order', compact(['carts', 'logistics', 'delivery_addr', 'branchs']));
     }
 
     public function add(Request $request)

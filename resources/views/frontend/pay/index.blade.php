@@ -96,8 +96,9 @@
                     @endphp
                 </div>
                 <div class="box-total">
+                    <input type="hidden" id="pickup_optional" name="pickup_optional" value="{{ $pickup_optional }}">
                     <div class="row">
-                        <div class="col-lg-3 col-sm-5 pt-4">
+                        <div class="col-lg-3 col-sm-5 pt-4 delivery_service">
                             <h5>{{ __('messages.shipping_method') }}</h5>
                             <input type="hidden" name="logistics_id" value="{{ $logistic[0]->id }}">
                             <img src="{{ $logistic[0]->image }}" class="img-Shipment">
@@ -106,27 +107,36 @@
                             {{ __('messages.shipping_cost') }} : {{ number_format($logistic[0]->logistic_price) }}
                             บาท<br>
                         </div>
-                        <div class="col-lg-4 col-sm-7 pt-4 border-left">
+                        <div class="col-lg-4 col-sm-7 pt-4 border-left delivery_service">
                             <h5>{{ __('messages.delivery_address') }}</h5>
                             <table class="w-100">
                                 <tr>
                                     <td class="w-45">{{ __('messages.name') }} :</td>
                                     <td>{{ $delivery_addr[0]->fullname ?? Auth::user()->first_name . ' ' . Auth::user()->last_name }}
+                                        @if ($delivery_addr[0]->fullname)
                                         <input type="hidden" name="fullname"
                                             value="{{ $delivery_addr[0]->fullname ?? Auth::user()->first_name . ' ' . Auth::user()->last_name }}">
+                                        @elseif (!$branch[0]->fullname)
+                                        <input type="hidden" name="fullname"
+                                            value="{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}">
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>{{ __('messages.telephone') }} :</td>
                                     <td>{{ $delivery_addr[0]->telephone }}
+                                        @if ($delivery_addr[0]->telephone)
                                         <input type="hidden" name="telephone"
                                             value="{{ $delivery_addr[0]->telephone }}">
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>{{ __('messages.address') }} :</td>
                                     <td>{{ $delivery_addr[0]->address }}
+                                        @if ($delivery_addr[0]->address)
                                         <input type="hidden" name="address" value="{{ $delivery_addr[0]->address }}">
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
@@ -156,6 +166,39 @@
                                 </tr>
                             </table>
                         </div>
+
+                        <div class="col-lg-7 col-sm-12 pt-4 border-left pickup_store">
+                            <h5>{{ __('messages.pickup_in_store') }}</h5>
+                            <table class="w-100">
+                                <tr>
+                                    <td class="w-45">{{ __('messages.branch_name') }} :</td>
+                                    <td>{{ $branch[0]->fullname ?? Auth::user()->first_name . ' ' . Auth::user()->last_name }}
+                                        @if ($branch[0]->fullname)
+                                        <input type="hidden" name="fullname"
+                                            value="{{ $branch[0]->fullname ?? Auth::user()->first_name . ' ' . Auth::user()->last_name }}">
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ __('messages.address') }} :</td>
+                                    <td>{{ $branch[0]->{ get_lang('address')} ?? '' }}
+                                        @if ($branch[0]->{ get_lang('address')})
+                                        <input type="hidden" name="address"
+                                            value="{{ $branch[0]->{ get_lang('address')} ?? '' }}">
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ __('messages.contact_number') }} :</td>
+                                    <td>{{ $branch[0]->telephone ?? '' }}
+                                        @if ($branch[0]->telephone)
+                                        <input type="hidden" name="telephone" value="{{ $branch[0]->telephone ?? '' }}">
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
                         <div class="col-lg-5 col-sm-12 pt-4 border-left">
                             <h5><br></h5>
                             <table class="w-100 font-weight-normal" style="line-height: 1.8;">
@@ -177,9 +220,9 @@
                                 <tr>
                                     <td>{{ __('messages.cart_shipping') }}</td>
                                     <td class="text-right display-logistic-price">
-                                        ฿<span>{{ number_format($logistic[0]->logistic_price) }}</span>
+                                        ฿<span>{{ number_format($pickup_optional == 0 ? $logistic[0]->logistic_price : 0) }}</span>
                                         <input type="hidden" id="delivery_charge" name="delivery_charge"
-                                            value="{{ $logistic[0]->logistic_price }}"></td>
+                                            value="{{ $pickup_optional == 0 ? $logistic[0]->logistic_price : 0 }}"></td>
                                 </tr>
                                 <tr>
                                     <td>{{ __('messages.cart_vat') }} 7%</td>
@@ -239,6 +282,15 @@
 <script>
     $(function() {
         sumTotal(1);
+
+        // Fixed bug when click back from pay page
+        if($('#pickup_optional').val() == 0) {
+            $('.delivery_service').show();
+            $('.pickup_store').hide();
+        } else {
+            $('.delivery_service').hide();
+            $('.pickup_store').show();
+        }
     });
 </script>
 @endpush

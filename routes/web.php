@@ -90,6 +90,9 @@ Route::name('frontend.')
         /* Sitemap Route*/
         Route::get('/sitemap.xml', 'SitemapController@index')->name('sitemap.xml');
         Route::get('/sitemap.xml/reviews', 'SitemapController@reviews');
+
+        // Knowledge Page
+        Route::get('/knowledge', 'KnowledgeController@index')->name('knowledge');
     });
 
 Route::name('frontend.')
@@ -141,6 +144,12 @@ Route::name('frontend.')
             // Artisan::call('make:migration create_user_address_deliveries_table');
             return 'Create Mail Template Success';
         });
+
+        Route::get('/runSeeder', function () {
+            Artisan::call('db:seed --class=ProductTestSeeder');
+            return 'Run Seeder Success';
+        });
+
     });
 
 

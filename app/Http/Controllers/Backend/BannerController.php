@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 class BannerController extends Controller
 {
   const MODULE = 'banner';
-  
+
   public function index(Request $request)
   {
     $this->authorize(mapPermission(self::MODULE));
@@ -28,9 +28,10 @@ class BannerController extends Controller
       if(Auth::user()->hasRole(['admin'])):
         $banners = Banner::get();
       else:
-        $banners = Banner::all();
+        $banners = Banner::get();
       endif;
     endif;
+
     return view('backend.banner.index', compact('banners'));
   }
 
@@ -41,7 +42,7 @@ class BannerController extends Controller
     $pages = Page::get();
     $positions = [ 1,2,3];
     $types = ['static', 'slide'];
-    
+
     return view('backend.banner.create', compact(['banner', 'pages', 'positions', 'types']));
   }
 
@@ -63,19 +64,20 @@ class BannerController extends Controller
         $banner_detail->storeImage('static_upload_pc');
         $banner_detail->storeImage('static_upload_mobile');
       endif;
-      
+
     else:
       $img_invoke = 0;
       foreach ($request->slide_type as $key =>$type) :
         $detail = [
             'banner_id' => $banner->id,
+            'slide_position' => $request->slide_position[$key],
             'type' => $request->slide_type[$key],
             'url'  => !empty($request->slide_url[$key]) ? $request->slide_url[$key] : '',
           ];
         $detail['updated_by'] = Auth::id();
         $detail['created_by'] = Auth::id();
         $banner_detail = BannerDetail::create($detail);
-        if($type == 'video'): 
+        if($type == 'video'):
           $banner_detail->storeImage('slide_upload_video', $img_invoke);
           $img_invoke++;
         elseif($type == 'image'):
@@ -90,7 +92,7 @@ class BannerController extends Controller
     $message = 'บันทึกข้อมูลเรียบร้อย';
     $request->session()->flash('message', $message);
     $request->session()->flash('alert-class', 'alert-success');
-   
+
     return redirect(route('backend.banner.index'));
   }
 
@@ -108,53 +110,57 @@ class BannerController extends Controller
     $this->authorize(mapPermission(self::MODULE));
     $banner->update($this->validateRequest());
 
-    if($banner->type == 'static'):
+    // dd($request);
+
+    if($banner->type == 'static') :
       $detail = [
         'banner_id' => $banner->id,
         'type' => $request->edit_type,
         'url'  => $request->edit_url,
       ];
-
       $detail['updated_by'] = Auth::id();
       $banner_detail = BannerDetail::getBannerDetailByBannerIds([$banner->id])->first();
       $banner_detail->update($detail);
-      if(request()->has('edit_upload_pc')):
+
+      if(request()->has('edit_upload_pc')) :
         $banner_detail->storeImage('edit_upload_pc');
       endif;
-      if(request()->has('edit_upload_mobile')):
+
+      if(request()->has('edit_upload_mobile')) :
         $banner_detail->storeImage('edit_upload_mobile');
       endif;
-      
+
     else:
       $banner_detail = BannerDetail::getBannerDetailByBannerIds([$banner->id])->get();
       $banner_ids = $banner_detail->pluck('id');
-      //check Delete row BannerDetail
+      // check Delete row BannerDetail
       $diff = collect($banner_ids->diff($request->id)->all());
-      //if has Delete
-      if($diff->count() > 0):
+      // if has Delete
+      if($diff->count() > 0) :
         $diff->each(function($item, $key) {
           $row_delete_banner_detail = BannerDetail::find($item);
           $row_delete_banner_detail->delete();
         });
       endif;
-      //edit old silde
-      $img_invoke = 0;
-      if($request->has('edit_type')):
 
-        foreach ($request->edit_type as $key =>$type) :
+      // edit old silde
+      $img_invoke = 0;
+      if($request->has('edit_type')) :
+        foreach ($request->edit_type as $key => $type) :
             $edit_detail = [
                 'banner_id' => $banner->id,
+                'slide_position' => $request->edit_slide_position[$key],
                 'type' => $request->edit_type[$key],
                 'url'  => !empty($request->edit_url[$key]) ? $request->edit_url[$key] : '',
-              ];
+            ];
             $edit_detail['created_by'] = Auth::id();
             $banner_detail = BannerDetail::find($request->id[$key]);
             $banner_detail->update($edit_detail);
-            if($banner_detail->type == 'image'):   
-              if($request->has('edit_upload_pc'.'.'.$key) ):         
+            if($banner_detail->type == 'image') :
+              if($request->has('edit_upload_pc'.'.'.$key) ):
                 $banner_detail->storeImage('edit_upload_pc', $key);
               endif;
-              if($request->has('edit_upload_mobile'.'.'.$key)): 
+              if($request->has('edit_upload_mobile'.'.'.$key)):
                   $banner_detail->storeImage('edit_upload_mobile', $key);
               endif;
             elseif($banner_detail->type == 'video'):
@@ -164,33 +170,33 @@ class BannerController extends Controller
             endif;
         endforeach;
       else:
-       //delete all old data 
+       //delete all old data
         BannerDetail::getBannerDetailByBannerIds([$banner->id])->delete();
-      endif; 
+      endif;
 
-
-      //add new slide
+      // add new slide
       if ($request->has('slide_type')):
         $img_invoke = 0;
         foreach ($request->slide_type as $key =>$type) :
           $detail = [
               'banner_id' => $banner->id,
+              'slide_position' => $request->slide_position[$key],
               'type' => $request->slide_type[$key],
               'url'  => !empty($request->slide_url[$key]) ? $request->slide_url[$key] : '',
             ];
           $detail['updated_by'] = Auth::id();
           $detail['created_by'] = Auth::id();
           $banner_detail = BannerDetail::create($detail);
-          if($type == 'image'): 
+          if($type == 'image'):
             if(!empty($request->slide_upload_pc[$img_invoke])):
-
               $banner_detail->storeImage('slide_upload_pc', $img_invoke);
             endif;
+
             if(!empty($request->slide_upload_mobile[$img_invoke])):
               $banner_detail->storeImage('slide_upload_mobile', $img_invoke);
             endif;
             $img_invoke++;
-          elseif($type == 'video'): 
+          elseif($type == 'video'):
           $banner_detail->storeImage('slide_upload_video', $img_invoke);
           $img_invoke++;
           endif;
@@ -215,33 +221,31 @@ class BannerController extends Controller
 
   private function validateRequest()
   {
-    if(request()->route()->getActionMethod() == 'store'):
-      $validatedData = request()->validate([
-        "name"   => "required",
-        "page_id"    => "required",
-        "type"  => 'required',
-        "position" => "",
-      ]);
-    
-      request()->validate([
-        "upload"  => ['sometimes', 'file','image','max:5000'],
-        'slide_upload' => ['sometimes', 'array'],
-        'slide_upload.*' => ['sometimes', 'file', 'max:5000'],
-      ]);
+    if(request()->route()->getActionMethod() == 'store') :
+        $validatedData = request()->validate([
+            "name"   => "required",
+            "page_id"    => "required",
+            "type"  => 'required',
+            "position" => "",
+        ]);
+
+        request()->validate([
+            "upload"  => ['sometimes', 'file','image','max:5000'],
+            'slide_upload' => ['sometimes', 'array'],
+            'slide_upload.*' => ['sometimes', 'file', 'max:5000'],
+        ]);
     else:
-     $validatedData = request()->validate([
-        "name"   => "required",
-        "position" => "",
-      ]);
+        $validatedData = request()->validate([
+            "name"   => "required",
+            "position" => "",
+        ]);
 
-      request()->validate([
-        "upload"  => ['sometimes', 'file','image','max:5000'],
-        'slide_upload' => ['sometimes', 'array'],
-        'slide_upload.*' => ['sometimes', 'file','max:5000'],
-      ]);
+        request()->validate([
+            "upload"  => ['sometimes', 'file','image','max:5000'],
+            'slide_upload' => ['sometimes', 'array'],
+            'slide_upload.*' => ['sometimes', 'file','max:5000'],
+        ]);
     endif;
-   
-
     return $validatedData;
   }
 }

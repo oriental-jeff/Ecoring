@@ -90,9 +90,10 @@ class PromotionDetailsController extends Controller
     {
         $this->authorize(mapPermission(self::MODULE));
         $pages = Page::get();
+        $tags = Tags::all();
         $promotions = Promotions::onlyActive()->get();
         $products = Products::onlyActive()->get();
-        return view('backend.promotion_details.update', compact(['promotion_detail', 'promotions', 'products', 'pages']));
+        return view('backend.promotion_details.update', compact(['promotion_detail', 'promotions', 'products', 'pages', 'tags']));
     }
 
     public function update(Request $request, PromotionDetails $promotion_detail)

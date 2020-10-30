@@ -1,6 +1,6 @@
-@if (request()->route()->getActionMethod() == 'create')
 <div class="row">
     <div class="col-md-12">
+        @if (request()->route()->getActionMethod() == 'create')
         <div class="form-row">
             <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
                 <h5>เลือกที่จัดเก็บ:</h5>
@@ -21,6 +21,13 @@
                 <input type="text" class="form-control" id="sku" name="sku" value="{{ old('sku') ?? $product->sku }}" />
                 {{ $errors->first('sku') }}
             </div>
+
+            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
+                <label class="col-form-label" for="sku">Code : </label>
+                <input type="text" class="form-control" id="code" name="code" value="{{ old('code') ?? $product->code }}" />
+                {{ $errors->first('code') }}
+            </div>
+
             <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
                 <h5>เลือกหมวดหมู่ <span class="text-danger"> * </span>:</h5>
                 <select id="categories_id" name="categories_id" class="form-control" required>
@@ -174,18 +181,20 @@
                 class="fas fa-reply text-danger"></i> ย้อนกลับ</button>
     </div>
 </div>
+
 @if(!empty($product_tags))
-@php
-$tags = $product_tags->pluck('tags_id')->toJson();
-@endphp
+    @php
+        $tags = $product_tags->pluck('tags_id')->toJson();
+    @endphp
 @else
-@php
-$tags = '';
-@endphp
+    @php
+        $tags = '';
+    @endphp
 @endif
+
 @push('after-scripts')
 <script>
-    $(function(){
+    $(function() {
         var tags = '{!! $tags !!}';
         console.log(tags);
         $('#tags_id').select2();

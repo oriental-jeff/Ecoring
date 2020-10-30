@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             GradeSeeder::class,
             TagSeeder::class,
             PolicySeeder::class,
+            KnowledgeSeeder::class,
+            BranchSeeder::class,
         ]);
         $this->command->info('Main table seeded!');
 

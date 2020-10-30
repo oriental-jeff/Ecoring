@@ -20,6 +20,7 @@ class CreateFavoritesTable extends Migration
             $table->foreign('products_id')
                 ->references('id')->on('products')
                 ->onDelete('cascade');
+            $table->timestamp('products_updated')->nullable();
             $table->integer('quantity')->default(0);
             $table->integer('created_by');
             $table->integer('updated_by');

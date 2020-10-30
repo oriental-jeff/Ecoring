@@ -21,6 +21,7 @@ class CreateOrderTable extends Migration
             $table->increments('id');
             $table->string('code')->unique();
             $table->integer('payment_type')->default(0);
+            $table->integer('pickup_optional')->default(0)->comment('0:delivery|1:pickup in store');
             $table->integer('logistics_id');
             $table->integer('users_id');
             $table->decimal('total_amount');

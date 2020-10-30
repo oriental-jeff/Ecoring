@@ -68,6 +68,7 @@
                                 <th class="text-center">สถานะ</th>
                                 <th class="text-center">การชำระเงิน</th>
                                 <th class="text-center">ยอดรวมทั้งสิ้น</th>
+                                <th class="text-center">การรับสินค้า</th>
                                 <th class="text-center">ช่องทางการจัดส่ง</th>
                                 <th class="text-center">อัตราค่าบริการ</th>
                                 <th class="text-center">จัดส่งใบแจ้งหนี้</th>
@@ -123,6 +124,9 @@
                                 </td>
                                 <td class="text-right">
                                     ฿{{ number_format($order->total_amount + $order->delivery_charge + $order->vat, 2) }}
+                                </td>
+                                <td class="text-center">
+                                    {{ $order->pickup_optional == 0 ? 'ใช้ช่องทางการจัดส่ง' : 'มารับสินค้าเอง'  }}
                                 </td>
                                 <td class="text-center">
                                     <a class="fancybox" rel="gallery1" href="{{ $order->logistic->image ?? '' }}"

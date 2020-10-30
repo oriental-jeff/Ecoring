@@ -29,6 +29,7 @@ return [
     'list' => 'รายการ',
     'search' => 'ค้นหา',
     'search_products' => 'ค้นหาสินค้า',
+    'search_orders' => 'ค้นหาคำสั่งซื้อ',
     'favorite' => 'รายการโปรด',
     'history' => 'ประวัติการสั่งซื้อ',
     'quantity' => 'จำนวน',
@@ -131,12 +132,15 @@ return [
 
     'noti_not_login' => 'กรุณา Login เข้าสู่ระบบ',
 
+    'change_avatar_success' => 'คุณได้เปลี่ยนรูปโปรไฟล์แล้ว',
+
     /**
      * Payment
      */
     'payment_title' => 'แจ้งการชำระเงิน',
-    'order_code' => 'หมายเลขสั่งซื้อ',
+    'order_code' => 'หมายเลขการสั่งซื้อ',
     'contact_number' => 'เบอร์ติดต่อ',
+    'order_date' => 'วันที่สั่งสินค้า',
     'date' => 'วันที่',
     'time' => 'เวลา',
     'transfer_to' => 'โอนเข้าบัญชี',
@@ -149,13 +153,13 @@ return [
     'credit_debit_card' => 'ชำระผ่านบัตรเครดิต/เดบิต',
     'btn_payment' => 'แจ้งการชำระเงิน',
     'payment_notification_success' => 'แจ้งการชำระเงินสำเร็จ',
+    'status' => 'สถานะ',
 
     'order_not_found' => 'ไม่พบหมายเลขสั่งซื้อ',
     'order_has_been_existe' => 'หมายเลขสั่งซื้อนี้ เคยได้รับการแจ้งมาแล้ว',
+    'cancel_order' => 'ยกเลิกคำสั่งซื้อ',
 
-    /**
-     * Cart
-     */
+    /** Cart **/
     'cart_title' => 'ตะกร้าสินค้า',
     'cart_detail' => 'รายละเอียดสินค้า',
     'cart_quantity' => 'จำนวน',
@@ -173,9 +177,7 @@ return [
     'cart_total_payment' => 'ยอดรวมทั้งสิ้น',
     'count_product_on_cart' => 'คน กำลังดูสินค้านี้',
 
-    /**
-     * Order
-     */
+    /** Order **/
     'order_list_title' => 'คำสั่งซื้อ',
     'checkout_title' => 'ใบสั่งซื้อ',
     'your_order' => 'บันทึกใบสั่งซื้อ',
@@ -190,9 +192,12 @@ return [
     'btn_checkout' => 'ดำเนินการต่อ',
     'btn_place_order' => 'ยืนยันการชำระเงิน',
 
-    /**
-     * Delivery
-     */
+    /** Delivery **/
+    'pickup_optional' => 'ตัวเลือกการรับสินค้า',
+    'delivery_service' => 'ใช้ช่องทางการจัดส่ง',
+    'pickup_in_store' => 'มารับสินค้าเอง',
+    'choose_branch_available' => 'เลือกสาขา',
+    'branch_name' => 'ชื่อสาขา',
     'shipping_option' => 'เลือกช่องทางการจัดส่ง',
     'estimated_delivery_time' => 'ระยะเวลาการส่ง',
     'shipping_cost' => 'อัตราค่าบริการ',
@@ -202,18 +207,23 @@ return [
     'shipping_address' => 'ที่อยู่ที่ต้องการจัดส่ง',
     'shipping_method' => 'ช่องทางการจัดส่ง',
 
-    /**
-     * Button
-     */
+    /** Button **/
     'btn_back' => 'ย้อนกลับ',
     'btn_upload' => 'อัพโหลด',
     'btn_close' => 'ปิด',
+    'btn_ok' => 'ตกลง',
     'btn_back_to_main_page' => 'กลับสู่หน้าหลัก',
+    'btn_more_delivery_address' => 'เพิ่มที่อยู่จัดส่ง',
 
     /**
      * Other
      * Data result
      */
     'baht' => 'บาท',
+    'more_detail' => 'ดูรายละเอียด',
+
+    // Knowledge / Q & A
+    'q&a' => 'คำถามที่พบบ่อย',
+    'knowledge' => 'คลังความรู้'
 
 ];

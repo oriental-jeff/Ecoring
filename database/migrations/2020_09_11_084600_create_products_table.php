@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->integer('categories_id');
             $table->integer('grades_id');
+            $table->string('code')->nullable();
             $table->string('sku')->nullable();
             $table->string('name_th', 250);
             $table->string('name_en', 250);
@@ -29,6 +30,7 @@ class CreateProductsTable extends Migration
             $table->float('weight')->comment('gsm');
             $table->tinyInteger('recommend')->default(0)->comment('0:Nothing|1:Recommend');
             $table->tinyInteger('active')->default(1)->comment('0:Inactive|1:Active');
+            $table->timestamp('products_updated')->nullable();
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();

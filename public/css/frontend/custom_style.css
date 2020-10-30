@@ -40,7 +40,9 @@ a#btn-chat-line {
 }
 
 #boxOfProduct,
-#boxOfProductmobile {
+#boxOfFavorite,
+#boxOfProductmobile,
+#boxOfFavoritemobile {
     height: 19px !important;
 }
 
@@ -575,7 +577,9 @@ header .bar-login img.icon-menu:hover {
 }
 
 #boxOfProduct i,
-#boxOfProductmobile i {
+#boxOfFavorite i,
+#boxOfProductmobile i,
+#boxOfFavoritemobile i {
     background: #fe202c;
     color: #fff;
     position: absolute;
@@ -591,7 +595,8 @@ header .bar-login img.icon-menu:hover {
     top: -4px;
 }
 
-#boxOfProduct i {
+#boxOfProduct i,
+#boxOfFavorite i {
     top: -6px;
 }
 
@@ -1832,4 +1837,16 @@ section.box-footer {
     background-color: #fff00d;
     text-align: center;
     position: relative;
+}
+
+.jn-spinner {
+    position: absolute;
+    right: 6px;
+    top: 10px;
+    z-index: 11;
+    display: block;
+    text-align: center;
+    background: #fff00d;
+    height: auto;
+    padding: 2px;
 }

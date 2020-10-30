@@ -90,6 +90,8 @@ $(document).ready(function () {
     $(".btn-heart").on("click", function () {
         // toggleFavorite();
         var This = $(this);
+        createOrRemoveSpinner(true, This);
+
         var product = $(this).attr('data-product');
         var favorite = $(this).attr('data-fav');
         if (favorite == '1') {
@@ -113,16 +115,20 @@ $(document).ready(function () {
                 } else {
                     $(This).addClass('active');
                 }
+                createOrRemoveSpinner();
             },
             error: function (data) {
-                $('#loginModal').modal('show');
+                swalMsg($('#loginModal .modal-body').text(), $('#loginModal .modal-footer a').text());
+                createOrRemoveSpinner();
             }
         });
     });
 
     $(".btn-cart").on("click", function () {
         var This = $(this);
-        // toggleFavorite();
+
+        disabledBtn(This, true);
+
         var product = $(this).attr('data-product');
         if ($("#quantity").length > 0) {
             var quantity = $("#quantity").val();
@@ -144,23 +150,24 @@ $(document).ready(function () {
                     $('.cart_item').html(data.cart_item);
                     effectCart(This);
                 } else {
-                    $('#notiMsg').html(data.msg);
-                    $('#notiModal').modal('show');
+                    swalMsg(data.msg, false);
                     if (condition == 0 || condition == 3) {
                         $('.product-out-of-stock').text(data.msg);
                         $('.product-unit').text(data.msg);
                         This.text(data.msg);
-                        This.attr('disabled', true);
+                    } else {
+                        disabledBtn(This, false);
                     }
                 }
             },
             error: function (data) {
-                $('#loginModal').modal('show');
+                swalMsg($('#loginModal .modal-body').text(), $('#loginModal .modal-footer a').text());
+                disabledBtn(This, false);
             }
         });
     });
 
-    $(".btn-remmove-cart").on("click", function (e) {
+    $(".btn-remove-cart").on("click", function (e) {
         var e = this;
         var cartId = $(e).data('id');
             swal({
@@ -225,6 +232,51 @@ $(document).ready(function () {
             });
     });
 });
+
+function createOrRemoveSpinner(optRemove = false, e = null) {
+    if (optRemove) {
+        $('<div class="jn-spinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>' ).insertBefore(e)
+    } else {
+        $('.card .jn-spinner').remove();
+    }
+}
+
+function swalMsg(text, showCancelButton=true, confirmButton=$('#notiModal .modal-footer .btn-primary').text(), cancelButton=$('#notiModal .modal-footer .btn-secondary').text(), icon='warning', title=null) {
+    swal({
+        title: title,
+        text: text,
+        icon: icon,
+        buttons: {
+            cancel: {
+                text: cancelButton,
+                value: null,
+                visible: showCancelButton,
+                className: 'btn btn-default',
+                closeModal: true,
+            },
+            confirm: {
+                text: confirmButton,
+                value: true,
+                visible: true,
+                className: 'btn btn-warning',
+                closeModal: true
+            }
+        },
+    }).then((result) => {
+        if (result.isConfirmed) {
+            swal(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
+        }
+    });
+}
+
+function disabledBtn(e, opt) {
+        opt ? e.addClass('disabled') : e.removeClass('disabled');
+        e.prop('disabled', opt);
+}
 
 function effectCart(i) {
     if ($(window).width() < 1025) {
@@ -400,7 +452,6 @@ function sliderTRemaining() {
                 clearInterval(x);
                 document.getElementById("TRemaining").innerHTML = "EXPIRED";
                 $.ajax({url: base_url + '/en/reset_product_on_cart',data: {_token: '{{ csrf_token() }}'}});
-                console.log($('#button-hourglass').hasClass('active'));
                 if (!$('#button-hourglass').hasClass('active')) $('#button-hourglass').addClass('active');
             }
         }, 1000);
