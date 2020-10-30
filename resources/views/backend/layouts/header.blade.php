@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
+  <meta charset="utf-8" />
   <title>{{ config('global.site_title') }}</title>
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
   <meta content="" name="description" />
   <meta content="" name="author" />
+
   <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/gif" sizes="16x16">
+
   @if (!empty($css))
-  @include('backend.layouts.css', ['css' => $css])
+    @include('backend.layouts.css', ['css' => $css])
   @else
     @include('backend.layouts.css')
   @endif
 
   <script>
-    var base_url = '{{url("home")}}';
-  
+    var base_url = '{{ url("home") }}';
   </script>
 </head>
+
 <body>
+    @if (!empty($css) && !empty($css['font']) && $css['font'] == 'K2D')
+        <style>
+            body { font-family: 'K2D', sans-serif; }
+        </style>
+    @endif
   <style>
-    a.dropdown-item.active:hover{
-      background-color: #007bff;
-    }
+    a.dropdown-item.active:hover { background-color: #007bff; }
   </style>
+
   <!-- begin #page-loader -->
   <div id="page-loader" class="fade show"><span class="spinner"></span></div>
   <!-- end #page-loader -->
@@ -43,7 +49,7 @@
         </button>
       </div>
       <!-- end navbar-header -->
-    
+
       <!-- begin header-nav -->
       <ul class="navbar-nav navbar-right">
         <li class="dropdown">
@@ -89,7 +95,6 @@
     @include('backend.layouts.script')
   @endif
   @stack('after-scripts')
- 
+
 </body>
 </html>
-        

@@ -1,7 +1,16 @@
-  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  {{-- Check Base Font --}}
+  @if (!empty($css['font']) && $css['font'] == 'K2D')
+    <link href="https://fonts.googleapis.com/css?family=K2D:300,400,600,700,800&display=swap" rel="stylesheet">
+  @else
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  @endif
+
+  {{-- Font Awesome --}}
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.1/css/all.css" />
+  <link href="{{ asset('plugins/font-awesome/5.14/css/all.min.css') }}" rel="stylesheet" />
+
   <link href="{{ asset('plugins/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('plugins/bootstrap/4.0.0/css/bootstrap.min.css') }}" rel="stylesheet" />
-  <link href="{{ asset('plugins/font-awesome/5.14/css/all.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('plugins/animate/animate.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('css/default/style.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('css/default/style-responsive.min.css') }}" rel="stylesheet" />
@@ -13,7 +22,7 @@
   <link href="{{ asset('plugins/fullcalendar/fullcalendar.print.css') }}" rel="stylesheet" media='print' />
   <link href="{{ asset('plugins/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet" />
   @if(!empty($css['gritter']))
-    <link href="{{ asset('plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet" /> 
+    <link href="{{ asset('plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet" />
   @endif
   <link href="{{ asset('plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('plugins/DataTables/extensions/Buttons/css/buttons.bootstrap.min.css') }}" rel="stylesheet" />
@@ -39,7 +48,7 @@
   <link href="{{ asset('css/backend/custom.css?v') . time() }}" rel="stylesheet" />
 
   <!-- ================== BEGIN BASE JS ================== -->
-@if (!empty($css['dashboard'])) 
+@if (!empty($css['dashboard']))
     <link href="{{ asset('plugins/jquery-jvectormap/jquery-jvectormap.css') }}" rel="stylesheet" />
     <link href="{{ asset('plugins/nvd3/build/nv.d3.css') }}" rel="stylesheet" />
 @endif
