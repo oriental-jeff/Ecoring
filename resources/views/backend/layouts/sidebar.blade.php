@@ -236,7 +236,7 @@
             </li>
 
             {{-- Menu Reports --}}
-            <li class="has-sub">
+            <li class="has-sub {{ request()->routeIs('backend.reports.orders')  ? 'active' : '' }}">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fas fa-file-invoice"></i>
@@ -244,8 +244,8 @@
                 </a>
                 <ul class="sub-menu">
                     @can('access report_orders')
-                    <li class="">
-                        <a href="{{ route('backend.orders.index') }}" class="menu-link">
+                    <li class="{{ request()->routeIs('backend.reports.orders*') ? 'active' : '' }}">
+                        <a href="{{ route('backend.reports.orders') }}" class="menu-link">
                             <i class="fas fa-receipt"></i>
                             <span>รายงานการสั่งซื้อสินค้า</span>
                         </a>
