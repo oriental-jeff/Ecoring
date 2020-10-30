@@ -7,6 +7,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
+use Carbon\Carbon;
 
 class Orders extends Model implements HasMedia
 {
@@ -76,14 +77,13 @@ class Orders extends Model implements HasMedia
     public function status_config()
     {
         return $this->hasOne('App\Model\StatusConfig', 'status_id', 'status');
+
     }
 
+    // G E T - D A T A
     public function getPaymentTypeAttribute($attributes)
     {
-        return [
-            1 => 'ชำระผ่านบัตรเครดิต/เดบิต',
-            0 => 'โอนเข้าบัญชีธนาคาร',
-        ][$attributes];
+        return [1 => 'ชำระผ่านบัตรเครดิต/เดบิต', 0 => 'โอนเข้าบัญชีธนาคาร'][$attributes];
     }
 
     public function getPickupOptionalNameAttribute($attributes)
@@ -94,6 +94,7 @@ class Orders extends Model implements HasMedia
         ][$attributes];
     }
 
+    // S C O P E S
     public function scopeonlyNotPay($query)
     {
         return $query->where('status', 0);
@@ -111,5 +112,31 @@ class Orders extends Model implements HasMedia
             $query = $query->where('status', (int) $status);
         }
         return $query;
+    }
+
+    public function scopeReportGetSearchData($query, $request) {
+        $keyword = $request->keyword;
+        $payment_type = $request->payment_type;
+        $status = $request->status;
+        $from = Carbon::parse(str_replace('/', '-', $request->from))->toDateString();
+        $to = Carbon::parse(str_replace('/', '-', $request->to))->toDateString();
+
+        // If has date
+        if ($request->has('from')) {
+            $where = [
+                ['created_at', '>=', $from],
+                ['created_at', '<=', $to],
+            ];
+        }
+
+        if ($payment_type != 'all') {
+            $where += [['payment_type', $payment_type]];
+        }
+
+        if ($status != 'all') {
+            $where += [['status', $status]];
+        }
+
+        return $query->where($where);
     }
 }

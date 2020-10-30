@@ -12,17 +12,37 @@
                 <form id="" action="{{ route('backend.reports.orders') }}" method='post' data-parsley-validate="true">
                     @method('get')
                     @csrf
+                    {{-- <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label>คีย์เวิร์ด</label>
+                            <input type="text" class="form-control" name="keyword" autofocus>
+                        </div>
+                    </div> --}}
+
                     <div class="form-row">
                         <div class="form-group col-md-4 col-lg-2">
-                            <label for="StopDate">คีย์เวิร์ด</label>
-                            <input type="text" class="form-control" name="keyword"
-                                value="{{ request('keyword') ?? '' }}">
+                            <label>วันที่ : จาก</label>
+                            <input type="text" class="form-control" id="date-from" name="from">
+                        </div>
+
+                        <div class="form-group col-md-4 col-lg-2">
+                            <label>วันที่ : ถึง</label>
+                            <input type="text" class="form-control" id="date-to" name="to">
+                        </div>
+
+                        <div class="form-group col-md-4 col-lg-2">
+                            <label>ประเภทการชำระเงิน</label>
+                            <select name="payment_type" class="form-control">
+                                <option value="all">-- ทั้งหมด --</option>
+                                <option value="0">โอนเข้าบัญชีธนาคาร</option>
+                                <option value="1">ชำระผ่านบัตรเครดิต / เดบิต</option>
+                            </select>
                         </div>
 
                         <div class="form-group col-md-4 col-lg-2">
                             <label for="status">สถานะ</label>
                             <select id="status" name="status" class="form-control">
-                                <option value="">ทั้งหมด</option>
+                                <option value="all">-- ทั้งหมด --</option>
                                 @foreach ($status as $item)
                                 <option value="{{ $item->status_id }}">
                                     {{ $item->name_th }}
@@ -60,10 +80,9 @@
                 <!-- end panel-heading -->
                 <!-- begin panel-body -->
                 <div class="panel-body">
-                    <table id="data-table-list" class="table table-striped table-bordered w-100 nowrap">
+                    <table id="datatable-tools" class="table table-striped table-bordered w-100 nowrap">
                         <thead>
                             <tr class="text-center">
-                                <th>จัดการ</th>
                                 <th>วันที่สั่งสินค้า</th>
                                 <th>หมายเลขการสั่งซื้อ</th>
                                 <th>สถานะ</th>
@@ -85,40 +104,11 @@
                             @if(!empty($orders))
                             @foreach($orders as $order)
                             {{ $order->product }}
-                            <tr class="del">
-                                <td class="text-center">
-                                    <div class=" dropright">
-                                        <button class="btn btn-white dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <i class="fas fa-bars"></i>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @can('delete orders')
-                                            <form
-                                                action="{{ route('backend.orders.destroy', ['order' => $order->id]) }}"
-                                                method="post">
-                                                {{ method_field('DELETE') }}
-                                                <button class="del-trans dropdown-item" data-id="" data-module="Del"
-                                                    data-controller=""><i
-                                                        class="fa fa-trash text-danger"></i>&nbsp;&nbsp; ลบ</button>
-                                                @csrf
-                                            </form>
-                                            @endcan
-                                            @can('edit orders')
-                                            <div class="dropdown-divider"></div>
-                                            <a href="{{ route('backend.orders.edit', ['order' => $order->id]) }}"
-                                                class=" edit  dropdown-item" data-id=""><i
-                                                    class="fa fa-pencil-alt text-warning"></i>&nbsp;&nbsp;แก้ไข</a>
-                                            @endcan
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
+                            <tr class="text-center del">
+                                <td class="text-left">
                                     {{ date('d/m/Y H:i:s', strtotime($order->created_at)) }}
                                 </td>
-                                <td class="text-center">{{ $order->code }}</td>
+                                <td>{{ $order->code }}</td>
                                 <td class="text-left">{{ $order->status_config->name_th }}</td>
                                 <td class="text-left">
                                     {{ $order->payment_type }}
@@ -126,27 +116,27 @@
                                 <td class="text-right">
                                     ฿{{ number_format($order->total_amount + $order->delivery_charge + $order->vat, 2) }}
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     {{ $order->pickup_optional == 0 ? 'ใช้ช่องทางการจัดส่ง' : 'มารับสินค้าเอง'  }}
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     <a class="fancybox" rel="gallery1" href="{{ $order->logistic->image ?? '' }}"
                                         title="{{ $order->logistic->name_th }}">
                                         <img src="{{ $order->logistic->image ?? '' }}" class="img-table" />
                                     </a>
                                 </td>
                                 </td>
-                                <td class="text-center">{{ number_format($order->delivery_charge, 2) }}</td>
-                                <td class="text-center">{{ $order->po_sent_count }}</td>
-                                <td class="text-center">
+                                <td>{{ number_format($order->delivery_charge, 2) }}</td>
+                                <td>{{ $order->po_sent_count }}</td>
+                                <td>
                                     {{ $order->po_sent_last ? date('d/m/Y H:i:s', strtotime($order->po_sent_last)) : '' }}
                                 </td>
-                                <td class="text-center">{{ $order->rcpt_sent_count }}</td>
-                                <td class="text-center">
+                                <td>{{ $order->rcpt_sent_count }}</td>
+                                <td>
                                     {{ $order->rcpt_sent_last ? date('d/m/Y H:i:s', strtotime($order->rcpt_sent_last)) : '' }}
                                 </td>
                                 <td class="text-left">{{ $order->tracking_no }}</td>
-                                <td class="text-center">{{ $order->update_name->first_name }}</td>
+                                <td>{{ $order->update_name->first_name }}</td>
                             </tr>
                             @endforeach
                             @endif
@@ -172,9 +162,31 @@ $colum_width = json_encode(array([ "width" => "40px", "targets" => 0 ], [ "width
 @endsection
 
 @push('after-scripts')
-    {{-- <script>
+    <script>
         $(document).ready(function() {
+            $('#date-from, #date-to').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+
+            $('#datatable-tools').DataTable({
+                dom: 'Bfrtip',
+                buttons: ['excel', 'pdf', 'print'],
+                "lengthMenu": [10, 25, 50, 75, 100],
+                retrieve: true,
+                searching: true,
+                scrollX: true,
+                scrollCollapse: true,
+                fixedColumns: true,
+                scrollY: '50vh',
+                "drawCallback": function (settings) {
+                    $('[data-toggle="tooltip"]').tooltip({
+                        container: 'body',
+                        "html": true,
+                    });
+                }
+            }).columns.adjust().draw();
+
             $(".fancybox").fancybox({openEffect: 'none', closeEffect: 'none'});
         });
-    </script> --}}
+    </script>
 @endpush
