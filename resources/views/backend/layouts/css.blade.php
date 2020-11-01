@@ -1,9 +1,14 @@
-  {{-- Check Base Font --}}
-  @if (!empty($css['font']) && $css['font'] == 'K2D')
-    <link href="https://fonts.googleapis.com/css?family=K2D:300,400,600,700,800&display=swap" rel="stylesheet">
-  @else
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-  @endif
+  {{-- Check Base Font --}}	
+	@if (!empty($css['font']))
+			@switch($css['font'])
+					@case('K2D')
+						<link href="https://fonts.googleapis.com/css?family=K2D:300,400,600,700,800&display=swap" rel="stylesheet">
+					@break
+					
+					@default
+						<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+			@endswitch
+	@endif
 
   {{-- Font Awesome --}}
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.1/css/all.css" />

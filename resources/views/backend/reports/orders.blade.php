@@ -1,10 +1,18 @@
 @extends('backend.layouts.header', ['css' => ['font' => 'K2D']])
+<style>
+  thead tr th { font-size: 14px; font-weight: bold; }
+	tbody tr td { font-size: 14px; vertical-align: middle !important; padding: 0.2rem !important; }
+  .control-label-head { font-size: 18px; color: black; font-weight: bold; letter-spacing: 1px; text-decoration: underline; }
+  .control-label-title { font-size: 14px; color: black; font-weight: bold; letter-spacing: 1px; }
+  .control-label-answer { font-size: 14px; color: darkblue; font-weight: bold; letter-spacing: 1px; }
+</style>
 
 @section('title')
     <i class="fal fa-lg fa-file-alt"></i> รายงานการสั่งซื้อสินค้า
 @endsection
 
 @section('content')
+{{-- FORM --}}
 <div class="row">
     <div class="col-12 col-xl-12">
         <div class="panel panel-inverse gray">
@@ -44,23 +52,20 @@
                             <select id="status" name="status" class="form-control">
                                 <option value="all">-- ทั้งหมด --</option>
                                 @foreach ($status as $item)
-                                <option value="{{ $item->status_id }}">
-                                    {{ $item->name_th }}
-                                </option>
+                                  <option value="{{ $item->status_id }}">
+                                      {{ $item->name_th }}
+                                  </option>
                                 @endforeach
                             </select>
                         </div>
+                    </div>
 
-                        <div class="form-group col-lg-6 col-md-12 col-sm-12">
-                            <div class='mt-4 '>
-                                <button type="submit" class="btn btn-white btn-search" id="search"><i
-                                        class='fas fa-search text-info'></i> ค้นหา</button>
-                                {{-- @can('add orders')
-                                <a href="{{ route('backend.orders.create') }}" class="btn btn-white btn-search"><i
-                                    class="fa fa-plus-square fa-lg text-success"></i> เพิ่มข้อมูล</a>
-                                @endcan --}}
-                            </div>
-                        </div>
+                    <div class="form-row">
+                      <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                        <button type="submit" class="btn btn-white btn-search" id="search">
+                          <i class='fas fa-search text-info'></i> ค้นหา
+                        </button>
+                      </div>
                     </div>
                 </form>
             </div>
@@ -68,17 +73,31 @@
     </div>
 </div>
 
-<div class="return-list">
-    <!-- begin row -->
-    <div class="row">
-        <!-- begin col-12 -->
-        <div class="col-lg-12">
-            <!-- begin panel -->
-            <div class="panel">
-                <!-- begin panel-heading -->
+{{-- OVERALL --}}
+<div class="row">
+  <div class="col-12">
+      <div class="panel panel-inverse gray">
+          <div class="panel-body mgbt">
+            <div class="row">
+              <div class="form-group col-md-12 mb-3">
+                <label class="control-label-head">Overall</label>
+              </div>
 
-                <!-- end panel-heading -->
-                <!-- begin panel-body -->
+              <div class="form-group col-md-12 mb-3">
+                <label class="control-label-title">ยอดรวมทั้งสิ้น : </label>
+                <label class="control-label-answer">{{ number_format($overall['total'], 2) }} บาท</label>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+{{-- TABLE --}}
+<div class="return-list">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel">
                 <div class="panel-body">
                     <table id="datatable-tools" class="table table-striped table-bordered w-100 nowrap">
                         <thead>
@@ -87,59 +106,31 @@
                                 <th>หมายเลขการสั่งซื้อ</th>
                                 <th>สถานะ</th>
                                 <th>การชำระเงิน</th>
-                                <th>ยอดรวมทั้งสิ้น</th>
+                                <th>ราคาสินค้า</th>
                                 <th>การรับสินค้า</th>
                                 <th>ช่องทางการจัดส่ง</th>
                                 <th>อัตราค่าบริการ</th>
-                                <th>จัดส่งใบแจ้งหนี้</th>
-                                <th>วันที่จัดส่งใบแจ้งหนี้</th>
-                                <th>จัดส่งใบเสร็จ</th>
-                                <th>วันที่จัดส่งใบเสร็จ</th>
-                                <th>Tracking No.</th>
-                                <th>ผู้แก้ไขล่าสุด</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @if(!empty($orders))
-                            @foreach($orders as $order)
-                            {{ $order->product }}
-                            <tr class="text-center del">
-                                <td class="text-left">
-                                    {{ date('d/m/Y H:i:s', strtotime($order->created_at)) }}
-                                </td>
-                                <td>{{ $order->code }}</td>
-                                <td class="text-left">{{ $order->status_config->name_th }}</td>
-                                <td class="text-left">
-                                    {{ $order->payment_type }}
-                                </td>
-                                <td class="text-right">
-                                    ฿{{ number_format($order->total_amount + $order->delivery_charge + $order->vat, 2) }}
-                                </td>
+                          @foreach ($lists as $item)
+                              <tr class="text-center">
+                                <td class="text-left">{{ $item['date_order'] }}</td>
+                                <td>{{ $item['code'] }}</td>
+                                <td>{{ $item['status'] }}</td>
+                                <td>{{ $item['payment_name'] }}</td>
+                                <td>{{ number_format($item['total_amount'], 2) }}</td>
+                                <td>{{ $item['pickup'] }}</td>
                                 <td>
-                                    {{ $order->pickup_optional == 0 ? 'ใช้ช่องทางการจัดส่ง' : 'มารับสินค้าเอง'  }}
+                                  <a class="fancybox" rel="gallery1" href="{{ $item['logistic_image'] ?? '' }}"
+                                    title="{{ $item['logistic_name'] }}">
+                                    <img src="{{ $item['logistic_image'] ?? '' }}" class="img-table" />
+                                  </a>
                                 </td>
-                                <td>
-                                    <a class="fancybox" rel="gallery1" href="{{ $order->logistic->image ?? '' }}"
-                                        title="{{ $order->logistic->name_th }}">
-                                        <img src="{{ $order->logistic->image ?? '' }}" class="img-table" />
-                                    </a>
-                                </td>
-                                </td>
-                                <td>{{ number_format($order->delivery_charge, 2) }}</td>
-                                <td>{{ $order->po_sent_count }}</td>
-                                <td>
-                                    {{ $order->po_sent_last ? date('d/m/Y H:i:s', strtotime($order->po_sent_last)) : '' }}
-                                </td>
-                                <td>{{ $order->rcpt_sent_count }}</td>
-                                <td>
-                                    {{ $order->rcpt_sent_last ? date('d/m/Y H:i:s', strtotime($order->rcpt_sent_last)) : '' }}
-                                </td>
-                                <td class="text-left">{{ $order->tracking_no }}</td>
-                                <td>{{ $order->update_name->first_name }}</td>
-                            </tr>
-                            @endforeach
-                            @endif
+                                <td>{{ $item['delivery_charge'] }}</td>
+                              </tr>
+                          @endforeach
                         </tbody>
                     </table>
                 </div>

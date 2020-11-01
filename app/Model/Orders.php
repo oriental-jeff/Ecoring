@@ -115,28 +115,39 @@ class Orders extends Model implements HasMedia
     }
 
     public function scopeReportGetSearchData($query, $request) {
+				$where = [];
         $keyword = $request->keyword;
         $payment_type = $request->payment_type;
         $status = $request->status;
         $from = Carbon::parse(str_replace('/', '-', $request->from))->toDateString();
-        $to = Carbon::parse(str_replace('/', '-', $request->to))->toDateString();
+				$to = Carbon::parse(str_replace('/', '-', $request->to))->toDateString();
+				
+				// dd($request->request);
 
         // If has date
-        if ($request->has('from')) {
-            $where = [
-                ['created_at', '>=', $from],
-                ['created_at', '<=', $to],
-            ];
-        }
+        if (!is_null($request->from)) {
+          $where_date = [
+              ['created_at', '>=', $from],
+              ['created_at', '<=', $to],
+          ];
+        } else {
+					$where_date = [];
+				}
 
         if ($payment_type != 'all') {
-            $where += [['payment_type', $payment_type]];
-        }
+          $where_payment = [['payment_type', '='. $payment_type]];
+        } else {
+					$where_payment = [];
+				}
 
         if ($status != 'all') {
-            $where += [['status', $status]];
-        }
+          $where_status = [['status', '=', $status]];
+				} else {
+					$where_status = [];
+				}
 
+				$where = array_merge($where_date, $where_payment, $where_status);
+				// dd($where);
         return $query->where($where);
     }
 }

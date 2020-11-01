@@ -64,6 +64,7 @@ class User extends Authenticatable implements MustVerifyEmail
     return $this->hasMany('App\Model\UserAddressDelivery', 'user_id', 'id');
   }
 
+	// SCOPES
   public function scopegetDataByKeyword($query, $keyword) {
     return $query->where('first_name', 'like', "%$keyword%");
   }
@@ -72,6 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail
      return $query->where('first_name', 'not like', "%SuperAdmin%");
   }
 
+	// GET SPECIFIC
    public function getNameAttribute() {
       return "{$this->first_name} {$this->last_name}";
   }
