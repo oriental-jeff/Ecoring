@@ -262,8 +262,8 @@
                     @endcan
 
                     @can('access report_customers')
-                    <li class="">
-                        <a href="{{ route('backend.transactions.index') }}" class="menu-link">
+                    <li class="{{ request()->routeIs('backend.reports.customers') ? 'active' : '' }}">
+                        <a href="{{ route('backend.reports.customers') }}" class="menu-link">
                             <i class="fas fa-credit-card"></i>
                             <span>รายงานข้อมูลลูกค้า</span>
                         </a>
