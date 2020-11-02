@@ -253,8 +253,8 @@
                     @endcan
 
                     @can('access report_products_stock')
-                    <li class="">
-                        <a href="{{ route('backend.payment_notifications.index') }}" class="menu-link">
+                    <li class="{{ request()->routeIs('backend.reports.stocks') ? 'active' : '' }}">
+                        <a href="{{ route('backend.reports.stocks') }}" class="menu-link">
                             <i class="fas fa-envelope"></i>
                             <span>รายงานสต๊อกสินค้า</span>
                         </a>

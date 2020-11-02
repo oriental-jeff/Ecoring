@@ -73,6 +73,16 @@ class User extends Authenticatable implements MustVerifyEmail
      return $query->where('first_name', 'not like', "%SuperAdmin%");
   }
 
+  public function scopeReportGetDataByKeyword($query, $keyword) {
+      return $query->where('guest', 1)
+      ->where('first_name', 'like', "%{$keyword}%")
+      ->orWhere('last_name', 'like', "%{$keyword}%")
+      ->orWhere('email', 'like', "%{$keyword}%")
+      ->orWhereHas('profiles', function($qry) use ($keyword) {
+          $qry->where('telephone', 'like', "%{$keyword}%");
+      });
+  }
+
 	// GET SPECIFIC
    public function getNameAttribute() {
       return "{$this->first_name} {$this->last_name}";
