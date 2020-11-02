@@ -23,7 +23,7 @@
   </style>
 
 @section('title')
-    <i class="fal fa-lg fa-file-alt"></i> รายงานการสั่งซื้อสินค้า
+    <i class="fad fa-lg fa-file-alt"></i> รายงานการสั่งซื้อสินค้า
 @endsection
 
 @section('content')

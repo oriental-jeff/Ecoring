@@ -12,7 +12,7 @@
 </style>
 
 @section('title')
-    <i class="fal fa-lg fa-file-certificate"></i> รายงานข้อมูลลูกค้า
+    <i class="fad fa-lg fa-file-certificate"></i> รายงานข้อมูลลูกค้า
 @endsection
 
 @section('content')

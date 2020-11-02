@@ -12,7 +12,7 @@
 </style>
 
 @section('title')
-    <i class="fal fa-lg fa-file-invoice-dollar"></i> รายงานสต๊อกสินค้า
+    <i class="fad fa-lg fa-file-invoice-dollar"></i> รายงานสต๊อกสินค้า
 @endsection
 
 @section('content')
@@ -27,7 +27,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label class="control-label-title">คีย์เวิร์ด</label>
-                            <input type="text" class="form-control" name="keyword" placeholder="ชื่อ - นามสกุล หรือ อีเมล์ หรือ เบอร์โทร"
+                            <input type="text" class="form-control" name="keyword" placeholder="ชื่อสินค้า หรือ ชื่อที่จัดเก็บ"
                             value="{{ $filter['keyword'] ?? '' }}" autofocus>
                         </div>
                     </div>
