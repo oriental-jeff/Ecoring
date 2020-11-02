@@ -99,8 +99,9 @@ Route::name('backend.')
         // Reports
         Route::name('reports.')->prefix('reports')->group(function() {
             Route::get('/', 'ReportsController@orders');
-						Route::get('/orders', 'ReportsController@orders')->name('orders');
-						Route::get('/customers', 'ReportsController@customers')->name('customers');
+			Route::get('/orders', 'ReportsController@orders')->name('orders');
+            Route::get('/customers', 'ReportsController@customers')->name('customers');
+            Route::get('/stocks', 'ReportsController@stocks')->name('stocks');
         });
 
         Route::name('menu.')

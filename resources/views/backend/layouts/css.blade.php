@@ -1,18 +1,18 @@
-  {{-- Check Base Font --}}
-	@if (!empty($css['font']))
-		@switch($css['font'])
-			@case('K2D')
-				<link href="https://fonts.googleapis.com/css?family=K2D:300,400,600,700,800&display=swap" rel="stylesheet">
-			@break
+{{-- Check Base Font --}}
+@if (!empty($css['font']))
+@switch($css['font'])
+    @case('K2D')
+        <link href="https://fonts.googleapis.com/css?family=K2D:300,400,600,700,800&display=swap" rel="stylesheet">
+    @break
 
-			@default
-				<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-		@endswitch
-	@endif
+    @default
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+@endswitch
+@endif
 
-  {{-- Font Awesome --}}
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.1/css/all.css" />
-  <link href="{{ asset('plugins/font-awesome/5.14/css/all.min.css') }}" rel="stylesheet" />
+{{-- Font Awesome --}}
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.1/css/all.css" />
+<link href="{{ asset('plugins/font-awesome/5.14/css/all.min.css') }}" rel="stylesheet" />
 
   <link href="{{ asset('plugins/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('plugins/bootstrap/4.0.0/css/bootstrap.min.css') }}" rel="stylesheet" />

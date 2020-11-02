@@ -12,7 +12,7 @@
 </style>
 
 @section('title')
-    <i class="fad fa-lg fa-file-certificate"></i> รายงานข้อมูลลูกค้า
+    <i class="fad fa-lg fa-file-invoice-dollar"></i> รายงานสต๊อกสินค้า
 @endsection
 
 @section('content')
@@ -21,13 +21,13 @@
     <div class="col-12 col-xl-12">
         <div class="panel panel-inverse gray">
             <div class="panel-body mgbt">
-                <form id="" action="{{ route('backend.reports.customers') }}" method='post' data-parsley-validate="true">
+                <form id="" action="{{ route('backend.reports.stocks') }}" method='post' data-parsley-validate="true">
                     @method('get')
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label class="control-label-title">คีย์เวิร์ด</label>
-                            <input type="text" class="form-control" name="keyword" placeholder="ชื่อ - นามสกุล หรือ อีเมล์ หรือ เบอร์โทร"
+                            <input type="text" class="form-control" name="keyword" placeholder="ชื่อสินค้า หรือ ชื่อที่จัดเก็บ"
                             value="{{ $filter['keyword'] ?? '' }}" autofocus>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
         <div class="col-lg-12">
             <div class="panel">
                 <div class="panel-heading">
-                    <h4 class="mt-3">รายชื่อข้อมูลลูกค้า ( {{ $display_users }} / {{ $total_users }} )</h4>
+                    <h4 class="mt-3">รายการสต๊อกสินค้า ( {{ $display_stocks }} / {{ $total_stocks }} )</h4>
                 </div>
 
                 <div class="panel-body">
@@ -63,31 +63,28 @@
                         <thead>
                             <tr class="text-center">
                                 <th>#</th>
-                                <th>เพศ</th>
-                                <th>ชื่อ - นามสกุล</th>
-                                <th>อีเมล์</th>
-                                <th>เบอร์โทร</th>
-                                <th>วันเกิด</th>
-                                <th>การผูก Social</th>
-                                <th>การยืนยันอีเมล์</th>
-                                <th>จำนวนที่อยู่จัดส่ง</th>
-                                <th>สมัครเมื่อ</th>
+                                <th>วันที่เพิ่มสินค้า</th>
+                                <th>รูป</th>
+                                <th>ชื่อสินค้า</th>
+                                <th>จำนวนคงเหลือ</th>
+                                <th>ที่จัดเก็บ</th>
                             </tr>
                         </thead>
 
                         <tbody>
                           @foreach ($lists as $item)
                               <tr class="text-center">
-                                  <td>{{ $item['count'] }}</td>
-                                  <td>{{ $item['gender'] }}</td>
-                                  <td>{{ $item['fullname'] }}</td>
-                                  <td class="text-left">{{ $item['email'] }}</td>
-                                  <td>{{ $item['tel'] }}</td>
-                                  <td class="text-left">{{ $item['birthdate'] }}</td>
-                                  <td>{{ $item['bind_social'] }}</td>
-                                  <td>{{ $item['confirm_email'] }}</td>
-                                  <td>{{ $item['total_delivery_address'] }}</td>
-                                  <td class="text-left">{{ $item['register_date'] }}</td>
+                                    <td>{{ $item['count'] }}</td>
+                                    <td>{{ $item['date_add'] }}</td>
+                                    <td>
+                                        <a class="fancybox" rel="gallery1" href="{{ $item['product_image'] ?? '' }}"
+                                        title="{{ $item['product_name_th'] }}">
+                                        <img src="{{ $item['product_image'] ?? '' }}" class="img-table" />
+                                        </a>
+                                    </td>
+                                    <td>{{ $item['product_name_th'] }} / {{ $item['product_name_en'] }}</td>
+                                    <td>{{ $item['quantity'] }} หน่วย</td>
+                                    <td>{{ $item['warehouse'] }}</td>
                               </tr>
                           @endforeach
                         </tbody>
@@ -107,14 +104,14 @@ $colum_width = json_encode(array([ "width" => "40px", "targets" => 0 ], [ "width
 ?>
 
 <script>
-    var colum_width = '<?php echo $colum_width; ?>';
+    var colum_width = "{{ $colum_width }}";
 </script>
 @endsection
 
 @push('after-scripts')
     <script>
         function viewAll() {
-            window.location.replace(base_url + '/backend/reports/customers');
+            window.location.replace(base_url + '/backend/reports/stocks');
         }
 
         $(document).ready(function() {
@@ -135,6 +132,8 @@ $colum_width = json_encode(array([ "width" => "40px", "targets" => 0 ], [ "width
                     });
                 }
             }).columns.adjust().draw();
+
+            $(".fancybox").fancybox({openEffect: 'none', closeEffect: 'none'});
         });
     </script>
 @endpush

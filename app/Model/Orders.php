@@ -115,39 +115,44 @@ class Orders extends Model implements HasMedia
     }
 
     public function scopeReportGetSearchData($query, $request) {
-				$where = [];
         $keyword = $request->keyword;
         $payment_type = $request->payment_type;
         $status = $request->status;
         $from = Carbon::parse(str_replace('/', '-', $request->from))->toDateString();
-				$to = Carbon::parse(str_replace('/', '-', $request->to))->toDateString();
-				
-				// dd($request->request);
+        $to = Carbon::parse(str_replace('/', '-', $request->to))->toDateString();
+
+        // If has keyword
+        if ($keyword) :
+            $where_keyword = [['code', 'like', "%{$keyword}%"]];
+        else :
+            $where_keyword = [];
+        endif;
 
         // If has date
-        if (!is_null($request->from)) {
-          $where_date = [
-              ['created_at', '>=', $from],
-              ['created_at', '<=', $to],
-          ];
-        } else {
-					$where_date = [];
-				}
+        if (!is_null($request->from)) :
+            $where_date = [
+                ['created_at', '>=', $from],
+                ['created_at', '<=', $to],
+            ];
+        else :
+			$where_date = [];
+        endif;
 
-        if ($payment_type != 'all') {
-          $where_payment = [['payment_type', '='. $payment_type]];
-        } else {
-					$where_payment = [];
-				}
+        // If has payment type
+        if ($payment_type != 'all') :
+            $where_payment = [['payment_type', '=', $payment_type]];
+        else :
+		    $where_payment = [];
+		endif;
 
-        if ($status != 'all') {
-          $where_status = [['status', '=', $status]];
-				} else {
-					$where_status = [];
-				}
+        // If has status
+        if ($status != 'all') :
+            $where_status = [['status', '=', $status]];
+		else :
+		    $where_status = [];
+		endif;
 
-				$where = array_merge($where_date, $where_payment, $where_status);
-				// dd($where);
+		$where = array_merge($where_keyword, $where_date, $where_payment, $where_status);
         return $query->where($where);
     }
 }
