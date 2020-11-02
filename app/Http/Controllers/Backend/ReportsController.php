@@ -41,7 +41,7 @@ class ReportsController extends Controller
 				if ($orders->count() != 0) :
 					foreach ($orders as $key => $order) :
 						$pickup = $order->pickup_optional == 0 ? 'ใช้ช่องทางการจัดส่ง' : 'มารับสินค้าเอง';
-	
+
 						$lists[$key]['date_order'] = Carbon::parse($order->created_at)->isoFormat('DD-MM-YYYY @ HH:mm:ss');
 						$lists[$key]['code'] = $order->code;
 						$lists[$key]['status'] = $order->status_config->name_th;
@@ -59,13 +59,13 @@ class ReportsController extends Controller
 					endforeach;
 				else :
 					$list = [];
-				endif;				
+				endif;
 
         // dd($overall);
 
         return view('backend.reports.orders', compact(['status', 'lists', 'overall']));
 		}
-		
+
 		public function customers(Request $request) {
 			// $this->authorize(mapPermission(self::MODULE));
 
