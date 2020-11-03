@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Facades\App\Repository\Pages;
 use App\Model\BankAccounts;
-use Illuminate\Http\Request;
 use App\Model\Orders;
 use App\Model\PaymentNotifications;
+use Facades\App\Repository\Pages;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\InvoiceMail;
 use PDF;
+
+// For test docs only
+use App\Model\WebInfo;
 
 class PaymentController extends Controller
 {
@@ -21,13 +23,20 @@ class PaymentController extends Controller
         $pages = Pages::get(3);
         $bank_accounts = BankAccounts::onlyActive()->get();
 
-        return view('frontend.payment.index', compact(['pages', 'bank_accounts', 'OrderCode']));
+        // return view('frontend.payment.index', compact(['pages', 'bank_accounts', 'OrderCode']));
+
+        // For test docs only
+        $order = Orders::where([['id', 38]])->first();
+        $web_info = WebInfo::find(1)->first();
+        return view('emails.invoice-email', compact(['order', 'web_info']));
     }
 
     public function store(Request $request)
     {
         $pn = PaymentNotifications::where('orders_code', $request->orders_code)->count();
-        if ($pn > 0) return redirect(route('frontend.payment', ['locale' => get_lang()]));
+        if ($pn > 0) {
+            return redirect(route('frontend.payment', ['locale' => get_lang()]));
+        }
 
         $pages = Pages::get(3);
         // Check order
@@ -45,10 +54,10 @@ class PaymentController extends Controller
             $detail = [
                 'orders_code' => $request->orders_code,
                 'bank_accounts_id' => $request->bank_accounts_id,
-                'fullname'  => $fullname,
-                'contact'  => $contact,
-                'email'  => $email,
-                'payment_datetime'  => $request->payment_date . ' ' . $request->payment_time,
+                'fullname' => $fullname,
+                'contact' => $contact,
+                'email' => $email,
+                'payment_datetime' => $request->payment_date . ' ' . $request->payment_time,
             ];
             $detail['updated_by'] = Auth::id() ?? 1;
             $detail['created_by'] = Auth::id() ?? 1;
@@ -86,7 +95,7 @@ class PaymentController extends Controller
         }
 
         request()->validate([
-            "image"  => ['required', 'file', 'image', 'max:204800'],
+            "image" => ['required', 'file', 'image', 'max:204800'],
         ]);
 
         return $validatedData;
@@ -94,44 +103,45 @@ class PaymentController extends Controller
 
     public function send_email($data)
     {
-      // $to_email = $data['email'];
-      // $to_name = $data['name'];
-      $data = [];
-      $data['to_email'] = 'dragoon.jr@gmail.com';
-      $data['to_name'] = 'Test';
-      $send_to = [['email' => $data['to_email'], 'name' => $data['to_name']]];
-      $data['from_name'] = 'Ecoring Thailand Shop';
-      $data['subject'] = 'Thank you for order product from Ecoring Thailand Shop';
-      $data['footer'] = 'Ecoring thailand shop team';
+        // $to_email = $data['email'];
+        // $to_name = $data['name'];
+        $data = [];
+        $data['to_email'] = 'dragoon.jr@gmail.com';
+        $data['to_name'] = 'Test';
+        $send_to = [['email' => $data['to_email'], 'name' => $data['to_name']]];
+        $data['from_name'] = 'Ecoring Thailand Shop';
+        $data['subject'] = 'Thank you for order product from Ecoring Thailand Shop';
+        $data['footer'] = 'Ecoring thailand shop team';
 
-      $pdf = PDF::loadView('emails.invoice-email', $data);
-      try {
-        Mail::send('emails.invoice-email', $data, function($message)use($data, $pdf) {
-          $message->to($data['to_email'], $data['to_name'])
-          ->subject('Thank you for order product from Ecoring Thailand Shop.')
-          ->attachData($pdf->output(), "invoice.pdf");
-        });
-      } catch(JWTException $exception) {
-        $this->serverstatuscode = "0";
-        $this->serverstatusdes = $exception->getMessage();
-      }
+        $pdf = PDF::loadView('emails.invoice-email', $data);
 
-      if (Mail::failures()) {
-        $this->statusdesc  =   "Error sending mail";
-        $this->statuscode  =   "0";
+        try {
+            Mail::send('emails.invoice-email', $data, function ($message) use ($data, $pdf) {
+                $message->to($data['to_email'], $data['to_name'])
+                    ->subject('Thank you for order product from Ecoring Thailand Shop.')
+                    ->attachData($pdf->output(), "invoice.pdf");
+            });
+        } catch (JWTException $exception) {
+            $this->serverstatuscode = "0";
+            $this->serverstatusdes = $exception->getMessage();
+        }
 
-      } else {
-        $this->statusdesc  =   "Message sent Succesfully";
-        $this->statuscode  =   "1";
-      }
-      return response()->json(compact('this'));
+        if (Mail::failures()) {
+            $this->statusdesc = "Error sending mail";
+            $this->statuscode = "0";
 
-      // Mail::to($send_to)
-      // ->send(new InvoiceMail($data));
+        } else {
+            $this->statusdesc = "Message sent Succesfully";
+            $this->statuscode = "1";
+        }
+        return response()->json(compact('this'));
 
-      // foreach (['taylor@example.com', 'dries@example.com'] as $recipient) {
-      //   Mail::to($recipient)->send(new ApplyMail($data));
-      // }
+        // Mail::to($send_to)
+        // ->send(new InvoiceMail($data));
+
+        // foreach (['taylor@example.com', 'dries@example.com'] as $recipient) {
+        //   Mail::to($recipient)->send(new ApplyMail($data));
+        // }
 
     }
 }

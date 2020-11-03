@@ -33,9 +33,8 @@
                         @csrf
                         <input class="form-control" name="search_orderid" type="text" placeholder="{{ __('messages.search_orders') }}"
                             aria-label="Search" value="{{ request()->search_orderid }}">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i
+                                class="fa fa-search"></i></button>
                     </form>
                 </div>
             </div>
@@ -57,15 +56,13 @@
                     </div>
                 </div>
                 <div class="b-btn">
-                    <a href="{{ route('frontend.user.history-detail', ['locale' => get_lang(), 'order_id' => $order->id]) }}" class="btn btn-secondary font-weight-light radius-25 mx-1">
-                        <img src="{{ asset('images/I-see.svg') }}">{{ __('messages.more_detail') }}
-                    </a>
-
+                    <a href="{{ route('frontend.user.history-detail', ['locale' => get_lang(), 'order_id' => $order->id]) }}"
+                        class="btn btn-secondary font-weight-light radius-25 mx-1"><img
+                            src="{{ asset('images/I-see.svg') }}"> {{ __('messages.more_detail') }}</a>
                     <a href="javascript:void(0);" data-orderid="{{ $order->id }}"
                         class="btn-cancel-order btn btn-danger font-weight-light radius-25 mx-1 {{ $order->status > 0 ? 'disabled' : '' }}"
                         {{ $order->status > 0 ? 'disabled' : '' }}><img src="{{ asset('images/I-close.svg') }}">
-                        {{ __('messages.cancel_order') }}
-                    </a>
+                        {{ __('messages.cancel_order') }}</a>
                 </div>
             </div>
             @endforeach
@@ -103,7 +100,9 @@
 @endsection
 
 @push('after-scripts')
-    <script>
-        $(document).ready(function() {});
-    </script>
+<script>
+    $(document).ready(function() {
+
+	});
+</script>
 @endpush

@@ -82,9 +82,7 @@
         </div>
       @endif
       <!-- end #action message -->
-        <h1 class="page-header">
-            @yield('title', 'Page Header Title')
-        </h1>
+      <h1 class="page-header"> @yield('title', 'Page Header Title')</h1>
       @yield('content')
     </div>
     <!-- end #content -->
