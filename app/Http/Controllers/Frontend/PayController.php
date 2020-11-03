@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Facades\App\Repository\Pages;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
 use App\Model\Orders;
 use App\Model\Cart;
 use App\Model\Stocks;
@@ -13,8 +16,11 @@ use App\Model\UserProfile;
 use App\Model\UserAddressDelivery;
 use App\Model\BankAccounts;
 use App\Model\Branch;
-use Illuminate\Support\Facades\Auth;
+use App\Model\WebInfo;
+
 use App\Helpers\AutoGenDoc as GenCode;
+use App\Helpers\SendPdfMail as PdfMail;
+use PDF;
 
 class PayController extends Controller
 {
@@ -70,13 +76,16 @@ class PayController extends Controller
             "delivery_charge" => "required",
         ]);
 
+        // 1 : Credit Card, 0 : Tranfer Bank
         $payment_type = $request->paymentMethod == 'dccard' ? 1 : 0;
 
-        $generated_code = GenCode::generateCode('order');
+        // Generate Code
+        $ord_code = GenCode::generateCode('order');
+        $inv_code = GenCode::generateCode('invoice');
+        $rcpt_code = $payment_type == 1 ? GenCode::generateCode('receipt') : NULL;
 
         $order_data = [
-            // "code" => "UCM" . rand(0, 99999999),
-            "code" => $generated_code,
+            "code" => $ord_code,
             "payment_type" => $payment_type,
             "pickup_optional" => $request->pickup_optional,
             "logistics_id" => $data['logistics_id'],
@@ -92,6 +101,8 @@ class PayController extends Controller
             "total_weight" => $data['total_weight'],
             "discount" => $data['discount'],
             "delivery_charge" => $data['delivery_charge'],
+            'inv_number' => $inv_code,
+            'rcpt_number' => $rcpt_code,
             "users_id" => Auth::id(),
             "updated_by" => Auth::id(),
             "created_by" => Auth::id(),
@@ -105,9 +116,10 @@ class PayController extends Controller
             $bank_accounts = BankAccounts::onlyActive()->get();
 
             // Update
-            foreach ($request->cartID as $k => $v) {
+            foreach ($request->cartID as $k => $v) :
                 // Cart
                 $c = Cart::find($v);
+
                 // Stock
                 $s = Stocks::where('products_id', $c->products_id)->where('warehouses_id', config('global.warehouse'))->get()[0];
                 $s->quantity = $s->quantity - $c->quantity;
@@ -119,7 +131,10 @@ class PayController extends Controller
                 $c->amount_full = $request->productPriceFull[$k];
                 $c->amount = $request->productPrice[$k];
                 $c->update();
-            }
+            endforeach;
+
+            // Send Mail
+            PdfMail::send($payment_type, $od->id);
 
             return view('frontend.pay.success', compact(['orderResult', 'bank_accounts']));
         } catch (\Throwable $th) {

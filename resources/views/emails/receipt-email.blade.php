@@ -117,7 +117,7 @@
 <body>
     <div class="box-paper">
         <img src="http://ecoringcommerce.am2bmarketing.co.th/storage/1/logo.png" alt="logo" class="img-logo">
-        <h1 class="head">ใบแจ้งหนี้ / I N V O I C E</h1>
+        <h1 class="head">ใบเสร็จรับเงิน / R E C E I P T</h1>
         <div class="box-top">
             <div class="box-left">
                 <p>
@@ -131,8 +131,8 @@
             <div class="box-right">
                 <table>
                     <tr>
-                        <td>หมายเลขใบแจ้งหนี้ / NUMBER</td>
-                        <td>#{{ $order[0]->inv_number }}</td>
+                        <td>หมายเลขใบเสร็จรับเงิน / NUMBER</td>
+                        <td>#{{ $order[0]->rcpt_number }}</td>
                     </tr>
                     <tr>
                         <td>วันที่ / DATE</td>
@@ -149,8 +149,7 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td>
-                            {{ $order[0]->districts->{get_lang('name')}.', '.$order[0]->provinces->{get_lang('name')}.', '.$order[0]->postcode }}
+                        <td>{{ $order[0]->districts->{get_lang('name')}.', '.$order[0]->provinces->{get_lang('name')}.', '.$order[0]->postcode }}
                         </td>
                     </tr>
                     <tr>
@@ -164,7 +163,6 @@
                 </table>
             </div>
         </div>
-
         <table class="box-list">
             <thead>
                 <tr>
@@ -175,15 +173,14 @@
                     <th class="align-right">ราคา / TOTAL</th>
                 </tr>
             </thead>
-
             <tbody>
                 @foreach ($order[0]->cart as $cart)
                 <tr>
                     {{-- <td class="service">Design</td> --}}
-                    <td>{!! $cart->product->{get_lang('name')} !!}</td>
-                    <td class="align-center">฿ {{ number_format($cart->amount, 2) }}</td>
+                    <td>{!! $cart->product->{get_lang('description')} !!}</td>
+                    <td class="align-center">฿{{ number_format($cart->amount, 2) }}</td>
                     <td class="align-center">{{ $cart->quantity }}</td>
-                    <td class="align-right">฿ {{ number_format($cart->amount, 2) }}</td>
+                    <td class="align-right">฿{{ number_format($cart->amount, 2) }}</td>
                 </tr>
                 @endforeach
                 <tr>
