@@ -159,7 +159,9 @@ return [
     'order_has_been_existe' => 'หมายเลขสั่งซื้อนี้ เคยได้รับการแจ้งมาแล้ว',
     'cancel_order' => 'ยกเลิกคำสั่งซื้อ',
 
-    /** Cart **/
+    /**
+     * Cart
+     */
     'cart_title' => 'ตะกร้าสินค้า',
     'cart_detail' => 'รายละเอียดสินค้า',
     'cart_quantity' => 'จำนวน',
@@ -177,7 +179,9 @@ return [
     'cart_total_payment' => 'ยอดรวมทั้งสิ้น',
     'count_product_on_cart' => 'คน กำลังดูสินค้านี้',
 
-    /** Order **/
+    /**
+     * Order
+     */
     'order_list_title' => 'คำสั่งซื้อ',
     'checkout_title' => 'ใบสั่งซื้อ',
     'your_order' => 'บันทึกใบสั่งซื้อ',
@@ -192,7 +196,9 @@ return [
     'btn_checkout' => 'ดำเนินการต่อ',
     'btn_place_order' => 'ยืนยันการชำระเงิน',
 
-    /** Delivery **/
+    /**
+     * Delivery
+     */
     'pickup_optional' => 'ตัวเลือกการรับสินค้า',
     'delivery_service' => 'ใช้ช่องทางการจัดส่ง',
     'pickup_in_store' => 'มารับสินค้าเอง',
@@ -207,7 +213,9 @@ return [
     'shipping_address' => 'ที่อยู่ที่ต้องการจัดส่ง',
     'shipping_method' => 'ช่องทางการจัดส่ง',
 
-    /** Button **/
+    /**
+     * Button
+     */
     'btn_back' => 'ย้อนกลับ',
     'btn_upload' => 'อัพโหลด',
     'btn_close' => 'ปิด',

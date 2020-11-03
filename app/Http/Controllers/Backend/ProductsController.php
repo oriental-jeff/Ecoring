@@ -47,31 +47,37 @@ class ProductsController extends Controller
         $this->authorize(mapPermission(self::MODULE));
 
         DB::transaction(function () use ($request) {
-            $product = Products::create($this->validateRequest());
-            $product->storeImage();
+          $product = Products::create($this->validateRequest());
+          $product->storeImage();
 
-            // Stock
-            if ($product && $request->warehouses_id) {
-                $stockDataArray = [
-                    'products_id' => $product->id,
-                    'warehouses_id' => $request->warehouses_id,
-                    'quantity' => 1
-                ];
-                Stocks::create($this->validateRequestStock($stockDataArray));
-            }
+          // Stock
+          if ($product && $request->warehouses_id) {
+              $stockDataArray = [
+                  'products_id' => $product->id,
+                  'warehouses_id' => $request->warehouses_id,
+                  'quantity' => 1
+              ];
+              Stocks::create($this->validateRequestStock($stockDataArray));
+          }
 
-            // Tags
-            if ($request->tags_id) {
-                foreach ($request->tags_id as $key => $tag) :
-                    $detail = [
-                        'products_id' => $product->id,
-                        'tags_id'  => $tag,
-                    ];
-                    $detail['updated_by'] = Auth::id();
-                    $detail['created_by'] = Auth::id();
-                    ProductTags::create($detail);
-                endforeach;
-            }
+          // Tags
+          if ($request->tags_id) {
+              foreach ($request->tags_id as $key => $tag) :
+                  $detail = [
+                      'products_id' => $product->id,
+                      'tags_id'  => $tag,
+                  ];
+                  $detail['updated_by'] = Auth::id();
+                  $detail['created_by'] = Auth::id();
+                  ProductTags::create($detail);
+              endforeach;
+          }
+
+          foreach ($request->input('image_detail', []) as $file) {
+            $product->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('image_detail');
+          }
+
+          deleteImageTmp();
         });
 
         return redirect(route('backend.products.index'));
@@ -92,39 +98,56 @@ class ProductsController extends Controller
 
     public function update(Request $request, Products $product)
     {
-        $this->authorize(mapPermission(self::MODULE));
-        $product->update($this->validateRequest());
-        $product->storeImage();
+      $this->authorize(mapPermission(self::MODULE));
+      $product->update($this->validateRequest());
+      $product->storeImage();
 
-        // Tag
-        $product_tags = ProductTags::selectRaw('tags_id')->where('products_id', $product->id)->pluck('tags_id')->toArray();
-        // Delete Case
-        if ($request->tags_id) { // if null delete all
-            foreach ($product_tags as $tag) :
-                if (!in_array($tag, $request->tags_id)) {
-                    ProductTags::where('products_id', $product->id)
-                        ->where('tags_id', $tag)
-                        ->delete();
-                }
-            endforeach;
-            // Create Case
-            foreach ($request->tags_id as $tag) :
-                if (!in_array($tag, $product_tags)) {
-                    $dt = [
-                        'products_id' => $product->id,
-                        'tags_id'  => $tag,
-                    ];
-                    $dt['updated_by'] = Auth::id();
-                    ProductTags::create($dt);
-                }
-            endforeach;
-        } else {
-            if ($product_tags)
-                ProductTags::where('products_id', $product->id)
-                    ->delete();
+      // Tag
+      $product_tags = ProductTags::selectRaw('tags_id')->where('products_id', $product->id)->pluck('tags_id')->toArray();
+      // Delete Case
+      if ($request->tags_id) { // if null delete all
+        foreach ($product_tags as $tag) :
+          if (!in_array($tag, $request->tags_id)) {
+            ProductTags::where('products_id', $product->id)
+            ->where('tags_id', $tag)
+            ->delete();
+          }
+        endforeach;
+        // Create Case
+        foreach ($request->tags_id as $tag) :
+          if (!in_array($tag, $product_tags)) {
+            $dt = [
+              'products_id' => $product->id,
+              'tags_id'  => $tag,
+            ];
+            $dt['updated_by'] = Auth::id();
+            ProductTags::create($dt);
+          }
+        endforeach;
+      } else {
+        if ($product_tags)
+          ProductTags::where('products_id', $product->id)
+        ->delete();
+      }
+
+      if (collect($product->image_detail)->count() > 0) {
+        foreach ($product->image_detail as $media) {
+          if (!in_array($media->file_name, $request->input('image_detail', []))) {
+            $media->delete();
+          }
         }
+      }
 
-        return redirect(route('backend.products.index'));
+      $media = $product->image_detail->pluck('file_name')->toArray();
+
+      foreach ($request->input('image_detail', []) as $file) {
+        if (count($media) === 0 || !in_array($file, $media)) {
+          $product->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('image_detail');
+        }
+      }
+      deleteImageTmp();
+
+      return redirect(route('backend.products.index'));
     }
 
     public function destroy(Products $product)

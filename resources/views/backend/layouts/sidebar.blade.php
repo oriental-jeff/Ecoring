@@ -246,7 +246,6 @@
                     @can('access report_orders')
                     <li class="{{ request()->routeIs('backend.reports', 'backend.reports.orders*') ? 'active' : '' }}">
                         <a href="{{ route('backend.reports.orders') }}" class="menu-link">
-                            <i class="fal fa-file-alt"></i>
                             <span>รายงานการสั่งซื้อสินค้า</span>
                         </a>
                     </li>
@@ -255,7 +254,6 @@
                     @can('access report_products_stock')
                     <li class="{{ request()->routeIs('backend.reports.stocks') ? 'active' : '' }}">
                         <a href="{{ route('backend.reports.stocks') }}" class="menu-link">
-                            <i class="fal fa-file-invoice-dollar"></i>
                             <span>รายงานสต๊อกสินค้า</span>
                         </a>
                     </li>
@@ -264,7 +262,6 @@
                     @can('access report_customers')
                     <li class="{{ request()->routeIs('backend.reports.customers') ? 'active' : '' }}">
                         <a href="{{ route('backend.reports.customers') }}" class="menu-link">
-                            <i class="fal fa-file-certificate"></i>
                             <span>รายงานข้อมูลลูกค้า</span>
                         </a>
                     </li>
