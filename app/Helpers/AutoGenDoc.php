@@ -13,13 +13,32 @@ class AutoGenDoc {
         $year = $carbon->year;
         $month = $carbon->isoFormat('MM');
 
+        // Prefix
+        switch ($type) :
+            case 'order' :
+                $prefix = 'ORD';
+            break;
+
+            case 'invoice' :
+                $prefix = 'INV';
+            break;
+
+            case 'receipt' :
+                $prefix = 'RCPT';
+            break;
+
+            default :
+                $prefix = 'ECO';
+            break;
+        endswitch;
+
         // GET : Total Run Number
         $where = [['type', $type], ['yyyy', $year], ['mm', $month]];
         $total = RunNumber::where($where)->count();
 
         // Make a Run Number
         $count = sprintf('%04d', $total + 1);
-        $code = "{$year}{$month}{$count}";
+        $code = "{$prefix}-{$year}{$month}{$count}";
 
         // Insert Run Number
         $run_number = new RunNumber;

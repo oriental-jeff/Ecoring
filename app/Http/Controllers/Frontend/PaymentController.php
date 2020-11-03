@@ -12,23 +12,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use PDF;
 
-// For test docs only
-use App\Model\WebInfo;
+// For Test Send Mail
+use App\Helpers\SendPdfMail as PdfMail;
 
 class PaymentController extends Controller
 {
 
     public function index($locate, Orders $OrderCode, Request $request)
     {
+        // For Test Send Mail
+        // $result = PdfMail::send(1, 53);
+
         $pages = Pages::get(3);
         $bank_accounts = BankAccounts::onlyActive()->get();
 
-        // return view('frontend.payment.index', compact(['pages', 'bank_accounts', 'OrderCode']));
-
-        // For test docs only
-        $order = Orders::where([['id', 38]])->first();
-        $web_info = WebInfo::find(1)->first();
-        return view('emails.invoice-email', compact(['order', 'web_info']));
+        return view('frontend.payment.index', compact(['pages', 'bank_accounts', 'OrderCode']));
     }
 
     public function store(Request $request)
