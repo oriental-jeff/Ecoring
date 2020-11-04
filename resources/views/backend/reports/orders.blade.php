@@ -1,29 +1,107 @@
 @extends('backend.layouts.header', ['css' => ['font' => 'K2D']])
 <style>
-    thead tr th { font-size: 14px; font-weight: bold; }
-    tbody tr td { font-size: 14px; vertical-align: middle !important; padding: 0.2rem !important; }
-    .panel-heading { letter-spacing: 1px; }
-    .control-label-head { font-size: 18px; color: black; font-weight: bold; letter-spacing: 1px; text-decoration: underline; }
-    .control-label-title { font-size: 14px; color: black; font-weight: bold; letter-spacing: 1px; }
-    .control-label-answer { font-size: 14px; color: darkblue; font-weight: bold; letter-spacing: 1px; }
-    .control-label-blue { font-size: 14px; color: dodgerblue; font-weight: bold; letter-spacing: 1px; }
-    .control-label-red { font-size: 14px; color: crimson; font-weight: bold; letter-spacing: 1px; }
-    .control-label-green { font-size: 14px; color: seagreen; font-weight: bold; letter-spacing: 1px; }
-    .control-label-violet { font-size: 14px; color: violet; font-weight: bold; letter-spacing: 1px; }
+    thead tr th {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    tbody tr td {
+        font-size: 14px;
+        vertical-align: middle !important;
+        padding: 0.2rem !important;
+    }
+
+    .panel-heading {
+        letter-spacing: 1px;
+    }
+
+    .control-label-head {
+        font-size: 18px;
+        color: black;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-decoration: underline;
+    }
+
+    .control-label-title {
+        font-size: 14px;
+        color: black;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .control-label-answer {
+        font-size: 14px;
+        color: darkblue;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .control-label-blue {
+        font-size: 14px;
+        color: dodgerblue;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .control-label-red {
+        font-size: 14px;
+        color: crimson;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .control-label-green {
+        font-size: 14px;
+        color: seagreen;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .control-label-violet {
+        font-size: 14px;
+        color: violet;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
 
     /* Text Colors */
-    .text-blue { color: dodgerblue; font-weight: bold; }
-    .text-red { color: crimson; font-weight: bold; }
-    .text-green { color: seagreen; font-weight: bold; }
-    .text-orange { color: orangered; font-weight: bold; }
-    .text-violet { color: violet; font-weight: bold; }
+    .text-blue {
+        color: dodgerblue;
+        font-weight: bold;
+    }
+
+    .text-red {
+        color: crimson;
+        font-weight: bold;
+    }
+
+    .text-green {
+        color: seagreen;
+        font-weight: bold;
+    }
+
+    .text-orange {
+        color: orangered;
+        font-weight: bold;
+    }
+
+    .text-violet {
+        color: violet;
+        font-weight: bold;
+    }
 
     /* Data Table */
-    .dataTables_info { font-size: 14px; color: dodgerblue; letter-spacing: 1px; font-weight: bold; }
-  </style>
+    .dataTables_info {
+        font-size: 14px;
+        color: dodgerblue;
+        letter-spacing: 1px;
+        font-weight: bold;
+    }
+</style>
 
 @section('title')
-    <i class="fad fa-lg fa-file-alt"></i> รายงานการสั่งซื้อสินค้า
+<i class="fad fa-lg fa-file-alt"></i> รายงานการสั่งซื้อสินค้า
 @endsection
 
 @section('content')
@@ -39,27 +117,31 @@
                         <div class="form-group col-md-4">
                             <label class="control-label-title">คีย์เวิร์ด</label>
                             <input type="text" class="form-control" name="keyword" placeholder="หมายเลขคำสั่งซื้อ"
-                            value="{{ $filter['keyword'] ?? '' }}" autofocus>
+                                value="{{ $filter['keyword'] ?? '' }}" autofocus>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-4 col-lg-2">
                             <label class="control-label-title">วันที่ : จาก</label>
-                            <input type="text" class="form-control" id="date-from" name="from" value="{{ $filter['from'] ?? '' }}">
+                            <input type="text" class="form-control" id="date-from" name="from"
+                                value="{{ $filter['from'] ?? '' }}">
                         </div>
 
                         <div class="form-group col-md-4 col-lg-2">
                             <label class="control-label-title">วันที่ : ถึง</label>
-                            <input type="text" class="form-control" id="date-to" name="to" value="{{ $filter['to'] ?? '' }}">
+                            <input type="text" class="form-control" id="date-to" name="to"
+                                value="{{ $filter['to'] ?? '' }}">
                         </div>
 
                         <div class="form-group col-md-4 col-lg-2">
                             <label class="control-label-title">ประเภทการชำระเงิน</label>
                             <select name="payment_type" class="form-control">
                                 <option value="all">-- ทั้งหมด --</option>
-                                <option value="0" {{ $filter['type'] == '0' ? 'selected' : '' }}>โอนเข้าบัญชีธนาคาร</option>
-                                <option value="1" {{ $filter['type'] == '1' ? 'selected' : '' }}>ชำระผ่านบัตรเครดิต / เดบิต</option>
+                                <option value="0" {{ $filter['type'] == '0' ? 'selected' : '' }}>โอนเข้าบัญชีธนาคาร
+                                </option>
+                                <option value="1" {{ $filter['type'] == '1' ? 'selected' : '' }}>ชำระผ่านบัตรเครดิต /
+                                    เดบิต</option>
                             </select>
                         </div>
 
@@ -68,24 +150,25 @@
                             <select id="status" name="status" class="form-control">
                                 <option value="all">-- ทั้งหมด --</option>
                                 @foreach ($status as $item)
-                                  <option value="{{ $item->status_id }}" {{ $filter['status'] == "{$item->status_id}" ? 'selected' : '' }}>
-                                      {{ $item->name_th }}
-                                  </option>
+                                <option value="{{ $item->status_id }}"
+                                    {{ $filter['status'] == "{$item->status_id}" ? 'selected' : '' }}>
+                                    {{ $item->name_th }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
                     <div class="form-row">
-                      <div class="form-group col-lg-6 col-md-12 col-sm-12">
-                        <button type="submit" class="btn btn-primary btn-search mr-3">
-                          <i class='fal fa-lg fa-search'></i> ค้นหา
-                        </button>
+                        <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                            <button type="submit" class="btn btn-primary btn-search mr-3">
+                                <i class='fal fa-lg fa-search'></i> ค้นหา
+                            </button>
 
-                        <button type="button" class="btn btn-outline-primary btn-search" onclick="viewAll()">
-                            <i class='fal fa-lg fa-sync-alt'></i> ดูทั้งหมด
-                        </button>
-                      </div>
+                            <button type="button" class="btn btn-outline-primary btn-search" onclick="viewAll()">
+                                <i class='fal fa-lg fa-sync-alt'></i> ดูทั้งหมด
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -95,37 +178,37 @@
 
 {{-- OVERALL --}}
 <div class="row">
-  <div class="col-12">
-      <div class="panel panel-inverse gray">
-          <div class="panel-body mgbt">
-            <div class="row">
-              <div class="form-group col-md-12 mb-3">
-                <label class="control-label-head">Overall</label>
-              </div>
+    <div class="col-12">
+        <div class="panel panel-inverse gray">
+            <div class="panel-body mgbt">
+                <div class="row">
+                    <div class="form-group col-md-12 mb-3">
+                        <label class="control-label-head">Overall</label>
+                    </div>
 
-              <div class="form-group col-md-12 mb-3">
-                <label class="control-label-title">ยอดรวมราคาเต็ม : </label>
-                <label class="control-label-blue">{{ number_format($overall['gross'], 2) }} บาท</label>
-              </div>
+                    <div class="form-group col-md-12 mb-3">
+                        <label class="control-label-title">ยอดรวมราคาเต็ม : </label>
+                        <label class="control-label-blue">{{ number_format($overall['gross'], 2) }} บาท</label>
+                    </div>
 
-              <div class="form-group col-md-12 mb-3">
-                <label class="control-label-title">ยอดรวมส่วนลด : </label>
-                <label class="control-label-red">{{ number_format($overall['discount'], 2) }} บาท</label>
-              </div>
+                    <div class="form-group col-md-12 mb-3">
+                        <label class="control-label-title">ยอดรวมส่วนลด : </label>
+                        <label class="control-label-red">{{ number_format($overall['discount'], 2) }} บาท</label>
+                    </div>
 
-              <div class="form-group col-md-12 mb-3">
-                <label class="control-label-title">ยอดรวมราคาหักส่วนลด : </label>
-                <label class="control-label-green">{{ number_format($overall['price'], 2) }} บาท</label>
-              </div>
+                    <div class="form-group col-md-12 mb-3">
+                        <label class="control-label-title">ยอดรวมราคาหักส่วนลด : </label>
+                        <label class="control-label-green">{{ number_format($overall['price'], 2) }} บาท</label>
+                    </div>
 
-              <div class="form-group col-md-12 mb-3">
-                <label class="control-label-title">ยอดรวมราคาสุทธิ : </label>
-                <label class="control-label-violet">{{ number_format($overall['net'], 2) }} บาท</label>
-              </div>
+                    <div class="form-group col-md-12 mb-3">
+                        <label class="control-label-title">ยอดรวมราคาสุทธิ : </label>
+                        <label class="control-label-violet">{{ number_format($overall['net'], 2) }} บาท</label>
+                    </div>
+                </div>
             </div>
-          </div>
-      </div>
-  </div>
+        </div>
+    </div>
 </div>
 
 {{-- TABLE --}}
@@ -157,8 +240,8 @@
                         </thead>
 
                         <tbody>
-                          @foreach ($lists as $item)
-                              <tr class="text-center">
+                            @foreach ($lists as $item)
+                            <tr class="text-center">
                                 <td class="text-left">{{ $item['date_order'] }}</td>
                                 <td>{{ $item['code'] }}</td>
                                 <td>{{ $item['status'] }}</td>
@@ -174,13 +257,13 @@
                                 </td>
                                 <td>{{ $item['pickup'] }}</td>
                                 <td>
-                                  <a class="fancybox" rel="gallery1" href="{{ $item['logistic_image'] ?? '' }}"
-                                    title="{{ $item['logistic_name'] }}">
-                                    <img src="{{ $item['logistic_image'] ?? '' }}" class="img-table" />
-                                  </a>
+                                    <a class="fancybox" rel="gallery1" href="{{ $item['logistic_image'] ?? '' }}"
+                                        title="{{ $item['logistic_name'] }}">
+                                        <img src="{{ $item['logistic_image'] ?? '' }}" class="img-table" />
+                                    </a>
                                 </td>
-                              </tr>
-                          @endforeach
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -203,8 +286,8 @@ $colum_width = json_encode(array([ "width" => "40px", "targets" => 0 ], [ "width
 @endsection
 
 @push('after-scripts')
-    <script>
-        function viewAll() {
+<script>
+    function viewAll() {
             window.location.replace(base_url + '/backend/reports/orders');
         }
 
@@ -233,5 +316,5 @@ $colum_width = json_encode(array([ "width" => "40px", "targets" => 0 ], [ "width
 
             $(".fancybox").fancybox({openEffect: 'none', closeEffect: 'none'});
         });
-    </script>
+</script>
 @endpush

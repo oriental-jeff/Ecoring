@@ -10,19 +10,15 @@ use Facades\App\Repository\Pages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use PDF;
 
 // For Test Send Mail
-use App\Helpers\CustomSendMailWithPdf as CustomMailPdf;
+use PDF;
 
 class PaymentController extends Controller
 {
 
     public function index($locate, Orders $OrderCode, Request $request)
     {
-        // For Test Send Mail
-        // $result = CustomMailPdf::send_receipt(55);
-
         $pages = Pages::get(3);
         $bank_accounts = BankAccounts::onlyActive()->get();
 
@@ -112,7 +108,6 @@ class PaymentController extends Controller
         $data['footer'] = 'Ecoring thailand shop team';
 
         $pdf = PDF::loadView('emails.invoice-email', $data);
-
         try {
             Mail::send('emails.invoice-email', $data, function ($message) use ($data, $pdf) {
                 $message->to($data['to_email'], $data['to_name'])

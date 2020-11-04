@@ -9,7 +9,7 @@
 |
 |
 |
-*/
+ */
 
 Route::get('/', function () {
     return redirect()->route('backend.profile.index');
@@ -24,11 +24,10 @@ Route::name('backend.auth.')
         Route::post('/logout', 'LoginController@logout')->name('logout');
     });
 
-
 //Backend group
 Route::name('backend.')
     ->namespace('Backend')
-    /*  ->prefix('/backend')*/
+/*  ->prefix('/backend')*/
     ->middleware(['backend.auth', 'user.active'])
     ->group(function () {
         // Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
@@ -69,6 +68,8 @@ Route::name('backend.')
 
         Route::resource('/webinfo', 'WebInfoController');
 
+        Route::resource('/customerinfo', 'CustomerInfoController');
+
         Route::resource('/policy', 'PolicyController');
 
         Route::resource('/knowledge', 'KnowledgeController');
@@ -97,9 +98,9 @@ Route::name('backend.')
         Route::resource('/banner', 'BannerController');
 
         // Reports
-        Route::name('reports.')->prefix('reports')->group(function() {
+        Route::name('reports.')->prefix('reports')->group(function () {
             Route::get('/', 'ReportsController@orders');
-			Route::get('/orders', 'ReportsController@orders')->name('orders');
+            Route::get('/orders', 'ReportsController@orders')->name('orders');
             Route::get('/customers', 'ReportsController@customers')->name('customers');
             Route::get('/stocks', 'ReportsController@stocks')->name('stocks');
         });
@@ -156,22 +157,22 @@ Route::name('backend.')
             });
         Route::resource('/promotions', 'PromotionsController');
 
-        Route::name('promotion_details.')
-            ->prefix('/promotion_details')
+        Route::name('promotion_conditions.')
+            ->prefix('/promotion_conditions')
             ->group(function () {
-                Route::get('/search', 'PromotionDetailsController@search')->name('search');
+                Route::get('/search', 'PromotionConditionsController@search')->name('search');
             });
-        Route::resource('/promotion_details', 'PromotionDetailsController');
+        Route::resource('/promotion_conditions', 'PromotionConditionsController');
 
         Route::name('branch.')
-          ->prefix('/branch')
-          ->group(function(){
-            Route::get('/search', 'BranchController@search')->name('search');
-        });
+            ->prefix('/branch')
+            ->group(function () {
+                Route::get('/search', 'BranchController@search')->name('search');
+            });
         Route::resource('/branch', 'BranchController');
 
         // Get Product promotion condition
-        Route::get('/product/promotion', 'PromotionDetailsController@promotion');
+        Route::post('/product/promotion', 'PromotionConditionsController@promotion')->name('product-promotion');
 
         Route::name('stocks.')
             ->prefix('/stocks')
@@ -210,7 +211,6 @@ Route::name('backend.')
                 Route::get('/send_mail_receipt', 'OrdersController@send_mail_receipt');
             });
         Route::resource('/orders', 'OrdersController');
-
 
         Route::name('payment_notifications.')
             ->prefix('/payment_notifications')

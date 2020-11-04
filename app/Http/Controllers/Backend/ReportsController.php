@@ -3,26 +3,26 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illminate\Support\Facades\Auth;
-use Carbon\Carbon;
+use App\model\Orders;
+use App\model\StatusConfig;
+use App\Model\Stocks;
 
 // Models
-use App\model\StatusConfig;
-use App\model\Orders;
-use App\Model\Stocks;
 use App\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
     const MODULE = 'reports';
 
     // V I E W & P R O C E S S
-    public function orders(Request $request) {
-		// $this->authorize(mapPermission(self::MODULE));
+    public function orders(Request $request)
+    {
+        // $this->authorize(mapPermission(self::MODULE));
 
-		// Initial Varialble
-		$total_gross = 0;
+        // Initial Varialble
+        $total_gross = 0;
         $total_discount = 0;
         $total_price = 0;
         $total_net = 0;
@@ -33,7 +33,7 @@ class ReportsController extends Controller
             'from' => $request->from,
             'to' => $request->to,
             'type' => $request->payment_type,
-            'status' => $request->status
+            'status' => $request->status,
         ];
 
         // GET : Status Config
@@ -43,9 +43,9 @@ class ReportsController extends Controller
         $total_orders = Orders::get()->count();
 
         // GET : Data Orders
-        if ($request->has('_token')) :
+        if ($request->has('_token')):
             $orders = Orders::reportGetSearchData($request)->get();
-        else :
+        else:
             $orders = Orders::limit(30)->orderBy('created_at', 'desc')->get();
         endif;
 
@@ -53,8 +53,8 @@ class ReportsController extends Controller
         $display_orders = $orders->count();
 
         // Preparing Data
-        if ($orders->count() != 0) :
-            foreach ($orders as $key => $order) :
+        if ($orders->count() != 0):
+            foreach ($orders as $key => $order):
                 $pickup = $order->pickup_optional == 0 ? 'ใช้ช่องทางการจัดส่ง' : 'มารับสินค้าเอง';
 
                 $gross_price = $order->total_amount + $order->discount;
@@ -82,7 +82,7 @@ class ReportsController extends Controller
                 $total_price += $order->total_amount;
                 $total_net += $net_price;
             endforeach;
-        else :
+        else:
             $lists = [];
         endif;
 
@@ -91,14 +91,15 @@ class ReportsController extends Controller
             'gross' => $total_gross,
             'discount' => $total_discount,
             'price' => $total_price,
-            'net' => $total_net
+            'net' => $total_net,
         ];
 
         $compact = ['status', 'lists', 'overall', 'total_orders', 'display_orders', 'filter'];
         return view('backend.reports.orders', compact($compact));
     }
 
-    public function customers(Request $request) {
+    public function customers(Request $request)
+    {
         // $this->authorize(mapPermission(self::MODULE));
 
         // Filtering
@@ -108,12 +109,12 @@ class ReportsController extends Controller
         $total_users = User::where('guest', 1)->get()->count();
 
         // GET : Data User
-        if ($request->has('_token')) :
+        if ($request->has('_token')):
             $keyword = $request->keyword;
             $user_data = User::with('address_deliveries', 'social_account', 'profiles')
-            ->reportGetDataByKeyword($keyword)
-            ->get();
-        else :
+                ->reportGetDataByKeyword($keyword)
+                ->get();
+        else:
             $user_data = User::with('address_deliveries', 'social_account', 'profiles')->where('guest', 1)->limit(30)->get();
         endif;
 
@@ -121,23 +122,23 @@ class ReportsController extends Controller
         $display_users = count($user_data);
 
         // Preparing Data
-        if ($user_data->count() != 0) :
-            foreach ($user_data as $key => $user) :
+        if ($user_data->count() != 0):
+            foreach ($user_data as $key => $user):
                 // Check Profile User
-                if (!is_null($user->profiles)) :
+                if (!is_null($user->profiles)):
                     $gender = $user->profiles->sex == 1 ? 'ชาย' : 'หญิง';
                     $telephone = $user->profiles->telephone;
                     $birthdate = Carbon::parse($user->profiles->birthday)->isoFormat('DD-MM-YYYY');
-                else :
+                else:
                     $gender = 'ไม่มีข้อมูลโปรไฟล์';
                     $telephone = 'ไม่มีข้อมูลโปรไฟล์';
                     $birthdate = 'ไม่มีข้อมูลโปรไฟล์';
                 endif;
 
                 // Check Social Account
-                if ($user->social_account->count() != 0) :
+                if ($user->social_account->count() != 0):
                     $social = implode(', ', $user->social_account->pluck('provider')->all());
-                else :
+                else:
                     $social = '-';
                 endif;
 
@@ -157,13 +158,14 @@ class ReportsController extends Controller
                 $lists[$key]['total_delivery_address'] = $total_address_deliveries;
                 $lists[$key]['register_date'] = Carbon::parse($user->created_at)->isoFormat('DD-MM-YYYY @ HH:mm:ss');
             endforeach;
-        else :
+        else:
             $lists = [];
         endif;
         return view('backend.reports.customers', compact('lists', 'display_users', 'total_users', 'filter'));
     }
 
-    public function stocks(Request $request) {
+    public function stocks(Request $request)
+    {
         // $this->authorize(mapPermission(self::MODULE));
 
         // Filtering
@@ -173,9 +175,9 @@ class ReportsController extends Controller
         $total_stocks = Stocks::count();
 
         // GET : Data Stocks
-        if ($request->has('_token')) :
+        if ($request->has('_token')):
             $stocks_data = Stocks::getDataByKeyword($request)->get();
-        else :
+        else:
             $stocks_data = Stocks::limit(30)->orderBy('updated_at', 'DESC')->get();
         endif;
 
@@ -183,8 +185,8 @@ class ReportsController extends Controller
         $display_stocks = count($stocks_data);
 
         // Preparing Data
-        if ($stocks_data->count() != 0) :
-            foreach ($stocks_data as $key => $stock) :
+        if ($stocks_data->count() != 0):
+            foreach ($stocks_data as $key => $stock):
                 $lists[$key]['count'] = $key + 1;
                 $lists[$key]['id'] = $stock->id;
                 $lists[$key]['date_add'] = Carbon::parse($stock->created_at)->isoFormat('DD-MM-YYYY @ HH:mm:ss');
@@ -194,7 +196,7 @@ class ReportsController extends Controller
                 $lists[$key]['quantity'] = $stock->quantity;
                 $lists[$key]['warehouse'] = $stock->warehouse->name;
             endforeach;
-        else :
+        else:
             $lists = [];
         endif;
 
@@ -203,5 +205,6 @@ class ReportsController extends Controller
     }
 
     // P R I V A T E
-    private function _getData() {}
+    private function _getData()
+    {}
 }

@@ -1,18 +1,53 @@
 @extends('backend.layouts.header', ['css' => ['font' => 'K2D']])
 <style>
-  thead tr th { font-size: 14px; font-weight: bold; }
-  tbody tr td { font-size: 14px; vertical-align: middle !important; padding: 0.2rem !important; }
-  .panel-heading { letter-spacing: 1px; }
-  .control-label-head { font-size: 18px; color: black; font-weight: bold; letter-spacing: 1px; text-decoration: underline; }
-  .control-label-title { font-size: 14px; color: black; font-weight: bold; letter-spacing: 1px; }
-  .control-label-answer { font-size: 14px; color: darkblue; font-weight: bold; letter-spacing: 1px; }
+    thead tr th {
+        font-size: 14px;
+        font-weight: bold;
+    }
 
-  /* Data Table */
-  .dataTables_info { font-size: 14px; color: dodgerblue; letter-spacing: 1px; font-weight: bold; }
+    tbody tr td {
+        font-size: 14px;
+        vertical-align: middle !important;
+        padding: 0.2rem !important;
+    }
+
+    .panel-heading {
+        letter-spacing: 1px;
+    }
+
+    .control-label-head {
+        font-size: 18px;
+        color: black;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-decoration: underline;
+    }
+
+    .control-label-title {
+        font-size: 14px;
+        color: black;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .control-label-answer {
+        font-size: 14px;
+        color: darkblue;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    /* Data Table */
+    .dataTables_info {
+        font-size: 14px;
+        color: dodgerblue;
+        letter-spacing: 1px;
+        font-weight: bold;
+    }
 </style>
 
 @section('title')
-    <i class="fad fa-lg fa-file-certificate"></i> รายงานข้อมูลลูกค้า
+<i class="fad fa-lg fa-file-certificate"></i> รายงานข้อมูลลูกค้า
 @endsection
 
 @section('content')
@@ -21,27 +56,29 @@
     <div class="col-12 col-xl-12">
         <div class="panel panel-inverse gray">
             <div class="panel-body mgbt">
-                <form id="" action="{{ route('backend.reports.customers') }}" method='post' data-parsley-validate="true">
+                <form id="" action="{{ route('backend.reports.customers') }}" method='post'
+                    data-parsley-validate="true">
                     @method('get')
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label class="control-label-title">คีย์เวิร์ด</label>
-                            <input type="text" class="form-control" name="keyword" placeholder="ชื่อ - นามสกุล หรือ อีเมล์ หรือ เบอร์โทร"
-                            value="{{ $filter['keyword'] ?? '' }}" autofocus>
+                            <input type="text" class="form-control" name="keyword"
+                                placeholder="ชื่อ - นามสกุล หรือ อีเมล์ หรือ เบอร์โทร"
+                                value="{{ $filter['keyword'] ?? '' }}" autofocus>
                         </div>
                     </div>
 
                     <div class="form-row">
-                      <div class="form-group col-md-12">
-                        <button type="submit" class="btn btn-primary btn-search mr-3">
-                            <i class='fal fa-lg fa-search'></i> ค้นหา
-                        </button>
+                        <div class="form-group col-md-12">
+                            <button type="submit" class="btn btn-primary btn-search mr-3">
+                                <i class='fal fa-lg fa-search'></i> ค้นหา
+                            </button>
 
-                        <button type="button" class="btn btn-outline-primary btn-search" onclick="viewAll()">
-                            <i class='fal fa-lg fa-sync-alt'></i> ดูทั้งหมด
-                        </button>
-                      </div>
+                            <button type="button" class="btn btn-outline-primary btn-search" onclick="viewAll()">
+                                <i class='fal fa-lg fa-sync-alt'></i> ดูทั้งหมด
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -76,20 +113,20 @@
                         </thead>
 
                         <tbody>
-                          @foreach ($lists as $item)
-                              <tr class="text-center">
-                                  <td>{{ $item['count'] }}</td>
-                                  <td>{{ $item['gender'] }}</td>
-                                  <td>{{ $item['fullname'] }}</td>
-                                  <td class="text-left">{{ $item['email'] }}</td>
-                                  <td>{{ $item['tel'] }}</td>
-                                  <td class="text-left">{{ $item['birthdate'] }}</td>
-                                  <td>{{ $item['bind_social'] }}</td>
-                                  <td>{{ $item['confirm_email'] }}</td>
-                                  <td>{{ $item['total_delivery_address'] }}</td>
-                                  <td class="text-left">{{ $item['register_date'] }}</td>
-                              </tr>
-                          @endforeach
+                            @foreach ($lists as $item)
+                            <tr class="text-center">
+                                <td>{{ $item['count'] }}</td>
+                                <td>{{ $item['gender'] }}</td>
+                                <td>{{ $item['fullname'] }}</td>
+                                <td class="text-left">{{ $item['email'] }}</td>
+                                <td>{{ $item['tel'] }}</td>
+                                <td class="text-left">{{ $item['birthdate'] }}</td>
+                                <td>{{ $item['bind_social'] }}</td>
+                                <td>{{ $item['confirm_email'] }}</td>
+                                <td>{{ $item['total_delivery_address'] }}</td>
+                                <td class="text-left">{{ $item['register_date'] }}</td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -112,8 +149,8 @@ $colum_width = json_encode(array([ "width" => "40px", "targets" => 0 ], [ "width
 @endsection
 
 @push('after-scripts')
-    <script>
-        function viewAll() {
+<script>
+    function viewAll() {
             window.location.replace(base_url + '/backend/reports/customers');
         }
 
@@ -136,5 +173,5 @@ $colum_width = json_encode(array([ "width" => "40px", "targets" => 0 ], [ "width
                 }
             }).columns.adjust().draw();
         });
-    </script>
+</script>
 @endpush
