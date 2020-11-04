@@ -8,6 +8,7 @@ use App\Model\Orders;
 use App\Model\Warehouses;
 use App\Model\Products;
 use App\Model\StatusConfig;
+use App\Helpers\CustomSendMailWithPdf as CMP;
 use Illuminate\Support\Facades\Auth;
 
 class OrdersController extends Controller
@@ -31,7 +32,7 @@ class OrdersController extends Controller
     public function edit(Orders $order)
     {
         $this->authorize(mapPermission(self::MODULE));
-        $order = Orders::where([['id', $order->id]])->get();
+        $order = Orders::where('id', $order->id)->get();
         $status = StatusConfig::where('type', 'order')->get();
 
         return view('backend.orders.update', compact(['order', 'status']));
@@ -53,6 +54,8 @@ class OrdersController extends Controller
         return redirect(route('backend.orders.index'));
     }
 
+    // ----------------------------------------------------------------------------------------------
+    // Private
     private function validateRequest()
     {
         $validatedData = request()->validate([
@@ -63,5 +66,30 @@ class OrdersController extends Controller
         $validatedData['updated_by'] = Auth::id();
 
         return $validatedData;
+    }
+
+    // SPECIFIC
+    public function send_mail_invoice(Request $request) {
+        $result = CMP::send_invoice($request->order_id);
+
+        if ($result->getData()->message->statuscode == 1) :
+            $sendback = ['result' => true, 'message' => $result->getData()->message->statusdesc];
+        else :
+            $sendback = ['result' => false, 'message' => $result->getData()->message->statusdesc];
+        endif;
+
+        return response()->json($sendback);
+    }
+
+    public function send_mail_receipt(Request $request) {
+        $result = CMP::send_receipt($request->order_id);
+
+        if ($result->getData()->message->statuscode == 1) :
+            $sendback = ['result' => true, 'message' => $result->getData()->message->statusdesc];
+        else :
+            $sendback = ['result' => false, 'message' => $result->getData()->message->statusdesc];
+        endif;
+
+        return response()->json($sendback);
     }
 }

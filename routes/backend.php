@@ -205,8 +205,12 @@ Route::name('backend.')
             ->prefix('/orders')
             ->group(function () {
                 Route::get('/search', 'OrdersController@search')->name('search');
+                // AJAX
+                Route::get('/send_mail_invoice', 'OrdersController@send_mail_invoice');
+                Route::get('/send_mail_receipt', 'OrdersController@send_mail_receipt');
             });
         Route::resource('/orders', 'OrdersController');
+
 
         Route::name('payment_notifications.')
             ->prefix('/payment_notifications')

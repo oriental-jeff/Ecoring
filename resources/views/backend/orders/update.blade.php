@@ -1,27 +1,26 @@
-@extends('backend.layouts.header', [
-'script' =>
-[
-'editor' => true,
-]
-]
-)
-@section('title')
-แก้ไขรายการสั่งซื้อ
-@endsection
-@section('content')
+@extends('backend.layouts.header', ['script' =>['editor' => true], 'css' => ['font' => 'K2D']])
 
-<!-- begin row -->
+<style>
+    .text-white { letter-spacing: 1px; }
+    .text-success { letter-spacing: 1px; text-decoration: underline; }
+    .control-label-title, .dataTables_info { font-size: 14px; color: black; font-weight: bold; letter-spacing: 1px; }
+    .control-label-answer { font-size: 14px; color: darkblue; font-weight: bold; letter-spacing: 1px; }
+    .control-label-red { font-size: 14px; color: red; font-weight: bold; letter-spacing: 1px; }
+    .control-label-jumbo { font-size: 20px; color: seagreen; font-weight: bold; letter-spacing: 1px; }
+</style>
+
+@section('title')
+    <i class="fad fa-lg fa-bags-shopping"></i> แก้ไขรายการสั่งซื้อ
+@endsection
+
+@section('content')
 <div class="row">
-    <!-- begin col-6 -->
     <div class="col-lg-12">
-        <!-- begin panel -->
-        <div class="panel " data-sortable-id="form-validation-1">
-            <!-- begin panel-heading -->
+        <div class="panel" data-sortable-id="form-validation-1">
             <div class="panel-heading panel-black">
-                <h5 class="text-white">แบบฟอร์มข้อมูลสินค้า</h5>
+                <h4 class="text-white">แบบฟอร์มข้อมูลสินค้า</h4>
             </div>
-            <!-- end panel-heading -->
-            <!-- begin panel-body -->
+
             <div class="panel-body">
                 <form class="form-horizontal" id="form-validate" name="demo-form" enctype="multipart/form-data"
                     action="{{ route('backend.orders.update', ['order' => $order[0]->id] ) }}" method='post'>

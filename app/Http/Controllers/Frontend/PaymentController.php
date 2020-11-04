@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use PDF;
 
 // For Test Send Mail
-use App\Helpers\SendPdfMail as PdfMail;
+use App\Helpers\CustomSendMailWithPdf as CustomMailPdf;
 
 class PaymentController extends Controller
 {
@@ -21,7 +21,7 @@ class PaymentController extends Controller
     public function index($locate, Orders $OrderCode, Request $request)
     {
         // For Test Send Mail
-        // $result = PdfMail::send(1, 53);
+        // $result = CustomMailPdf::send_receipt(55);
 
         $pages = Pages::get(3);
         $bank_accounts = BankAccounts::onlyActive()->get();
