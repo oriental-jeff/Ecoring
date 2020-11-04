@@ -11,7 +11,7 @@
 @endif
 
 {{-- Font Awesome --}}
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.1/css/all.css" />
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.1/css/all.css" />
 <link href="{{ asset('plugins/font-awesome/5.14/css/all.min.css') }}" rel="stylesheet" />
 
   <link href="{{ asset('plugins/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet" />

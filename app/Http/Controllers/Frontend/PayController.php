@@ -19,7 +19,7 @@ use App\Model\Branch;
 use App\Model\WebInfo;
 
 use App\Helpers\AutoGenDoc as GenCode;
-use App\Helpers\SendPdfMail as PdfMail;
+use App\Helpers\CustomSendMailWthPdf as CustomMailPdf;
 use PDF;
 
 class PayController extends Controller
@@ -134,7 +134,12 @@ class PayController extends Controller
             endforeach;
 
             // Send Mail
-            PdfMail::send($payment_type, $od->id);
+            if ($payment_type == 1) :
+                CustomMailPdf::send_invoice($od->id);
+                CustomMailPdf::send_receipt($od->id);
+            else :
+                CustomMailPdf::send_invoice($od->id);
+            endif;
 
             return view('frontend.pay.success', compact(['orderResult', 'bank_accounts']));
         } catch (\Throwable $th) {
