@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use Facades\App\Repository\Pages;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-
-use App\Model\Orders;
-use App\Model\Cart;
-use App\Model\Stocks;
-use App\Model\Logistics;
-use App\Model\UserProfile;
-use App\Model\UserAddressDelivery;
-use App\Model\BankAccounts;
-use App\Model\Branch;
-use App\Model\WebInfo;
-
 use App\Helpers\AutoGenDoc as GenCode;
 use App\Helpers\CustomSendMailWthPdf as CustomMailPdf;
-use PDF;
+use App\Http\Controllers\Controller;
+use App\Model\BankAccounts;
+use App\Model\Branch;
+use App\Model\Cart;
+use App\Model\Logistics;
+use App\Model\Orders;
+use App\Model\Stocks;
+use App\Model\UserAddressDelivery;
+use App\Model\UserProfile;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PayController extends Controller
 {
@@ -30,10 +24,14 @@ class PayController extends Controller
         // Check Cart
         $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->where('active', 1);
         $cartCount = clone $cart;
-        if ($cartCount->count() == 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
+        if ($cartCount->count() == 0) {
+            return redirect(route('frontend.cart', ['locale' => get_lang()]));
+        }
 
         // Check Stock
-        if ($cart->stockCheckAvailable(config('global.warehouse'))->count() > 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
+        if ($cart->stockCheckAvailable(config('global.warehouse'))->count() > 0) {
+            return redirect(route('frontend.cart', ['locale' => get_lang()]));
+        }
 
         $carts = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->get();
 
@@ -55,10 +53,14 @@ class PayController extends Controller
         // Check Cart
         $cart = Cart::whereIn('id', $request->cartID)->whereNull('orders_id')->where('active', 1);
         $cartCount = clone $cart;
-        if ($cartCount->count() == 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
+        if ($cartCount->count() == 0) {
+            return redirect(route('frontend.cart', ['locale' => get_lang()]));
+        }
 
         // Check Stock
-        if ($cart->stockCheckAvailable(config('global.warehouse'))->count() > 0) return redirect(route('frontend.cart', ['locale' => get_lang()]));
+        if ($cart->stockCheckAvailable(config('global.warehouse'))->count() > 0) {
+            return redirect(route('frontend.cart', ['locale' => get_lang()]));
+        }
 
         $data = request()->validate([
             "logistics_id" => "required",
@@ -82,7 +84,7 @@ class PayController extends Controller
         // Generate Code
         $ord_code = GenCode::generateCode('order');
         $inv_code = GenCode::generateCode('invoice');
-        $rcpt_code = $payment_type == 1 ? GenCode::generateCode('receipt') : NULL;
+        $rcpt_code = $payment_type == 1 ? GenCode::generateCode('receipt') : null;
 
         $order_data = [
             "code" => $ord_code,
@@ -116,7 +118,7 @@ class PayController extends Controller
             $bank_accounts = BankAccounts::onlyActive()->get();
 
             // Update
-            foreach ($request->cartID as $k => $v) :
+            foreach ($request->cartID as $k => $v):
                 // Cart
                 $c = Cart::find($v);
 
@@ -134,10 +136,10 @@ class PayController extends Controller
             endforeach;
 
             // Send Mail
-            if ($payment_type == 1) :
+            if ($payment_type == 1):
                 CustomMailPdf::send_invoice($od->id);
                 CustomMailPdf::send_receipt($od->id);
-            else :
+            else:
                 CustomMailPdf::send_invoice($od->id);
             endif;
 

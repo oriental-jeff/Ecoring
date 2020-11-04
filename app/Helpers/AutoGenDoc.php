@@ -6,30 +6,32 @@ use App\Model\RunNumber;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class AutoGenDoc {
-    public static function generateCode($type = 'order') {
+class AutoGenDoc
+{
+    public static function generateCode($type = 'order')
+    {
 
         $carbon = Carbon::now('Asia/Bangkok');
         $year = $carbon->year;
         $month = $carbon->isoFormat('MM');
 
         // Prefix
-        switch ($type) :
-            case 'order' :
-                $prefix = 'ORD';
-            break;
+        switch ($type):
+    case 'order':
+        $prefix = 'ORD';
+        break;
 
-            case 'invoice' :
-                $prefix = 'INV';
-            break;
+    case 'invoice':
+        $prefix = 'INV';
+        break;
 
-            case 'receipt' :
-                $prefix = 'RCPT';
-            break;
+    case 'receipt':
+        $prefix = 'RCPT';
+        break;
 
-            default :
-                $prefix = 'ECO';
-            break;
+    default:
+        $prefix = 'ECO';
+        break;
         endswitch;
 
         // GET : Total Run Number

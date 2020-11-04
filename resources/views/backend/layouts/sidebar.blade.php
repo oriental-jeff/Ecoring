@@ -199,7 +199,8 @@
             </li>
             @endcan
 
-            <li class="has-sub {{ request()->routeIs('backend.orders*', 'backend.payment_notifications*', 'backend.transactions*')  ? 'active' : '' }}">
+            <li
+                class="has-sub {{ request()->routeIs('backend.orders*', 'backend.payment_notifications*', 'backend.transactions*')  ? 'active' : '' }}">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fas fa-sitemap"></i>

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\Models\Media;
 
 class Promotions extends Model implements HasMedia
 {
@@ -34,6 +33,16 @@ class Promotions extends Model implements HasMedia
         return $this->hasOne('App\User', 'id', 'updated_by');
     }
 
+    public function promotion_types()
+    {
+        return $this->hasOne('App\PromotionTypes', 'id', 'promotion_types_id');
+    }
+
+    public function promotion_conditions()
+    {
+        return $this->hasMany('App\Model\PromotionConditions', 'promotions_id', 'id');
+    }
+
     public function promotion_details()
     {
         return $this->hasMany('App\Model\PromotionDetails');
@@ -42,6 +51,26 @@ class Promotions extends Model implements HasMedia
     public function scopeonlyActive($query)
     {
         return $query->where('active', 1);
+    }
+
+    public function scopepromotionConditionsToArray()
+    {
+        return $this->whereHas('promotion_conditions')->pluck('id')->toJson();
+    }
+
+    public function scopepatternLimit($query)
+    {
+        return $query
+            ->leftJoin('promotion_conditions', 'promotions.id', '=', 'promotion_conditions.promotions_id')
+            ->groupBy('type');
+    }
+
+    public function scopenotIn($query)
+    {
+        return $query
+            ->selectRaw('promotions.*')
+            ->leftJoin('promotion_conditions', 'promotions.id', '=', 'promotion_conditions.promotions_id')
+            ->whereNull('promotion_conditions.promotions_id');
     }
 
     public function scopegetDataByKeyword($query, $keyword)
