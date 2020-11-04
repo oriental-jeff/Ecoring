@@ -13,13 +13,14 @@ class CustomSendMailWithPdf
     {
         // GET : Order Data
         $order = Orders::where('id', $order_id)->get();
+
         // GET : Web Info Data
         $web_info = WebInfo::where('id', 1)->get();
         $data_pack = ['web_info' => $web_info, 'order' => $order];
 
         // Real
-        $to_email = $order->user->email;
-        $to_name = "คุณ{$order->user->first_name} {$order->user->last_name}";
+        $to_email = $order[0]->user->email;
+        $to_name = "คุณ{$order[0]->user->first_name} {$order[0]->user->last_name}";
 
         // Test
         // $to_email = 'jeff2010@hotmail.co.th';
@@ -70,8 +71,8 @@ class CustomSendMailWithPdf
         $data_pack = ['web_info' => $web_info, 'order' => $order];
 
         // Real
-        $to_email = $order->user->email;
-        $to_name = "คุณ{$order->user->first_name} {$order->user->last_name}";
+        $to_email = $order[0]->user->email;
+        $to_name = "คุณ{$order[0]->user->first_name} {$order[0]->user->last_name}";
 
         // Test
         // $to_email = 'jeff2010@hotmail.co.th';

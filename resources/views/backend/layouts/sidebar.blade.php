@@ -60,6 +60,12 @@
                     </li>
                     @endcan
 
+                    @can('access customerinfo')
+                    <li class="{{ request()->routeIs('backend.customerinfo*') ? 'active' : '' }}">
+                        <a href="{{ route('backend.customerinfo.index') }}" class="menu-link">ข้อมูลลูกค้า</a>
+                    </li>
+                    @endcan
+
                     @can('access branch')
                     <li class="{{ request()->routeIs('backend.branch*') ? 'active' : '' }}">
                         <a href="{{ route('backend.branch.index') }}" class="menu-link">สาขา</a>
@@ -168,7 +174,7 @@
             </li>
 
             <li
-                class="has-sub {{ request()->routeIs('backend.promotions*', 'backend.promotion_details*')  ? 'active' : '' }}">
+                class="has-sub {{ request()->routeIs('backend.promotions*', 'backend.promotion_conditions*')  ? 'active' : '' }}">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fas fa-gem"></i>
@@ -181,9 +187,9 @@
                     </li>
                     @endcan
 
-                    @can('access promotion_details')
-                    <li class="{{ request()->routeIs('backend.promotion_details*') ? 'active' : '' }}">
-                        <a href="{{ route('backend.promotion_details.index') }}"
+                    @can('access promotion_conditions')
+                    <li class="{{ request()->routeIs('backend.promotion_conditions*') ? 'active' : '' }}">
+                        <a href="{{ route('backend.promotion_conditions.index') }}"
                             class="menu-link">รายละเอียดโปรโมชั่น</a>
                     </li>
                     @endcan

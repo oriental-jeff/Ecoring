@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Helpers\AutoGenDoc as GenCode;
-use App\Helpers\CustomSendMailWthPdf as CustomMailPdf;
+use App\Helpers\CustomSendMailWithPdf as CustomMailPdf;
 use App\Http\Controllers\Controller;
 use App\Model\BankAccounts;
 use App\Model\Branch;
