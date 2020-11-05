@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterMail;
 
-class UserController extends Controller
+class UserControllerReserved extends Controller
 {
     public function index()
     {
