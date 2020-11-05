@@ -181,11 +181,11 @@ class UserController extends Controller
         $districts = District::where('id', $user->profiles->district_id)->orderBy($name, 'ASC')->get();
         $sub_districts = SubDistrict::where('id', $user->profiles->sub_district_id)->orderBy($name, 'ASC')->get();
 
-        $district_delivery = UserAddressDelivery::where('user_id', Auth::id())->get();
+				$district_delivery = UserAddressDelivery::where('user_id', Auth::id())->get();
+        dd($district_delivery);
 
-
-        $compact = ['user', 'pages', 'provinces', 'districts', 'sub_districts'];
-        return view('frontend.user.profile', compact($compact));
+        // $compact = ['user', 'pages', 'provinces', 'districts', 'sub_districts'];
+        // return view('frontend.user.profile', compact($compact));
     }
 
     public function update($language, Request $request, User $user)
