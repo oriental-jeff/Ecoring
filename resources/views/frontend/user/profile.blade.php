@@ -335,6 +335,7 @@
 
                                         <div class="col-lg-3 col-md-6 mb-3">
                                             <label for="delivery_district">{{ __('messages.district') }}</label>
+                                            <input type="hidden" id="delivery_district_id_{{ $key + 1 }}" value="{{ $deli_address->district_id }}">
                                             <select class="form-control deli-district" id="delivery_district_{{ $key + 1 }}"
                                                 name="delivery_district[]" onchange="changeLogisticDistrict(this)"
                                                 required readonly>
@@ -351,6 +352,7 @@
 
                                         <div class="col-lg-4 col-md-6 mb-3">
                                             <label for="delivery_sub_district">{{ __('messages.sub_district') }}</label>
+                                            <input type="hidden" id="delivery_subdistrict_id_{{ $key + 1 }}" value="{{ $deli_address->sub_district_id }}">
                                             <select class="form-control deli-subdistrict" id="delivery_sub_district_{{ $key + 1 }}"
                                                 name="delivery_sub_district[]" required readonly>
                                                 <option value="">{{ __('messages.please_select') }}</option>
@@ -465,6 +467,53 @@
     }
 
     $(document).ready(function() {
+		// On Page Loaded : Delivery Addresses
+        let val_province_id = '';
+        let val_district_id = '';
+        let total_delivery = $('.deli-province').length;
+        let opt = '<option value="" >{{ __("messages.please_select") }}</option>';
+
+        for (let i = 1; i <= total_delivery; i++) {
+            val_province_id = $('#delivery_province_' + i).val();
+            val_district_id = $('#delivery_district_id_' + i).val();
+
+            // Load District
+            $.ajax({
+                url : base_url + '/{{ get_lang() }}/get_district_list',
+                async: false,
+                type : 'GET',
+                data : { province : val_province_id, _token : '{{ csrf_token() }}' },
+                dataType: 'json',
+                success: function(res) {
+                    if (res.districts.length != 0) {
+                        $.each(res.districts, function(key, val) {
+                            let selected = (val_district_id == val.id) ? 'selected' : '';
+                            $('#delivery_district_' + i).append('<option value="' + val.id + '" ' + selected + '>' + val.name + '</option>');
+                        });
+                    }
+                }, error: function(err) { console.error(err); }
+            });
+
+            // Load Sub District
+            let val_subdistrict_id = $('#delivery_subdistrict_id_' + i).val()
+            $.ajax({
+                url : base_url + '/{{ get_lang() }}/get_sub_district_list',
+                async: false,
+                type : 'GET',
+                data : { district : val_district_id, _token : '{{ csrf_token() }}' },
+                dataType: 'json',
+                success: function(res) {
+                    if (res.sub_districts.length != 0) {
+                        $.each(res.sub_districts, function(key, val) {
+                            let selected = (val_subdistrict_id == val.id) ? 'selected' : '';
+                            $('#delivery_sub_district_' + i).append('<option value="' + val.id + '" ' + selected + '>' + val.name + '</option>');
+                        });
+                    }
+                }, error: function(err) { console.error(err); }
+            });
+        }
+        // ------------------------------------------------------------------
+
         // Preview Avatar
         $('#avatar').on('change', function() {
             let id = $(this).attr('id');
