@@ -56,7 +56,7 @@ Route::name('backend.')
             });
         Route::resource('/role', 'RoleController');
 
-        //User
+        // User
         Route::name('user.')
             ->prefix('/user')
             ->group(function () {
@@ -68,6 +68,23 @@ Route::name('backend.')
 
         Route::resource('/webinfo', 'WebInfoController');
 
+        // Customer Info
+        Route::name('customerinfo.')
+            ->prefix('/customerinfo')
+            ->group(function () {
+                Route::get('/edit_shipping/{user_id}', 'CustomerInfoController@edit_shipping')->name('edit_shipping');
+                Route::post('/update_shipping', 'CustomerInfoController@process_update_shipping')->name('process_update_shipping');
+
+                Route::get('/edit_password/{user_id}', 'CustomerInfoController@edit_password')->name('edit_password');
+                Route::post('/update_password', 'CustomerInfoController@process_update_password')->name('process_update_password');
+
+                Route::get('/activation_user/{user_id}', 'CustomerInfoController@activation_user')->name('activated_user');
+                Route::get('/deactivation_user/{user_id}', 'CustomerInfoController@deactivation_user')->name('deactivated_user');
+
+                // AJAX
+                Route::get('/get_districts_from_province', 'CustomerInfoController@ajax_get_districts_from_province_id');
+                Route::get('/get_subdistricts_from_district', 'CustomerInfoController@ajax_get_subdistrict_from_district_id');
+            });
         Route::resource('/customerinfo', 'CustomerInfoController');
 
         Route::resource('/policy', 'PolicyController');

@@ -91,6 +91,13 @@ class User extends Authenticatable implements MustVerifyEmail
             });
     }
 
+    public function scopeOfSort($query, $sort) {
+        foreach ($sort as $column => $direction) :
+            $query->orderBy($column, $direction);
+        endforeach;
+        return $query;
+    }
+
     // GET SPECIFIC
     public function getNameAttribute()
     {
