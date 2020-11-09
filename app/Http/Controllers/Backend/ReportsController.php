@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\model\Orders;
 use App\model\StatusConfig;
 use App\Model\Stocks;
+use Carbon\Carbon;
 
 // Models
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
