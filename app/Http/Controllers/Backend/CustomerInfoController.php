@@ -13,6 +13,7 @@ use App\User;
 use App\Model\Province;
 use App\Model\District;
 use App\Model\SubDistrict;
+use App\Model\UserAddressDelivery;
 
 class CustomerInfoController extends Controller
 {
@@ -133,19 +134,6 @@ class CustomerInfoController extends Controller
         $user = $customerinfo;
         $provinces = Province::orderBy('name_th', 'ASC')->get();
 
-        // Delivery Addresses
-        // foreach ($customerinfo->address_deliveries as $key => $item) :
-        //     $lists_address[$key]['deli_count'] = $key + 1;
-        //     $lists_address[$key]['deli_id'] = $item->id;
-        //     $lists_address[$key]['deli_fullname'] = $item->fullname;
-        //     $lists_address[$key]['deli_address'] = $item->address;
-        //     $lists_address[$key]['deli_province'] = $item->province_id;
-        //     $lists_address[$key]['deli_district'] = $item->district_id;
-        //     $lists_address[$key]['deli_sub_district'] = $item->sub_district_id;
-        //     $lists_address[$key]['deli_postcode'] = $item->postcode;
-        //     $lists_address[$key]['deli_telephone'] = $item->telephone;
-        // endforeach;
-
         return view('backend.customerinfo.update-data', compact('user', 'provinces'));
     }
 
@@ -155,11 +143,24 @@ class CustomerInfoController extends Controller
     public function update(Request $request, User $customerinfo) {
         // $this->authorize(mapPermission(self::MODULE));
 
+        $fullname = "{$customerinfo->first_name} {$customerinfo->last_name}";
+
         $result_user = $customerinfo->update($this->_validate_request_user());
         $result_profile = $customerinfo->profiles->update($this->_validate_request_profile());
 
         // echo "{$result_user} : {$result_profile}";
+        // dd($customerinfo);
 
+        if ($result_profile == 1 && $result_user == 1) :
+            $message = "User {$fullname} has been updated data.";
+            $class = 'alert-success';
+        else :
+            $message = "Update data failed.";
+            $class = 'alert-danger';
+        endif;
+
+        session()->flash('message', $message);
+        session()->flash('alert-class', $class);
         return redirect(route('backend.customerinfo.index'));
     }
 
@@ -262,6 +263,12 @@ class CustomerInfoController extends Controller
 
         $sub_districts = SubDistrict::where('district_id', $request->district_id)->orderBy('name_th', 'ASC')->get();
         return response()->json($sub_districts);
+    }
+
+    public function ajax_remove_shipping_address(Request $request) {
+        $shipping_id = $request->shipping_id;
+        $result = UserAddressDelivery::where('id', $shipping_id)->delete();
+        return response()->json($result);
     }
 
     // ------------------------------------------------------------------------------------------------

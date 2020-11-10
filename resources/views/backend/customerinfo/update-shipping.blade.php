@@ -3,7 +3,8 @@
 <style>
     .panel-heading { letter-spacing: 1px; }
     .form-title { color: darkblue; letter-spacing: 1px; }
-    .control-label { font-size: 14px; color: black; font-weight: bold; letter-spacing: 1px; }
+    .control-label { font-size: 14px; color: black; font-weight: bold; letter-spacing: 1px; padding-top: 0 !important; }
+    .control-label-answer { font-size: 14px; color: darkblue; font-weight: bold; letter-spacing: 1px; }
     .control-label-error { font-size: 16px; color: red; font-weight: bold; letter-spacing: 2px; }
     .btn { font-size: 16px !important; letter-spacing: 1px; }
 </style>
@@ -32,6 +33,24 @@
 </div>
 <!-- end row -->
 
+{{-- Modal --}}
+<div id="modal-edit-shipping" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title font-weight-bold"></h4>
+            </div>
+
+            <div class="modal-body">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-outline-danger" data-dismiss="modal">ปิดหน้าต่าง</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- Hidden --}}
 {{-- <input type="hidden" id="address_province_id" value="{{ $user->profiles->province_id }}">
 <input type="hidden" id="address_district_id" value="{{ $user->profiles->district_id }}">
@@ -40,94 +59,43 @@
 
 @push('after-scripts')
 <script>
+    function removeShipping(shipping_id) {
+        $.ajax({
+            url: '/backend/customerinfo/remove_shipping_address',
+            data: {shipping_id: shipping_id},
+            type: 'GET',
+            dataType: 'json',
+            success: function(res) {
+                // console.log(res);
+                if (res == 1) {
+                    swal({
+                        title: 'ที่อยู่จัดส่งถูกลบออกแล้ว',
+                        icon: 'success',
+                        buttons: {
+                            confirm: {
+                                text: 'รับทราบ',
+                                value: true,
+                                visible: true,
+                                className: 'btn btn-success',
+                                closeModal: true
+                            }
+                        }
+                    }).then(function(value) {
+                        if (value == true) {
+                            $('#shipping-data-' + shipping_id).fadeOut(1200);
+                            $('#shipping-data-' + shipping_id).next().fadeOut(1200);
+                        }
+                    });
+                }
+            },
+            error: function(err) { console.error(err); }
+        });
+    }
+
     function back() {
         window.location.href = '/backend/customerinfo';
     }
 
-    function ddlShowDistrict(province_id) {
-        let option = '';
-        let selected = '';
-        let address_district_id = $('#address_district_id').val();
-
-        $.ajax({
-            url: '/backend/customerinfo/get_districts_from_province',
-            type: 'GET',
-            data: {province_id: province_id},
-            dataType: 'json',
-            success: function(res) {
-                $('#district').empty();
-                if (res != null) {
-                    $.each(res, function(key, val) {
-                        selected = (val.id == address_district_id) ? 'selected' : '';
-                        option = '<option value="' + val.id + '" ' + selected + '>' + val.name_th + '</option>';
-                        $('#district').append(option);
-                    });
-                } else {
-                    option = '<option value="">-- เลือก --</option>';
-                    $('#district').append(option);
-                }
-            },
-            error: function(err) { console.error(err); }
-        });
-    }
-
-    function ddlShowSubDistrict(district_id) {
-        let option = '';
-        let selected = '';
-        let address_subdistrict_id = $('#address_subdistrict_id').val();
-
-        $.ajax({
-            url: '/backend/customerinfo/get_subdistricts_from_district',
-            type: 'GET',
-            data: {district_id: district_id},
-            dataType: 'json',
-            success: function(res) {
-                $('#sub-district, #postcode').empty();
-                // $('#postcode').val(val.zipcode);
-                if (res != null) {
-                    $.each(res, function(key, val) {
-                        selected = (val.id == address_subdistrict_id) ? 'selected' : '';
-                        option = '<option value="' + val.id + '" ' + selected + '>' + val.name_th + '</option>';
-                        $('#postcode').val(val.zip_code);
-                        $('#sub-district').append(option);
-                    });
-                } else {
-                    option = '<option value="">-- เลือก --</option>';
-                    $('#sub-district').append(option);
-                    $('#postcode').val('');
-                }
-            },
-            error: function(err) { console.error(err); }
-        });
-    }
-
-    $(document).ready(function() {
-        // On Loaded Page
-        let address_province_id = $('#address_province_id').val();
-        let address_district_id = $('#address_district_id').val();
-        let address_subdistrict_id = $('#address_subdistrict_id').val();
-
-        if (address_province_id != '') {
-            ddlShowDistrict(address_province_id);
-        }
-
-        if (address_district_id != '') {
-            ddlShowSubDistrict(address_district_id);
-        }
-        // --------------------------------------------------
-
-        // On Change Province
-        $(document).on('change', '#province', function() {
-            let province_id = $(this).val();
-            $('#sub-district').empty();
-            ddlShowDistrict(province_id);
-        });
-
-        // On Change District
-        $(document).on('change', '#district', function() {
-            let district_id = $(this).val();
-            ddlShowSubDistrict(district_id);
-        });
-    });
+    $(document).ready(function() {});
 </script>
 @endpush

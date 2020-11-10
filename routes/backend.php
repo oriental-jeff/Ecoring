@@ -84,6 +84,7 @@ Route::name('backend.')
                 // AJAX
                 Route::get('/get_districts_from_province', 'CustomerInfoController@ajax_get_districts_from_province_id');
                 Route::get('/get_subdistricts_from_district', 'CustomerInfoController@ajax_get_subdistrict_from_district_id');
+                Route::get('/remove_shipping_address', 'CustomerInfoController@ajax_remove_shipping_address');
             });
         Route::resource('/customerinfo', 'CustomerInfoController');
 
