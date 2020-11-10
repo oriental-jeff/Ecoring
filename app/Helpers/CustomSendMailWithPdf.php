@@ -5,7 +5,6 @@ namespace App\Helpers;
 use App\Model\Orders;
 use App\Model\WebInfo;
 use Illuminate\Support\Facades\Mail;
-use PDF;
 
 class CustomSendMailWithPdf
 {
@@ -19,12 +18,12 @@ class CustomSendMailWithPdf
         $data_pack = ['web_info' => $web_info, 'order' => $order];
 
         // Real
-        $to_email = $order[0]->user->email;
-        $to_name = "คุณ{$order[0]->user->first_name} {$order[0]->user->last_name}";
+        // $to_email = $order[0]->user->email;
+        // $to_name = "คุณ{$order[0]->user->first_name} {$order[0]->user->last_name}";
 
         // Test
-        // $to_email = 'jeff2010@hotmail.co.th';
-        // $to_name = "Jeff";
+        $to_email = 'jeff2010@hotmail.co.th';
+        $to_name = "Jeff";
 
         $config_email['to_email'] = $to_email;
         $config_email['to_name'] = $to_name;
@@ -39,12 +38,11 @@ class CustomSendMailWithPdf
         ];
 
         try {
-            $pdf_invoice = PDF::loadView('emails.invoice-email', $data_pack);
+            // $pdf_invoice = PDF::loadView('emails.invoice-email', $data_pack);
 
-            Mail::send('emails.invoice-email', $data_pack, function ($message) use ($config_email, $pdf_invoice) {
+            Mail::send('emails.invoice-email', $data_pack, function ($message) use ($config_email) {
                 $message->to($config_email['to_email'], $config_email['to_name'])
-                    ->subject('Thank you for order product from Ecoring Thailand Shop.')
-                    ->attachData($pdf_invoice->output(), "ecoring-invoice.pdf");
+                    ->subject('Thank you for order product from Ecoring Thailand Shop.');
             });
         } catch (JWTException $exception) {
             $message['serverstatuscode'] = "0";
@@ -71,12 +69,12 @@ class CustomSendMailWithPdf
         $data_pack = ['web_info' => $web_info, 'order' => $order];
 
         // Real
-        $to_email = $order[0]->user->email;
-        $to_name = "คุณ{$order[0]->user->first_name} {$order[0]->user->last_name}";
+        // $to_email = $order[0]->user->email;
+        // $to_name = "คุณ{$order[0]->user->first_name} {$order[0]->user->last_name}";
 
         // Test
-        // $to_email = 'jeff2010@hotmail.co.th';
-        // $to_name = "Jeff";
+        $to_email = 'jeff2010@hotmail.co.th';
+        $to_name = "Jeff";
 
         $config_email['to_email'] = $to_email;
         $config_email['to_name'] = $to_name;
@@ -91,12 +89,11 @@ class CustomSendMailWithPdf
         ];
 
         try {
-            $pdf_receipt = PDF::loadView('emails.receipt-email', $data_pack);
+            // $pdf_receipt = PDF::loadView('emails.receipt-email', $data_pack);
 
-            Mail::send('emails.receipt-email', $data_pack, function ($message) use ($config_email, $pdf_receipt) {
+            Mail::send('emails.receipt-email', $data_pack, function ($message) use ($config_email) {
                 $message->to($config_email['to_email'], $config_email['to_name'])
-                    ->subject('Thank you for order product from Ecoring Thailand Shop.')
-                    ->attachData($pdf_receipt->output(), "ecoring-receipt.pdf");
+                    ->subject('Thank you for order product from Ecoring Thailand Shop.');
             });
         } catch (JWTException $exception) {
             $message['serverstatuscode'] = "0";
