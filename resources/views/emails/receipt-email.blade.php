@@ -6,10 +6,46 @@
     <title>INVOICE 3-2-1</title>
     {{-- <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet"> --}}
     <style>
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: bold;
+            src: local('Quattrocento Sans Bold'),
+            local('QuattrocentoSans-Bold'),
+            url("{{ asset('fonts/THSarabunNew/THSarabunNew.ttf') }}") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: bold;
+            src: local('Quattrocento Sans Bold'),
+            local('QuattrocentoSans-Bold'),
+            url("{{ asset('fonts/THSarabunNew/THSarabunNew Bold.ttf') }}") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: bold;
+            src: local('Quattrocento Sans Bold'),
+            local('QuattrocentoSans-Bold'),
+            url("{{ asset('fonts/THSarabunNew/THSarabunNew BoldItalic.ttf') }}") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: bold;
+            src: local('Quattrocento Sans Bold'),
+            local('QuattrocentoSans-Bold'),
+            url("{{ asset('fonts/THSarabunNew/THSarabunNew Italic.ttf') }}") format('truetype');
+        }
+
         body {
             padding: 60px 40px;
             margin: 0;
-            font-family: 'Kanit', sans-serif;
+            font-family: 'THSarabunNew', sans-serif;
             font-weight: 100;
         }
 
@@ -235,6 +271,10 @@
             อีเมลฉบับนี้เป็นการแจ้งข้อมูลจากระบบโดยอัตโนมัติ กรุณาอย่าตอบกลับ
         </p>
     </div>
+    <script>
+        var opt = '{!! $opt ?? '' !!}';
+        if (opt) window.print();
+    </script>
 </body>
 
 </html>
