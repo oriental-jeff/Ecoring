@@ -68,6 +68,7 @@ Route::name('frontend.')
         Route::resource('/user', 'UserController');
 
         Route::get('forgot_password', 'ForgotPasswordController@index')->name('password.reset');
+        Route::post('forgot_password_reset', 'ForgotPasswordController@forgot')->name('password.forgot');
 
         Route::get('/auction', function () {
             return redirect()->away('https://www.google.com');

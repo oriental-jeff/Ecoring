@@ -21,7 +21,9 @@
     <section class="mt-2 mb-5">
 			<div class="container">
 				<div class="box-paper border-top">
-					<form class="form-horizontal" id="form-validate" action="/api/v1/password/forgot" method="POST">
+					<form class="form-horizontal" id="form-validate" action="{{ route('frontend.password.forgot', ['locale' => get_lang()]) }}" method="POST">
+            @method('post')
+            @csrf
             <div class="box-head">
               <h5>{{ __('messages.forget_password') }}</h5>
             </div>
